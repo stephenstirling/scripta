@@ -44,7 +44,16 @@ docker run -d --name scripta -p 8080:8080 \
 ```
 
 Then open <http://localhost:8080>. A compose file is in [`docker/compose/docker-compose.yml`](docker/compose/docker-compose.yml).
-Images are published by the **Docker image** workflow (run it manually or push a `v*` tag).
+Images are published by the **Docker image** workflow (run it manually or push a `v*` tag). It
+builds everything from this repository: `scripta-base` (the PDF toolchain: LibreOffice, Calibre,
+Ghostscript, QPDF, ImageMagick, OCRmyPDF), then `scripta` on top of it.
+
+To build the images yourself:
+
+```bash
+docker build -t ghcr.io/stephenstirling/scripta-base:latest docker/base
+docker build -t ghcr.io/stephenstirling/scripta:latest -f docker/embedded/Dockerfile .
+```
 
 ### Build from source
 

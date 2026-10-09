@@ -1,7 +1,7 @@
 # Stirling-PDF backend-only image — JAR built with -PbuildWithFrontend=false, UI ships separately.
 
-ARG BASE_VERSION=1.1.0@sha256:3bcc8e10d5319b7c0550cf41b96f6980e1552c974dc37aba462b74fa17c4b5e4
-ARG BASE_IMAGE=stirlingtools/stirling-pdf-base:${BASE_VERSION}
+ARG BASE_VERSION=latest
+ARG BASE_IMAGE=ghcr.io/stephenstirling/scripta-base:${BASE_VERSION}
 
 # Stage 1: Build the Java application (backend only, no frontend)
 FROM gradle:9.7.1-jdk25@sha256:e06837018d077ee7f1218e53499425ca7615702ad58856d980c154caa17eb093 AS app-build
@@ -122,15 +122,15 @@ ENV VERSION_TAG=$VERSION_TAG \
     SAL_TMP=/tmp/stirling-pdf/libre
 
 # Metadata labels
-LABEL org.opencontainers.image.title="Stirling-PDF Backend" \
+LABEL org.opencontainers.image.title="Scripta Backend" \
       org.opencontainers.image.description="Backend-only version (no embedded UI) with Calibre, LibreOffice, Tesseract, OCRmyPDF" \
-      org.opencontainers.image.source="https://github.com/Stirling-Tools/Stirling-PDF" \
+      org.opencontainers.image.source="https://github.com/stephenstirling/scripta" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.vendor="Stirling-Tools" \
-      org.opencontainers.image.url="https://www.stirlingpdf.com" \
-      org.opencontainers.image.documentation="https://docs.stirlingpdf.com" \
-      maintainer="Stirling-Tools" \
-      org.opencontainers.image.authors="Stirling-Tools" \
+      org.opencontainers.image.vendor="Stephen Stirling" \
+      org.opencontainers.image.url="https://github.com/stephenstirling/scripta" \
+      org.opencontainers.image.documentation="https://github.com/stephenstirling/scripta#readme" \
+      maintainer="Stephen Stirling" \
+      org.opencontainers.image.authors="Stephen Stirling; based on Stirling-PDF by Stirling-Tools" \
       org.opencontainers.image.version="${VERSION_TAG}" \
       org.opencontainers.image.keywords="PDF, manipulation, backend, API, Spring Boot"
 

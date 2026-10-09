@@ -58,7 +58,7 @@ services:
   unoserver1:
     container_name: UNO-Server-1
     # See docker/unoserver/VERSION for available tags.
-    image: ghcr.io/stirling-tools/stirling-unoserver:latest
+    image: ghcr.io/stephenstirling/scripta-unoserver:latest
     environment:
       UNOSERVER_PORT: "2003"
       UNOSERVER_UNO_PORT: "2002"
@@ -75,7 +75,7 @@ services:
 
   unoserver2:
     container_name: UNO-Server-2
-    image: ghcr.io/stirling-tools/stirling-unoserver:latest
+    image: ghcr.io/stephenstirling/scripta-unoserver:latest
     environment:
       UNOSERVER_PORT: "2003"
       UNOSERVER_UNO_PORT: "2002"

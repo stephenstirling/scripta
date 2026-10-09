@@ -71,15 +71,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ARG VERSION_TAG
 
 # Labels
-LABEL org.opencontainers.image.title="Stirling-PDF Ultra-Lite" \
+LABEL org.opencontainers.image.title="Scripta Ultra-Lite" \
       org.opencontainers.image.description="Stirling-PDF with embedded frontend - Ultra-lite version with minimal dependencies" \
-      org.opencontainers.image.source="https://github.com/Stirling-Tools/Stirling-PDF" \
+      org.opencontainers.image.source="https://github.com/stephenstirling/scripta" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.vendor="Stirling-Tools" \
-      org.opencontainers.image.url="https://www.stirlingpdf.com" \
-      org.opencontainers.image.documentation="https://docs.stirlingpdf.com" \
-      maintainer="Stirling-Tools" \
-      org.opencontainers.image.authors="Stirling-Tools" \
+      org.opencontainers.image.vendor="Stephen Stirling" \
+      org.opencontainers.image.url="https://github.com/stephenstirling/scripta" \
+      org.opencontainers.image.documentation="https://github.com/stephenstirling/scripta#readme" \
+      maintainer="Stephen Stirling" \
+      org.opencontainers.image.authors="Stephen Stirling; based on Stirling-PDF by Stirling-Tools" \
       org.opencontainers.image.version="${VERSION_TAG}" \
       org.opencontainers.image.keywords="PDF, manipulation, ultra-lite, API, Spring Boot, React"
 

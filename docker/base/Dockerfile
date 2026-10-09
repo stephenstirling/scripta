@@ -1,4 +1,4 @@
-# Stirling-PDF Base Image
+# Scripta Base Image
 # Pre-built tools: Calibre, Ghostscript, QPDF, ImageMagick, Python venv with AI/OCR packages
 # This image is reused by Dockerfile and Dockerfile.fat to avoid rebuilding tools on every app release
 
@@ -699,12 +699,12 @@ RUN set -eux; \
     STIRLING_LO_SANDBOX=off /usr/bin/soffice --version
 
 # Metadata labels - base image
-LABEL org.opencontainers.image.title="Stirling-PDF Base" \
+LABEL org.opencontainers.image.title="Scripta Base" \
       org.opencontainers.image.description="Pre-built base image with Calibre, Ghostscript, QPDF, ImageMagick, LibreOffice, OCRmyPDF and dependencies" \
-      org.opencontainers.image.source="https://github.com/Stirling-Tools/Stirling-PDF" \
+      org.opencontainers.image.source="https://github.com/stephenstirling/scripta" \
       org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.vendor="Stirling-Tools" \
-      org.opencontainers.image.url="https://www.stirlingpdf.com" \
-      org.opencontainers.image.documentation="https://docs.stirlingpdf.com" \
-      maintainer="Stirling-Tools" \
-      org.opencontainers.image.authors="Stirling-Tools"
+      org.opencontainers.image.vendor="Stephen Stirling" \
+      org.opencontainers.image.url="https://github.com/stephenstirling/scripta" \
+      org.opencontainers.image.documentation="https://github.com/stephenstirling/scripta#readme" \
+      maintainer="Stephen Stirling" \
+      org.opencontainers.image.authors="Stephen Stirling; based on Stirling-PDF by Stirling-Tools"
