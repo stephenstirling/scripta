@@ -26,19 +26,20 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          grep -E "^e: |error: |\.java:[0-9]+: error" gradle.log | head -40 | while read -r line; do echo "::error::${line}"; done
-          grep -E "FAILED$|What went wrong" -A2 gradle.log | head -60 | while read -r line; do echo "::error::${line}"; done
+          set +e
+          summarize() { python3 -c 'import sys; print(sys.stdin.read().replace("%","%25").replace("\r","").replace("\n","%0A"))'; }
+          echo "::error title=Gradle errors::$(grep -nE 'error:|FAILED|What went wrong|Could not|Exception' gradle.log | head -60 | summarize)"
+          echo "::error title=Gradle tail::$(tail -80 gradle.log | summarize)"
           python3 - <<'PY'
           import glob, xml.etree.ElementTree as ET
-          n = 0
+          lines = []
           for f in glob.glob("app/**/build/test-results/test/*.xml", recursive=True):
               for case in ET.parse(f).getroot().iter("testcase"):
                   for bad in list(case.findall("failure")) + list(case.findall("error")):
-                      msg = (bad.get("message") or bad.text or "").replace("\n", " ")[:300]
-                      print(f"::error::{case.get('classname')}.{case.get('name')}: {msg}")
-                      n += 1
-                      if n >= 40:
-                          raise SystemExit
+                      msg = (bad.get("message") or (bad.text or "")[:300]).replace("\n", " ")[:300]
+                      lines.append(f"{case.get('classname')}.{case.get('name')}: {msg}")
+          if lines:
+              print("::error title=Failing tests::" + "%0A".join(lines[:60]).replace("\r", ""))
           PY
 
   frontend:
