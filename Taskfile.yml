@@ -1,0 +1,78 @@
+version: '3'
+
+output: prefixed
+
+# Scripta task runner (https://taskfile.dev). Only the MIT-licensed core is
+# included in this repository, so every task builds the "core" flavor.
+dotenv: ['.task/.env.local', '.task/.env']
+
+vars:
+  FIND_FREE_PORT_PS: powershell -NoProfile -File scripts/find-free-port.ps1
+  FIND_FREE_PORT_SH: bash scripts/find-free-port.sh
+
+includes:
+  backend:
+    taskfile: .taskfiles/backend.yml
+    dir: .
+  frontend:
+    taskfile: .taskfiles/frontend.yml
+    dir: frontend
+  docker:
+    taskfile: .taskfiles/docker.yml
+    dir: .
+  e2e:
+    taskfile: .taskfiles/e2e.yml
+    dir: .
+  cucumber:
+    taskfile: .taskfiles/cucumber.yml
+    dir: testing/cucumber
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - |
+        echo "Scripta tasks:"
+        echo "  task install         Install frontend dependencies"
+        echo "  task dev             Start backend (:8080) and frontend dev servers"
+        echo "  task backend:dev     Start backend only"
+        echo "  task frontend:dev    Start frontend only"
+        echo "  task build           Build backend and frontend"
+        echo "  task test            Run backend and frontend tests"
+        echo "  task check           Typecheck + tests"
+        echo "  task clean           Remove build output"
+
+  install:
+    desc: "Install frontend dependencies"
+    cmds:
+      - task: frontend:install
+
+  dev:
+    desc: "Start backend and frontend dev servers together"
+    deps:
+      - task: backend:dev
+      - task: frontend:dev
+
+  build:
+    desc: "Build backend and frontend"
+    cmds:
+      - task: backend:build
+      - task: frontend:build:core
+
+  test:
+    desc: "Run backend and frontend tests"
+    cmds:
+      - task: backend:test
+      - task: frontend:test
+
+  check:
+    desc: "Typecheck and test everything"
+    cmds:
+      - task: frontend:typecheck:core
+      - task: test
+
+  clean:
+    desc: "Remove build output"
+    cmds:
+      - task: backend:clean
+      - task: frontend:clean

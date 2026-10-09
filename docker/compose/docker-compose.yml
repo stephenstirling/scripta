@@ -1,0 +1,25 @@
+services:
+  scripta:
+    build:
+      context: ../..
+      dockerfile: docker/embedded/Dockerfile
+    image: ghcr.io/stephenstirling/scripta:latest
+    container_name: scripta
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080$${SYSTEM_ROOTURIPATH:-''}/api/v1/info/status | grep -q 'UP'"]
+      interval: 5s
+      timeout: 10s
+      retries: 16
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../scripta/data:/usr/share/tessdata:rw
+      - ../../scripta/config:/configs:rw
+      - ../../scripta/logs:/logs:rw
+    environment:
+      DISABLE_ADDITIONAL_FEATURES: "true"
+      SECURITY_ENABLELOGIN: "false"
+      SYSTEM_DEFAULTLOCALE: en-US
+      UI_APPNAME: Scripta
+      SYSTEM_MAXFILESIZE: "100"

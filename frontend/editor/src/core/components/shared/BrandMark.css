@@ -1,0 +1,77 @@
+/* Scripta mark: a sheet with a folded corner carrying an "S" stroke, coloured
+   from the --c-brand-mark tokens so it follows light/dark. The part classes are
+   global (not scoped to .sui-brandmark) so the Logo lockup, which renders the
+   same icon, is coloured too.
+
+   An ancestor marked [data-brandmark-morph] that is hovered, focused or open
+   (.is-open) cross-fades the mark into a downward chevron in the text colour:
+   a self-explaining "this opens a menu" affordance. */
+.sui-brandmark {
+  display: block;
+  width: auto;
+  overflow: visible;
+}
+
+.sui-brandmark__sheet {
+  fill: var(--c-brand-mark-soft);
+}
+.sui-brandmark__fold {
+  fill: var(--c-brand-mark);
+}
+.sui-brandmark__stroke {
+  stroke: var(--c-brand-mark);
+}
+.sui-brandmark__chevron {
+  stroke: var(--c-text);
+  opacity: 0;
+}
+
+.sui-brandmark__mark,
+.sui-brandmark__chevron {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transition:
+    transform var(--motion-slow),
+    opacity var(--motion-slow);
+}
+
+[data-brandmark-morph]:hover .sui-brandmark__mark,
+[data-brandmark-morph]:focus-visible .sui-brandmark__mark,
+[data-brandmark-morph].is-open .sui-brandmark__mark {
+  opacity: 0;
+  transform: scale(0.6);
+}
+[data-brandmark-morph]:hover .sui-brandmark__chevron,
+[data-brandmark-morph]:focus-visible .sui-brandmark__chevron,
+[data-brandmark-morph].is-open .sui-brandmark__chevron {
+  opacity: 1;
+}
+
+/* One-shot "thinking" nudge: the sheet tilts and settles back. It starts and
+   ends at rest, so a single iteration ends without snapping. Callers apply it
+   for one beat; see NavFooter.css for the hover use. */
+@keyframes sui-brandmark-nudge {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  30% {
+    transform: rotate(-8deg) translateY(-1px);
+  }
+  65% {
+    transform: rotate(5deg) translateY(0.5px);
+  }
+}
+
+/* Looping "working" nudge for a mark that sits out a whole job. */
+.sui-brandmark--working .sui-brandmark__mark {
+  animation: sui-brandmark-nudge 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sui-brandmark__mark,
+  .sui-brandmark__chevron {
+    transition: none;
+    animation: none;
+  }
+}
