@@ -45,17 +45,15 @@ class OpenApiConfigTest {
         }
 
         @Test
-        @DisplayName("sets license, contact and terms of service")
+        @DisplayName("sets the MIT license and Scripta contact")
         void setsLicenseAndContact() {
             OpenAPI openAPI = config.customOpenAPI();
 
             assertThat(openAPI.getInfo().getLicense()).isNotNull();
             assertThat(openAPI.getInfo().getLicense().getName()).contains("MIT");
-            assertThat(openAPI.getInfo().getTermsOfService())
-                    .isEqualTo("https://www.stirlingpdf.com/terms");
             assertThat(openAPI.getInfo().getContact()).isNotNull();
-            assertThat(openAPI.getInfo().getContact().getEmail())
-                    .isEqualTo("contact@stirlingpdf.com");
+            assertThat(openAPI.getInfo().getContact().getUrl())
+                    .isEqualTo("https://github.com/stephenstirling/scripta");
         }
 
         @Test
