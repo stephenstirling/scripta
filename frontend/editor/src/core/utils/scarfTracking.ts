@@ -51,6 +51,7 @@ export function setScarfConfig(
  * Only fires if:
  * - Scarf tracking has been initialized via setScarfConfig()
  * - Scarf is globally enabled in config
+ * - A pixel id is set in VITE_SCARF_PIXEL_ID (empty by default)
  * - User has accepted scarf service via cookie consent
  * - Pathname has changed or enough time has passed since last fire
  *
@@ -64,8 +65,9 @@ export function firePixel(pathname: string): void {
     return;
   }
 
-  // Check if Scarf is globally disabled
-  if (enableScarf === false) {
+  // Check if Scarf is globally disabled, or no pixel is configured (the default)
+  const pixelId = import.meta.env.VITE_SCARF_PIXEL_ID;
+  if (enableScarf === false || !pixelId) {
     return;
   }
 
@@ -85,7 +87,8 @@ export function firePixel(pathname: string): void {
   lastFiredTime = now;
 
   const url =
-    "https://static.scarf.sh/a.png?x-pxid=3c1d68de-8945-4e9f-873f-65320b6fabf7" +
+    "https://static.scarf.sh/a.png?x-pxid=" +
+    encodeURIComponent(pixelId) +
     "&path=" +
     encodeURIComponent(pathname);
 

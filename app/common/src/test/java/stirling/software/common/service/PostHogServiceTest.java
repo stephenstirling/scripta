@@ -49,8 +49,9 @@ class PostHogServiceTest {
                 postHog, UUID, configDirMounted, APP_VERSION, appProps, user, env);
     }
 
+    /** An environment with a PostHog key set, as an operator who opts in would configure. */
     private MockEnvironment env() {
-        return new MockEnvironment();
+        return new MockEnvironment().withProperty("posthog.api.key", "phc_test");
     }
 
     @Nested
@@ -73,6 +74,16 @@ class PostHogServiceTest {
             ApplicationProperties appProps = props(false);
 
             newService(appProps, userService, false, env());
+
+            verify(postHog, never()).capture(anyString(), anyString(), anyMap());
+        }
+
+        @Test
+        @DisplayName("constructor does not capture without a posthog key, even if enabled")
+        void constructorNoCaptureWithoutKey() {
+            ApplicationProperties appProps = props(true);
+
+            newService(appProps, userService, false, new MockEnvironment());
 
             verify(postHog, never()).capture(anyString(), anyString(), anyMap());
         }

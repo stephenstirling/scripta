@@ -52,8 +52,15 @@ public class PostHogService {
         captureSystemInfo();
     }
 
+    // Scripta ships without a PostHog project, so nothing is sent unless an operator sets
+    // posthog.api.key to a project of their own, whatever the analytics toggles say.
+    private boolean isCaptureEnabled() {
+        return StringUtils.isNotBlank(env.getProperty("posthog.api.key"))
+                && applicationProperties.getSystem().isPosthogEnabled();
+    }
+
     private void captureSystemInfo() {
-        if (!applicationProperties.getSystem().isPosthogEnabled()) {
+        if (!isCaptureEnabled()) {
             return;
         }
         try {
@@ -64,7 +71,7 @@ public class PostHogService {
     }
 
     public void captureEvent(String eventName, Map<String, Object> properties) {
-        if (!applicationProperties.getSystem().isPosthogEnabled()) {
+        if (!isCaptureEnabled()) {
             return;
         }
 
