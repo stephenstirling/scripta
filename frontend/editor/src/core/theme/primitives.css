@@ -70,6 +70,32 @@
   --p-red-600: #dc2626;
   --p-red-700: #b91c1c;
 
+  /* Acrobat-style chrome: a cool-neutral ramp and a single blue. acro-* is light,
+     acro-d-* is dark. Mapped to --c-* in colors.css; never referenced directly. */
+  --p-acro-100: #f5f5f5;
+  --p-acro-150: #ebebeb;
+  --p-acro-200: #e1e1e1;
+  --p-acro-300: #d5d5d5;
+  --p-acro-400: #b3b3b3;
+  --p-acro-550: #6e6e6e;
+  --p-acro-700: #4b4b4b;
+  --p-acro-900: #2c2c2c;
+  --p-acro-d-50: #1e1e1e;
+  --p-acro-d-100: #252525;
+  --p-acro-d-150: #2a2a2a;
+  --p-acro-d-200: #303030;
+  --p-acro-d-250: #171717;
+  --p-acro-d-300: #353535;
+  --p-acro-d-350: #3f3f3f;
+  --p-acro-d-400: #383838;
+  --p-acro-d-450: #444444;
+  --p-acro-d-500: #5a5a5a;
+  --p-acro-d-text-muted: #b8b8b8;
+  --p-acro-d-text-subtle: #9c9c9c;
+  --p-acro-blue-400: #4b9cf5;
+  --p-acro-blue-500: #1473e6;
+  --p-acro-blue-700: #0b5cbc;
+
   /* Brand scale (Scripta ink indigo; the token names are inherited) + ai-accent scales, consumed by core/ui/accents.css. */
   --p-brand-red-200: #d2d0f5;
   --p-brand-red-300: #a9a5ec;
