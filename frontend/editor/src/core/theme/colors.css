@@ -92,7 +92,9 @@ html[data-app-theme="light"] {
      marks, vendor colours, categorical avatar dots, static illustrations,
      and the multi-hue gradients on feature/upgrade/onboarding surfaces.
      Named here so components reference a --c-* token, never a raw --p-*. */
-  --c-brand-mark: var(--p-brand-red-650); /* Scripta mark: "S" stroke and fold */
+  --c-brand-mark: var(
+    --p-brand-red-650
+  ); /* Scripta mark: "S" stroke and fold */
   --c-brand-mark-soft: var(--p-brand-red-200); /* Scripta mark: sheet */
   --c-accent-stripe: var(--p-periwinkle-500); /* Stripe "connect" CTA */
 

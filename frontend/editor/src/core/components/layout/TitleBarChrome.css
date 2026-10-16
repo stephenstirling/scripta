@@ -1,0 +1,172 @@
+/* The strip above the app: a tab row, then a toolbar row. Both sit on --c-chrome. */
+.title-bar-chrome {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--c-chrome);
+}
+
+.title-bar-strip {
+  flex-shrink: 0;
+  background-color: var(--c-chrome);
+  border-bottom: 1px solid var(--c-chrome-border);
+}
+
+.title-bar-strip[hidden] {
+  display: none;
+}
+
+/* A definite length, not a percentage: the app's layout chain (AppFrame, AppLayout,
+   the home page) sizes against it, and percentages do not resolve through it. The
+   two rows and the strip's bottom border are fixed, so the subtraction is exact. */
+.title-bar-chrome {
+  --titlebar-body-h: 100dvh;
+}
+
+.title-bar-chrome[data-strip] {
+  --titlebar-body-h: calc(
+    100dvh - var(--chrome-tabstrip-h) - var(--chrome-toolbar-h) - 1px
+  );
+}
+
+.title-bar-body {
+  height: var(--titlebar-body-h);
+  overflow: hidden;
+}
+
+.title-bar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+}
+
+.title-bar-row--tabs {
+  height: var(--chrome-tabstrip-h);
+}
+
+.title-bar-row--toolbar {
+  height: var(--chrome-toolbar-h);
+  gap: var(--space-3);
+}
+
+.title-bar-slot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Tabs take only the room they need, so the Add files button stays beside them. */
+.title-bar-slot--tabs {
+  flex: 0 1 auto;
+  align-self: stretch;
+  align-items: flex-end;
+  gap: var(--space-0_5);
+}
+
+.title-bar-add-files {
+  margin-right: auto;
+}
+
+/* Search sits on the right, beside the export actions, at a fixed readable width. */
+.title-bar-slot--search {
+  flex: 0 1 22rem;
+  margin-left: auto;
+}
+
+.title-bar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1_5);
+  height: 1.75rem;
+  min-width: 1.75rem;
+  padding: 0 var(--space-1_5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--c-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.title-bar-button:hover {
+  background: var(--c-hover);
+}
+
+.title-bar-button:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 1px;
+}
+
+.title-bar-button--labelled {
+  padding: 0 var(--space-2);
+}
+
+.title-bar-button--outlined {
+  padding: 0 var(--space-2);
+  border-color: var(--c-border-strong);
+}
+
+.title-bar-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-0_5);
+  min-width: 0;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.title-bar-tab {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 2rem;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: var(--c-text-muted);
+}
+
+.title-bar-tab:hover {
+  background: var(--c-hover);
+}
+
+.title-bar-tab[data-active] {
+  background: var(--c-surface-raised);
+  color: var(--c-text);
+}
+
+.title-bar-tab__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1_5);
+  height: 100%;
+  padding: 0 var(--space-1) 0 var(--space-3);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.title-bar-tab__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: var(--space-1_5);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.title-bar-tab__close:hover {
+  background: var(--c-active);
+}

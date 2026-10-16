@@ -9235,6 +9235,12 @@ label = "Select a TSA server"
 [timestampPdf.steps]
 settings = "Settings"
 
+[titleBar]
+closeDocument = "Close {{name}}"
+documents = "Open documents"
+home = "Home"
+menu = "Menu"
+
 [toast]
 dismiss = "Dismiss"
 toggleDetails = "Toggle details"

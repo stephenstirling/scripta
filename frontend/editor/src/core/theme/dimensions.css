@@ -38,10 +38,9 @@
   --sidebar-collapsed-w: var(--nav-rail-w);
 
   /* ── Layout sizing ── */
-  /* Workbench chrome, top to bottom: menu bar, tab strip, document toolbar. */
-  --chrome-menubar-h: 1.75rem;
-  --chrome-tabstrip-h: 2.25rem;
-  --chrome-toolbar-h: 2.5rem;
+  /* Title-bar strip, top to bottom: the tab row, then the toolbar row. */
+  --chrome-tabstrip-h: 2.5rem;
+  --chrome-toolbar-h: 2.75rem;
   --chrome-tools-pane-w: 18.75rem;
   --footer-height: 2rem;
   --landing-stack-w: 224px;
