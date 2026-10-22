@@ -158,3 +158,44 @@
 .tool-picker__header[data-scrolled] {
   border-bottom-color: var(--c-border-subtle);
 }
+
+.tool-picker__recent {
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.tool-picker__recent-label {
+  padding: 0.25rem 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-subtle);
+}
+
+.tool-picker__recent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.tool-picker__recent-chip {
+  padding: 0.3rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--c-hover);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.tool-picker__recent-chip[data-selected] {
+  background: var(--c-primary-subtle);
+  color: var(--c-accent-fg, var(--c-primary));
+  font-weight: 500;
+}
+
+.tool-picker__recent-chip:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 2px;
+}

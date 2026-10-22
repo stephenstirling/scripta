@@ -3,6 +3,7 @@ import { ToolId } from "@app/types/toolId";
 
 const RECENT_TOOLS_KEY = "stirlingpdf.recentTools";
 const FAVORITE_TOOLS_KEY = "stirlingpdf.favoriteTools";
+const MAX_RECENT_TOOLS = 5;
 
 export function useToolHistory() {
   const [recentTools, setRecentTools] = useState<ToolId[]>([]);
@@ -36,6 +37,22 @@ export function useToolHistory() {
     }
   }, []);
 
+  // Most recent first, one entry per tool.
+  const addRecentTool = useCallback((toolId: ToolId) => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    setRecentTools((prev) => {
+      const updated = [toolId, ...prev.filter((id) => id !== toolId)].slice(
+        0,
+        MAX_RECENT_TOOLS,
+      );
+      window.localStorage.setItem(RECENT_TOOLS_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
   // Toggle favorite status
   const toggleFavorite = useCallback((toolId: ToolId) => {
     if (typeof window === "undefined") {
@@ -62,6 +79,7 @@ export function useToolHistory() {
 
   return {
     recentTools,
+    addRecentTool,
     favoriteTools,
     toggleFavorite,
     isFavorite,

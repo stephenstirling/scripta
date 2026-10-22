@@ -15,6 +15,7 @@ import { useToolWorkflowData } from "@app/contexts/ToolWorkflowContext";
 import { useIsScrolled } from "@app/hooks/useIsScrolled";
 import { ToolId } from "@app/types/toolId";
 import { getSubcategoryLabel } from "@app/data/toolsTaxonomy";
+import { RecentToolChips } from "@app/components/tools/toolPicker/RecentToolChips";
 import { ToolPickerFooterExtensions } from "@app/components/tools/toolPicker/ToolPickerFooterExtensions";
 
 interface ToolPickerProps {
@@ -145,6 +146,10 @@ const ToolPicker = ({
         ) : compact ? (
           /* Resting state: flat list of pinned + recommended only. */
           <Box className="tool-picker__compact">
+            <RecentToolChips
+              selectedToolKey={selectedToolKey}
+              onSelect={onSelect}
+            />
             <div style={HEADER_TEXT_STYLE}>
               {t("toolPanel.toolsHeader", "PDF Tools")}
             </div>
@@ -197,6 +202,10 @@ const ToolPicker = ({
           <>
             {/* All-tools view: favourites + recommended + all subcategories. */}
             <Stack px="sm" pb="sm" pt={4} gap="xs">
+              <RecentToolChips
+                selectedToolKey={selectedToolKey}
+                onSelect={onSelect}
+              />
               {favoriteToolItems.length > 0 && (
                 <Box w="100%">
                   <div style={HEADER_TEXT_STYLE}>

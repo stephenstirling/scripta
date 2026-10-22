@@ -105,6 +105,7 @@ interface ToolWorkflowContextValue extends ToolWorkflowState {
   }>; // Filtered by search
 
   // Tool History
+  recentTools: ToolId[];
   favoriteTools: ToolId[];
   toggleFavorite: (toolId: ToolId) => void;
   isFavorite: (toolId: ToolId) => boolean;
@@ -163,6 +164,7 @@ export interface ToolWorkflowActionsValue {
 export interface ToolWorkflowDataValue {
   toolAvailability: ToolAvailabilityMap;
   toolRegistry: Partial<ToolRegistry>;
+  recentTools: ToolId[];
   favoriteTools: ToolId[];
   getSelectedTool: (toolId: ToolId | null) => ToolRegistryEntry | null;
   isFavorite: (toolId: ToolId) => boolean;
@@ -210,7 +212,13 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
   const { allTools } = useToolRegistry();
 
   // Tool history hook
-  const { favoriteTools, toggleFavorite, isFavorite } = useToolHistory();
+  const {
+    recentTools,
+    addRecentTool,
+    favoriteTools,
+    toggleFavorite,
+    isFavorite,
+  } = useToolHistory();
 
   // Get selected tool from navigation context
   const selectedTool = getSelectedTool(navigationState.selectedTool);
@@ -511,6 +519,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
 
       // Set the selected tool and determine the appropriate workbench
       const validToolId = isValidToolId(toolId) ? toolId : null;
+      if (validToolId) addRecentTool(validToolId);
       actions.setSelectedTool(validToolId);
 
       // Switch workbench only when required: leaving a custom view, or the tool declares one.
@@ -556,6 +565,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
     },
     [
       actions,
+      addRecentTool,
       getSelectedTool,
       navigationState.workbench,
       setLeftPanelView,
@@ -700,6 +710,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
     () => ({
       toolAvailability,
       toolRegistry,
+      recentTools,
       favoriteTools,
       getSelectedTool,
       isFavorite,
@@ -707,6 +718,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
     [
       toolAvailability,
       toolRegistry,
+      recentTools,
       favoriteTools,
       getSelectedTool,
       isFavorite,
@@ -749,6 +761,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
       filteredTools,
 
       // Tool History
+      recentTools,
       favoriteTools,
       toggleFavorite,
       isFavorite,
@@ -779,6 +792,7 @@ export function ToolWorkflowProvider({ children }: ToolWorkflowProviderProps) {
       handleBackToTools,
       handleReaderToggle,
       filteredTools,
+      recentTools,
       favoriteTools,
       toggleFavorite,
       isFavorite,
