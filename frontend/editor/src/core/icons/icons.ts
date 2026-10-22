@@ -201,6 +201,7 @@ import Minus from "lucide-static/icons/minus.svg?react";
 import Monitor from "lucide-static/icons/monitor.svg?react";
 import MonitorCloud from "lucide-static/icons/monitor-cloud.svg?react";
 import MonitorSmartphone from "lucide-static/icons/monitor-smartphone.svg?react";
+import MousePointer2 from "lucide-static/icons/mouse-pointer-2.svg?react";
 import Moon from "lucide-static/icons/moon.svg?react";
 import Move from "lucide-static/icons/move.svg?react";
 import Music from "lucide-static/icons/music.svg?react";
@@ -631,6 +632,7 @@ export const ICONS = {
   "monitor-cloud": { Component: MonitorCloud, kind: "lucide" },
   "monitor-smartphone": { Component: MonitorSmartphone, kind: "lucide" },
   moon: { Component: Moon, kind: "lucide" },
+  "mouse-pointer-2": { Component: MousePointer2, kind: "lucide" },
   move: { Component: Move, kind: "lucide" },
   music: { Component: Music, kind: "lucide" },
   network: { Component: Network, kind: "lucide" },

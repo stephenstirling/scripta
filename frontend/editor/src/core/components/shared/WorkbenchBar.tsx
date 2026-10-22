@@ -59,6 +59,7 @@ import { renderWithTooltip } from "@app/components/shared/workbenchBar/workbench
 import { WorkbenchBarActionsProps } from "@app/components/shared/workbenchBar/types";
 import { useIsMobile, useIsPhone } from "@app/hooks/useIsMobile";
 import "@app/components/shared/WorkbenchBar.css";
+import { ViewerQuickTools } from "@app/components/viewer/ViewerQuickTools";
 import { NotificationBell } from "@app/components/notifications/NotificationBell";
 
 const SECTION_ORDER: WorkbenchBarSection[] = ["top", "middle", "bottom"];
@@ -659,6 +660,12 @@ export default function WorkbenchBar({
         }`}
       >
         <div className="workbench-bar-center-scroll">
+          {floatingViewerTools && (
+            <>
+              <ViewerQuickTools />
+              <div className="workbench-bar-divider" />
+            </>
+          )}
           {sectionsWithButtons.map(
             ({ section, buttons: sectionButtons }, idx) => (
               <React.Fragment key={section}>
