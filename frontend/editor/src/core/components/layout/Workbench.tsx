@@ -244,7 +244,12 @@ export default function Workbench() {
       )}
 
       {showWorkbenchBar && (
-        <div className={styles.workbenchBarShell}>
+        <div
+          className={styles.workbenchBarShell}
+          data-floating={
+            (strip.enabled && currentView === "viewer") || undefined
+          }
+        >
           <div className={styles.workbenchBarWrapper}>
             <div className={styles.workbenchBarInner}>
               <WorkbenchBar

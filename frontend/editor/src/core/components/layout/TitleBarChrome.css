@@ -6,6 +6,7 @@
   height: 100dvh;
   overflow: hidden;
   background-color: var(--c-chrome);
+  --titlebar-body-h: 100dvh;
 }
 
 .title-bar-strip {
@@ -21,10 +22,6 @@
 /* A definite length, not a percentage: the app's layout chain (AppFrame, AppLayout,
    the home page) sizes against it, and percentages do not resolve through it. The
    two rows and the strip's bottom border are fixed, so the subtraction is exact. */
-.title-bar-chrome {
-  --titlebar-body-h: 100dvh;
-}
-
 .title-bar-chrome[data-strip] {
   --titlebar-body-h: calc(
     100dvh - var(--chrome-tabstrip-h) - var(--chrome-toolbar-h) - 1px

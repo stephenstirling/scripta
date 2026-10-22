@@ -63,6 +63,21 @@ import { NotificationBell } from "@app/components/notifications/NotificationBell
 
 const SECTION_ORDER: WorkbenchBarSection[] = ["top", "middle", "bottom"];
 
+/**
+ * The viewer buttons that act on pages and side panes rather than on the
+ * cursor. Under the title-bar strip they leave the quick-tools bar for the
+ * page-tools column. Ids must match useViewerWorkbenchBarButtons.
+ */
+const VIEWER_PAGE_TOOL_IDS: ReadonlySet<string> = new Set([
+  "viewer-rotate-left",
+  "viewer-rotate-right",
+  "viewer-toggle-sidebar",
+  "viewer-toggle-bookmarks",
+  "viewer-toggle-attachments",
+  "viewer-toggle-layers",
+  "viewer-toggle-comments",
+]);
+
 interface ViewOption {
   value: WorkbenchType;
   label: string;
@@ -219,14 +234,30 @@ export default function WorkbenchBar({
     [buttons],
   );
 
+  const floatingViewerTools = isViewer && strip.enabled;
+
   const sectionsWithButtons = useMemo(() => {
     return SECTION_ORDER.map((section) => {
       const sectionButtons = buttons.filter(
-        (btn) => (btn.section ?? "top") === section && (btn.visible ?? true),
+        (btn) =>
+          (btn.section ?? "top") === section &&
+          (btn.visible ?? true) &&
+          !(floatingViewerTools && VIEWER_PAGE_TOOL_IDS.has(btn.id)),
       );
       return { section, buttons: sectionButtons };
     }).filter((entry) => entry.buttons.length > 0);
-  }, [buttons]);
+  }, [buttons, floatingViewerTools]);
+
+  const pageToolButtons = useMemo(
+    () =>
+      floatingViewerTools
+        ? buttons.filter(
+            (btn) =>
+              VIEWER_PAGE_TOOL_IDS.has(btn.id) && (btn.visible ?? true),
+          )
+        : [],
+    [buttons, floatingViewerTools],
+  );
 
   const handleExportAll = useCallback(
     async (forceNewFile = false) => {
@@ -711,8 +742,27 @@ export default function WorkbenchBar({
             className="workbench-bar"
             data-wrapped="false"
             data-portaled="true"
+            data-floating={floatingViewerTools || undefined}
           >
             {toolRow}
+          </div>
+        )}
+        {pageToolButtons.length > 0 && (
+          <div
+            className="workbench-page-tools"
+            role="toolbar"
+            aria-orientation="vertical"
+            aria-label={t("workbenchBar.pageTools", "Page tools")}
+          >
+            {pageToolButtons.map((btn) => {
+              const content = renderButton(btn);
+              if (!content) return null;
+              return (
+                <div key={btn.id} className="workbench-bar-action-wrapper">
+                  {content}
+                </div>
+              );
+            })}
           </div>
         )}
       </>
