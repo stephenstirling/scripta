@@ -5022,6 +5022,22 @@ addFiles = "Add Files"
 mobileUpload = "Upload from Mobile"
 uploadFromComputer = "Browse files"
 
+[landing.home]
+goodAfternoon = "Good afternoon"
+goodEvening = "Good evening"
+goodMorning = "Good morning"
+library = "Open file library"
+ocr = "Make a scan searchable"
+ocrHint = "OCR, with a Word copy if you want"
+open = "Open from computer"
+openHint = "PDF, images or Office files"
+phone = "Import from phone"
+phoneHint = "Scan a QR code, send a photo"
+recent = "Recent"
+scan = "Scan from a scanner"
+scanHint = "Network scanners, flatbed or feeder"
+subtitle = "Drop a PDF anywhere, or start from one of these."
+
 [language]
 direction = "ltr"
 
