@@ -825,8 +825,15 @@ export default function HomePage() {
           >
             {/* Reading leaves the document and nothing beside it, so the wing goes
                 rather than shrinking to a rail. Everywhere else it is fixed open. */}
+            {/* With the strip showing, the file list is the document tabs. The sidebar
+                stays mounted, hidden, because it registers the open-from-computer
+                action the strip's Menu and Add files call. */}
             {wingsMounted && navigationState.workbench !== "signing" && (
-              <div className="workspace-frame">
+              <div
+                className="workspace-frame"
+                hidden={strip.enabled}
+                style={strip.enabled ? { display: "none" } : undefined}
+              >
                 <MyFilesAwareFileSidebar
                   ref={quickAccessRef}
                   accountHoisted
@@ -836,12 +843,15 @@ export default function HomePage() {
                 />
               </div>
             )}
+            {strip.enabled && wingsMounted && !hideToolPanel && (
+              <RightSidebar placement="start" />
+            )}
             <Workbench />
             {isMobile && mobileNavigation}
             {/* The reader's rail takes the slot the tool panel holds otherwise: the
                 panel's controls are the editor's, and reading wants the viewer's.
                 Both render together only while the panel is on its way out. */}
-            {wingsMounted && !hideToolPanel && <RightSidebar />}
+            {!strip.enabled && wingsMounted && !hideToolPanel && <RightSidebar />}
             {readerMode && <ReaderRail />}
             {readerMode && !strip.enabled && <ReaderSuperSearch />}
           </Group>

@@ -170,3 +170,28 @@
 .title-bar-tab__close:hover {
   background: var(--c-active);
 }
+
+.title-bar-tool-tabs {
+  display: flex;
+  align-items: stretch;
+  height: var(--chrome-toolbar-h);
+}
+
+.title-bar-tool-tab {
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--c-text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.title-bar-tool-tab:hover {
+  color: var(--c-text);
+}
+
+.title-bar-tool-tab[aria-selected="true"] {
+  color: var(--c-accent-fg, var(--c-primary));
+  border-bottom-color: var(--c-primary);
+}

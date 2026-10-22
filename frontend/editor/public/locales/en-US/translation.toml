@@ -9236,10 +9236,15 @@ label = "Select a TSA server"
 settings = "Settings"
 
 [titleBar]
+allTools = "All tools"
 closeDocument = "Close {{name}}"
+convert = "Convert"
 documents = "Open documents"
+edit = "Edit"
+eSign = "E-Sign"
 home = "Home"
 menu = "Menu"
+toolTabs = "Tools"
 
 [toast]
 dismiss = "Dismiss"

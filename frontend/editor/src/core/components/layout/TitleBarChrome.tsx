@@ -26,6 +26,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
 
   const [menuSlot, setMenuSlot] = useState<HTMLElement | null>(null);
   const [tabsSlot, setTabsSlot] = useState<HTMLElement | null>(null);
+  const [toolTabsSlot, setToolTabsSlot] = useState<HTMLElement | null>(null);
   const [viewsSlot, setViewsSlot] = useState<HTMLElement | null>(null);
   const [searchSlot, setSearchSlot] = useState<HTMLElement | null>(null);
   const [globalsSlot, setGlobalsSlot] = useState<HTMLElement | null>(null);
@@ -37,11 +38,20 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
       enabled: visible,
       menuSlot,
       tabsSlot,
+      toolTabsSlot,
       viewsSlot,
       searchSlot,
       globalsSlot,
     }),
-    [visible, menuSlot, tabsSlot, viewsSlot, searchSlot, globalsSlot],
+    [
+      visible,
+      menuSlot,
+      tabsSlot,
+      toolTabsSlot,
+      viewsSlot,
+      searchSlot,
+      globalsSlot,
+    ],
   );
 
   const openFromComputer = host?.actions.current?.openFromComputer;
@@ -77,6 +87,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
             )}
           </div>
           <div className="title-bar-row title-bar-row--toolbar">
+            <div className="title-bar-slot" ref={setToolTabsSlot} />
             <div className="title-bar-slot" ref={setViewsSlot} />
             <div
               className="title-bar-slot title-bar-slot--search"

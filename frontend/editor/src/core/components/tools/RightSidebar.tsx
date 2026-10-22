@@ -25,7 +25,12 @@ import "@app/components/tools/ToolPanel.css";
  * owns is the panel's own chrome (the header and its back/close control).
  * Fullscreen takeover lives in FullscreenToolPanel.
  */
-export default function RightSidebar() {
+export default function RightSidebar({
+  placement = "end",
+}: {
+  /** "start" docks the panel before the workbench, as the strip's layout does. */
+  placement?: "start" | "end";
+}) {
   const { t } = useTranslation();
   const { sidebarRefs } = useSidebarContext();
   const { toolPanelRef, quickAccessRef } = sidebarRefs;
@@ -90,6 +95,7 @@ export default function RightSidebar() {
     <div
       ref={toolPanelRef}
       data-sidebar="tool-panel"
+      data-placement={placement}
       data-tour={fullscreenExpanded ? undefined : "tool-panel"}
       className={`tool-panel flex flex-col ${fullscreenExpanded ? "tool-panel--fullscreen-active" : "overflow-hidden"} ${isMobile || fullscreenExpanded ? "border-l border-[var(--c-border-subtle)]" : "tool-panel--floating"} transition-all duration-300 ease-out ${isMobile ? "h-full border-r-0" : fullscreenExpanded ? "h-screen" : ""} ${fullscreenExpanded ? "tool-panel--fullscreen" : ""}`}
       style={{

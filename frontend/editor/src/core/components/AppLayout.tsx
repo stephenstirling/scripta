@@ -3,6 +3,7 @@ import { useBanner } from "@app/contexts/BannerContext";
 import NavigationWarningModal from "@app/components/shared/NavigationWarningModal";
 import { TitleBarSearch } from "@app/components/layout/TitleBarSearch";
 import { TitleBarDocumentTabs } from "@app/components/layout/TitleBarDocumentTabs";
+import { TitleBarToolTabs } from "@app/components/layout/TitleBarToolTabs";
 import { TitleBarMenu } from "@app/components/layout/TitleBarMenu";
 
 interface AppLayoutProps {
@@ -36,6 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Portal into the title-bar strip while it shows. Kept here so they stay
           mounted across views. */}
       <TitleBarMenu />
+      <TitleBarToolTabs />
       <TitleBarSearch />
       <TitleBarDocumentTabs />
       <NavigationWarningModal />
