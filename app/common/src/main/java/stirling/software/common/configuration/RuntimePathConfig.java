@@ -41,6 +41,9 @@ public class RuntimePathConfig {
     // Tesseract data path
     private final String tessDataPath;
 
+    /** Sibling of {@link #tessDataPath} holding the slower, more accurate "best" models. */
+    private final String tessDataBestPath;
+
     // Auto Form Detection model directory
     private final String formDetectionModelPath;
 
@@ -133,6 +136,11 @@ public class RuntimePathConfig {
         }
 
         log.info("Using Tesseract data path: {}", this.tessDataPath);
+
+        this.tessDataBestPath =
+                Path.of(this.tessDataPath)
+                        .resolveSibling(Path.of(this.tessDataPath).getFileName() + "_best")
+                        .toString();
 
         // Auto Form Detection model directory (kept under <configs> so it survives
         // restarts/updates)

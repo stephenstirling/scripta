@@ -1168,6 +1168,10 @@ export interface PosterPdfRequest {
 }
 export interface ProcessPdfWithOcrRequest {
   /**
+   * Recognition accuracy: 'standard' uses the bundled fast models, 'best' uses the slower, more accurate models
+   */
+  accuracy?: "standard" | "best";
+  /**
    * Clean the input file if set to true
    */
   clean?: boolean;
@@ -1179,6 +1183,10 @@ export interface ProcessPdfWithOcrRequest {
    * Deskew the input file if set to true
    */
   deskew?: boolean;
+  /**
+   * Also produce an editable Word (.docx) file built from the recognised text
+   */
+  docx?: boolean;
   /**
    * List of languages to use in OCR processing, e.g., 'eng', 'deu'
    */

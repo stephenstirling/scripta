@@ -8,6 +8,8 @@ export interface OCRParameters extends BaseParameters {
   languages: string[];
   ocrType: string;
   ocrRenderType: string;
+  /** "best" runs the slower, more accurate Tesseract models. */
+  accuracy: "standard" | "best";
   additionalOptions: string[];
 }
 
@@ -17,6 +19,7 @@ export const defaultParameters: OCRParameters = {
   languages: [],
   ocrType: "skip-text",
   ocrRenderType: "hocr",
+  accuracy: "standard",
   additionalOptions: [],
 };
 

@@ -197,6 +197,31 @@ class OCRControllerTest {
         }
 
         @Test
+        @DisplayName("throws when accuracy is neither standard nor best")
+        void throwsWhenAccuracyInvalid() throws IOException {
+            ProcessPdfWithOcrRequest request = baseRequest();
+            request.setAccuracy("ultra");
+            request.setFileInput(pdfMultipartFile("in.pdf"));
+
+            assertThrows(
+                    IllegalArgumentException.class, () -> ocrController.processPdfWithOCR(request));
+        }
+
+        @Test
+        @DisplayName("best accuracy rejects a language that has no best model")
+        void bestAccuracyRejectsLanguageWithoutBestModel() throws IOException {
+            ProcessPdfWithOcrRequest request = baseRequest();
+            request.setAccuracy("best");
+            request.setLanguages(List.of("eng", "deu"));
+            request.setFileInput(pdfMultipartFile("in.pdf"));
+            when(runtimePathConfig.getTessDataBestPath())
+                    .thenReturn(tessdataDirWith("eng").toString());
+
+            assertThrows(
+                    IllegalArgumentException.class, () -> ocrController.processPdfWithOCR(request));
+        }
+
+        @Test
         @DisplayName("accepts sandwich render type past the render-type check")
         void sandwichRenderTypePassesRenderCheck() throws IOException {
             ProcessPdfWithOcrRequest request = baseRequest();

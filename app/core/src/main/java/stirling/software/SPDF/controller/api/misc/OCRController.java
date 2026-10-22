@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import stirling.software.SPDF.config.EndpointConfiguration;
 import stirling.software.SPDF.model.api.misc.ProcessPdfWithOcrRequest;
+import stirling.software.SPDF.utils.OcrDocxExporter;
 import stirling.software.common.annotations.AutoJobPostMapping;
 import stirling.software.common.annotations.api.MiscApi;
 import stirling.software.common.configuration.RuntimePathConfig;
@@ -64,6 +65,9 @@ public class OCRController {
     // Tesseract's recommended minimum; more pixels cost time without improving recognition
     private static final int OCR_RENDER_DPI = 300;
 
+    private static final String ACCURACY_STANDARD = "standard";
+    private static final String ACCURACY_BEST = "best";
+
     private final ApplicationProperties applicationProperties;
     private final CustomPDFDocumentFactory pdfDocumentFactory;
     private final TempFileManager tempFileManager;
@@ -80,7 +84,13 @@ public class OCRController {
 
     /** Gets the list of available Tesseract languages from the tessdata directory */
     public List<String> getAvailableTesseractLanguages() {
-        String tessdataDir = runtimePathConfig.getTessDataPath();
+        return getAvailableTesseractLanguages(runtimePathConfig.getTessDataPath());
+    }
+
+    private List<String> getAvailableTesseractLanguages(String tessdataDir) {
+        if (tessdataDir == null) {
+            return Collections.emptyList();
+        }
         File[] files = new File(tessdataDir).listFiles();
         if (files == null) {
             return Collections.emptyList();
@@ -98,11 +108,16 @@ public class OCRController {
             resourceWeight = ResourceWeight.LARGE_WEIGHT)
     @ToolIO(
             produces = ToolFormat.PDF,
-            cases =
-                    @ToolIOCase(
-                            when = @ToolIOWhen(param = "sidecar", matches = "true"),
-                            produces = ToolFormat.ZIP,
-                            arity = ToolArity.SISO))
+            cases = {
+                @ToolIOCase(
+                        when = @ToolIOWhen(param = "sidecar", matches = "true"),
+                        produces = ToolFormat.ZIP,
+                        arity = ToolArity.SISO),
+                @ToolIOCase(
+                        when = @ToolIOWhen(param = "docx", matches = "true"),
+                        produces = ToolFormat.ZIP,
+                        arity = ToolArity.SISO)
+            })
     @Operation(
             summary = "Process a PDF file with OCR",
             description =
@@ -123,6 +138,16 @@ public class OCRController {
         String ocrType = request.getOcrType();
         String ocrRenderType = request.getOcrRenderType();
         Boolean removeImagesAfter = request.isRemoveImagesAfter();
+        boolean docx = request.isDocx();
+        String accuracy =
+                request.getAccuracy() == null || request.getAccuracy().isBlank()
+                        ? ACCURACY_STANDARD
+                        : request.getAccuracy();
+        if (!ACCURACY_STANDARD.equals(accuracy) && !ACCURACY_BEST.equals(accuracy)) {
+            throw ExceptionUtils.createInvalidArgumentException("accuracy", accuracy);
+        }
+        boolean bestAccuracy = ACCURACY_BEST.equals(accuracy);
+        String tessdataDir = bestAccuracy ? runtimePathConfig.getTessDataBestPath() : null;
 
         if (selectedLanguages == null || selectedLanguages.isEmpty()) {
             throw ExceptionUtils.createOcrLanguageRequiredException();
@@ -132,10 +157,16 @@ public class OCRController {
             throw ExceptionUtils.createOcrInvalidRenderTypeException();
         }
 
-        // Get available Tesseract languages
-        List<String> availableLanguages = getAvailableTesseractLanguages();
+        List<String> availableLanguages =
+                bestAccuracy
+                        ? getAvailableTesseractLanguages(tessdataDir)
+                        : getAvailableTesseractLanguages();
 
-        // Validate selected languages
+        // The best models cover fewer languages than the bundled set, and running with fewer
+        // languages than requested would quietly lower accuracy, so a gap is an error.
+        if (bestAccuracy && !availableLanguages.containsAll(selectedLanguages)) {
+            throw ExceptionUtils.createOcrInvalidLanguagesException();
+        }
         selectedLanguages =
                 selectedLanguages.stream().filter(availableLanguages::contains).toList();
 
@@ -164,6 +195,7 @@ public class OCRController {
                         ocrType,
                         ocrRenderType,
                         removeImagesAfter,
+                        tessdataDir,
                         tempInputFile.getPath(),
                         tempOutputFile.getPath(),
                         sidecarTextFile != null ? sidecarTextFile.getPath() : null);
@@ -174,6 +206,7 @@ public class OCRController {
                 processWithTesseract(
                         selectedLanguages,
                         ocrType,
+                        tessdataDir,
                         tempInputFile.getPath(),
                         tempOutputFile.getPath());
                 log.info("Tesseract processing completed successfully");
@@ -187,8 +220,8 @@ public class OCRController {
                                     Filenames.toSimpleFileName(inputFile.getOriginalFilename()))
                             + "_OCR.pdf";
 
-            if (sidecar && sidecarTextFile != null) {
-                // Create a zip file containing both the PDF and the text file
+            if ((sidecar && sidecarTextFile != null) || docx) {
+                // Zip the PDF together with whichever extra outputs were asked for
                 String outputZipFilename =
                         GeneralUtils.removeExtension(
                                         Filenames.toSimpleFileName(inputFile.getOriginalFilename()))
@@ -204,11 +237,23 @@ public class OCRController {
                     Files.copy(tempOutputFile.getPath(), zipOut);
                     zipOut.closeEntry();
 
-                    // Add text file to the zip
-                    ZipEntry txtEntry = new ZipEntry(outputFilename.replace(".pdf", ".txt"));
-                    zipOut.putNextEntry(txtEntry);
-                    Files.copy(sidecarTextFile.getPath(), zipOut);
-                    zipOut.closeEntry();
+                    if (sidecar && sidecarTextFile != null) {
+                        ZipEntry txtEntry = new ZipEntry(outputFilename.replace(".pdf", ".txt"));
+                        zipOut.putNextEntry(txtEntry);
+                        Files.copy(sidecarTextFile.getPath(), zipOut);
+                        zipOut.closeEntry();
+                    }
+
+                    if (docx) {
+                        try (TempFile docxFile = new TempFile(tempFileManager, ".docx")) {
+                            OcrDocxExporter.export(tempOutputFile.getPath(), docxFile.getPath());
+                            ZipEntry docxEntry =
+                                    new ZipEntry(outputFilename.replace(".pdf", ".docx"));
+                            zipOut.putNextEntry(docxEntry);
+                            Files.copy(docxFile.getPath(), zipOut);
+                            zipOut.closeEntry();
+                        }
+                    }
 
                     zipOut.finish();
                 }
@@ -247,6 +292,7 @@ public class OCRController {
             String ocrType,
             String ocrRenderType,
             Boolean removeImagesAfter,
+            String tessdataDir,
             Path tempInputFile,
             Path tempOutputFile,
             Path sidecarTextPath)
@@ -265,6 +311,11 @@ public class OCRController {
                                 "pdf",
                                 "--pdf-renderer",
                                 ocrRenderType));
+
+        if (tessdataDir != null) {
+            // OCRmyPDF has no tessdata option; Tesseract reads this variable instead.
+            command.addAll(0, List.of("env", "TESSDATA_PREFIX=" + tessdataDir));
+        }
 
         if (sidecar != null && sidecar && sidecarTextPath != null) {
             command.add("--sidecar");
@@ -346,7 +397,11 @@ public class OCRController {
     }
 
     private void processWithTesseract(
-            List<String> selectedLanguages, String ocrType, Path tempInputFile, Path tempOutputFile)
+            List<String> selectedLanguages,
+            String ocrType,
+            String tessdataDir,
+            Path tempInputFile,
+            Path tempOutputFile)
             throws IOException, InterruptedException {
 
         // Create temp directory for Tesseract processing
@@ -428,6 +483,10 @@ public class OCRController {
                                                 String.format(Locale.ROOT, "page_%d", pageNum))
                                         .toString();
                         command.add(outputBase);
+                        if (tessdataDir != null) {
+                            command.add("--tessdata-dir");
+                            command.add(tessdataDir);
+                        }
                         command.add("-l");
                         command.add(String.join("+", selectedLanguages));
                         command.add("pdf"); // Always output PDF

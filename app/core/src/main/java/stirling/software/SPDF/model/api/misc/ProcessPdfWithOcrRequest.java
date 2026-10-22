@@ -51,4 +51,17 @@ public class ProcessPdfWithOcrRequest extends PDFFile {
 
     @Schema(description = "Remove images from the output PDF if set to true")
     private boolean removeImagesAfter;
+
+    @Schema(
+            description =
+                    "Recognition accuracy: 'standard' uses the bundled fast models, 'best' uses the"
+                            + " slower, more accurate models",
+            allowableValues = {"standard", "best"},
+            defaultValue = "standard")
+    private String accuracy = "standard";
+
+    @Schema(
+            description =
+                    "Also produce an editable Word (.docx) file built from the recognised text")
+    private boolean docx;
 }

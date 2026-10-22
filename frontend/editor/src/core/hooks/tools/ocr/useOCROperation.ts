@@ -31,6 +31,8 @@ function getMimeType(filename: string): string {
       return "text/plain";
     case "zip":
       return "application/zip";
+    case "docx":
+      return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
     default:
       return "application/octet-stream";
   }
@@ -66,7 +68,9 @@ export const ocrToApiParams = (parameters: OCRParameters): OCRApiParams => {
     languages: parameters.languages,
     ocrType: parameters.ocrType as OCRApiParams["ocrType"],
     ocrRenderType: parameters.ocrRenderType as OCRApiParams["ocrRenderType"],
+    accuracy: parameters.accuracy,
     sidecar: options.includes("sidecar"),
+    docx: options.includes("docx"),
     deskew: options.includes("deskew"),
     clean: options.includes("clean"),
     cleanFinal: options.includes("cleanFinal"),
@@ -81,6 +85,7 @@ export const ocrFromApiParams = (
 ): Partial<OCRParameters> => {
   const additionalOptions: string[] = [];
   if (apiParams.sidecar) additionalOptions.push("sidecar");
+  if (apiParams.docx) additionalOptions.push("docx");
   if (apiParams.deskew) additionalOptions.push("deskew");
   if (apiParams.clean) additionalOptions.push("clean");
   if (apiParams.cleanFinal) additionalOptions.push("cleanFinal");
@@ -90,6 +95,7 @@ export const ocrFromApiParams = (
     languages: apiParams.languages ?? defaultParameters.languages,
     ocrType: apiParams.ocrType,
     ocrRenderType: apiParams.ocrRenderType ?? defaultParameters.ocrRenderType,
+    accuracy: apiParams.accuracy ?? defaultParameters.accuracy,
     additionalOptions,
   };
 };

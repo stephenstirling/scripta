@@ -88,7 +88,10 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
                 <span>{t("fileSidebar.addFiles", "Add files")}</span>
               </button>
             )}
-            <div className="title-bar-slot title-bar-slot--theme" ref={setThemeSlot} />
+            <div
+              className="title-bar-slot title-bar-slot--theme"
+              ref={setThemeSlot}
+            />
           </div>
           <div className="title-bar-row title-bar-row--toolbar">
             <div className="title-bar-slot" ref={setToolTabsSlot} />

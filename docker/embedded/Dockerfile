@@ -138,6 +138,26 @@ RUN set -eux; \
     chmod 750 /tmp/stirling-pdf/heap_dumps; \
     fc-cache -f
 
+# Tesseract "best" models (Apache-2.0), selectable per OCR run as the Accuracy setting.
+# They live beside the bundled fast models, in tessdata_best, which RuntimePathConfig derives.
+# osd is needed for page rotation detection when OCR runs against this directory.
+ARG TESSDATA_BEST_COMMIT=e12c65a915945e4c28e237a9b52bc4a8f39a0cec
+RUN set -eux; \
+    dest=/usr/share/tesseract-ocr/5/tessdata_best; \
+    mkdir -p "$dest"; \
+    for model in \
+      8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba:eng \
+      8407331d6aa0229dc927685c01a7938fc5a641d1a9524f74838cdac599f0d06e:deu \
+      907743d98915c91a3906dfbf6e48b97598346698fe53aaa797e1a064ffcac913:fra \
+      711de9dbb8052067bd42f16b9119967f30bada80d57e2ef24f65d09f531adb04:por \
+      4fef2d1306c8e87616d4d3e4c6c67faf5d44be3342290cf8f2f0f6e3aa7e735b:chi_sim \
+      9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff:osd; do \
+      sha="${model%%:*}"; lang="${model##*:}"; \
+      curl -fsSL "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/${TESSDATA_BEST_COMMIT}/${lang}.traineddata" -o "$dest/${lang}.traineddata"; \
+      echo "${sha}  $dest/${lang}.traineddata" | sha256sum -c -; \
+    done; \
+    chmod -R a+rX "$dest"
+
 # Write version to a file so it is readable by scripts without env-var inheritance.
 # init-without-ocr.sh reads /etc/stirling_version for the AOT cache fingerprint.
 RUN echo "${VERSION_TAG:-dev}" > /etc/stirling_version

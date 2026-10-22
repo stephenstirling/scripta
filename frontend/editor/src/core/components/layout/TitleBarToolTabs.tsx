@@ -31,7 +31,11 @@ export function TitleBarToolTabs() {
       label: t("titleBar.edit", "Edit"),
       toolId: "pdfTextEditor",
     },
-    { id: "convert", label: t("titleBar.convert", "Convert"), toolId: "convert" },
+    {
+      id: "convert",
+      label: t("titleBar.convert", "Convert"),
+      toolId: "convert",
+    },
     { id: "sign", label: t("titleBar.eSign", "E-Sign"), toolId: "sign" },
   ];
 
@@ -42,7 +46,9 @@ export function TitleBarToolTabs() {
       aria-label={t("titleBar.toolTabs", "Tools")}
     >
       {tabs.map((tab) => {
-        const current = tab.toolId ? selectedTool === tab.toolId : !selectedTool;
+        const current = tab.toolId
+          ? selectedTool === tab.toolId
+          : !selectedTool;
         return (
           <button
             key={tab.id}

@@ -44,6 +44,14 @@ const AdvancedOCRSettings: React.FC<AdvancedOCRSettingsProps> = ({
       isSpecial: false,
     },
     {
+      value: "docx",
+      label: t(
+        "ocr.settings.advancedOptions.docx",
+        "Also create an editable Word file",
+      ),
+      isSpecial: false,
+    },
+    {
       value: "deskew",
       label: t("ocr.settings.advancedOptions.deskew", "Deskew pages"),
       isSpecial: false,

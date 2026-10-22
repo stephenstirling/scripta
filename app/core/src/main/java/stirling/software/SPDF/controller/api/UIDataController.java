@@ -184,12 +184,20 @@ public class UIDataController {
 
         OcrData data = new OcrData();
         data.setLanguages(languages);
+        data.setBestLanguages(
+                getAvailableTesseractLanguages(runtimePathConfig.getTessDataBestPath()));
 
         return ResponseEntity.ok(data);
     }
 
     private List<String> getAvailableTesseractLanguages() {
-        String tessdataDir = runtimePathConfig.getTessDataPath();
+        return getAvailableTesseractLanguages(runtimePathConfig.getTessDataPath());
+    }
+
+    private List<String> getAvailableTesseractLanguages(String tessdataDir) {
+        if (tessdataDir == null) {
+            return Collections.emptyList();
+        }
         java.io.File[] files = new java.io.File(tessdataDir).listFiles();
         if (files == null) {
             return Collections.emptyList();
@@ -284,6 +292,9 @@ public class UIDataController {
     @Data
     public static class OcrData {
         private List<String> languages;
+
+        /** Languages with a "best" model installed; empty when none are, which hides the option. */
+        private List<String> bestLanguages;
     }
 
     @Data

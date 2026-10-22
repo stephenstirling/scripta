@@ -20,7 +20,8 @@ export function TitleBarThemeToggle() {
 
   if (!strip.enabled || !strip.themeSlot) return null;
 
-  const isDark = themeMode === "dark" || (themeMode === "system" && prefersDark());
+  const isDark =
+    themeMode === "dark" || (themeMode === "system" && prefersDark());
   const label = isDark
     ? t("titleBar.switchToLight", "Switch to light mode")
     : t("titleBar.switchToDark", "Switch to dark mode");

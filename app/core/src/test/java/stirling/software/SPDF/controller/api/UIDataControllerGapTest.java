@@ -361,6 +361,29 @@ class UIDataControllerGapTest {
         }
 
         @Test
+        @DisplayName("lists the languages that have a best model, and none when the dir is absent")
+        void listsBestLanguages(@TempDir Path dir) throws Exception {
+            Files.writeString(dir.resolve("eng.traineddata"), "x", StandardCharsets.UTF_8);
+            Files.writeString(dir.resolve("osd.traineddata"), "x", StandardCharsets.UTF_8);
+            when(runtimePathConfig.getTessDataPath())
+                    .thenReturn(Path.of("nonexistent-tessdata-" + UUID.randomUUID()).toString());
+            when(runtimePathConfig.getTessDataBestPath()).thenReturn(dir.toString());
+
+            UIDataController.OcrData body = controller(userService).getOcrPdfData().getBody();
+
+            assertNotNull(body);
+            assertEquals(List.of("eng"), body.getBestLanguages());
+
+            when(runtimePathConfig.getTessDataBestPath())
+                    .thenReturn(Path.of("nonexistent-best-" + UUID.randomUUID()).toString());
+
+            UIDataController.OcrData absent = controller(userService).getOcrPdfData().getBody();
+
+            assertNotNull(absent);
+            assertTrue(absent.getBestLanguages().isEmpty());
+        }
+
+        @Test
         @DisplayName("excludes osd case-insensitively")
         void excludesOsdCaseInsensitively(@TempDir Path dir) throws Exception {
             Files.writeString(dir.resolve("OSD.traineddata"), "x", StandardCharsets.UTF_8);

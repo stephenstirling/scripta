@@ -5258,10 +5258,17 @@ title = "OCR Results"
 [ocr.settings]
 title = "Settings"
 
+[ocr.settings.accuracy]
+best = "Best (slower, more accurate)"
+bestLanguages = "Best accuracy is available for: {{languages}}"
+label = "Accuracy"
+standard = "Standard (faster)"
+
 [ocr.settings.advancedOptions]
 clean = "Clean input file"
 cleanFinal = "Clean final output"
 deskew = "Deskew pages"
+docx = "Also create an editable Word file"
 label = "Processing Options"
 sidecar = "Create a text file"
 
@@ -7983,6 +7990,23 @@ reset = "Reset to Defaults"
 unit = "Unit"
 unitInvalid = "Invalid unit: {{scaleUnit}}"
 
+[scan]
+address = "Scanner address"
+addressHint = "The scanner's IP address on your network, e.g. 192.168.1.50"
+bw = "Black and white"
+check = "Check scanner"
+checkFailed = "Could not reach a scanner at that address. It must be on your private network and support AirScan (eSCL)."
+color = "Colour"
+colorMode = "Colour"
+feeder = "Document feeder"
+gray = "Greyscale"
+platen = "Flatbed glass"
+resolution = "Resolution"
+scanFailed = "The scan failed. Check the scanner and try again."
+source = "Source"
+start = "Scan"
+title = "Scan from a scanner"
+
 [scannerEffect]
 tags = "scan,simulate,create,fake scan,look scanned,scanner effect,make look scanned,photocopy effect,simulate scanner,realistic scan"
 
@@ -9244,6 +9268,7 @@ edit = "Edit"
 eSign = "E-Sign"
 home = "Home"
 menu = "Menu"
+scanFromScanner = "Scan from a scanner…"
 switchToDark = "Switch to dark mode"
 switchToLight = "Switch to light mode"
 toolTabs = "Tools"
