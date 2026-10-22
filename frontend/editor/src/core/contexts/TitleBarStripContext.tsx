@@ -9,6 +9,8 @@ export interface TitleBarStripSlots {
   tabsSlot: HTMLElement | null;
   /** All tools / Edit / Convert / E-Sign, rendered from inside the app where tool state lives. */
   toolTabsSlot: HTMLElement | null;
+  /** The light/dark toggle, rendered from inside the app because the theme lives in a provider. */
+  themeSlot: HTMLElement | null;
   viewsSlot: HTMLElement | null;
   searchSlot: HTMLElement | null;
   globalsSlot: HTMLElement | null;
@@ -19,6 +21,7 @@ const DEFAULT: TitleBarStripSlots = {
   menuSlot: null,
   tabsSlot: null,
   toolTabsSlot: null,
+  themeSlot: null,
   viewsSlot: null,
   searchSlot: null,
   globalsSlot: null,

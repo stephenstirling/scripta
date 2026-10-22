@@ -9244,6 +9244,8 @@ edit = "Edit"
 eSign = "E-Sign"
 home = "Home"
 menu = "Menu"
+switchToDark = "Switch to dark mode"
+switchToLight = "Switch to light mode"
 toolTabs = "Tools"
 
 [toast]

@@ -4,6 +4,7 @@ import NavigationWarningModal from "@app/components/shared/NavigationWarningModa
 import { TitleBarSearch } from "@app/components/layout/TitleBarSearch";
 import { TitleBarDocumentTabs } from "@app/components/layout/TitleBarDocumentTabs";
 import { TitleBarToolTabs } from "@app/components/layout/TitleBarToolTabs";
+import { TitleBarThemeToggle } from "@app/components/layout/TitleBarThemeToggle";
 import { TitleBarMenu } from "@app/components/layout/TitleBarMenu";
 
 interface AppLayoutProps {
@@ -38,6 +39,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           mounted across views. */}
       <TitleBarMenu />
       <TitleBarToolTabs />
+      <TitleBarThemeToggle />
       <TitleBarSearch />
       <TitleBarDocumentTabs />
       <NavigationWarningModal />

@@ -27,6 +27,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
   const [menuSlot, setMenuSlot] = useState<HTMLElement | null>(null);
   const [tabsSlot, setTabsSlot] = useState<HTMLElement | null>(null);
   const [toolTabsSlot, setToolTabsSlot] = useState<HTMLElement | null>(null);
+  const [themeSlot, setThemeSlot] = useState<HTMLElement | null>(null);
   const [viewsSlot, setViewsSlot] = useState<HTMLElement | null>(null);
   const [searchSlot, setSearchSlot] = useState<HTMLElement | null>(null);
   const [globalsSlot, setGlobalsSlot] = useState<HTMLElement | null>(null);
@@ -39,6 +40,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
       menuSlot,
       tabsSlot,
       toolTabsSlot,
+      themeSlot,
       viewsSlot,
       searchSlot,
       globalsSlot,
@@ -48,6 +50,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
       menuSlot,
       tabsSlot,
       toolTabsSlot,
+      themeSlot,
       viewsSlot,
       searchSlot,
       globalsSlot,
@@ -85,6 +88,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
                 <span>{t("fileSidebar.addFiles", "Add files")}</span>
               </button>
             )}
+            <div className="title-bar-slot title-bar-slot--theme" ref={setThemeSlot} />
           </div>
           <div className="title-bar-row title-bar-row--toolbar">
             <div className="title-bar-slot" ref={setToolTabsSlot} />

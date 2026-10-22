@@ -192,3 +192,7 @@
   color: var(--c-accent-fg, var(--c-primary));
   border-bottom-color: var(--c-primary);
 }
+
+.title-bar-slot--theme {
+  margin-left: auto;
+}
