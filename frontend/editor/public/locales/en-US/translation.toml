@@ -9287,6 +9287,7 @@ menu = "Menu"
 scanFromScanner = "Scan from a scanner…"
 switchToDark = "Switch to dark mode"
 switchToLight = "Switch to light mode"
+textRecognised = "Text recognised"
 toolTabs = "Tools"
 
 [toast]

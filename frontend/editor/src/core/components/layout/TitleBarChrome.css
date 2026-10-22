@@ -196,3 +196,11 @@
 .title-bar-slot--theme {
   margin-left: auto;
 }
+
+.title-bar-tab__status {
+  flex-shrink: 0;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--c-success);
+}

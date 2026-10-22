@@ -64,6 +64,14 @@ export function TitleBarDocumentTabs() {
               <PrivateContent>
                 <span>{truncateCenter(stub.name, 28)}</span>
               </PrivateContent>
+              {stub.toolHistory?.some((op) => op.toolId === "ocr") && (
+                <span
+                  className="title-bar-tab__status"
+                  role="img"
+                  aria-label={t("titleBar.textRecognised", "Text recognised")}
+                  title={t("titleBar.textRecognised", "Text recognised")}
+                />
+              )}
             </button>
             <button
               type="button"
