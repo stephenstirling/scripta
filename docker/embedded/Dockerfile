@@ -59,7 +59,7 @@ ENV SCRIPTA_FLAVOR=${SCRIPTA_FLAVOR}
 # Include the processor (admin portal) in the bundled editor; false leaves it out.
 ARG BUILD_PORTAL=false
 
-# Which Scripta account the portal connects to. Build-time because Vite inlines VITE_* into the
+# Which account the portal connects to. Build-time because Vite inlines VITE_* into the
 # bundle; there is no runtime override. Empty keeps the committed frontend .env defaults, which are
 # production Scripta, so a stock image links with no build args. Overriding VITE_SAAS_API_URL
 # also means setting SCRIPTA_BILLING_ACCOUNT_LINK_SAAS_BASE_URL on the container, or the browser

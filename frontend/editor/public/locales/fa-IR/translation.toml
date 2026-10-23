@@ -614,7 +614,7 @@ description = "حداکثر زمان اجرا"
 label = "مهلت (دقیقه)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert در نسخه بتا است. تبدیل‌های بهتر و سریع‌تری را با مصرف حافظه کمتر نسبت به LibreOffice ارائه می‌دهد."
+description = "Office Convert در نسخه بتا است. تبدیل‌های بهتر و سریع‌تری را با مصرف حافظه کمتر نسبت به LibreOffice ارائه می‌دهد."
 label = "استفاده از تبدیل جدید Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "مسیر tessdata قابل نوشتن نیست. دانلود
 [admin.settings.ai]
 customProvider = "سفارشی (سازگار با OpenAI)"
 description = "Scripta را به موتور AI پایتون متصل کنید، مدل‌های آن را انتخاب کنید و محدودیت‌هایی را که تحت آن اجرا می‌شود تنظیم کنید."
-managedByCloud = "در این حالت توسط Scripta Cloud مدیریت می‌شود."
-managedByCloudShort = "مدیریت‌شده توسط Scripta Cloud"
+managedByCloud = "در این حالت توسط Cloud مدیریت می‌شود."
+managedByCloudShort = "مدیریت‌شده توسط Cloud"
 
 [admin.settings.ai.documents]
 description = "مدل embedding و تنظیمات بازیابی مورد استفاده برای پاسخ به پرسش‌ها درباره اسناد را پیکربندی کنید. پس از ذخیره، روی موتور AI اعمال می‌شود."
@@ -735,16 +735,16 @@ description = "ویژگی‌های جداگانه AI را روشن یا خامو
 title = "قابلیت‌ها"
 
 [admin.settings.ai.general.cloud]
-note = "مدل‌ها و کلیدهای ارائه‌دهنده توسط Scripta Cloud مدیریت می‌شوند، بنابراین آن تنظیمات در این حالت اعمال نمی‌شوند."
+note = "مدل‌ها و کلیدهای ارائه‌دهنده توسط Cloud مدیریت می‌شوند، بنابراین آن تنظیمات در این حالت اعمال نمی‌شوند."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "هر ابزار هوش مصنوعی متن صفحه‌ای را که برای پاسخ‌دادن نیاز دارد ارسال می‌کند. این تعیین می‌کند که آیا Scripta Cloud می‌تواند آن متن را نیز به‌صورت ایندکس‌شده نگه دارد تا پرسش‌های بعدی بتوانند در سراسر سند جستجو کنند."
+description = "هر ابزار هوش مصنوعی متن صفحه‌ای را که برای پاسخ‌دادن نیاز دارد ارسال می‌کند. این تعیین می‌کند که آیا Cloud می‌تواند آن متن را نیز به‌صورت ایندکس‌شده نگه دارد تا پرسش‌های بعدی بتوانند در سراسر سند جستجو کنند."
 help = "خاموش یعنی پرسش‌های سند در دسترس نیستند. این جلوی ارسال متن را نمی‌گیرد - فقط جلوی ذخیره‌شدن آن را می‌گیرد."
-label = "اجازه بده Scripta Cloud اسناد ایندکس‌شده را نگه دارد"
+label = "اجازه بده Cloud اسناد ایندکس‌شده را نگه دارد"
 
 [admin.settings.ai.general.cloudNote]
-body = "استدلال روی زیرساخت Scripta اجرا می‌شود و هزینه آن به حسابی که این سرور به آن متصل است محاسبه می‌شود. هیچ کانتینری برای اجرا و هیچ کلید ارائه‌دهنده‌ای برای نگهداری در اینجا وجود ندارد. هرچه هوش مصنوعی می‌خواند، به‌جای سخت‌افزار خودتان، توسط Scripta Cloud پردازش می‌شود."
-title = "درباره هوش مصنوعی Scripta Cloud"
+body = "استدلال روی زیرساخت Scripta اجرا می‌شود و هزینه آن به حسابی که این سرور به آن متصل است محاسبه می‌شود. هیچ کانتینری برای اجرا و هیچ کلید ارائه‌دهنده‌ای برای نگهداری در اینجا وجود ندارد. هرچه هوش مصنوعی می‌خواند، به‌جای سخت‌افزار خودتان، توسط Cloud پردازش می‌شود."
+title = "درباره هوش مصنوعی Cloud"
 
 [admin.settings.ai.general.enabled]
 description = "کلید اصلی. وقتی خاموش باشد، هیچ ابزار، عامل یا فراخوانی موتور AI در دسترس نیست."
@@ -782,11 +782,11 @@ label = "مهلت زمانی عملیات طولانی‌مدت (ثانیه)"
 label = "هوش مصنوعی کجا اجرا شود"
 
 [admin.settings.ai.general.mode.cloud]
-description = "بدون کانتینر، بدون کلید ارائه‌دهنده، بدون انتخاب مدل - کار روی Scripta Cloud اجرا می‌شود و هزینه آن به حسابی که این سرور به آن متصل است محاسبه می‌شود."
+description = "بدون کانتینر، بدون کلید ارائه‌دهنده، بدون انتخاب مدل - کار روی Cloud اجرا می‌شود و هزینه آن به حسابی که این سرور به آن متصل است محاسبه می‌شود."
 linkCta = "این سرور را به یک حساب Scripta متصل کنید"
 notLinked = "ابتدا یک حساب را متصل کنید"
 ownerOnly = "فقط مالک سازمان می‌تواند این سرور را به یک حساب Scripta متصل کند."
-title = "استفاده از هوش مصنوعی Scripta Cloud"
+title = "استفاده از هوش مصنوعی Cloud"
 
 [admin.settings.ai.general.mode.off]
 description = "هیچ ابزار هوش مصنوعی در هیچ‌جای برنامه فعال نیست و هیچ‌چیزی از این سرور خارج نمی‌شود."
@@ -900,24 +900,24 @@ url = "URL موتور"
 
 [admin.settings.ai.status.cloud]
 hostDown = "قطع"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "فعال"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "اشتراک‌گذاری هوش مصنوعی"
 sharingOff = "غیرفعال"
 sharingOn = "فعال"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud پاسخ داد اما این سرور را رد کرد. ممکن است اتصال حساب لغو شده باشد."
-title = "Scripta Cloud این سرور را رد می‌کند"
+body = "Cloud پاسخ داد اما این سرور را رد کرد. ممکن است اتصال حساب لغو شده باشد."
+title = "Cloud این سرور را رد می‌کند"
 
 [admin.settings.ai.status.cloud.down]
-body = "این سرور نتوانست به Scripta Cloud دسترسی پیدا کند. اتصال حساب و دسترسی این سرور به اینترنت را بررسی کنید."
-title = "Scripta Cloud در دسترس نیست"
+body = "این سرور نتوانست به Cloud دسترسی پیدا کند. اتصال حساب و دسترسی این سرور به اینترنت را بررسی کنید."
+title = "Cloud در دسترس نیست"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud این سرور را پذیرفت. اینجا چیزی برای اجرا یا وصله‌کردن وجود ندارد."
-title = "در حال اجرا روی Scripta Cloud"
+body = "Cloud این سرور را پذیرفت. اینجا چیزی برای اجرا یا وصله‌کردن وجود ندارد."
+title = "در حال اجرا روی Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "به بررسی سلامت پاسخ داد اما یک درخواست واقعی را رد کرد. دو طرف از رازهای مشترک متفاوتی استفاده می‌کنند."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "ابتدا یک قالب مبدأ انتخاب کنی
 settings = "تنظیمات"
 single = "تکی"
 sourceFormatPlaceholder = "قالب مبدأ"
-scriptaOfficeConvert = "استفاده از Scripta Office Convert (بتا)"
+scriptaOfficeConvert = "استفاده از Office Convert (بتا)"
 scriptaOfficeConvertDescription = "تبدیل‌های بهتر و سریع‌تر با مصرف حافظه کمتر. برای استفاده از مبدل استاندارد، آن را خاموش کنید."
 strictMode = "حالت سخت‌گیرانه"
 strictModeDesc = "در صورت کامل نبودن تبدیل خطا بده (از تأیید VeraPDF استفاده می‌کند)"
@@ -8047,7 +8047,7 @@ storageSharing = "ذخیره‌سازی فایل و اشتراک‌گذاری"
 systemSettings = "تنظیمات سیستم"
 
 [settings.connectedInstances]
-confirmBody = "این کار دسترسی instance به تیم شما در Scripta Cloud را لغو می‌کند. فایل‌های محلی را حذف نمی‌کند و مصرفی را که قبلاً ثبت شده حذف نمی‌کند. برای اتصال دوباره، مراحل اتصال اولیه را روی instance دنبال کنید."
+confirmBody = "این کار دسترسی instance به تیم شما در Cloud را لغو می‌کند. فایل‌های محلی را حذف نمی‌کند و مصرفی را که قبلاً ثبت شده حذف نمی‌کند. برای اتصال دوباره، مراحل اتصال اولیه را روی instance دنبال کنید."
 confirmTitle = "{{name}} حذف شود؟"
 connectedAt = "متصل شد: {{date}}"
 connectedDate = "متصل شد"
@@ -8091,7 +8091,7 @@ user = "وارد شده با"
 
 [settings.connection.mode]
 local = "فقط محلی"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "خودمیزبان"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "پایش"
 [settings.planBilling]
 currentPlan = "طرح فعلی"
 loading = "در حال بارگذاری اطلاعات صورتحساب..."
-notAvailable = "بخش طرح و صورتحساب فقط هنگام اتصال به Scripta Cloud (حالت SaaS) در دسترس است."
+notAvailable = "بخش طرح و صورتحساب فقط هنگام اتصال به Cloud (حالت SaaS) در دسترس است."
 title = "طرح و صورتحساب"
 
 [settings.planBilling.billing]

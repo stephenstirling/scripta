@@ -57,7 +57,7 @@ import scripta.software.core.model.api.misc.AutoSplitPdfRequest;
 @DisplayName("AutoSplitPdfController additional branch tests")
 class AutoSplitPdfControllerMoreTest {
 
-    private static final String VALID_QR = "https://stirlingpdf.com";
+    private static final String VALID_QR = "https://github.com/stephenstirling/scripta";
 
     @Mock private CustomPDFDocumentFactory pdfDocumentFactory;
     @Mock private TempFileManager tempFileManager;

@@ -69,7 +69,7 @@ services:
       - ../../../scripta/keycloak-mcp-test/config:/configs:rw
       - ../../../scripta/keycloak-mcp-test/logs:/logs:rw
     environment:
-      # Security/login on so we have real Scripta accounts to bind to.
+      # Security/login on so we have real accounts to bind to.
       DOCKER_ENABLE_SECURITY: "true"
       SECURITY_ENABLELOGIN: "true"
       SECURITY_LOGINMETHOD: "normal"
@@ -82,7 +82,7 @@ services:
       UI_APPNAMENAVBAR: Scripta MCP
       SYSTEM_MAXFILESIZE: "100"
 
-      # Seed the Scripta account the Keycloak "email" claim binds to (proves account-binding).
+      # Seed the account the Keycloak "email" claim binds to (proves account-binding).
       SECURITY_INITIALLOGIN_USERNAME: "mcpuser@scripta.local"
       SECURITY_INITIALLOGIN_PASSWORD: "mcppassword"
 

@@ -49,7 +49,7 @@ check_health() {
 build_and_test() {
     local version_tag="alpha"
     local dockerfile_name="./Dockerfile"
-    local image_base="stirlingtools/scripta"
+    local image_base="ghcr.io/stephenstirling/scripta"
     local security_suffix=""
     local docker_compose_base="./testing/compose/docker-compose"
     local compose_suffix=".yml"

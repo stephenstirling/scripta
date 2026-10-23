@@ -251,7 +251,7 @@ public class ConvertOfficeController {
                 throw e;
             }
             log.warn(
-                    "Scripta Office Convert could not convert {} ({}); retrying with LibreOffice",
+                    "Office Convert could not convert {} ({}); retrying with LibreOffice",
                     inputPath.getFileName(),
                     e.getMessage());
             Files.deleteIfExists(outputPath);
@@ -276,7 +276,7 @@ public class ConvertOfficeController {
     @Operation(
             summary = "Convert a file to a PDF",
             description =
-                    "This endpoint converts a given file to a PDF using Scripta Office Convert or"
+                    "This endpoint converts a given file to a PDF using Office Convert or"
                             + " LibreOffice")
     public ResponseEntity<Resource> processFileToPDF(
             @ModelAttribute GeneralFile generalFile,

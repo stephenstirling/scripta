@@ -12,7 +12,7 @@ interface ConvertOfficeEngineSettingsProps {
   disabled?: boolean;
 }
 
-/** Picks Scripta Office Convert or LibreOffice for this conversion; starts from the server setting. */
+/** Picks Office Convert or LibreOffice for this conversion; starts from the server setting. */
 const ConvertOfficeEngineSettings = ({
   parameters,
   onParameterChange,
@@ -27,10 +27,10 @@ const ConvertOfficeEngineSettings = ({
 
   return (
     <Switch
-      data-testid="stirling-office-convert-switch"
+      data-testid="office-convert-switch"
       label={t(
         "convert.scriptaOfficeConvert",
-        "Use Scripta Office Convert (beta)",
+        "Use Office Convert (beta)",
       )}
       description={t(
         "convert.scriptaOfficeConvertDescription",

@@ -614,7 +614,7 @@ description = "เวลาในการทำงานสูงสุด"
 label = "ระยะหมดเวลา (นาที)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert อยู่ในเวอร์ชันเบต้า ให้การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยกว่า LibreOffice"
+description = "Office Convert อยู่ในเวอร์ชันเบต้า ให้การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยกว่า LibreOffice"
 label = "ใช้การแปลง Scripta Office แบบใหม่"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "เส้นทาง tessdata ไม่สามารถ�
 [admin.settings.ai]
 customProvider = "กำหนดเอง (เข้ากันได้กับ OpenAI)"
 description = "เชื่อมต่อ Scripta กับ Python AI engine เลือกโมเดล และตั้งค่า guardrails ที่ใช้ควบคุมการทำงาน"
-managedByCloud = "จัดการโดย Scripta Cloud ในโหมดนี้"
-managedByCloudShort = "จัดการโดย Scripta Cloud"
+managedByCloud = "จัดการโดย Cloud ในโหมดนี้"
+managedByCloudShort = "จัดการโดย Cloud"
 
 [admin.settings.ai.documents]
 description = "กำหนดค่าโมเดล embedding และการตั้งค่าการดึงข้อมูลที่ใช้ตอบคำถามเกี่ยวกับเอกสาร จะนำไปใช้กับ AI engine เมื่อบันทึก"
@@ -735,16 +735,16 @@ description = "เปิดหรือปิดฟีเจอร์ AI แต�
 title = "ความสามารถ"
 
 [admin.settings.ai.general.cloud]
-note = "โมเดลและคีย์ผู้ให้บริการจัดการโดย Scripta Cloud ดังนั้นการตั้งค่าเหล่านั้นจะไม่ใช้ในโหมดนี้"
+note = "โมเดลและคีย์ผู้ให้บริการจัดการโดย Cloud ดังนั้นการตั้งค่าเหล่านั้นจะไม่ใช้ในโหมดนี้"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "เครื่องมือ AI ทุกตัวจะส่งข้อความในหน้าที่จำเป็นต่อการตอบคำถาม การตั้งค่านี้กำหนดว่า Scripta Cloud อาจเก็บข้อความนั้นไว้แบบจัดทำดัชนี เพื่อให้คำถามภายหลังสามารถค้นหาทั่วทั้งเอกสารได้หรือไม่"
+description = "เครื่องมือ AI ทุกตัวจะส่งข้อความในหน้าที่จำเป็นต่อการตอบคำถาม การตั้งค่านี้กำหนดว่า Cloud อาจเก็บข้อความนั้นไว้แบบจัดทำดัชนี เพื่อให้คำถามภายหลังสามารถค้นหาทั่วทั้งเอกสารได้หรือไม่"
 help = "ปิด หมายถึงไม่สามารถใช้คำถามเกี่ยวกับเอกสารได้ การตั้งค่านี้ไม่ได้หยุดการส่งข้อความ แต่หยุดเฉพาะการจัดเก็บเท่านั้น"
-label = "อนุญาตให้ Scripta Cloud เก็บเอกสารที่จัดทำดัชนีไว้"
+label = "อนุญาตให้ Cloud เก็บเอกสารที่จัดทำดัชนีไว้"
 
 [admin.settings.ai.general.cloudNote]
-body = "การให้เหตุผลทำงานบนโครงสร้างพื้นฐานของ Scripta และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่ ไม่มีคอนเทนเนอร์ให้เรียกใช้ และไม่มีคีย์ผู้ให้บริการให้เก็บไว้ที่นี่ สิ่งใดก็ตามที่ AI อ่านจะถูกประมวลผลโดย Scripta Cloud แทนที่จะเป็นฮาร์ดแวร์ของคุณเอง"
-title = "เกี่ยวกับ Scripta Cloud AI"
+body = "การให้เหตุผลทำงานบนโครงสร้างพื้นฐานของ Scripta และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่ ไม่มีคอนเทนเนอร์ให้เรียกใช้ และไม่มีคีย์ผู้ให้บริการให้เก็บไว้ที่นี่ สิ่งใดก็ตามที่ AI อ่านจะถูกประมวลผลโดย Cloud แทนที่จะเป็นฮาร์ดแวร์ของคุณเอง"
+title = "เกี่ยวกับ Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "สวิตช์หลัก เมื่อปิด จะไม่มีเครื่องมือ AI, agents หรือการเรียก engine ให้ใช้งาน"
@@ -782,11 +782,11 @@ label = "หมดเวลาการทำงานนาน (วินาท
 label = "ตำแหน่งที่ AI ทำงาน"
 
 [admin.settings.ai.general.mode.cloud]
-description = "ไม่มีคอนเทนเนอร์ ไม่มีคีย์ผู้ให้บริการ ไม่มีตัวเลือกโมเดล งานจะทำงานบน Scripta Cloud และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่"
+description = "ไม่มีคอนเทนเนอร์ ไม่มีคีย์ผู้ให้บริการ ไม่มีตัวเลือกโมเดล งานจะทำงานบน Cloud และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่"
 linkCta = "เชื่อมต่อเซิร์ฟเวอร์นี้กับบัญชี Scripta"
 notLinked = "เชื่อมโยงบัญชีก่อน"
 ownerOnly = "เฉพาะเจ้าขององค์กรเท่านั้นที่สามารถเชื่อมโยงเซิร์ฟเวอร์นี้กับบัญชี Scripta ได้"
-title = "ใช้ Scripta Cloud AI"
+title = "ใช้ Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "ไม่มีเครื่องมือ AI ใด ๆ ในแอป และไม่มีสิ่งใดออกจากเซิร์ฟเวอร์นี้"
@@ -900,24 +900,24 @@ url = "URL เอนจิน"
 
 [admin.settings.ai.status.cloud]
 hostDown = "ล่ม"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "พร้อมใช้งาน"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "การแชร์ AI"
 sharingOff = "ปิดใช้งาน"
 sharingOn = "เปิดใช้งาน"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud ตอบกลับแต่ปฏิเสธเซิร์ฟเวอร์นี้ การเชื่อมโยงบัญชีอาจถูกเพิกถอนแล้ว"
-title = "Scripta Cloud กำลังปฏิเสธเซิร์ฟเวอร์นี้"
+body = "Cloud ตอบกลับแต่ปฏิเสธเซิร์ฟเวอร์นี้ การเชื่อมโยงบัญชีอาจถูกเพิกถอนแล้ว"
+title = "Cloud กำลังปฏิเสธเซิร์ฟเวอร์นี้"
 
 [admin.settings.ai.status.cloud.down]
-body = "เซิร์ฟเวอร์นี้ไม่สามารถเข้าถึง Scripta Cloud ได้ ตรวจสอบการเชื่อมโยงบัญชีและตรวจสอบว่าเซิร์ฟเวอร์นี้เข้าถึงอินเทอร์เน็ตได้"
-title = "ไม่สามารถเข้าถึง Scripta Cloud"
+body = "เซิร์ฟเวอร์นี้ไม่สามารถเข้าถึง Cloud ได้ ตรวจสอบการเชื่อมโยงบัญชีและตรวจสอบว่าเซิร์ฟเวอร์นี้เข้าถึงอินเทอร์เน็ตได้"
+title = "ไม่สามารถเข้าถึง Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud ยอมรับเซิร์ฟเวอร์นี้แล้ว ไม่มีสิ่งใดต้องเรียกใช้หรือแพตช์ที่นี่"
-title = "ทำงานบน Scripta Cloud"
+body = "Cloud ยอมรับเซิร์ฟเวอร์นี้แล้ว ไม่มีสิ่งใดต้องเรียกใช้หรือแพตช์ที่นี่"
+title = "ทำงานบน Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "เอนจินตอบการตรวจสอบสถานะ แต่ปฏิเสธคำขอจริง ทั้งสองฝั่งใช้ความลับที่ใช้ร่วมกันต่างกัน"
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "เลือก format ต้นทางก่อน
 settings = "การตั้งค่า"
 single = "เดี่ยว"
 sourceFormatPlaceholder = "รูปแบบต้นทาง"
-scriptaOfficeConvert = "ใช้ Scripta Office Convert (เบต้า)"
+scriptaOfficeConvert = "ใช้ Office Convert (เบต้า)"
 scriptaOfficeConvertDescription = "การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยลง ปิดใช้งานเพื่อใช้ตัวแปลงมาตรฐาน"
 strictMode = "โหมดเข้มงวด"
 strictModeDesc = "เกิดข้อผิดพลาดหากการแปลงไม่สมบูรณ์แบบ (ใช้การตรวจสอบ VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "ภาพรวมแพ็กเกจ"
 [onboarding.processorIntro]
 body = "ตอนนี้ Scripta เรียกใช้ <strong>Policies</strong> — กฎอัตโนมัติที่จัดหมวดหมู่ รักษาความปลอดภัย และประมวลผลเอกสารทุกฉบับเมื่อมาถึง ตั้งค่าและติดตามการทำงานใน <strong>Processor</strong>"
 cta = "ดู Processor"
-title = "ดู Scripta Processor"
+title = "ดู Processor"
 
 [onboarding.securityCheck]
 message = "แอปมีการเปลี่ยนแปลงครั้งใหญ่เมื่อไม่นานมานี้ อาจต้องการความใส่ใจจากผู้ดูแลเซิร์ฟเวอร์ โปรดยืนยันบทบาทของคุณเพื่อดำเนินการต่อ"
@@ -8047,7 +8047,7 @@ storageSharing = "การจัดเก็บไฟล์และการ�
 systemSettings = "การตั้งค่าระบบ"
 
 [settings.connectedInstances]
-confirmBody = "การดำเนินการนี้จะเพิกถอนการเข้าถึงทีมของคุณใน Scripta Cloud จากอินสแตนซ์นี้ แต่จะไม่ลบไฟล์ในเครื่องหรือลบการใช้งานที่บันทึกไว้แล้ว หากต้องการเชื่อมต่ออีกครั้ง ให้ทำตามขั้นตอนการเชื่อมต่อเดิมบนอินสแตนซ์"
+confirmBody = "การดำเนินการนี้จะเพิกถอนการเข้าถึงทีมของคุณใน Cloud จากอินสแตนซ์นี้ แต่จะไม่ลบไฟล์ในเครื่องหรือลบการใช้งานที่บันทึกไว้แล้ว หากต้องการเชื่อมต่ออีกครั้ง ให้ทำตามขั้นตอนการเชื่อมต่อเดิมบนอินสแตนซ์"
 confirmTitle = "ลบ {{name}} หรือไม่"
 connectedAt = "เชื่อมต่อแล้ว: {{date}}"
 connectedDate = "เชื่อมต่อแล้ว"
@@ -8091,7 +8091,7 @@ user = "เข้าสู่ระบบเป็น"
 
 [settings.connection.mode]
 local = "ภายในเครื่องเท่านั้น"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "โฮสต์เอง"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "การตรวจสอบ"
 [settings.planBilling]
 currentPlan = "แผนปัจจุบัน"
 loading = "กำลังโหลดข้อมูลการเรียกเก็บเงิน..."
-notAvailable = "แผนและการเรียกเก็บเงินใช้ได้เฉพาะเมื่อเชื่อมต่อกับ Scripta Cloud (โหมด SaaS)"
+notAvailable = "แผนและการเรียกเก็บเงินใช้ได้เฉพาะเมื่อเชื่อมต่อกับ Cloud (โหมด SaaS)"
 title = "แผนและการเรียกเก็บเงิน"
 
 [settings.planBilling.billing]

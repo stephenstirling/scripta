@@ -58,7 +58,7 @@ import scripta.software.core.model.api.misc.AutoSplitPdfRequest;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class AutoSplitPdfControllerTest {
 
-    private static final String VALID_QR = "https://stirlingpdf.com";
+    private static final String VALID_QR = "https://github.com/stephenstirling/scripta";
 
     @Mock private CustomPDFDocumentFactory pdfDocumentFactory;
     @Mock private TempFileManager tempFileManager;
@@ -672,7 +672,7 @@ class AutoSplitPdfControllerTest {
                     AutoSplitPdfController.class.getDeclaredField("VALID_QR_CONTENTS");
             f.setAccessible(true);
             Set<String> valid = new HashSet<>((Set<String>) f.get(null));
-            assertTrue(valid.contains("https://stirlingpdf.com"));
+            assertTrue(valid.contains("https://github.com/stephenstirling/scripta"));
             assertTrue(valid.contains("https://github.com/stephenstirling/scripta"));
             assertTrue(valid.contains("https://github.com/Stirling-Tools/Stirling-PDF"));
             assertTrue(valid.contains("https://github.com/Frooodle/Stirling-PDF"));

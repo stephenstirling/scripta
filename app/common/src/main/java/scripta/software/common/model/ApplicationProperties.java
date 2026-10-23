@@ -374,7 +374,7 @@ public class ApplicationProperties {
     public static class AiEngine {
         private boolean enabled = false;
 
-        /** {@code SELF_HOSTED} calls {@link #url}; {@code CLOUD} runs AI on Scripta Cloud. */
+        /** {@code SELF_HOSTED} calls {@link #url}; {@code CLOUD} runs AI on Cloud. */
         private AiEngineMode mode = AiEngineMode.SELF_HOSTED;
 
         private String url = "http://localhost:5001";
@@ -409,14 +409,14 @@ public class ApplicationProperties {
         private Features features = new Features();
 
         /**
-         * Cloud mode only: whether Scripta Cloud may keep document text for later questions. AI
-         * tools send page text either way, so this controls retention, not what leaves the server.
+         * Cloud mode only: whether Cloud may keep document text for later questions. AI tools send
+         * page text either way, so this controls retention, not what leaves the server.
          */
         private boolean cloudDocumentIndexing = false;
 
         /**
-         * Scripta Cloud's API host; blank uses the account-link host, the only one the device
-         * credential is valid for. Not in settings.yml: set it via env or custom_settings.yml.
+         * Cloud's API host; blank uses the account-link host, the only one the device credential is
+         * valid for. Not in settings.yml: set it via env or custom_settings.yml.
          */
         private String cloudBaseUrl = "";
 
@@ -616,16 +616,16 @@ public class ApplicationProperties {
             /**
              * JWT claim whose value is matched against a provisioned Scripta username. Defaults to
              * {@code sub}; set to {@code email} or {@code preferred_username} to match how your IdP
-             * maps users to Scripta accounts.
+             * maps users to accounts.
              */
             private String usernameClaim = "sub";
 
             /**
              * When {@code true} (default), a validated token is accepted only if its {@link
              * #usernameClaim} value resolves to an existing, enabled Scripta user account. Tokens
-             * whose subject has no Scripta account (or a disabled one) are rejected with HTTP 403.
-             * Set to {@code false} only if you intentionally want any IdP-valid token to use MCP
-             * without a local account.
+             * whose subject has no account (or a disabled one) are rejected with HTTP 403. Set to
+             * {@code false} only if you intentionally want any IdP-valid token to use MCP without a
+             * local account.
              */
             private boolean requireExistingAccount = true;
         }

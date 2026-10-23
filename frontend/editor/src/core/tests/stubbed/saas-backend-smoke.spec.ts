@@ -90,13 +90,13 @@ test.describe("SaaS backend smoke", () => {
     const r = await ctx.fetch(`${SAAS_URL}/api/v1/credits`, {
       method: "OPTIONS",
       headers: {
-        Origin: "https://app.stirling.com",
+        Origin: "https://app.scripta.example",
         "Access-Control-Request-Method": "GET",
       },
     });
     expect(r.status()).toBe(200);
     expect(r.headers()["access-control-allow-origin"]).toBe(
-      "https://app.stirling.com",
+      "https://app.scripta.example",
     );
     expect(r.headers()["access-control-allow-credentials"]).toBe("true");
   });

@@ -614,7 +614,7 @@ description = "अधिकतम निष्पादन समय"
 label = "टाइमआउट (मिनट)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert बीटा में है। यह LibreOffice की तुलना में कम मेमोरी में बेहतर और तेज़ कन्वर्ज़न प्रदान करता है।"
+description = "Office Convert बीटा में है। यह LibreOffice की तुलना में कम मेमोरी में बेहतर और तेज़ कन्वर्ज़न प्रदान करता है।"
 label = "नए Scripta Office कन्वर्ज़न का उपयोग करें"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata पाथ पर लिखना संभव न�
 [admin.settings.ai]
 customProvider = "कस्टम (OpenAI-compatible)"
 description = "Scripta को Python AI इंजन से कनेक्ट करें, इसके मॉडल चुनें, और इसके चलने के लिए guardrails सेट करें।"
-managedByCloud = "इस मोड में Scripta Cloud द्वारा प्रबंधित।"
-managedByCloudShort = "Scripta Cloud द्वारा प्रबंधित"
+managedByCloud = "इस मोड में Cloud द्वारा प्रबंधित।"
+managedByCloudShort = "Cloud द्वारा प्रबंधित"
 
 [admin.settings.ai.documents]
 description = "दस्तावेज़ों पर प्रश्नों के उत्तर देने के लिए उपयोग किए जाने वाले एम्बेडिंग मॉडल और रिट्रीवल सेटिंग्स कॉन्फ़िगर करें। सहेजने पर AI engine पर लागू होता है।"
@@ -735,16 +735,16 @@ description = "व्यक्तिगत AI सुविधाओं को �
 title = "क्षमताएँ"
 
 [admin.settings.ai.general.cloud]
-note = "मॉडल और प्रदाता कुंजियाँ Scripta Cloud द्वारा प्रबंधित की जाती हैं, इसलिए ये सेटिंग्स इस मोड में लागू नहीं होतीं।"
+note = "मॉडल और प्रदाता कुंजियाँ Cloud द्वारा प्रबंधित की जाती हैं, इसलिए ये सेटिंग्स इस मोड में लागू नहीं होतीं।"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "हर AI टूल उत्तर देने के लिए आवश्यक पेज टेक्स्ट भेजता है। यह तय करता है कि Scripta Cloud उस टेक्स्ट को अनुक्रमित रूप में रख सकता है या नहीं, ताकि बाद के प्रश्न पूरे दस्तावेज़ में खोज सकें।"
+description = "हर AI टूल उत्तर देने के लिए आवश्यक पेज टेक्स्ट भेजता है। यह तय करता है कि Cloud उस टेक्स्ट को अनुक्रमित रूप में रख सकता है या नहीं, ताकि बाद के प्रश्न पूरे दस्तावेज़ में खोज सकें।"
 help = "बंद का मतलब है कि दस्तावेज़ संबंधी प्रश्न उपलब्ध नहीं हैं। यह टेक्स्ट भेजे जाने को नहीं रोकता - केवल उसे संग्रहित किए जाने को रोकता है।"
-label = "Scripta Cloud को अनुक्रमित दस्तावेज़ रखने दें"
+label = "Cloud को अनुक्रमित दस्तावेज़ रखने दें"
 
 [admin.settings.ai.general.cloudNote]
-body = "तर्क-प्रक्रिया Scripta के इंफ़्रास्ट्रक्चर पर चलती है, और इसका बिल उस खाते में जाता है जिससे यह सर्वर लिंक है। यहाँ चलाने के लिए कोई कंटेनर नहीं है और रखने के लिए कोई प्रदाता कुंजी नहीं है। AI जो भी पढ़ता है, वह आपके अपने हार्डवेयर के बजाय Scripta Cloud द्वारा प्रोसेस किया जाता है।"
-title = "Scripta Cloud AI के बारे में"
+body = "तर्क-प्रक्रिया Scripta के इंफ़्रास्ट्रक्चर पर चलती है, और इसका बिल उस खाते में जाता है जिससे यह सर्वर लिंक है। यहाँ चलाने के लिए कोई कंटेनर नहीं है और रखने के लिए कोई प्रदाता कुंजी नहीं है। AI जो भी पढ़ता है, वह आपके अपने हार्डवेयर के बजाय Cloud द्वारा प्रोसेस किया जाता है।"
+title = "Cloud AI के बारे में"
 
 [admin.settings.ai.general.enabled]
 description = "मुख्य switch। बंद होने पर कोई AI tools, agents, या engine calls उपलब्ध नहीं होते।"
@@ -782,11 +782,11 @@ label = "लंबे समय तक चलने वाला timeout (second
 label = "AI कहाँ चलता है"
 
 [admin.settings.ai.general.mode.cloud]
-description = "कोई कंटेनर नहीं, कोई प्रदाता कुंजी नहीं, कोई मॉडल चयन नहीं - काम Scripta Cloud पर चलता है और इसका बिल उस खाते में जाता है जिससे यह सर्वर लिंक है।"
+description = "कोई कंटेनर नहीं, कोई प्रदाता कुंजी नहीं, कोई मॉडल चयन नहीं - काम Cloud पर चलता है और इसका बिल उस खाते में जाता है जिससे यह सर्वर लिंक है।"
 linkCta = "इस सर्वर को Scripta खाते से कनेक्ट करें"
 notLinked = "पहले एक खाता लिंक करें"
 ownerOnly = "केवल संगठन का मालिक इस सर्वर को Scripta खाते से लिंक कर सकता है।"
-title = "Scripta Cloud AI का उपयोग करें"
+title = "Cloud AI का उपयोग करें"
 
 [admin.settings.ai.general.mode.off]
 description = "ऐप में कहीं भी कोई AI टूल नहीं, और इस सर्वर से कुछ भी बाहर नहीं जाता।"
@@ -900,24 +900,24 @@ url = "इंजन URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "डाउन"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "अप"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI साझाकरण"
 sharingOff = "अक्षम"
 sharingOn = "सक्षम"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud ने जवाब दिया, लेकिन इस सर्वर को अस्वीकार कर दिया। खाता लिंक निरस्त किया गया हो सकता है।"
-title = "Scripta Cloud इस सर्वर को अस्वीकार कर रहा है"
+body = "Cloud ने जवाब दिया, लेकिन इस सर्वर को अस्वीकार कर दिया। खाता लिंक निरस्त किया गया हो सकता है।"
+title = "Cloud इस सर्वर को अस्वीकार कर रहा है"
 
 [admin.settings.ai.status.cloud.down]
-body = "यह सर्वर Scripta Cloud तक नहीं पहुँच सका। खाता लिंक जाँचें और सुनिश्चित करें कि यह सर्वर इंटरनेट तक पहुँच सकता है।"
-title = "Scripta Cloud पहुँच से बाहर है"
+body = "यह सर्वर Cloud तक नहीं पहुँच सका। खाता लिंक जाँचें और सुनिश्चित करें कि यह सर्वर इंटरनेट तक पहुँच सकता है।"
+title = "Cloud पहुँच से बाहर है"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud ने इस सर्वर को स्वीकार किया। यहाँ चलाने या पैच करने के लिए कुछ नहीं है।"
-title = "Scripta Cloud पर चल रहा है"
+body = "Cloud ने इस सर्वर को स्वीकार किया। यहाँ चलाने या पैच करने के लिए कुछ नहीं है।"
+title = "Cloud पर चल रहा है"
 
 [admin.settings.ai.status.degraded]
 body = "इसने हेल्थ चेक का जवाब दिया, लेकिन वास्तविक अनुरोध को अस्वीकार कर दिया। दोनों पक्ष अलग-अलग साझा सीक्रेट का उपयोग कर रहे हैं।"
@@ -1475,7 +1475,7 @@ oauth = "OAuth 2.1 (बाहरी IdP)"
 
 [admin.settings.mcp.requireAccount]
 description = "Tokens को केवल तभी allow करें जब उनका subject किसी provisioned, enabled Scripta user से map हो।"
-label = "मौजूदा Scripta account आवश्यक करें"
+label = "मौजूदा account आवश्यक करें"
 
 [admin.settings.mcp.resourceId]
 description = "इस server का public /mcp URL। Tokens में इसे audience (RFC 8707) में सूचीबद्ध होना चाहिए, वरना वे reject होंगे।"
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "पहले source format चुनें"
 settings = "सेटिंग्स"
 single = "एकल"
 sourceFormatPlaceholder = "स्रोत फ़ॉर्मेट"
-scriptaOfficeConvert = "Scripta Office Convert (बीटा) का उपयोग करें"
+scriptaOfficeConvert = "Office Convert (बीटा) का उपयोग करें"
 scriptaOfficeConvertDescription = "कम मेमोरी में बेहतर, तेज़ कन्वर्ज़न। मानक कन्वर्टर का उपयोग करने के लिए बंद करें।"
 strictMode = "सख्त मोड"
 strictModeDesc = "यदि conversion perfect नहीं है तो error (VeraPDF verification का उपयोग करता है)"
@@ -5349,7 +5349,7 @@ userTitle = "प्लान अवलोकन"
 [onboarding.processorIntro]
 body = "Scripta अब <strong>Policies</strong> चलाता है — automated rules जो हर दस्तावेज़ के आते ही उसे classify, secure, और process करते हैं। इन्हें सेट अप करें और <strong>Processor</strong> में runs monitor करें।"
 cta = "Processor देखें"
-title = "Scripta Processor देखें"
+title = "Processor देखें"
 
 [onboarding.securityCheck]
 message = "एप्लिकेशन में हाल ही में महत्वपूर्ण बदलाव हुए हैं। आपके सर्वर एडमिन का ध्यान आवश्यक हो सकता है। कृपया जारी रखने के लिए अपनी भूमिका की पुष्टि करें।"
@@ -8047,7 +8047,7 @@ storageSharing = "फ़ाइल भंडारण और शेयरिं�
 systemSettings = "सिस्टम सेटिंग्स"
 
 [settings.connectedInstances]
-confirmBody = "यह Scripta Cloud में आपकी team तक instance की access रद्द करता है। यह local files को delete नहीं करता या पहले से recorded usage को remove नहीं करता। फिर से connect करने के लिए, instance पर original connection steps follow करें।"
+confirmBody = "यह Cloud में आपकी team तक instance की access रद्द करता है। यह local files को delete नहीं करता या पहले से recorded usage को remove नहीं करता। फिर से connect करने के लिए, instance पर original connection steps follow करें।"
 confirmTitle = "{{name}} हटाएँ?"
 connectedAt = "कनेक्ट किया गया: {{date}}"
 connectedDate = "कनेक्ट किया गया"
@@ -8091,7 +8091,7 @@ user = "के रूप में लॉग इन"
 
 [settings.connection.mode]
 local = "केवल लोकल"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "सेल्फ-होस्टेड"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "मॉनिटरिंग"
 [settings.planBilling]
 currentPlan = "वर्तमान प्लान"
 loading = "बिलिंग जानकारी लोड हो रही है..."
-notAvailable = "प्लान और बिलिंग केवल Scripta Cloud (SaaS मोड) से कनेक्ट होने पर उपलब्ध है।"
+notAvailable = "प्लान और बिलिंग केवल Cloud (SaaS मोड) से कनेक्ट होने पर उपलब्ध है।"
 title = "प्लान और बिलिंग"
 
 [settings.planBilling.billing]

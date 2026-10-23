@@ -23,7 +23,7 @@ import {
 const REPO = process.env.DOCS_REPO ?? "Stirling-Tools/Stirling-Tools.github.io";
 const REF = process.env.DOCS_REF ?? "main";
 const ROOT = process.env.DOCS_ROOT ?? "docs";
-const SITE = "https://docs.stirlingpdf.com";
+const SITE = "https://github.com/stephenstirling/scripta#readme";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, "../src/core/generated/docsManifest.json");

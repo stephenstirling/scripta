@@ -614,7 +614,7 @@ description = "Maximální doba běhu"
 label = "Časový limit (minuty)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert je ve verzi beta. Nabízí lepší a rychlejší převody s menší spotřebou paměti než LibreOffice."
+description = "Office Convert je ve verzi beta. Nabízí lepší a rychlejší převody s menší spotřebou paměti než LibreOffice."
 label = "Použít nový převod Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "Cesta k tessdata není zapisovatelná. Stažení se otevře 
 [admin.settings.ai]
 customProvider = "Vlastní (kompatibilní s OpenAI)"
 description = "Připojte Scripta k Python AI enginu, vyberte jeho modely a nastavte omezení, podle kterých poběží."
-managedByCloud = "V tomto režimu spravuje Scripta Cloud."
-managedByCloudShort = "Spravováno službou Scripta Cloud"
+managedByCloud = "V tomto režimu spravuje Cloud."
+managedByCloudShort = "Spravováno službou Cloud"
 
 [admin.settings.ai.documents]
 description = "Nakonfigurujte embedding model a nastavení vyhledávání používané k odpovídání na otázky nad dokumenty. Po uložení se použije pro AI engine."
@@ -735,16 +735,16 @@ description = "Zapněte nebo vypněte jednotlivé AI funkce. Vypnuté funkce jso
 title = "Schopnosti"
 
 [admin.settings.ai.general.cloud]
-note = "Modely a klíče poskytovatelů spravuje Scripta Cloud, takže tato nastavení se v tomto režimu nepoužijí."
+note = "Modely a klíče poskytovatelů spravuje Cloud, takže tato nastavení se v tomto režimu nepoužijí."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Každý nástroj AI odesílá text stránky, který potřebuje k odpovědi. Toto určuje, zda může Scripta Cloud tento text také uchovávat indexovaný, aby pozdější dotazy mohly vyhledávat v celém dokumentu."
+description = "Každý nástroj AI odesílá text stránky, který potřebuje k odpovědi. Toto určuje, zda může Cloud tento text také uchovávat indexovaný, aby pozdější dotazy mohly vyhledávat v celém dokumentu."
 help = "Vypnuto znamená, že otázky k dokumentům nejsou dostupné. Nezastaví to odesílání textu – pouze jeho ukládání."
-label = "Povolit Scripta Cloud uchovávat indexované dokumenty"
+label = "Povolit Cloud uchovávat indexované dokumenty"
 
 [admin.settings.ai.general.cloudNote]
-body = "Vyhodnocování běží na infrastruktuře Scripta a účtuje se účtu, se kterým je tento server propojen. Není zde žádný kontejner ke spuštění ani klíč poskytovatele k uložení. Cokoli AI čte, zpracovává Scripta Cloud místo vašeho vlastního hardwaru."
-title = "O Scripta Cloud AI"
+body = "Vyhodnocování běží na infrastruktuře Scripta a účtuje se účtu, se kterým je tento server propojen. Není zde žádný kontejner ke spuštění ani klíč poskytovatele k uložení. Cokoli AI čte, zpracovává Cloud místo vašeho vlastního hardwaru."
+title = "O Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Hlavní přepínač. Když je vypnutý, nejsou dostupné žádné AI nástroje, agenti ani volání enginu."
@@ -782,11 +782,11 @@ label = "Časový limit dlouhých operací (sekundy)"
 label = "Kde běží AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Žádný kontejner, žádný klíč poskytovatele, žádná volba modelu – práce běží ve Scripta Cloud a účtuje se účtu, se kterým je tento server propojen."
+description = "Žádný kontejner, žádný klíč poskytovatele, žádná volba modelu – práce běží ve Cloud a účtuje se účtu, se kterým je tento server propojen."
 linkCta = "Propojit tento server s účtem Scripta"
 notLinked = "Nejprve propojte účet"
 ownerOnly = "Pouze vlastník organizace může propojit tento server s účtem Scripta."
-title = "Použít Scripta Cloud AI"
+title = "Použít Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Žádné nástroje AI nikde v aplikaci a nic neopouští tento server."
@@ -900,24 +900,24 @@ url = "URL enginu"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Nedostupné"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Dostupné"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Sdílení AI"
 sharingOff = "Zakázáno"
 sharingOn = "Povoleno"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud odpověděl, ale odmítl tento server. Propojení účtu mohlo být odvoláno."
-title = "Scripta Cloud odmítá tento server"
+body = "Cloud odpověděl, ale odmítl tento server. Propojení účtu mohlo být odvoláno."
+title = "Cloud odmítá tento server"
 
 [admin.settings.ai.status.cloud.down]
-body = "Tento server se nemohl spojit se Scripta Cloud. Zkontrolujte propojení účtu a zda se tento server může připojit k internetu."
-title = "Scripta Cloud je nedostupný"
+body = "Tento server se nemohl spojit se Cloud. Zkontrolujte propojení účtu a zda se tento server může připojit k internetu."
+title = "Cloud je nedostupný"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud přijal tento server. Zde není třeba nic spouštět ani aktualizovat."
-title = "Běží ve Scripta Cloud"
+body = "Cloud přijal tento server. Zde není třeba nic spouštět ani aktualizovat."
+title = "Běží ve Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Odpověděl na kontrolu stavu, ale odmítl skutečný požadavek. Obě strany používají odlišná sdílená tajemství."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Nejprve vyberte zdrojový formát"
 settings = "Nastavení"
 single = "Jeden"
 sourceFormatPlaceholder = "Zdrojový formát"
-scriptaOfficeConvert = "Použít Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Použít Office Convert (beta)"
 scriptaOfficeConvertDescription = "Lepší a rychlejší převody s menší spotřebou paměti. Vypněte pro použití standardního převodníku."
 strictMode = "Striktní režim"
 strictModeDesc = "Chyba, pokud převod není dokonalý (používá ověření VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "Přehled plánu"
 [onboarding.processorIntro]
 body = "Scripta nyní spouští <strong>Zásady</strong> — automatizovaná pravidla, která klasifikují, zabezpečují a zpracovávají každý dokument při jeho příchodu. Nastavte je a sledujte běhy v <strong>Processoru</strong>."
 cta = "Podívat se na Processor"
-title = "Podívejte se na Scripta Processor"
+title = "Podívejte se na Processor"
 
 [onboarding.securityCheck]
 message = "Aplikace nedávno prošla významnými změnami. Může být nutný zásah správce serveru. Pro pokračování prosím potvrďte svou roli."
@@ -8047,7 +8047,7 @@ storageSharing = "Ukládání souborů a sdílení"
 systemSettings = "Systémová nastavení"
 
 [settings.connectedInstances]
-confirmBody = "Tím se zruší přístup instance k vašemu týmu ve Scripta Cloud. Nesmaže to místní soubory ani neodstraní již zaznamenané využití. Chcete-li se znovu připojit, postupujte podle původních kroků připojení na instanci."
+confirmBody = "Tím se zruší přístup instance k vašemu týmu ve Cloud. Nesmaže to místní soubory ani neodstraní již zaznamenané využití. Chcete-li se znovu připojit, postupujte podle původních kroků připojení na instanci."
 confirmTitle = "Odebrat {{name}}?"
 connectedAt = "Připojeno: {{date}}"
 connectedDate = "Připojeno"
@@ -8091,7 +8091,7 @@ user = "Přihlášen jako"
 
 [settings.connection.mode]
 local = "Pouze místní"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Vlastní hosting"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorování"
 [settings.planBilling]
 currentPlan = "Aktuální tarif"
 loading = "Načítání fakturačních informací..."
-notAvailable = "Plán a fakturace jsou dostupné pouze při připojení ke Scripta Cloud (režim SaaS)."
+notAvailable = "Plán a fakturace jsou dostupné pouze při připojení ke Cloud (režim SaaS)."
 title = "Plán a fakturace"
 
 [settings.planBilling.billing]

@@ -614,7 +614,7 @@ description = "Maksimal icra müddəti"
 label = "Vaxt məhdudu (dəqiqə)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert beta mərhələsindədir. O, LibreOffice ilə müqayisədə daha yaxşı, daha sürətli və daha az yaddaşla çevirmələr təklif edir."
+description = "Office Convert beta mərhələsindədir. O, LibreOffice ilə müqayisədə daha yaxşı, daha sürətli və daha az yaddaşla çevirmələr təklif edir."
 label = "Yeni Scripta Office çevirməsindən istifadə edin"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata yolu yazıla bilən deyil. Endirmələr brauzerdə 
 [admin.settings.ai]
 customProvider = "Fərdi (OpenAI-uyğun)"
 description = "Scripta-i Python AI mühərrikinə qoşun, modellərini seçin və işlədiyi qoruyucu qaydaları təyin edin."
-managedByCloud = "Bu rejimdə Scripta Cloud tərəfindən idarə olunur."
-managedByCloudShort = "Scripta Cloud tərəfindən idarə olunur"
+managedByCloud = "Bu rejimdə Cloud tərəfindən idarə olunur."
+managedByCloudShort = "Cloud tərəfindən idarə olunur"
 
 [admin.settings.ai.documents]
 description = "Sənədlər üzrə suallara cavab vermək üçün istifadə olunan embedding modeli və axtarış parametrlərini konfiqurasiya edin. Saxlanıldıqda AI mühərrikinə tətbiq olunur."
@@ -735,16 +735,16 @@ description = "Ayrı-ayrı AI funksiyalarını aktiv və ya deaktiv edin. Deakti
 title = "İmkanlar"
 
 [admin.settings.ai.general.cloud]
-note = "Modellər və provayder açarları Scripta Cloud tərəfindən idarə olunur, buna görə bu ayarlar bu rejimdə tətbiq edilmir."
+note = "Modellər və provayder açarları Cloud tərəfindən idarə olunur, buna görə bu ayarlar bu rejimdə tətbiq edilmir."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Hər AI aləti cavab vermək üçün lazım olan səhifə mətnini göndərir. Bu, Scripta Cloud-un həmin mətni indekslənmiş şəkildə saxlayıb-saxlamayacağını müəyyən edir ki, sonrakı suallar sənəd üzrə axtarış edə bilsin."
+description = "Hər AI aləti cavab vermək üçün lazım olan səhifə mətnini göndərir. Bu, Cloud-un həmin mətni indekslənmiş şəkildə saxlayıb-saxlamayacağını müəyyən edir ki, sonrakı suallar sənəd üzrə axtarış edə bilsin."
 help = "Söndürülü olduqda sənəd sualları əlçatan olmur. Bu, mətnin göndərilməsini dayandırmır - yalnız saxlanmasını dayandırır."
-label = "Scripta Cloud-un indekslənmiş sənədləri saxlamasına icazə ver"
+label = "Cloud-un indekslənmiş sənədləri saxlamasına icazə ver"
 
 [admin.settings.ai.general.cloudNote]
-body = "Məntiqi emal Scripta-in infrastrukturunda işləyir və bu serverin bağlandığı hesaba hesablanır. Burada işlədiləcək konteyner və saxlanılacaq provayder açarı yoxdur. AI-nin oxuduğu hər şey öz avadanlığınızda deyil, Scripta Cloud tərəfindən emal olunur."
-title = "Scripta Cloud AI haqqında"
+body = "Məntiqi emal Scripta-in infrastrukturunda işləyir və bu serverin bağlandığı hesaba hesablanır. Burada işlədiləcək konteyner və saxlanılacaq provayder açarı yoxdur. AI-nin oxuduğu hər şey öz avadanlığınızda deyil, Cloud tərəfindən emal olunur."
+title = "Cloud AI haqqında"
 
 [admin.settings.ai.general.enabled]
 description = "Əsas açar. Söndürülü olduqda heç bir AI aləti, agenti və ya mühərrik çağırışı əlçatan deyil."
@@ -782,11 +782,11 @@ label = "Uzunmüddətli vaxt limiti (saniyə)"
 label = "AI harada işləyir"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Konteyner yoxdur, provayder açarı yoxdur, model seçimi yoxdur - iş Scripta Cloud-da işləyir və bu serverin bağlandığı hesaba hesablanır."
+description = "Konteyner yoxdur, provayder açarı yoxdur, model seçimi yoxdur - iş Cloud-da işləyir və bu serverin bağlandığı hesaba hesablanır."
 linkCta = "Bu serveri Scripta hesabına qoş"
 notLinked = "Əvvəlcə hesabı əlaqələndirin"
 ownerOnly = "Yalnız təşkilat sahibi bu serveri Scripta hesabına qoşa bilər."
-title = "Scripta Cloud AI istifadə et"
+title = "Cloud AI istifadə et"
 
 [admin.settings.ai.general.mode.off]
 description = "Tətbiqin heç bir yerində AI alətləri yoxdur və heç nə bu serverdən çıxmır."
@@ -900,24 +900,24 @@ url = "Mühərrik URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "İşləmir"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "İşləyir"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI paylaşımı"
 sharingOff = "Deaktiv edilib"
 sharingOn = "Aktiv edilib"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud cavab verdi, lakin bu serveri rədd etdi. Hesab bağlantısı ləğv edilmiş ola bilər."
-title = "Scripta Cloud bu serveri rədd edir"
+body = "Cloud cavab verdi, lakin bu serveri rədd etdi. Hesab bağlantısı ləğv edilmiş ola bilər."
+title = "Cloud bu serveri rədd edir"
 
 [admin.settings.ai.status.cloud.down]
-body = "Bu server Scripta Cloud-a çata bilmədi. Hesab bağlantısını və bu serverin internetə çıxışının olub-olmadığını yoxlayın."
-title = "Scripta Cloud əlçatmazdır"
+body = "Bu server Cloud-a çata bilmədi. Hesab bağlantısını və bu serverin internetə çıxışının olub-olmadığını yoxlayın."
+title = "Cloud əlçatmazdır"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud bu serveri qəbul etdi. Burada işlədiləcək və ya yenilənəcək heç nə yoxdur."
-title = "Scripta Cloud-da işləyir"
+body = "Cloud bu serveri qəbul etdi. Burada işlədiləcək və ya yenilənəcək heç nə yoxdur."
+title = "Cloud-da işləyir"
 
 [admin.settings.ai.status.degraded]
 body = "Sağlamlıq yoxlamasına cavab verdi, lakin real sorğunu rədd etdi. İki tərəf fərqli paylaşılan sirrlərdən istifadə edir."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Əvvəlcə mənbə formatını seçin"
 settings = "Parametrlər"
 single = "Tək"
 sourceFormatPlaceholder = "Mənbə formatı"
-scriptaOfficeConvert = "Scripta Office Convert-dən istifadə edin (beta)"
+scriptaOfficeConvert = "Office Convert-dən istifadə edin (beta)"
 scriptaOfficeConvertDescription = "Daha az yaddaşla daha yaxşı, daha sürətli çevirmələr. Standart çeviricidən istifadə etmək üçün söndürün."
 strictMode = "Ciddi rejim"
 strictModeDesc = "Çevirmə mükəmməl deyilsə xəta ver (VeraPDF yoxlamasından istifadə edir)"
@@ -5349,7 +5349,7 @@ userTitle = "Plan icmalı"
 [onboarding.processorIntro]
 body = "Scripta indi <strong>Siyasətlər</strong> işlədir — hər sənəd daxil olduqda onu təsnif edən, qoruyan və emal edən avtomatlaşdırılmış qaydalar. Onları qurun və icraları <strong>Processor</strong>-də izləyin."
 cta = "Processor-ə baxın"
-title = "Scripta Processor-ə baxın"
+title = "Processor-ə baxın"
 
 [onboarding.securityCheck]
 message = "Tətbiq son vaxtlar əhəmiyyətli dəyişikliklərdən keçib. Server administratorunun müdaxiləsi tələb oluna bilər. Davam etmək üçün rolunuzu təsdiqləyin."
@@ -8047,7 +8047,7 @@ storageSharing = "Fayl Saxlama və Paylaşma"
 systemSettings = "Sistem parametrləri"
 
 [settings.connectedInstances]
-confirmBody = "Bu, instansiyanın Scripta Cloud-da komandanıza girişini ləğv edir. Yerli faylları silmir və artıq qeydə alınmış istifadəni aradan qaldırmır. Yenidən qoşulmaq üçün instansiyada ilkin qoşulma addımlarını izləyin."
+confirmBody = "Bu, instansiyanın Cloud-da komandanıza girişini ləğv edir. Yerli faylları silmir və artıq qeydə alınmış istifadəni aradan qaldırmır. Yenidən qoşulmaq üçün instansiyada ilkin qoşulma addımlarını izləyin."
 confirmTitle = "{{name}} silinsin?"
 connectedAt = "Qoşulub: {{date}}"
 connectedDate = "Qoşulub"
@@ -8091,7 +8091,7 @@ user = "Daxil olub:"
 
 [settings.connection.mode]
 local = "Yalnız yerli"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Öz serverində"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorinq"
 [settings.planBilling]
 currentPlan = "Cari plan"
 loading = "Hesab-faktura məlumatları yüklənir..."
-notAvailable = "Plan və Hesab-faktura yalnız Scripta Cloud-a (SaaS rejimi) qoşulduqda mövcuddur."
+notAvailable = "Plan və Hesab-faktura yalnız Cloud-a (SaaS rejimi) qoşulduqda mövcuddur."
 title = "Plan və Hesab-faktura"
 
 [settings.planBilling.billing]

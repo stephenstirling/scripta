@@ -614,7 +614,7 @@ description = "Waktu eksekusi maksimum"
 label = "Batas Waktu (menit)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert masih dalam versi beta. Menawarkan konversi yang lebih baik, lebih cepat, dan menggunakan lebih sedikit memori dibandingkan LibreOffice."
+description = "Office Convert masih dalam versi beta. Menawarkan konversi yang lebih baik, lebih cepat, dan menggunakan lebih sedikit memori dibandingkan LibreOffice."
 label = "Gunakan konversi Scripta Office yang baru"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "Jalur tessdata tidak dapat ditulisi. Unduhan akan dibuka di 
 [admin.settings.ai]
 customProvider = "Kustom (kompatibel OpenAI)"
 description = "Hubungkan Scripta ke mesin AI Python, pilih modelnya, dan atur batasan yang digunakan saat berjalan."
-managedByCloud = "Dikelola oleh Scripta Cloud dalam mode ini."
-managedByCloudShort = "Dikelola oleh Scripta Cloud"
+managedByCloud = "Dikelola oleh Cloud dalam mode ini."
+managedByCloudShort = "Dikelola oleh Cloud"
 
 [admin.settings.ai.documents]
 description = "Konfigurasikan model embedding dan pengaturan retrieval yang digunakan untuk menjawab pertanyaan atas dokumen. Diterapkan ke mesin AI saat disimpan."
@@ -735,16 +735,16 @@ description = "Aktifkan atau nonaktifkan fitur AI satu per satu. Fitur yang dino
 title = "Kemampuan"
 
 [admin.settings.ai.general.cloud]
-note = "Model dan kunci penyedia dikelola oleh Scripta Cloud, jadi pengaturan tersebut tidak berlaku dalam mode ini."
+note = "Model dan kunci penyedia dikelola oleh Cloud, jadi pengaturan tersebut tidak berlaku dalam mode ini."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Setiap alat AI mengirim teks halaman yang dibutuhkan untuk menjawab. Ini menentukan apakah Scripta Cloud juga boleh menyimpan teks tersebut, terindeks, agar pertanyaan berikutnya dapat mencari di seluruh dokumen."
+description = "Setiap alat AI mengirim teks halaman yang dibutuhkan untuk menjawab. Ini menentukan apakah Cloud juga boleh menyimpan teks tersebut, terindeks, agar pertanyaan berikutnya dapat mencari di seluruh dokumen."
 help = "Nonaktif berarti pertanyaan dokumen tidak tersedia. Ini tidak menghentikan pengiriman teks - hanya penyimpanannya."
-label = "Izinkan Scripta Cloud menyimpan dokumen terindeks"
+label = "Izinkan Cloud menyimpan dokumen terindeks"
 
 [admin.settings.ai.general.cloudNote]
-body = "Penalaran berjalan di infrastruktur Scripta, ditagihkan ke akun yang tertaut dengan server ini. Tidak ada container yang perlu dijalankan dan tidak ada kunci penyedia yang perlu disimpan di sini. Apa pun yang dibaca AI diproses oleh Scripta Cloud, bukan di hardware Anda sendiri."
-title = "Tentang Scripta Cloud AI"
+body = "Penalaran berjalan di infrastruktur Scripta, ditagihkan ke akun yang tertaut dengan server ini. Tidak ada container yang perlu dijalankan dan tidak ada kunci penyedia yang perlu disimpan di sini. Apa pun yang dibaca AI diproses oleh Cloud, bukan di hardware Anda sendiri."
+title = "Tentang Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Sakelar utama. Saat nonaktif, tidak ada alat AI, agen, atau panggilan mesin yang tersedia."
@@ -782,11 +782,11 @@ label = "Batas waktu proses panjang (detik)"
 label = "Tempat AI berjalan"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Tanpa container, tanpa kunci penyedia, tanpa pilihan model - pekerjaan berjalan di Scripta Cloud dan ditagihkan ke akun yang tertaut dengan server ini."
+description = "Tanpa container, tanpa kunci penyedia, tanpa pilihan model - pekerjaan berjalan di Cloud dan ditagihkan ke akun yang tertaut dengan server ini."
 linkCta = "Hubungkan server ini ke akun Scripta"
 notLinked = "Tautkan akun terlebih dahulu"
 ownerOnly = "Hanya pemilik organisasi yang dapat menautkan server ini ke akun Scripta."
-title = "Gunakan Scripta Cloud AI"
+title = "Gunakan Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Tidak ada alat AI di mana pun dalam aplikasi, dan tidak ada yang meninggalkan server ini."
@@ -900,24 +900,24 @@ url = "URL mesin"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Turun"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Aktif"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Berbagi AI"
 sharingOff = "Dinonaktifkan"
 sharingOn = "Diaktifkan"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud menjawab tetapi menolak server ini. Tautan akun mungkin telah dicabut."
-title = "Scripta Cloud menolak server ini"
+body = "Cloud menjawab tetapi menolak server ini. Tautan akun mungkin telah dicabut."
+title = "Cloud menolak server ini"
 
 [admin.settings.ai.status.cloud.down]
-body = "Server ini tidak dapat menjangkau Scripta Cloud. Periksa tautan akun dan pastikan server ini dapat menjangkau internet."
-title = "Scripta Cloud tidak dapat dijangkau"
+body = "Server ini tidak dapat menjangkau Cloud. Periksa tautan akun dan pastikan server ini dapat menjangkau internet."
+title = "Cloud tidak dapat dijangkau"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud menerima server ini. Tidak ada yang perlu dijalankan atau ditambal di sini."
-title = "Berjalan di Scripta Cloud"
+body = "Cloud menerima server ini. Tidak ada yang perlu dijalankan atau ditambal di sini."
+title = "Berjalan di Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Mesin menjawab health check tetapi menolak permintaan nyata. Kedua sisi menggunakan rahasia bersama yang berbeda."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Pilih format sumber terlebih dahulu"
 settings = "Pengaturan"
 single = "Tunggal"
 sourceFormatPlaceholder = "Format sumber"
-scriptaOfficeConvert = "Gunakan Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Gunakan Office Convert (beta)"
 scriptaOfficeConvertDescription = "Konversi yang lebih baik dan lebih cepat dengan lebih sedikit memori. Nonaktifkan untuk menggunakan konverter standar."
 strictMode = "Mode Ketat"
 strictModeDesc = "Kesalahan jika konversi tidak sempurna (menggunakan verifikasi VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "Ringkasan Paket"
 [onboarding.processorIntro]
 body = "Scripta kini menjalankan <strong>Kebijakan</strong> — aturan otomatis yang mengklasifikasi, mengamankan, dan memproses setiap dokumen saat tiba. Siapkan dan pantau proses berjalan di <strong>Processor</strong>."
 cta = "Lihat Processor"
-title = "Lihat Scripta Processor"
+title = "Lihat Processor"
 
 [onboarding.securityCheck]
 message = "Aplikasi telah mengalami perubahan signifikan baru-baru ini. Perhatian admin server Anda mungkin diperlukan. Harap konfirmasi peran Anda untuk melanjutkan."
@@ -8047,7 +8047,7 @@ storageSharing = "Penyimpanan File & Berbagi"
 systemSettings = "Pengaturan Sistem"
 
 [settings.connectedInstances]
-confirmBody = "Ini mencabut akses instans ke tim Anda di Scripta Cloud. Ini tidak menghapus file lokal atau menghapus penggunaan yang sudah tercatat. Untuk menghubungkan lagi, ikuti langkah koneksi asli pada instans."
+confirmBody = "Ini mencabut akses instans ke tim Anda di Cloud. Ini tidak menghapus file lokal atau menghapus penggunaan yang sudah tercatat. Untuk menghubungkan lagi, ikuti langkah koneksi asli pada instans."
 confirmTitle = "Hapus {{name}}?"
 connectedAt = "Terhubung: {{date}}"
 connectedDate = "Terhubung"
@@ -8091,7 +8091,7 @@ user = "Masuk sebagai"
 
 [settings.connection.mode]
 local = "Hanya Lokal"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Dihosting Sendiri"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Pemantauan"
 [settings.planBilling]
 currentPlan = "Paket Saat Ini"
 loading = "Memuat informasi penagihan..."
-notAvailable = "Paket & Penagihan hanya tersedia saat terhubung ke Scripta Cloud (mode SaaS)."
+notAvailable = "Paket & Penagihan hanya tersedia saat terhubung ke Cloud (mode SaaS)."
 title = "Paket & Penagihan"
 
 [settings.planBilling.billing]

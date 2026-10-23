@@ -41,7 +41,7 @@ class OfficeConversionServiceTest {
         service = new OfficeConversionService(properties, endpoints);
     }
 
-    @ParameterizedTest(name = "legacy={0}, LibreOffice={1} -> Scripta Office Convert {2}")
+    @ParameterizedTest(name = "legacy={0}, LibreOffice={1} -> Office Convert {2}")
     @CsvSource({"false,true,true", "false,false,true", "true,true,false", "true,false,false"})
     void onlyTheFlagSwitchesToScriptaOfficeConvert(
             boolean legacy, boolean libreOffice, boolean expected) {

@@ -614,7 +614,7 @@ description = "Temps màxim d'execució"
 label = "Temps d'espera (minuts)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert està en beta. Ofereix conversions millors, més ràpides i amb menys memòria que LibreOffice."
+description = "Office Convert està en beta. Ofereix conversions millors, més ràpides i amb menys memòria que LibreOffice."
 label = "Utilitza la nova conversió de Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "El camí de tessdata no té permisos d'escriptura. Les desc�
 [admin.settings.ai]
 customProvider = "Personalitzat (compatible amb OpenAI)"
 description = "Connecteu Scripta al motor d'IA de Python, trieu-ne els models i definiu les barreres sota les quals s'executa."
-managedByCloud = "Gestionat per Scripta Cloud en aquest mode."
-managedByCloudShort = "Gestionat per Scripta Cloud"
+managedByCloud = "Gestionat per Cloud en aquest mode."
+managedByCloudShort = "Gestionat per Cloud"
 
 [admin.settings.ai.documents]
 description = "Configura el model d'embeddings i els paràmetres de recuperació utilitzats per respondre preguntes sobre documents. S'aplica al motor d'IA en desar."
@@ -735,16 +735,16 @@ description = "Activa o desactiva funcions d'IA individuals. Les funcions desact
 title = "Capacitats"
 
 [admin.settings.ai.general.cloud]
-note = "Els models i les claus del proveïdor són gestionats per Scripta Cloud, de manera que aquests paràmetres no s’apliquen en aquest mode."
+note = "Els models i les claus del proveïdor són gestionats per Cloud, de manera que aquests paràmetres no s’apliquen en aquest mode."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Cada eina d’IA envia el text de la pàgina que necessita per respondre. Això decideix si Scripta Cloud també pot conservar aquest text, indexat, perquè les preguntes posteriors puguin cercar dins el document."
+description = "Cada eina d’IA envia el text de la pàgina que necessita per respondre. Això decideix si Cloud també pot conservar aquest text, indexat, perquè les preguntes posteriors puguin cercar dins el document."
 help = "Desactivat vol dir que les preguntes sobre documents no estan disponibles. No impedeix que s’enviï text; només que s’emmagatzemi."
-label = "Permet que Scripta Cloud conservi documents indexats"
+label = "Permet que Cloud conservi documents indexats"
 
 [admin.settings.ai.general.cloudNote]
-body = "El raonament s’executa a la infraestructura de Scripta, facturat al compte al qual està enllaçat aquest servidor. Aquí no hi ha cap contenidor per executar ni cap clau de proveïdor per conservar. Tot el que l’IA llegeix és processat per Scripta Cloud en lloc del vostre propi maquinari."
-title = "Quant a la IA de Scripta Cloud"
+body = "El raonament s’executa a la infraestructura de Scripta, facturat al compte al qual està enllaçat aquest servidor. Aquí no hi ha cap contenidor per executar ni cap clau de proveïdor per conservar. Tot el que l’IA llegeix és processat per Cloud en lloc del vostre propi maquinari."
+title = "Quant a la IA de Cloud"
 
 [admin.settings.ai.general.enabled]
 description = "Interruptor principal. Quan està desactivat, no hi ha eines d'IA, agents ni crides al motor disponibles."
@@ -782,11 +782,11 @@ label = "Temps d'espera d'operacions llargues (segons)"
 label = "On s’executa la IA"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Sense contenidor, sense clau de proveïdor, sense tria de model: la feina s’executa a Scripta Cloud i es factura al compte al qual està enllaçat aquest servidor."
+description = "Sense contenidor, sense clau de proveïdor, sense tria de model: la feina s’executa a Cloud i es factura al compte al qual està enllaçat aquest servidor."
 linkCta = "Connecta aquest servidor a un compte de Scripta"
 notLinked = "Enllaça primer un compte"
 ownerOnly = "Només el propietari de l’organització pot enllaçar aquest servidor a un compte de Scripta."
-title = "Utilitza la IA de Scripta Cloud"
+title = "Utilitza la IA de Cloud"
 
 [admin.settings.ai.general.mode.off]
 description = "Cap eina d’IA enlloc de l’aplicació, i res surt d’aquest servidor."
@@ -900,24 +900,24 @@ url = "URL del motor"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Inactiu"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Actiu"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Compartició d’IA"
 sharingOff = "Desactivada"
 sharingOn = "Activada"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud ha respost però ha rebutjat aquest servidor. Pot ser que l’enllaç del compte hagi estat revocat."
-title = "Scripta Cloud està rebutjant aquest servidor"
+body = "Cloud ha respost però ha rebutjat aquest servidor. Pot ser que l’enllaç del compte hagi estat revocat."
+title = "Cloud està rebutjant aquest servidor"
 
 [admin.settings.ai.status.cloud.down]
-body = "Aquest servidor no ha pogut arribar a Scripta Cloud. Comproveu l’enllaç del compte i que aquest servidor pugui accedir a internet."
-title = "Scripta Cloud no és accessible"
+body = "Aquest servidor no ha pogut arribar a Cloud. Comproveu l’enllaç del compte i que aquest servidor pugui accedir a internet."
+title = "Cloud no és accessible"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud ha acceptat aquest servidor. No cal executar ni aplicar cap pedaç aquí."
-title = "S’executa a Scripta Cloud"
+body = "Cloud ha acceptat aquest servidor. No cal executar ni aplicar cap pedaç aquí."
+title = "S’executa a Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Ha respost a la comprovació d’estat, però ha rebutjat una sol·licitud real. Els dos costats utilitzen secrets compartits diferents."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Tria primer un format d'origen"
 settings = "Opcions"
 single = "Únic"
 sourceFormatPlaceholder = "Format d'origen"
-scriptaOfficeConvert = "Utilitza Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Utilitza Office Convert (beta)"
 scriptaOfficeConvertDescription = "Conversions millors i més ràpides amb menys memòria. Desactiva-ho per utilitzar el convertidor estàndard."
 strictMode = "Mode estricte"
 strictModeDesc = "Error si la conversió no és perfecta (utilitza la verificació VeraPDF)"
@@ -8047,7 +8047,7 @@ storageSharing = "Emmagatzematge i compartició de fitxers"
 systemSettings = "Configuració del sistema"
 
 [settings.connectedInstances]
-confirmBody = "Això revoca l’accés de la instància al teu equip a Scripta Cloud. No elimina fitxers locals ni suprimeix l’ús ja registrat. Per tornar a connectar-la, segueix els passos de connexió originals a la instància."
+confirmBody = "Això revoca l’accés de la instància al teu equip a Cloud. No elimina fitxers locals ni suprimeix l’ús ja registrat. Per tornar a connectar-la, segueix els passos de connexió originals a la instància."
 confirmTitle = "Vols eliminar {{name}}?"
 connectedAt = "Connectat: {{date}}"
 connectedDate = "Connectat"
@@ -8091,7 +8091,7 @@ user = "Sessió iniciada com"
 
 [settings.connection.mode]
 local = "Només local"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Autoallotjat"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitoratge"
 [settings.planBilling]
 currentPlan = "Pla actual"
 loading = "S'està carregant la informació de facturació..."
-notAvailable = "Pla i Facturació només disponible quan esteu connectats a Scripta Cloud (mode SaaS)."
+notAvailable = "Pla i Facturació només disponible quan esteu connectats a Cloud (mode SaaS)."
 title = "Pla i Facturació"
 
 [settings.planBilling.billing]

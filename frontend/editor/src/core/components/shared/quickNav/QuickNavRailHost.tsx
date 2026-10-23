@@ -40,7 +40,7 @@ export function QuickNavRailHost() {
   const [signMenuOpen, setSignMenuOpen] = useState(false);
   // Processing folders run on the non-core API server. True on web (served by that backend);
   // on desktop it tracks the signed-in connection, so the entry falls inert until the user
-  // signs in to Scripta Cloud or a self-hosted server.
+  // signs in to Cloud or a self-hosted server.
   const connectedServer = useConnectedServer();
 
   const appMounted = Boolean(host?.appMounted);

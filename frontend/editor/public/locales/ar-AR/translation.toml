@@ -614,7 +614,7 @@ description = "الحد الأقصى لوقت التنفيذ"
 label = "المهلة (بالدقائق)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert في إصدار تجريبي. يوفّر تحويلات أفضل وأسرع وباستخدام ذاكرة أقل من LibreOffice."
+description = "Office Convert في إصدار تجريبي. يوفّر تحويلات أفضل وأسرع وباستخدام ذاكرة أقل من LibreOffice."
 label = "استخدام تحويل Scripta Office الجديد"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "مسار tessdata غير قابل للكتابة. سيتم �
 [admin.settings.ai]
 customProvider = "مخصص (متوافق مع OpenAI)"
 description = "اربط Scripta بمحرك Python AI، واختر نماذجه، واضبط القيود التي يعمل ضمنها."
-managedByCloud = "تتم إدارته بواسطة Scripta Cloud في هذا الوضع."
-managedByCloudShort = "تتم إدارته بواسطة Scripta Cloud"
+managedByCloud = "تتم إدارته بواسطة Cloud في هذا الوضع."
+managedByCloudShort = "تتم إدارته بواسطة Cloud"
 
 [admin.settings.ai.documents]
 description = "كوّن نموذج التضمين وإعدادات الاسترجاع المستخدمة للإجابة عن الأسئلة حول المستندات. تُطبّق على محرك AI عند الحفظ."
@@ -735,16 +735,16 @@ description = "شغّل ميزات AI الفردية أو أوقفها. تُخف
 title = "الإمكانات"
 
 [admin.settings.ai.general.cloud]
-note = "تتم إدارة النماذج ومفاتيح المزود بواسطة Scripta Cloud، لذلك لا تنطبق هذه الإعدادات في هذا الوضع."
+note = "تتم إدارة النماذج ومفاتيح المزود بواسطة Cloud، لذلك لا تنطبق هذه الإعدادات في هذا الوضع."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "ترسل كل أداة ذكاء اصطناعي نص الصفحة الذي تحتاجه للإجابة. يحدد هذا ما إذا كان بإمكان Scripta Cloud أيضًا الاحتفاظ بهذا النص، مفهرسًا، بحيث يمكن للأسئلة اللاحقة البحث في المستند."
+description = "ترسل كل أداة ذكاء اصطناعي نص الصفحة الذي تحتاجه للإجابة. يحدد هذا ما إذا كان بإمكان Cloud أيضًا الاحتفاظ بهذا النص، مفهرسًا، بحيث يمكن للأسئلة اللاحقة البحث في المستند."
 help = "يعني إيقاف التشغيل أن أسئلة المستند غير متاحة. لا يوقف إرسال النص - بل التخزين فقط."
-label = "السماح لـ Scripta Cloud بالاحتفاظ بالمستندات المفهرسة"
+label = "السماح لـ Cloud بالاحتفاظ بالمستندات المفهرسة"
 
 [admin.settings.ai.general.cloudNote]
-body = "يعمل الاستدلال على بنية Scripta التحتية، ويتم احتسابه على الحساب المرتبط بهذا الخادم. لا توجد حاوية لتشغيلها ولا مفتاح مزود للاحتفاظ به هنا. أي شيء يقرأه الذكاء الاصطناعي تتم معالجته بواسطة Scripta Cloud بدلًا من أجهزتك الخاصة."
-title = "حول Scripta Cloud AI"
+body = "يعمل الاستدلال على بنية Scripta التحتية، ويتم احتسابه على الحساب المرتبط بهذا الخادم. لا توجد حاوية لتشغيلها ولا مفتاح مزود للاحتفاظ به هنا. أي شيء يقرأه الذكاء الاصطناعي تتم معالجته بواسطة Cloud بدلًا من أجهزتك الخاصة."
+title = "حول Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "المفتاح الرئيسي. عند إيقافه، لن تتوفر أي أدوات AI أو وكلاء أو استدعاءات للمحرك."
@@ -782,11 +782,11 @@ label = "مهلة العمليات طويلة التشغيل (ثوانٍ)"
 label = "مكان تشغيل الذكاء الاصطناعي"
 
 [admin.settings.ai.general.mode.cloud]
-description = "لا حاوية، ولا مفتاح مزود، ولا اختيار نموذج - يتم تشغيل العمل على Scripta Cloud ويتم احتسابه على الحساب المرتبط بهذا الخادم."
+description = "لا حاوية، ولا مفتاح مزود، ولا اختيار نموذج - يتم تشغيل العمل على Cloud ويتم احتسابه على الحساب المرتبط بهذا الخادم."
 linkCta = "ربط هذا الخادم بحساب Scripta"
 notLinked = "اربط حسابًا أولًا"
 ownerOnly = "يمكن لمالك المؤسسة فقط ربط هذا الخادم بحساب Scripta."
-title = "استخدام Scripta Cloud AI"
+title = "استخدام Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "لا توجد أدوات ذكاء اصطناعي في أي مكان في التطبيق، ولا يغادر أي شيء هذا الخادم."
@@ -900,24 +900,24 @@ url = "URL المحرك"
 
 [admin.settings.ai.status.cloud]
 hostDown = "متعطل"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "قيد التشغيل"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "مشاركة الذكاء الاصطناعي"
 sharingOff = "معطلة"
 sharingOn = "ممكّنة"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "استجاب Scripta Cloud لكنه رفض هذا الخادم. ربما تم إلغاء ربط الحساب."
-title = "Scripta Cloud يرفض هذا الخادم"
+body = "استجاب Cloud لكنه رفض هذا الخادم. ربما تم إلغاء ربط الحساب."
+title = "Cloud يرفض هذا الخادم"
 
 [admin.settings.ai.status.cloud.down]
-body = "تعذر على هذا الخادم الوصول إلى Scripta Cloud. تحقق من ربط الحساب ومن أن هذا الخادم يمكنه الوصول إلى الإنترنت."
-title = "لا يمكن الوصول إلى Scripta Cloud"
+body = "تعذر على هذا الخادم الوصول إلى Cloud. تحقق من ربط الحساب ومن أن هذا الخادم يمكنه الوصول إلى الإنترنت."
+title = "لا يمكن الوصول إلى Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "قبل Scripta Cloud هذا الخادم. لا يوجد ما يلزم تشغيله أو تصحيحه هنا."
-title = "يعمل على Scripta Cloud"
+body = "قبل Cloud هذا الخادم. لا يوجد ما يلزم تشغيله أو تصحيحه هنا."
+title = "يعمل على Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "استجاب لفحص الصحة لكنه رفض طلبًا حقيقيًا. يستخدم الطرفان أسرارًا مشتركة مختلفة."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "اختر تنسيق المصدر أولًا"
 settings = "إعدادات"
 single = "مفرد"
 sourceFormatPlaceholder = "صيغة المصدر"
-scriptaOfficeConvert = "استخدام Scripta Office Convert (إصدار تجريبي)"
+scriptaOfficeConvert = "استخدام Office Convert (إصدار تجريبي)"
 scriptaOfficeConvertDescription = "تحويلات أفضل وأسرع باستخدام ذاكرة أقل. عطّله لاستخدام المحوّل القياسي."
 strictMode = "الوضع الصارم"
 strictModeDesc = "خطأ إذا لم تكن عملية التحويل مثالية (يستخدم تحقق VeraPDF)"
@@ -8047,7 +8047,7 @@ storageSharing = "تخزين الملفات والمشاركة"
 systemSettings = "إعدادات النظام"
 
 [settings.connectedInstances]
-confirmBody = "سيؤدي هذا إلى إبطال وصول النسخة إلى فريقك في Scripta Cloud. لا يحذف الملفات المحلية ولا يزيل الاستخدام المسجل بالفعل. للاتصال مرة أخرى، اتبع خطوات الاتصال الأصلية على النسخة."
+confirmBody = "سيؤدي هذا إلى إبطال وصول النسخة إلى فريقك في Cloud. لا يحذف الملفات المحلية ولا يزيل الاستخدام المسجل بالفعل. للاتصال مرة أخرى، اتبع خطوات الاتصال الأصلية على النسخة."
 confirmTitle = "إزالة {{name}}؟"
 connectedAt = "تم الاتصال: {{date}}"
 connectedDate = "تم الاتصال"
@@ -8091,7 +8091,7 @@ user = "تم تسجيل الدخول باسم"
 
 [settings.connection.mode]
 local = "محلي فقط"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "مستضاف ذاتياً"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "المراقبة"
 [settings.planBilling]
 currentPlan = "الخطة الحالية"
 loading = "جارٍ تحميل معلومات الفوترة..."
-notAvailable = "الخطة والفوترة متاحتان فقط عند الاتصال بـ Scripta Cloud (وضع SaaS)."
+notAvailable = "الخطة والفوترة متاحتان فقط عند الاتصال بـ Cloud (وضع SaaS)."
 title = "الخطة والفوترة"
 
 [settings.planBilling.billing]

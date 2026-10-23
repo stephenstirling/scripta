@@ -53,7 +53,7 @@ class ConvertPDFToExcelControllerMoreTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // These cover the legacy converters; Scripta Office Convert has its own tests.
+        // These cover the legacy converters; Office Convert has its own tests.
         lenient().when(officeConversionService.legacy(null)).thenReturn(true);
         lenient()
                 .when(tempFileManager.createManagedTempFile(anyString()))

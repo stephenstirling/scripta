@@ -614,7 +614,7 @@ description = "Thời gian thực thi tối đa"
 label = "Thời gian chờ (phút)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert đang ở beta. Công cụ này cung cấp khả năng chuyển đổi tốt hơn, nhanh hơn và dùng ít bộ nhớ hơn LibreOffice."
+description = "Office Convert đang ở beta. Công cụ này cung cấp khả năng chuyển đổi tốt hơn, nhanh hơn và dùng ít bộ nhớ hơn LibreOffice."
 label = "Sử dụng chuyển đổi Scripta Office mới"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "Đường dẫn tessdata không thể ghi. Tệp tải xuố
 [admin.settings.ai]
 customProvider = "Tùy chỉnh (tương thích OpenAI)"
 description = "Kết nối Scripta với công cụ AI Python, chọn mô hình và đặt các giới hạn vận hành cho nó."
-managedByCloud = "Được Scripta Cloud quản lý ở chế độ này."
-managedByCloudShort = "Được Scripta Cloud quản lý"
+managedByCloud = "Được Cloud quản lý ở chế độ này."
+managedByCloudShort = "Được Cloud quản lý"
 
 [admin.settings.ai.documents]
 description = "Cấu hình mô hình embedding và cài đặt truy xuất dùng để trả lời câu hỏi trên tài liệu. Được áp dụng cho AI engine khi lưu."
@@ -735,16 +735,16 @@ description = "Bật hoặc tắt từng tính năng AI. Các tính năng bị t
 title = "Khả năng"
 
 [admin.settings.ai.general.cloud]
-note = "Các mô hình và khóa nhà cung cấp được Scripta Cloud quản lý, nên các cài đặt đó không áp dụng ở chế độ này."
+note = "Các mô hình và khóa nhà cung cấp được Cloud quản lý, nên các cài đặt đó không áp dụng ở chế độ này."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Mỗi công cụ AI gửi phần văn bản trang cần thiết để trả lời. Tùy chọn này quyết định liệu Scripta Cloud có thể giữ văn bản đó, đã được lập chỉ mục, để các câu hỏi sau này có thể tìm kiếm trong toàn bộ tài liệu hay không."
+description = "Mỗi công cụ AI gửi phần văn bản trang cần thiết để trả lời. Tùy chọn này quyết định liệu Cloud có thể giữ văn bản đó, đã được lập chỉ mục, để các câu hỏi sau này có thể tìm kiếm trong toàn bộ tài liệu hay không."
 help = "Tắt nghĩa là không thể đặt câu hỏi về tài liệu. Điều này không ngăn việc gửi văn bản - chỉ ngăn lưu trữ."
-label = "Cho phép Scripta Cloud giữ tài liệu đã lập chỉ mục"
+label = "Cho phép Cloud giữ tài liệu đã lập chỉ mục"
 
 [admin.settings.ai.general.cloudNote]
-body = "Quá trình suy luận chạy trên hạ tầng của Scripta, được tính phí vào tài khoản mà máy chủ này được liên kết. Không có container nào để chạy và không có khóa nhà cung cấp nào cần giữ ở đây. Bất cứ nội dung nào AI đọc đều được xử lý bởi Scripta Cloud thay vì trên phần cứng của riêng bạn."
-title = "Giới thiệu về Scripta Cloud AI"
+body = "Quá trình suy luận chạy trên hạ tầng của Scripta, được tính phí vào tài khoản mà máy chủ này được liên kết. Không có container nào để chạy và không có khóa nhà cung cấp nào cần giữ ở đây. Bất cứ nội dung nào AI đọc đều được xử lý bởi Cloud thay vì trên phần cứng của riêng bạn."
+title = "Giới thiệu về Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Công tắc chính. Khi tắt, không có công cụ AI, agent hoặc lệnh gọi engine nào khả dụng."
@@ -782,11 +782,11 @@ label = "Thời gian chờ tác vụ dài (giây)"
 label = "AI chạy ở đâu"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Không cần container, không cần khóa nhà cung cấp, không cần chọn mô hình - tác vụ chạy trên Scripta Cloud và được tính phí vào tài khoản mà máy chủ này được liên kết."
+description = "Không cần container, không cần khóa nhà cung cấp, không cần chọn mô hình - tác vụ chạy trên Cloud và được tính phí vào tài khoản mà máy chủ này được liên kết."
 linkCta = "Kết nối máy chủ này với tài khoản Scripta"
 notLinked = "Trước tiên hãy liên kết một tài khoản"
 ownerOnly = "Chỉ chủ sở hữu tổ chức mới có thể liên kết máy chủ này với tài khoản Scripta."
-title = "Sử dụng Scripta Cloud AI"
+title = "Sử dụng Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Không có công cụ AI nào trong ứng dụng, và không có gì rời khỏi máy chủ này."
@@ -900,24 +900,24 @@ url = "URL engine"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Ngừng hoạt động"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Hoạt động"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Chia sẻ AI"
 sharingOff = "Đã tắt"
 sharingOn = "Đã bật"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud đã phản hồi nhưng từ chối máy chủ này. Liên kết tài khoản có thể đã bị thu hồi."
-title = "Scripta Cloud đang từ chối máy chủ này"
+body = "Cloud đã phản hồi nhưng từ chối máy chủ này. Liên kết tài khoản có thể đã bị thu hồi."
+title = "Cloud đang từ chối máy chủ này"
 
 [admin.settings.ai.status.cloud.down]
-body = "Máy chủ này không thể kết nối tới Scripta Cloud. Hãy kiểm tra liên kết tài khoản và đảm bảo máy chủ này có thể truy cập internet."
-title = "Không thể truy cập Scripta Cloud"
+body = "Máy chủ này không thể kết nối tới Cloud. Hãy kiểm tra liên kết tài khoản và đảm bảo máy chủ này có thể truy cập internet."
+title = "Không thể truy cập Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud đã chấp nhận máy chủ này. Không có gì cần chạy hoặc vá ở đây."
-title = "Đang chạy trên Scripta Cloud"
+body = "Cloud đã chấp nhận máy chủ này. Không có gì cần chạy hoặc vá ở đây."
+title = "Đang chạy trên Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Nó đã phản hồi kiểm tra tình trạng nhưng từ chối một yêu cầu thực. Hai bên đang sử dụng các bí mật chia sẻ khác nhau."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Trước tiên hãy chọn định dạng nguồn"
 settings = "Cài đặt"
 single = "Một tệp"
 sourceFormatPlaceholder = "Định dạng nguồn"
-scriptaOfficeConvert = "Sử dụng Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Sử dụng Office Convert (beta)"
 scriptaOfficeConvertDescription = "Chuyển đổi tốt hơn, nhanh hơn với ít bộ nhớ hơn. Tắt để sử dụng trình chuyển đổi tiêu chuẩn."
 strictMode = "Chế độ nghiêm ngặt"
 strictModeDesc = "Báo lỗi nếu chuyển đổi không hoàn hảo (dùng xác minh VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "Tổng quan gói"
 [onboarding.processorIntro]
 body = "Scripta hiện chạy <strong>Chính sách</strong> — các quy tắc tự động phân loại, bảo mật và xử lý mọi tài liệu khi tài liệu đến. Thiết lập và theo dõi các lần chạy trong <strong>Processor</strong>."
 cta = "Xem Processor"
-title = "Khám phá Scripta Processor"
+title = "Khám phá Processor"
 
 [onboarding.securityCheck]
 message = "Ứng dụng vừa có nhiều thay đổi. Có thể cần sự chú ý của quản trị viên server. Vui lòng xác nhận vai trò của bạn để tiếp tục."
@@ -8047,7 +8047,7 @@ storageSharing = "Lưu trữ & Chia sẻ Tệp"
 systemSettings = "Cài đặt hệ thống"
 
 [settings.connectedInstances]
-confirmBody = "Thao tác này thu hồi quyền truy cập của instance vào nhóm của bạn trong Scripta Cloud. Nó không xóa tệp cục bộ hoặc xóa mức sử dụng đã được ghi nhận. Để kết nối lại, hãy làm theo các bước kết nối ban đầu trên instance."
+confirmBody = "Thao tác này thu hồi quyền truy cập của instance vào nhóm của bạn trong Cloud. Nó không xóa tệp cục bộ hoặc xóa mức sử dụng đã được ghi nhận. Để kết nối lại, hãy làm theo các bước kết nối ban đầu trên instance."
 confirmTitle = "Xóa {{name}}?"
 connectedAt = "Đã kết nối: {{date}}"
 connectedDate = "Đã kết nối"
@@ -8091,7 +8091,7 @@ user = "Đăng nhập với tư cách"
 
 [settings.connection.mode]
 local = "Chỉ cục bộ"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Tự lưu trữ"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Giám sát"
 [settings.planBilling]
 currentPlan = "Gói hiện tại"
 loading = "Đang tải thông tin thanh toán..."
-notAvailable = "Gói & Thanh toán chỉ khả dụng khi kết nối với Scripta Cloud (chế độ SaaS)."
+notAvailable = "Gói & Thanh toán chỉ khả dụng khi kết nối với Cloud (chế độ SaaS)."
 title = "Gói & Thanh toán"
 
 [settings.planBilling.billing]

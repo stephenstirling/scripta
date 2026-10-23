@@ -614,7 +614,7 @@ description = "最大执行时间"
 label = "超时（分钟）"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert 处于测试版阶段。与 LibreOffice 相比，它提供更好的转换效果，速度更快且占用内存更少。"
+description = "Office Convert 处于测试版阶段。与 LibreOffice 相比，它提供更好的转换效果，速度更快且占用内存更少。"
 label = "使用新的 Scripta Office 转换"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata 路径不可写。下载将会在浏览器中打开
 [admin.settings.ai]
 customProvider = "自定义（OpenAI 兼容）"
 description = "将 Scripta 连接到 Python AI 引擎，选择其模型，并设置其运行时的防护规则。"
-managedByCloud = "此模式由 Scripta Cloud 管理。"
-managedByCloudShort = "由 Scripta Cloud 管理"
+managedByCloud = "此模式由 Cloud 管理。"
+managedByCloudShort = "由 Cloud 管理"
 
 [admin.settings.ai.documents]
 description = "配置用于回答文档问题的嵌入模型和检索设置。保存后应用到 AI 引擎。"
@@ -735,16 +735,16 @@ description = "开启或关闭单个 AI 功能。禁用的功能会在应用中�
 title = "功能"
 
 [admin.settings.ai.general.cloud]
-note = "模型和提供商密钥由 Scripta Cloud 管理，因此这些设置在此模式下不适用。"
+note = "模型和提供商密钥由 Cloud 管理，因此这些设置在此模式下不适用。"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "每个 AI 工具都会发送其回答所需的页面文本。此设置决定 Scripta Cloud 是否也可以保留这些文本并建立索引，以便后续问题可在文档中搜索。"
+description = "每个 AI 工具都会发送其回答所需的页面文本。此设置决定 Cloud 是否也可以保留这些文本并建立索引，以便后续问题可在文档中搜索。"
 help = "关闭表示文档问答不可用。它不会阻止文本被发送——只会阻止被存储。"
-label = "允许 Scripta Cloud 保留已建立索引的文档"
+label = "允许 Cloud 保留已建立索引的文档"
 
 [admin.settings.ai.general.cloudNote]
-body = "推理在 Scripta 的基础设施上运行，并计入此服务器所关联账户的账单。这里无需运行容器，也无需保存提供商密钥。AI 读取的任何内容都会由 Scripta Cloud 处理，而不是在你自己的硬件上处理。"
-title = "关于 Scripta Cloud AI"
+body = "推理在 Scripta 的基础设施上运行，并计入此服务器所关联账户的账单。这里无需运行容器，也无需保存提供商密钥。AI 读取的任何内容都会由 Cloud 处理，而不是在你自己的硬件上处理。"
+title = "关于 Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "总开关。关闭时，AI 工具、代理或引擎调用均不可用。"
@@ -782,11 +782,11 @@ label = "长时间运行超时（秒）"
 label = "AI 运行位置"
 
 [admin.settings.ai.general.mode.cloud]
-description = "无需容器、无需提供商密钥、无需选择模型——工作在 Scripta Cloud 上运行，并计入此服务器所关联账户的账单。"
+description = "无需容器、无需提供商密钥、无需选择模型——工作在 Cloud 上运行，并计入此服务器所关联账户的账单。"
 linkCta = "将此服务器连接到 Scripta 账户"
 notLinked = "请先关联账户"
 ownerOnly = "只有组织所有者可以将此服务器关联到 Scripta 账户。"
-title = "使用 Scripta Cloud AI"
+title = "使用 Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "应用中的任何位置都没有 AI 工具，且不会有任何内容离开此服务器。"
@@ -900,24 +900,24 @@ url = "引擎 URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "离线"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "在线"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI 共享"
 sharingOff = "已禁用"
 sharingOn = "已启用"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud 已响应，但拒绝了此服务器。账户关联可能已被撤销。"
-title = "Scripta Cloud 正在拒绝此服务器"
+body = "Cloud 已响应，但拒绝了此服务器。账户关联可能已被撤销。"
+title = "Cloud 正在拒绝此服务器"
 
 [admin.settings.ai.status.cloud.down]
-body = "此服务器无法访问 Scripta Cloud。请检查账户关联，以及此服务器是否可以访问互联网。"
-title = "无法访问 Scripta Cloud"
+body = "此服务器无法访问 Cloud。请检查账户关联，以及此服务器是否可以访问互联网。"
+title = "无法访问 Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud 已接受此服务器。这里无需运行或修补任何内容。"
-title = "正在 Scripta Cloud 上运行"
+body = "Cloud 已接受此服务器。这里无需运行或修补任何内容。"
+title = "正在 Cloud 上运行"
 
 [admin.settings.ai.status.degraded]
 body = "它通过了健康检查，但拒绝了真实请求。双方使用了不同的共享密钥。"
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "请先选择源格式"
 settings = "设置"
 single = "单个"
 sourceFormatPlaceholder = "源格式"
-scriptaOfficeConvert = "使用 Scripta Office Convert（测试版）"
+scriptaOfficeConvert = "使用 Office Convert（测试版）"
 scriptaOfficeConvertDescription = "转换效果更好、速度更快且占用内存更少。关闭以使用标准转换器。"
 strictMode = "严格模式"
 strictModeDesc = "如果转换不完美则报错（使用 VeraPDF 验证）"
@@ -8047,7 +8047,7 @@ storageSharing = "文件存储与共享"
 systemSettings = "系统设置"
 
 [settings.connectedInstances]
-confirmBody = "这会撤销该实例对你在 Scripta Cloud 中团队的访问权限。它不会删除本地文件，也不会移除已记录的使用量。若要再次连接，请在该实例上按照原始连接步骤操作。"
+confirmBody = "这会撤销该实例对你在 Cloud 中团队的访问权限。它不会删除本地文件，也不会移除已记录的使用量。若要再次连接，请在该实例上按照原始连接步骤操作。"
 confirmTitle = "移除 {{name}}？"
 connectedAt = "已连接：{{date}}"
 connectedDate = "已连接"
@@ -8091,7 +8091,7 @@ user = "登录身份"
 
 [settings.connection.mode]
 local = "仅本地"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "自托管"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "监控"
 [settings.planBilling]
 currentPlan = "当前套餐"
 loading = "正在加载计费信息..."
-notAvailable = "“套餐与计费”仅在连接到 Scripta Cloud（SaaS 模式）时可用。"
+notAvailable = "“套餐与计费”仅在连接到 Cloud（SaaS 模式）时可用。"
 title = "套餐与计费"
 
 [settings.planBilling.billing]

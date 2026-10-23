@@ -199,7 +199,7 @@ const TOOL_SEO_TITLES = {
   showJS: "Show JavaScript in PDF",
 };
 
-// SaaS (stirling.com) link-preview cards. Only the SaaS build (`--mode saas`)
+// SaaS link-preview cards. Only the SaaS build (`--mode saas`)
 // uses og-metadata.saas.json; every other flavour keeps the tool-registry copy
 // above. `ogTitle` is the punchy social headline; `title` is the SEO <title>.
 // `home` overrides the site default (served at `/app`); the rest are extra
@@ -214,7 +214,7 @@ const SAAS_DEFAULT = {
 const SAAS_ROUTE_OVERRIDES = {
   "/processor": {
     image: "/og_images/saas/app-processor.png",
-    title: "Scripta Processor - Govern every PDF your organization touches",
+    title: "Processor - Govern every PDF your organization touches",
     ogTitle: "Govern every PDF your organization touches",
     description:
       "Redaction, retention, and encryption policies enforced everywhere PDFs enter your org. Distribute the free Editor anywhere. 1¢ per PDF.",
@@ -501,7 +501,7 @@ const manifest = {
 };
 
 // SaaS manifest: same tool pages as above, but the home default and two extra
-// marketing routes carry the stirling.com cards. Keeps all per-tool OG intact.
+// marketing routes carry the SaaS cards. Keeps all per-tool OG intact.
 // SaaS is the deploy with a canonical origin, so it needs the link hub most.
 const saasManifest = {
   default: SAAS_DEFAULT,

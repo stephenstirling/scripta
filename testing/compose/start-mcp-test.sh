@@ -239,12 +239,12 @@ if [ "$APIKEY_MODE" != true ]; then
 fi
 echo -e "   Keycloak Admin: ${GREEN}http://${KEYCLOAK_HOST}:9080/admin${NC} (admin / admin)"
 echo ""
-echo -e "${BLUE}👤 Test user (exists in Keycloak AND as a Scripta account):${NC}"
+echo -e "${BLUE}👤 Test user (exists in Keycloak AND as a account):${NC}"
 echo -e "     Email:    ${GREEN}mcpuser@scripta.local${NC}"
 echo -e "     Password: ${GREEN}mcppassword${NC}"
 echo ""
 if [ "$APIKEY_MODE" != true ]; then
-    echo -e "${BLUE}👻 Negative-test user (valid Keycloak login, NO Scripta account):${NC}"
+    echo -e "${BLUE}👻 Negative-test user (valid Keycloak login, NO account):${NC}"
     echo -e "     Email:    ${GREEN}ghost@scripta.local${NC}"
     echo -e "     Password: ${GREEN}ghostpassword${NC}   (expect HTTP 403 at /mcp)"
     echo ""

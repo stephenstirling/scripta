@@ -614,7 +614,7 @@ description = "Tempo massimo di esecuzione"
 label = "Timeout (minuti)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert è in beta. Offre conversioni migliori, più rapide e con un minor uso di memoria rispetto a LibreOffice."
+description = "Office Convert è in beta. Offre conversioni migliori, più rapide e con un minor uso di memoria rispetto a LibreOffice."
 label = "Usa la nuova conversione Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "Il percorso tessdata non è scrivibile. I download verranno 
 [admin.settings.ai]
 customProvider = "Personalizzato (compatibile con OpenAI)"
 description = "Collega Scripta al motore AI Python, scegli i suoi modelli e imposta le regole entro cui viene eseguito."
-managedByCloud = "Gestito da Scripta Cloud in questa modalità."
-managedByCloudShort = "Gestito da Scripta Cloud"
+managedByCloud = "Gestito da Cloud in questa modalità."
+managedByCloudShort = "Gestito da Cloud"
 
 [admin.settings.ai.documents]
 description = "Configura il modello di embedding e le impostazioni di recupero usate per rispondere a domande sui documenti. Applicato al motore AI al salvataggio."
@@ -735,16 +735,16 @@ description = "Attiva o disattiva singole funzionalità AI. Le funzionalità dis
 title = "Funzionalità"
 
 [admin.settings.ai.general.cloud]
-note = "I modelli e le chiavi del provider sono gestiti da Scripta Cloud, quindi queste impostazioni non si applicano in questa modalità."
+note = "I modelli e le chiavi del provider sono gestiti da Cloud, quindi queste impostazioni non si applicano in questa modalità."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Ogni strumento AI invia il testo della pagina di cui ha bisogno per rispondere. Questo decide se Scripta Cloud può anche conservare quel testo, indicizzato, così che le domande successive possano cercare nel documento."
+description = "Ogni strumento AI invia il testo della pagina di cui ha bisogno per rispondere. Questo decide se Cloud può anche conservare quel testo, indicizzato, così che le domande successive possano cercare nel documento."
 help = "Disattivato significa che le domande sui documenti non sono disponibili. Non impedisce l'invio del testo: solo la sua archiviazione."
-label = "Consenti a Scripta Cloud di conservare i documenti indicizzati"
+label = "Consenti a Cloud di conservare i documenti indicizzati"
 
 [admin.settings.ai.general.cloudNote]
-body = "Il ragionamento viene eseguito sull'infrastruttura di Scripta, addebitato all'account a cui è collegato questo server. Non c'è alcun container da eseguire e nessuna chiave del provider da conservare qui. Qualunque cosa l'AI legga viene elaborata da Scripta Cloud invece che sul tuo hardware."
-title = "Informazioni su Scripta Cloud AI"
+body = "Il ragionamento viene eseguito sull'infrastruttura di Scripta, addebitato all'account a cui è collegato questo server. Non c'è alcun container da eseguire e nessuna chiave del provider da conservare qui. Qualunque cosa l'AI legga viene elaborata da Cloud invece che sul tuo hardware."
+title = "Informazioni su Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Interruttore principale. Quando è disattivato, non sono disponibili strumenti IA, agenti o chiamate al motore."
@@ -782,11 +782,11 @@ label = "Timeout operazioni lunghe (secondi)"
 label = "Dove viene eseguita l'AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Nessun container, nessuna chiave del provider, nessuna scelta del modello: il lavoro viene eseguito su Scripta Cloud e addebitato all'account a cui è collegato questo server."
+description = "Nessun container, nessuna chiave del provider, nessuna scelta del modello: il lavoro viene eseguito su Cloud e addebitato all'account a cui è collegato questo server."
 linkCta = "Collega questo server a un account Scripta"
 notLinked = "Collega prima un account"
 ownerOnly = "Solo il proprietario dell'organizzazione può collegare questo server a un account Scripta."
-title = "Usa Scripta Cloud AI"
+title = "Usa Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Nessuno strumento AI nell'app e nulla lascia questo server."
@@ -900,24 +900,24 @@ url = "URL del motore"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Non disponibile"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Disponibile"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Condivisione AI"
 sharingOff = "Disabilitata"
 sharingOn = "Abilitata"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud ha risposto ma ha rifiutato questo server. Il collegamento dell'account potrebbe essere stato revocato."
-title = "Scripta Cloud sta rifiutando questo server"
+body = "Cloud ha risposto ma ha rifiutato questo server. Il collegamento dell'account potrebbe essere stato revocato."
+title = "Cloud sta rifiutando questo server"
 
 [admin.settings.ai.status.cloud.down]
-body = "Questo server non è riuscito a raggiungere Scripta Cloud. Controlla il collegamento dell'account e che questo server possa raggiungere internet."
-title = "Scripta Cloud non raggiungibile"
+body = "Questo server non è riuscito a raggiungere Cloud. Controlla il collegamento dell'account e che questo server possa raggiungere internet."
+title = "Cloud non raggiungibile"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud ha accettato questo server. Non c'è nulla da eseguire o correggere qui."
-title = "In esecuzione su Scripta Cloud"
+body = "Cloud ha accettato questo server. Non c'è nulla da eseguire o correggere qui."
+title = "In esecuzione su Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Ha risposto al controllo di integrità ma ha rifiutato una richiesta reale. Le due parti stanno usando segreti condivisi diversi."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Scegli prima un formato sorgente"
 settings = "Impostazioni"
 single = "Singolo"
 sourceFormatPlaceholder = "Formato sorgente"
-scriptaOfficeConvert = "Usa Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Usa Office Convert (beta)"
 scriptaOfficeConvertDescription = "Conversioni migliori e più rapide con un minor uso di memoria. Disattiva per usare il convertitore standard."
 strictMode = "Modalità Stretta"
 strictModeDesc = "Errore se la conversione non è perfetta (utilizza la verifica VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "Panoramica piano"
 [onboarding.processorIntro]
 body = "Scripta ora esegue <strong>Policies</strong> — regole automatizzate che classificano, proteggono ed elaborano ogni documento al suo arrivo. Configurale e monitora le esecuzioni nel <strong>Processor</strong>."
 cta = "Scopri il Processor"
-title = "Scopri Scripta Processor"
+title = "Scopri Processor"
 
 [onboarding.securityCheck]
 message = "L'applicazione ha subito cambiamenti significativi di recente. Potrebbe essere necessaria l'attenzione dell'amministratore del server. Conferma il tuo ruolo per continuare."
@@ -8047,7 +8047,7 @@ storageSharing = "Archiviazione file e condivisione"
 systemSettings = "Impostazioni di sistema"
 
 [settings.connectedInstances]
-confirmBody = "Questo revoca l'accesso dell'istanza al tuo team in Scripta Cloud. Non elimina i file locali né rimuove l'utilizzo già registrato. Per collegarla di nuovo, segui i passaggi di collegamento originali sull'istanza."
+confirmBody = "Questo revoca l'accesso dell'istanza al tuo team in Cloud. Non elimina i file locali né rimuove l'utilizzo già registrato. Per collegarla di nuovo, segui i passaggi di collegamento originali sull'istanza."
 confirmTitle = "Rimuovere {{name}}?"
 connectedAt = "Collegata: {{date}}"
 connectedDate = "Collegata"
@@ -8091,7 +8091,7 @@ user = "Connesso come"
 
 [settings.connection.mode]
 local = "Solo locale"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Self-hosted"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitoraggio"
 [settings.planBilling]
 currentPlan = "Piano attuale"
 loading = "Caricamento delle informazioni di fatturazione..."
-notAvailable = "Piano e Fatturazione sono disponibili solo quando connessi a Scripta Cloud (modalità SaaS)."
+notAvailable = "Piano e Fatturazione sono disponibili solo quando connessi a Cloud (modalità SaaS)."
 title = "Piano e Fatturazione"
 
 [settings.planBilling.billing]

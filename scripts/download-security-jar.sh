@@ -3,13 +3,13 @@ echo "Running Scripta with DISABLE_ADDITIONAL_FEATURES=${DISABLE_ADDITIONAL_FEAT
 if [ "$VERSION_TAG" != "alpha" ] && [ "$VERSION_TAG" != "ALPHA" ]; then
     if [ "$DISABLE_ADDITIONAL_FEATURES" = "false" ] || [ "$DISABLE_ADDITIONAL_FEATURES" = "FALSE" ] || [ "$DOCKER_ENABLE_SECURITY" = "true" ] || [ "$DOCKER_ENABLE_SECURITY" = "TRUE" ]; then
         if [ ! -f app-security.jar ]; then
-            echo "Trying to download from: https://files.stirlingpdf.com/v$VERSION_TAG/Scripta-with-login.jar"
-            curl -L -o app-security.jar https://files.stirlingpdf.com/v$VERSION_TAG/Scripta-with-login.jar
+            echo "Trying to download from: https://github.com/stephenstirling/scripta/releases/download/v$VERSION_TAG/Scripta-with-login.jar"
+            curl -L -o app-security.jar https://github.com/stephenstirling/scripta/releases/download/v$VERSION_TAG/Scripta-with-login.jar
 
             # If the first download attempt failed, try without the 'v' prefix
             if [ $? -ne 0 ]; then
-                echo "Trying to download from: https://files.stirlingpdf.com/$VERSION_TAG/Scripta-with-login.jar"
-                curl -L -o app-security.jar https://files.stirlingpdf.com/$VERSION_TAG/Scripta-with-login.jar
+                echo "Trying to download from: https://github.com/stephenstirling/scripta/releases/download/$VERSION_TAG/Scripta-with-login.jar"
+                curl -L -o app-security.jar https://github.com/stephenstirling/scripta/releases/download/$VERSION_TAG/Scripta-with-login.jar
             fi
 
             if [ $? -eq 0 ]; then  # checks if curl was successful

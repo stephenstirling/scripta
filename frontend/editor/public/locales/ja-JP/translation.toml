@@ -614,7 +614,7 @@ description = "最大実行時間"
 label = "タイムアウト（分）"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert はベータ版です。LibreOffice よりも少ないメモリで、より高速かつ高品質な変換を提供します。"
+description = "Office Convert はベータ版です。LibreOffice よりも少ないメモリで、より高速かつ高品質な変換を提供します。"
 label = "新しい Scripta Office 変換を使用"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata パスに書き込めません。ダウンロード
 [admin.settings.ai]
 customProvider = "カスタム (OpenAI-compatible)"
 description = "Scripta を Python AI エンジンに接続し、モデルを選択して、実行時のガードレールを設定します。"
-managedByCloud = "このモードでは Scripta Cloud によって管理されます。"
-managedByCloudShort = "Scripta Cloud によって管理"
+managedByCloud = "このモードでは Cloud によって管理されます。"
+managedByCloudShort = "Cloud によって管理"
 
 [admin.settings.ai.documents]
 description = "ドキュメントに関する質問に回答するために使用する埋め込みモデルと取得設定を構成します。保存すると AI エンジンに適用されます。"
@@ -735,16 +735,16 @@ description = "個々の AI 機能をオンまたはオフにします。無効�
 title = "機能"
 
 [admin.settings.ai.general.cloud]
-note = "モデルとプロバイダーキーは Scripta Cloud によって管理されるため、このモードではこれらの設定は適用されません。"
+note = "モデルとプロバイダーキーは Cloud によって管理されるため、このモードではこれらの設定は適用されません。"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "各 AI ツールは、回答に必要なページテキストを送信します。これにより、Scripta Cloud がそのテキストをインデックス付きで保持し、後でドキュメント全体を検索して質問に答えられるようにするかどうかを決定します。"
+description = "各 AI ツールは、回答に必要なページテキストを送信します。これにより、Cloud がそのテキストをインデックス付きで保持し、後でドキュメント全体を検索して質問に答えられるようにするかどうかを決定します。"
 help = "オフにすると、ドキュメントへの質問は利用できません。テキストの送信は止まりません。保存のみ停止します。"
-label = "Scripta Cloud にインデックス付きドキュメントの保持を許可する"
+label = "Cloud にインデックス付きドキュメントの保持を許可する"
 
 [admin.settings.ai.general.cloudNote]
-body = "推論は Scripta のインフラストラクチャ上で実行され、このサーバーにリンクされたアカウントに課金されます。ここで実行するコンテナーも、保持するプロバイダーキーもありません。AI が読み取るものはすべて、お使いのハードウェアではなく Scripta Cloud によって処理されます。"
-title = "Scripta Cloud AI について"
+body = "推論は Scripta のインフラストラクチャ上で実行され、このサーバーにリンクされたアカウントに課金されます。ここで実行するコンテナーも、保持するプロバイダーキーもありません。AI が読み取るものはすべて、お使いのハードウェアではなく Cloud によって処理されます。"
+title = "Cloud AI について"
 
 [admin.settings.ai.general.enabled]
 description = "マスタースイッチ。オフの場合、AI ツール、エージェント、エンジン呼び出しは利用できません。"
@@ -782,11 +782,11 @@ label = "長時間実行タイムアウト（秒）"
 label = "AI の実行場所"
 
 [admin.settings.ai.general.mode.cloud]
-description = "コンテナーなし、プロバイダーキーなし、モデル選択なし - 処理は Scripta Cloud 上で実行され、このサーバーにリンクされたアカウントに課金されます。"
+description = "コンテナーなし、プロバイダーキーなし、モデル選択なし - 処理は Cloud 上で実行され、このサーバーにリンクされたアカウントに課金されます。"
 linkCta = "このサーバーを Scripta アカウントに接続"
 notLinked = "まずアカウントをリンクしてください"
 ownerOnly = "組織のオーナーのみが、このサーバーを Scripta アカウントにリンクできます。"
-title = "Scripta Cloud AI を使用"
+title = "Cloud AI を使用"
 
 [admin.settings.ai.general.mode.off]
 description = "アプリ内のどこにも AI ツールはなく、このサーバーから何も送信されません。"
@@ -900,24 +900,24 @@ url = "エンジン URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "停止中"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "稼働中"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI 共有"
 sharingOff = "無効"
 sharingOn = "有効"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud は応答しましたが、このサーバーを拒否しました。アカウントリンクが取り消された可能性があります。"
-title = "Scripta Cloud がこのサーバーを拒否しています"
+body = "Cloud は応答しましたが、このサーバーを拒否しました。アカウントリンクが取り消された可能性があります。"
+title = "Cloud がこのサーバーを拒否しています"
 
 [admin.settings.ai.status.cloud.down]
-body = "このサーバーは Scripta Cloud に到達できませんでした。アカウントリンクと、このサーバーがインターネットに接続できることを確認してください。"
-title = "Scripta Cloud に到達できません"
+body = "このサーバーは Cloud に到達できませんでした。アカウントリンクと、このサーバーがインターネットに接続できることを確認してください。"
+title = "Cloud に到達できません"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud はこのサーバーを受け入れました。ここで実行またはパッチ適用するものはありません。"
-title = "Scripta Cloud 上で実行中"
+body = "Cloud はこのサーバーを受け入れました。ここで実行またはパッチ適用するものはありません。"
+title = "Cloud 上で実行中"
 
 [admin.settings.ai.status.degraded]
 body = "ヘルスチェックには応答しましたが、実際のリクエストは拒否しました。双方で異なる共有シークレットが使用されています。"
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "先にソース形式を選択してください"
 settings = "設定"
 single = "単一"
 sourceFormatPlaceholder = "変換元形式"
-scriptaOfficeConvert = "Scripta Office Convert（ベータ版）を使用"
+scriptaOfficeConvert = "Office Convert（ベータ版）を使用"
 scriptaOfficeConvertDescription = "少ないメモリで、より高品質かつ高速に変換します。標準コンバーターを使用するにはオフにしてください。"
 strictMode = "厳格モード"
 strictModeDesc = "変換が完全でない場合はエラーにします（VeraPDF 検証を使用）"
@@ -5349,7 +5349,7 @@ userTitle = "プラン概要"
 [onboarding.processorIntro]
 body = "Scripta は到着した各ドキュメントを分類、保護、処理する自動ルールである <strong>Policies</strong> を実行するようになりました。<strong>Processor</strong> で設定し、実行状況を監視できます。"
 cta = "Processor を確認"
-title = "Scripta Processor を確認"
+title = "Processor を確認"
 
 [onboarding.securityCheck]
 message = "アプリケーションに最近大きな変更がありました。サーバー管理者の対応が必要な場合があります。続行するには、ご自身の役割を確認してください。"
@@ -8047,7 +8047,7 @@ storageSharing = "ファイルストレージと共有"
 systemSettings = "システム設定"
 
 [settings.connectedInstances]
-confirmBody = "これにより、インスタンスの Scripta Cloud 内のチームへのアクセスが取り消されます。ローカルファイルは削除されず、既に記録された使用量も削除されません。再度接続するには、インスタンスで元の接続手順に従ってください。"
+confirmBody = "これにより、インスタンスの Cloud 内のチームへのアクセスが取り消されます。ローカルファイルは削除されず、既に記録された使用量も削除されません。再度接続するには、インスタンスで元の接続手順に従ってください。"
 confirmTitle = "{{name}} を削除しますか？"
 connectedAt = "接続日時: {{date}}"
 connectedDate = "接続済み"
@@ -8091,7 +8091,7 @@ user = "ログイン中:"
 
 [settings.connection.mode]
 local = "ローカルのみ"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "セルフホスト"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "監視"
 [settings.planBilling]
 currentPlan = "現在のプラン"
 loading = "請求情報を読み込み中..."
-notAvailable = "プランと請求は、Scripta Cloud（SaaS モード）に接続している場合にのみ利用できます。"
+notAvailable = "プランと請求は、Cloud（SaaS モード）に接続している場合にのみ利用できます。"
 title = "プランと請求"
 
 [settings.planBilling.billing]

@@ -614,7 +614,7 @@ description = "最長執行時間"
 label = "逾時（分鐘）"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert 目前為測試版。相較於 LibreOffice，它能以更快速度與更少記憶體提供更好的轉換效果。"
+description = "Office Convert 目前為測試版。相較於 LibreOffice，它能以更快速度與更少記憶體提供更好的轉換效果。"
 label = "使用新的 Scripta Office 轉換功能"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata 路徑不可寫入。下載將在瀏覽器中開啟
 [admin.settings.ai]
 customProvider = "自訂（OpenAI 相容）"
 description = "讓 Scripta 連線至 Python AI 引擎、選擇模型，並設定執行時的安全限制。"
-managedByCloud = "在此模式下由 Scripta Cloud 管理。"
-managedByCloudShort = "由 Scripta Cloud 管理"
+managedByCloud = "在此模式下由 Cloud 管理。"
+managedByCloudShort = "由 Cloud 管理"
 
 [admin.settings.ai.documents]
 description = "設定用於回答文件相關問題的嵌入模型與檢索設定。儲存後會套用至 AI engine。"
@@ -735,16 +735,16 @@ description = "開啟或關閉個別 AI 功能。停用的功能會在應用程�
 title = "功能"
 
 [admin.settings.ai.general.cloud]
-note = "模型和供應商金鑰由 Scripta Cloud 管理，因此這些設定不適用於此模式。"
+note = "模型和供應商金鑰由 Cloud 管理，因此這些設定不適用於此模式。"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "每個 AI 工具都會傳送其回答所需的頁面文字。這會決定 Scripta Cloud 是否也可以保留該文字並建立索引，以便之後的問題可在文件中搜尋。"
+description = "每個 AI 工具都會傳送其回答所需的頁面文字。這會決定 Cloud 是否也可以保留該文字並建立索引，以便之後的問題可在文件中搜尋。"
 help = "關閉表示無法使用文件提問。這不會阻止文字被傳送，只是不會被儲存。"
-label = "允許 Scripta Cloud 保留已索引的文件"
+label = "允許 Cloud 保留已索引的文件"
 
 [admin.settings.ai.general.cloudNote]
-body = "推理會在 Scripta 的基礎架構上執行，並計費至此伺服器連結的帳戶。這裡沒有需要執行的容器，也沒有需要保存的供應商金鑰。AI 讀取的任何內容都會由 Scripta Cloud 處理，而不是在您自己的硬體上處理。"
-title = "關於 Scripta Cloud AI"
+body = "推理會在 Scripta 的基礎架構上執行，並計費至此伺服器連結的帳戶。這裡沒有需要執行的容器，也沒有需要保存的供應商金鑰。AI 讀取的任何內容都會由 Cloud 處理，而不是在您自己的硬體上處理。"
+title = "關於 Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "主開關。關閉時，將無法使用任何 AI 工具、代理程式或 engine 呼叫。"
@@ -782,11 +782,11 @@ label = "長時間執行逾時（秒）"
 label = "AI 執行位置"
 
 [admin.settings.ai.general.mode.cloud]
-description = "不需要容器、不需要供應商金鑰，也不需要選擇模型 - 工作會在 Scripta Cloud 上執行，並計費至此伺服器連結的帳戶。"
+description = "不需要容器、不需要供應商金鑰，也不需要選擇模型 - 工作會在 Cloud 上執行，並計費至此伺服器連結的帳戶。"
 linkCta = "將此伺服器連結至 Scripta 帳戶"
 notLinked = "請先連結帳戶"
 ownerOnly = "只有組織擁有者可以將此伺服器連結至 Scripta 帳戶。"
-title = "使用 Scripta Cloud AI"
+title = "使用 Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "應用程式中任何地方都沒有 AI 工具，也不會有任何內容離開此伺服器。"
@@ -900,24 +900,24 @@ url = "引擎 URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "停機"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "正常"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI 分享"
 sharingOff = "已停用"
 sharingOn = "已啟用"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud 已回應，但拒絕此伺服器。帳戶連結可能已被撤銷。"
-title = "Scripta Cloud 正在拒絕此伺服器"
+body = "Cloud 已回應，但拒絕此伺服器。帳戶連結可能已被撤銷。"
+title = "Cloud 正在拒絕此伺服器"
 
 [admin.settings.ai.status.cloud.down]
-body = "此伺服器無法連線至 Scripta Cloud。請檢查帳戶連結，以及此伺服器是否可以連上網際網路。"
-title = "無法連線至 Scripta Cloud"
+body = "此伺服器無法連線至 Cloud。請檢查帳戶連結，以及此伺服器是否可以連上網際網路。"
+title = "無法連線至 Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud 已接受此伺服器。這裡沒有需要執行或修補的項目。"
-title = "正在 Scripta Cloud 上執行"
+body = "Cloud 已接受此伺服器。這裡沒有需要執行或修補的項目。"
+title = "正在 Cloud 上執行"
 
 [admin.settings.ai.status.degraded]
 body = "它回應了健康檢查，但拒絕了實際請求。雙方使用不同的共用密鑰。"
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "請先選擇來源格式"
 settings = "設定"
 single = "單一"
 sourceFormatPlaceholder = "來源格式"
-scriptaOfficeConvert = "使用 Scripta Office Convert（測試版）"
+scriptaOfficeConvert = "使用 Office Convert（測試版）"
 scriptaOfficeConvertDescription = "以更少記憶體進行更好、更快速的轉換。關閉此選項以使用標準轉換器。"
 strictMode = "嚴格模式"
 strictModeDesc = "轉換不完美時回報錯誤（使用 VeraPDF 驗證）"
@@ -5349,7 +5349,7 @@ userTitle = "方案總覽"
 [onboarding.processorIntro]
 body = "Scripta 現在會執行 <strong>Policies</strong> — 自動化規則會在每份文件抵達時進行分類、保護與處理。請在 <strong>Processor</strong> 中設定並監控執行狀態。"
 cta = "查看 Processor"
-title = "查看 Scripta Processor"
+title = "查看 Processor"
 
 [onboarding.securityCheck]
 message = "應用程式近期進行了重大變更，可能需要您的伺服器管理員關注。請確認您的角色以繼續。"
@@ -8047,7 +8047,7 @@ storageSharing = "檔案儲存與共用"
 systemSettings = "系統設定"
 
 [settings.connectedInstances]
-confirmBody = "這會撤銷此執行個體對 Scripta Cloud 團隊的存取權，但不會刪除本機檔案，也不會移除已記錄的用量。若要重新連線，請在該執行個體依照原本的連線步驟操作。"
+confirmBody = "這會撤銷此執行個體對 Cloud 團隊的存取權，但不會刪除本機檔案，也不會移除已記錄的用量。若要重新連線，請在該執行個體依照原本的連線步驟操作。"
 confirmTitle = "要移除 {{name}} 嗎？"
 connectedAt = "連線時間：{{date}}"
 connectedDate = "連線日期"
@@ -8091,7 +8091,7 @@ user = "已登入身分"
 
 [settings.connection.mode]
 local = "僅限本機"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "自架"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "監控"
 [settings.planBilling]
 currentPlan = "目前方案"
 loading = "正在載入帳務資訊..."
-notAvailable = "僅在連線至 Scripta Cloud（SaaS 模式）時可使用「方案與計費」。"
+notAvailable = "僅在連線至 Cloud（SaaS 模式）時可使用「方案與計費」。"
 title = "方案與計費"
 
 [settings.planBilling.billing]

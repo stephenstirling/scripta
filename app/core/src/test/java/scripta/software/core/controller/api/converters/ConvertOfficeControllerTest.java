@@ -193,7 +193,7 @@ class ConvertOfficeControllerTest {
     }
 
     @Nested
-    @DisplayName("Scripta Office Convert")
+    @DisplayName("Office Convert")
     class InProcess {
 
         @Test

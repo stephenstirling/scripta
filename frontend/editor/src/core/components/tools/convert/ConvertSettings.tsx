@@ -527,7 +527,7 @@ const ConvertSettings = ({
           </>
         )}
 
-      {/* Scripta Office Convert or LibreOffice */}
+      {/* Office Convert or LibreOffice */}
       {usesOfficeEngine(parameters.fromExtension, parameters.toExtension) && (
         <>
           <Divider />

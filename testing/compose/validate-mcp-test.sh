@@ -192,8 +192,8 @@ else
 fi
 echo ""
 
-# account-binding: valid Keycloak user with no Scripta account -> 403
-echo -e "${YELLOW}[6] Account-binding rejects users without a Scripta account${NC}"
+# account-binding: valid Keycloak user with no account -> 403
+echo -e "${YELLOW}[6] Account-binding rejects users without a account${NC}"
 GHOST_TOKEN=$(get_token "ghost@scripta.local" "ghostpassword")
 if [ -n "$GHOST_TOKEN" ]; then
     pass "Obtained a valid Keycloak token for ghost@scripta.local"
@@ -201,7 +201,7 @@ if [ -n "$GHOST_TOKEN" ]; then
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $GHOST_TOKEN" -d "$RPC_LIST")
     if [ "$GHOST_CODE" = "403" ]; then
-        pass "Valid token, no Scripta account -> 403 (account-binding enforced)"
+        pass "Valid token, no account -> 403 (account-binding enforced)"
     else
         fail "ghost user -> $GHOST_CODE (expected 403)"
     fi

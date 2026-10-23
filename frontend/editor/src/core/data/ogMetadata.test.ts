@@ -88,14 +88,14 @@ describe("injectOg (build-time prerender)", () => {
 
   it("uses absolute URLs + og:url + secure_url when a canonical base is given", () => {
     const out = injectOg(TEMPLATE, entry, {
-      ogBase: "https://stirlingpdf.com",
+      ogBase: "https://scripta.example",
       pageUrlPath: "/compress",
     });
     expect(out).toContain(
-      '<meta property="og:image" content="https://stirlingpdf.com/og_images/compress.png" />',
+      '<meta property="og:image" content="https://scripta.example/og_images/compress.png" />',
     );
     expect(out).toContain(
-      '<meta property="og:url" content="https://stirlingpdf.com/compress" />',
+      '<meta property="og:url" content="https://scripta.example/compress" />',
     );
     expect(out).toContain("og:image:secure_url");
     // asset path stays absolute-from-root so it resolves at the clean URL
@@ -114,14 +114,14 @@ describe("injectOg (build-time prerender)", () => {
     // The caller folds any sub-path into ogBase, because only it knows whether
     // an origin serves the app at the sub-path or at its own root.
     const subpath = buildOgTags(entry, {
-      ogBase: "https://stirling.com/app",
+      ogBase: "https://scripta.example/app",
       pageUrlPath: "/compress",
     });
     expect(subpath).toContain(
-      '<meta property="og:image" content="https://stirling.com/app/og_images/compress.png" />',
+      '<meta property="og:image" content="https://scripta.example/app/og_images/compress.png" />',
     );
     expect(subpath).toContain(
-      '<meta name="twitter:image" content="https://stirling.com/app/og_images/compress.png" />',
+      '<meta name="twitter:image" content="https://scripta.example/app/og_images/compress.png" />',
     );
 
     const originRoot = buildOgTags(entry, {
@@ -181,13 +181,13 @@ describe("injectOg SEO extras (robots, canonical, JSON-LD)", () => {
 
   it("emits an absolute self-canonical and WebApplication JSON-LD with a base", () => {
     const out = injectOg(TEMPLATE, entry, {
-      ogBase: "https://stirling.com",
-      canonicalBase: "https://stirling.com",
+      ogBase: "https://scripta.example",
+      canonicalBase: "https://scripta.example",
       pageUrlPath: "/compress",
       canonicalPath: "/compress",
     });
     expect(out).toContain(
-      '<link rel="canonical" href="https://stirling.com/compress" />',
+      '<link rel="canonical" href="https://scripta.example/compress" />',
     );
     expect(out).toContain('<script type="application/ld+json">');
     expect(out).toContain('"@type":"WebApplication"');
@@ -196,8 +196,8 @@ describe("injectOg SEO extras (robots, canonical, JSON-LD)", () => {
 
   it("omits the price-0 Offer when the entry opts out (metered surfaces)", () => {
     const opts = {
-      siteRoot: "https://stirling.com/",
-      pageUrl: "https://stirling.com/processor",
+      siteRoot: "https://scripta.example/",
+      pageUrl: "https://scripta.example/processor",
       isHome: false,
     };
     expect(buildJsonLd(entry, opts)).toContain('"price":"0"');
@@ -211,8 +211,8 @@ describe("injectOg SEO extras (robots, canonical, JSON-LD)", () => {
       TEMPLATE,
       { ...entry, title: "A <script> B - Scripta" },
       {
-        ogBase: "https://stirling.com",
-        canonicalBase: "https://stirling.com",
+        ogBase: "https://scripta.example",
+        canonicalBase: "https://scripta.example",
         pageUrlPath: "/x",
       },
     );
@@ -225,13 +225,13 @@ describe("injectOg SEO extras (robots, canonical, JSON-LD)", () => {
 
   it("canonical can point somewhere other than the page URL (alias dedupe)", () => {
     const out = injectOg(TEMPLATE, entry, {
-      ogBase: "https://stirling.com",
-      canonicalBase: "https://stirling.com",
+      ogBase: "https://scripta.example",
+      canonicalBase: "https://scripta.example",
       pageUrlPath: "/compress-pdf",
       canonicalPath: "/compress",
     });
     expect(out).toContain(
-      '<link rel="canonical" href="https://stirling.com/compress" />',
+      '<link rel="canonical" href="https://scripta.example/compress" />',
     );
   });
 });
@@ -270,10 +270,10 @@ describe("buildSitemap", () => {
 
   it("lists indexable routes as absolute URLs and excludes noindex ones", () => {
     const xml = buildSitemap(manifest, {
-      canonicalBase: "https://stirling.com",
+      canonicalBase: "https://scripta.example",
     });
-    expect(xml).toContain("<loc>https://stirling.com/</loc>");
-    expect(xml).toContain("<loc>https://stirling.com/compress</loc>");
+    expect(xml).toContain("<loc>https://scripta.example/</loc>");
+    expect(xml).toContain("<loc>https://scripta.example/compress</loc>");
     expect(xml).not.toContain("/settings/people");
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
     expect(xml).toContain("<urlset");
@@ -281,18 +281,18 @@ describe("buildSitemap", () => {
 
   it("keeps the sub-path the canonical base carries", () => {
     const xml = buildSitemap(manifest, {
-      canonicalBase: "https://stirling.com/app",
+      canonicalBase: "https://scripta.example/app",
     });
-    expect(xml).toContain("<loc>https://stirling.com/app/</loc>");
-    expect(xml).toContain("<loc>https://stirling.com/app/compress</loc>");
+    expect(xml).toContain("<loc>https://scripta.example/app/</loc>");
+    expect(xml).toContain("<loc>https://scripta.example/app/compress</loc>");
   });
 
   it("omits aliases that canonicalise to another URL (no duplicate content)", () => {
     const xml = buildSitemap(manifest, {
-      canonicalBase: "https://stirling.com",
+      canonicalBase: "https://scripta.example",
     });
     expect(xml).not.toContain("/compress-pdf");
-    expect(xml).toContain("<loc>https://stirling.com/compress</loc>");
+    expect(xml).toContain("<loc>https://scripta.example/compress</loc>");
   });
 });
 
@@ -449,7 +449,7 @@ describe("buildBodyContent + injectBody (crawlable landing content)", () => {
       prerenderOg({
         distDir: dir,
         manifest,
-        ogBase: "https://stirling.com",
+        ogBase: "https://scripta.example",
         baseHref: "/",
         injectLanding: true,
       }),
@@ -534,8 +534,8 @@ describe("prerenderOg (flat + nested route files)", () => {
     await prerenderOg({
       distDir: dir,
       manifest,
-      ogBase: "https://stirling.com",
-      canonicalBase: "https://stirling.com",
+      ogBase: "https://scripta.example",
+      canonicalBase: "https://scripta.example",
       baseHref: "/",
     });
 
@@ -544,16 +544,16 @@ describe("prerenderOg (flat + nested route files)", () => {
       "utf8",
     );
     expect(alias).toContain(
-      '<link rel="canonical" href="https://stirling.com/compress" />',
+      '<link rel="canonical" href="https://scripta.example/compress" />',
     );
     // og:url still names the page itself, only the canonical dedupes.
     expect(alias).toContain(
-      '<meta property="og:url" content="https://stirling.com/compress-pdf" />',
+      '<meta property="og:url" content="https://scripta.example/compress-pdf" />',
     );
 
     const primary = await fs.readFile(path.join(dir, "compress.html"), "utf8");
     expect(primary).toContain(
-      '<link rel="canonical" href="https://stirling.com/compress" />',
+      '<link rel="canonical" href="https://scripta.example/compress" />',
     );
 
     await fs.rm(dir, { recursive: true, force: true });
@@ -582,15 +582,15 @@ describe("prerenderOg (flat + nested route files)", () => {
     await prerenderOg({
       distDir: dir,
       manifest,
-      ogBase: "https://stirling.com",
-      canonicalBase: "https://stirling.com",
+      ogBase: "https://scripta.example",
+      canonicalBase: "https://scripta.example",
       baseHref: "/",
     });
 
     const home = await fs.readFile(path.join(dir, "index.html"), "utf8");
     expect(home).toContain('"@type":"WebSite"');
     expect(home).toContain(
-      '<link rel="canonical" href="https://stirling.com/"',
+      '<link rel="canonical" href="https://scripta.example/"',
     );
 
     const login = await fs.readFile(path.join(dir, "login.html"), "utf8");
@@ -604,13 +604,13 @@ describe("resolveDeployBases (which origin may be published)", () => {
   it("prefixes only the canonical origin with the deploy sub-path", () => {
     expect(
       resolveDeployBases({
-        canonicalOrigin: "https://stirling.com/",
+        canonicalOrigin: "https://scripta.example/",
         deployOrigin: "https://abc123.scripta.pages.dev",
         baseHref: "/app/",
       }),
     ).toEqual({
-      ogBase: "https://stirling.com/app",
-      canonicalBase: "https://stirling.com/app",
+      ogBase: "https://scripta.example/app",
+      canonicalBase: "https://scripta.example/app",
     });
   });
 
@@ -692,22 +692,22 @@ describe("prerenderOg on a sub-path deploy", () => {
   it("weaves the sub-path in once the public origin is configured", async () => {
     const { html, bases } = await run(
       {
-        canonicalOrigin: "https://stirling.com",
+        canonicalOrigin: "https://scripta.example",
         deployOrigin: "https://abc123.scripta.pages.dev",
         baseHref: "/app/",
       },
       "og-canonical-",
     );
     expect(html).toContain(
-      '<meta property="og:image" content="https://stirling.com/app/og_images/compress.png" />',
+      '<meta property="og:image" content="https://scripta.example/app/og_images/compress.png" />',
     );
     expect(html).toContain(
-      '<link rel="canonical" href="https://stirling.com/app/compress" />',
+      '<link rel="canonical" href="https://scripta.example/app/compress" />',
     );
-    expect(html).toContain('"logo":"https://stirling.com/app/modern-logo');
+    expect(html).toContain('"logo":"https://scripta.example/app/modern-logo');
     expect(html).not.toContain("scripta.pages.dev");
     expect(buildSitemap(manifest, bases)).toContain(
-      "<loc>https://stirling.com/app/compress</loc>",
+      "<loc>https://scripta.example/app/compress</loc>",
     );
   });
 });
@@ -766,8 +766,8 @@ describe("prerender refuses a drifted HTML shell", () => {
     await prerenderOg({
       distDir: dir,
       manifest,
-      ogBase: "https://stirling.com",
-      canonicalBase: "https://stirling.com",
+      ogBase: "https://scripta.example",
+      canonicalBase: "https://scripta.example",
       baseHref: "/",
       injectLanding: true,
     });
@@ -776,7 +776,7 @@ describe("prerender refuses a drifted HTML shell", () => {
     expect(html).toContain("<title>Compress - Scripta</title>");
     expect(html).toContain('<meta name="description" content="c" />');
     expect(html).toContain(
-      '<link rel="canonical" href="https://stirling.com/compress" />',
+      '<link rel="canonical" href="https://scripta.example/compress" />',
     );
     expect(html).toContain('<div id="root"><div class="spdf-seo">');
 
@@ -812,11 +812,11 @@ describe("shipped OG manifests", () => {
       expect(linkPaths.length).toBeGreaterThanOrEqual(linkIds.length);
 
       const xml = buildSitemap(manifest, {
-        canonicalBase: "https://stirling.com",
+        canonicalBase: "https://scripta.example",
       });
       for (const routePath of linkPaths)
         expect(xml).not.toContain(
-          `<loc>https://stirling.com${routePath}</loc>`,
+          `<loc>https://scripta.example${routePath}</loc>`,
         );
     },
   );
@@ -828,7 +828,7 @@ describe("shipped OG manifests", () => {
       const canonicalByPath: Record<string, string> =
         manifest.canonicalByPath ?? {};
       const xml = buildSitemap(manifest, {
-        canonicalBase: "https://stirling.com",
+        canonicalBase: "https://scripta.example",
       });
       for (const [alias, primary] of Object.entries(canonicalByPath)) {
         expect(alias, `${alias} canonicalises to itself`).not.toBe(primary);
@@ -844,7 +844,7 @@ describe("shipped OG manifests", () => {
         const entry = manifest.byTool[manifest.byPath[primary]];
         if (!entry?.noindex)
           expect(xml, `${alias} -> ${primary}`).toContain(
-            `<loc>https://stirling.com${primary}</loc>`,
+            `<loc>https://scripta.example${primary}</loc>`,
           );
       }
     },

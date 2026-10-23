@@ -19,7 +19,7 @@ import stirling.software.officeconvert.memory.Admission;
 import stirling.software.officeconvert.topdf.OfficeToPdf;
 import stirling.software.officeconvert.topdf.io.PoiXml;
 
-/** Office to PDF in process through Scripta Office Convert, with LibreOffice as the fallback. */
+/** Office to PDF in process through Office Convert, with LibreOffice as the fallback. */
 @Slf4j
 @Service
 @RequiredArgsConstructor

@@ -91,7 +91,7 @@ export function AdminSetupBanner() {
           )}
         </Text>
         <Anchor
-          href="https://docs.stirlingpdf.com/Configuration/System%20and%20Security/"
+          href="https://github.com/stephenstirling/scripta#readme"
           target="_blank"
           size="sm"
         >

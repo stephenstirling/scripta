@@ -614,7 +614,7 @@ description = "പരമാവധി നിർവഹണ സമയം"
 label = "ടൈംഔട്ട് (മിനിറ്റ്)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert ബീറ്റയിലാണ്. LibreOffice-നെക്കാൾ വേഗത്തിലും കുറഞ്ഞ മെമ്മറിയിലും മികച്ച പരിവർത്തനങ്ങൾ ഇത് നൽകുന്നു."
+description = "Office Convert ബീറ്റയിലാണ്. LibreOffice-നെക്കാൾ വേഗത്തിലും കുറഞ്ഞ മെമ്മറിയിലും മികച്ച പരിവർത്തനങ്ങൾ ഇത് നൽകുന്നു."
 label = "പുതിയ Scripta Office പരിവർത്തനം ഉപയോഗിക്കുക"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata പാത എഴുതാനാവില്ല. ഡ
 [admin.settings.ai]
 customProvider = "ഇഷ്ടാനുസൃതം (OpenAI-compatible)"
 description = "Scripta-നെ Python AI engine-നോട് ബന്ധിപ്പിക്കുക, അതിന്റെ മോഡലുകൾ തിരഞ്ഞെടുക്കുക, അത് പ്രവർത്തിക്കുന്ന guardrails സജ്ജമാക്കുക."
-managedByCloud = "ഈ മോഡിൽ Scripta Cloud ആണ് നിയന്ത്രിക്കുന്നത്."
-managedByCloudShort = "Scripta Cloud നിയന്ത്രിക്കുന്നു"
+managedByCloud = "ഈ മോഡിൽ Cloud ആണ് നിയന്ത്രിക്കുന്നത്."
+managedByCloudShort = "Cloud നിയന്ത്രിക്കുന്നു"
 
 [admin.settings.ai.documents]
 description = "ഡോക്യുമെന്റുകളിലെ ചോദ്യങ്ങൾക്ക് ഉത്തരം നൽകാൻ ഉപയോഗിക്കുന്ന embedding മോഡലും retrieval ക്രമീകരണങ്ങളും കോൺഫിഗർ ചെയ്യുക. സേവ് ചെയ്യുമ്പോൾ AI engine-ന് ബാധകമാകും."
@@ -735,16 +735,16 @@ description = "ഓരോ AI സവിശേഷതയും ഓൺ അല്ല�
 title = "കഴിവുകൾ"
 
 [admin.settings.ai.general.cloud]
-note = "മോഡലുകളും provider keys ഉം Scripta Cloud ആണ് നിയന്ത്രിക്കുന്നത്, അതിനാൽ ഈ മോഡിൽ ആ ക്രമീകരണങ്ങൾ ബാധകമല്ല."
+note = "മോഡലുകളും provider keys ഉം Cloud ആണ് നിയന്ത്രിക്കുന്നത്, അതിനാൽ ഈ മോഡിൽ ആ ക്രമീകരണങ്ങൾ ബാധകമല്ല."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "ഓരോ AI ടൂളും ഉത്തരം നൽകാൻ ആവശ്യമായ പേജ് ടെക്സ്റ്റ് അയയ്ക്കുന്നു. പിന്നീട് വരുന്ന ചോദ്യങ്ങൾക്ക് ഡോക്യുമെന്റിൽ മുഴുവൻ തിരയാൻ കഴിയുന്ന വിധത്തിൽ Scripta Cloud ആ ടെക്സ്റ്റ് സൂചികയാക്കി സൂക്ഷിക്കാമോ എന്ന് ഇത് തീരുമാനിക്കുന്നു."
+description = "ഓരോ AI ടൂളും ഉത്തരം നൽകാൻ ആവശ്യമായ പേജ് ടെക്സ്റ്റ് അയയ്ക്കുന്നു. പിന്നീട് വരുന്ന ചോദ്യങ്ങൾക്ക് ഡോക്യുമെന്റിൽ മുഴുവൻ തിരയാൻ കഴിയുന്ന വിധത്തിൽ Cloud ആ ടെക്സ്റ്റ് സൂചികയാക്കി സൂക്ഷിക്കാമോ എന്ന് ഇത് തീരുമാനിക്കുന്നു."
 help = "Off എന്നത് ഡോക്യുമെന്റ് ചോദ്യങ്ങൾ ലഭ്യമല്ല എന്നാണ്. ഇത് ടെക്സ്റ്റ് അയയ്ക്കുന്നത് നിർത്തില്ല - സംഭരിക്കുന്നത് മാത്രം നിർത്തും."
-label = "സൂചികയാക്കിയ ഡോക്യുമെന്റുകൾ Scripta Cloud സൂക്ഷിക്കാൻ അനുവദിക്കുക"
+label = "സൂചികയാക്കിയ ഡോക്യുമെന്റുകൾ Cloud സൂക്ഷിക്കാൻ അനുവദിക്കുക"
 
 [admin.settings.ai.general.cloudNote]
-body = "റീസണിംഗ് Scripta-ന്റെ ഇൻഫ്രാസ്ട്രക്ചറിൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്. ഇവിടെ പ്രവർത്തിപ്പിക്കേണ്ട container ഇല്ല, സൂക്ഷിക്കേണ്ട provider key ഇല്ല. AI വായിക്കുന്നതെല്ലാം നിങ്ങളുടെ സ്വന്തം hardware-ൽ അല്ല, Scripta Cloud ആണ് പ്രോസസ്സ് ചെയ്യുന്നത്."
-title = "Scripta Cloud AI കുറിച്ച്"
+body = "റീസണിംഗ് Scripta-ന്റെ ഇൻഫ്രാസ്ട്രക്ചറിൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്. ഇവിടെ പ്രവർത്തിപ്പിക്കേണ്ട container ഇല്ല, സൂക്ഷിക്കേണ്ട provider key ഇല്ല. AI വായിക്കുന്നതെല്ലാം നിങ്ങളുടെ സ്വന്തം hardware-ൽ അല്ല, Cloud ആണ് പ്രോസസ്സ് ചെയ്യുന്നത്."
+title = "Cloud AI കുറിച്ച്"
 
 [admin.settings.ai.general.enabled]
 description = "പ്രധാന switch. ഓഫ് ആയിരിക്കുമ്പോൾ AI tools, agents, അല്ലെങ്കിൽ engine calls ഒന്നും ലഭ്യമല്ല."
@@ -782,11 +782,11 @@ label = "ദൈർഘ്യമേറിയ timeout (seconds)"
 label = "AI എവിടെ പ്രവർത്തിക്കുന്നു"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Container ഇല്ല, provider key ഇല്ല, model തിരഞ്ഞെടുക്കൽ ഇല്ല - ജോലി Scripta Cloud-ൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്."
+description = "Container ഇല്ല, provider key ഇല്ല, model തിരഞ്ഞെടുക്കൽ ഇല്ല - ജോലി Cloud-ൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്."
 linkCta = "ഈ server ഒരു Scripta അക്കൗണ്ടുമായി ബന്ധിപ്പിക്കുക"
 notLinked = "ആദ്യം ഒരു അക്കൗണ്ട് ലിങ്ക് ചെയ്യുക"
 ownerOnly = "organization owner-ന് മാത്രമേ ഈ server ഒരു Scripta അക്കൗണ്ടുമായി ലിങ്ക് ചെയ്യാൻ കഴിയൂ."
-title = "Scripta Cloud AI ഉപയോഗിക്കുക"
+title = "Cloud AI ഉപയോഗിക്കുക"
 
 [admin.settings.ai.general.mode.off]
 description = "ആപ്പിൽ എവിടെയും AI ടൂളുകൾ ഇല്ല, ഈ server വിട്ട് ഒന്നും പുറത്തേക്ക് പോകുന്നില്ല."
@@ -900,24 +900,24 @@ url = "എഞ്ചിൻ URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "ഡൗൺ"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "അപ്പ്"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI പങ്കിടൽ"
 sharingOff = "പ്രവർത്തനരഹിതം"
 sharingOn = "പ്രവർത്തനക്ഷമം"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud മറുപടി നൽകി, പക്ഷേ ഈ server നിരസിച്ചു. അക്കൗണ്ട് ലിങ്ക് റദ്ദാക്കിയിരിക്കാം."
-title = "Scripta Cloud ഈ server നിരസിക്കുന്നു"
+body = "Cloud മറുപടി നൽകി, പക്ഷേ ഈ server നിരസിച്ചു. അക്കൗണ്ട് ലിങ്ക് റദ്ദാക്കിയിരിക്കാം."
+title = "Cloud ഈ server നിരസിക്കുന്നു"
 
 [admin.settings.ai.status.cloud.down]
-body = "ഈ server-ന് Scripta Cloud-ലേക്ക് എത്താനായില്ല. അക്കൗണ്ട് ലിങ്കും ഈ server-ന് internet എത്തുമോ എന്നും പരിശോധിക്കുക."
-title = "Scripta Cloud എത്തിച്ചേരാനാകുന്നില്ല"
+body = "ഈ server-ന് Cloud-ലേക്ക് എത്താനായില്ല. അക്കൗണ്ട് ലിങ്കും ഈ server-ന് internet എത്തുമോ എന്നും പരിശോധിക്കുക."
+title = "Cloud എത്തിച്ചേരാനാകുന്നില്ല"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud ഈ server സ്വീകരിച്ചു. ഇവിടെ പ്രവർത്തിപ്പിക്കാനോ patch ചെയ്യാനോ ഒന്നുമില്ല."
-title = "Scripta Cloud-ൽ പ്രവർത്തിക്കുന്നു"
+body = "Cloud ഈ server സ്വീകരിച്ചു. ഇവിടെ പ്രവർത്തിപ്പിക്കാനോ patch ചെയ്യാനോ ഒന്നുമില്ല."
+title = "Cloud-ൽ പ്രവർത്തിക്കുന്നു"
 
 [admin.settings.ai.status.degraded]
 body = "health check-ന് മറുപടി നൽകി, പക്ഷേ യഥാർത്ഥ request നിരസിച്ചു. രണ്ട് വശങ്ങളും വ്യത്യസ്ത shared secrets ഉപയോഗിക്കുന്നു."
@@ -1475,7 +1475,7 @@ oauth = "OAuth 2.1 (ബാഹ്യ IdP)"
 
 [admin.settings.mcp.requireAccount]
 description = "Subject ഒരു provisioned, enabled Scripta user-ുമായി map ചെയ്താൽ മാത്രം tokens അനുവദിക്കുക."
-label = "നിലവിലുള്ള Scripta account ആവശ്യമാണ്"
+label = "നിലവിലുള്ള account ആവശ്യമാണ്"
 
 [admin.settings.mcp.resourceId]
 description = "ഈ server-ന്റെ public /mcp URL. Tokens അവരുടെ audience-ൽ ഇത് list ചെയ്യണം (RFC 8707), അല്ലെങ്കിൽ അവ നിരസിക്കും."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "ആദ്യം source format തിരഞ്ഞെ�
 settings = "ക്രമീകരണങ്ങൾ"
 single = "ഒറ്റ"
 sourceFormatPlaceholder = "ഉറവിട ഫോർമാറ്റ്"
-scriptaOfficeConvert = "Scripta Office Convert (ബീറ്റ) ഉപയോഗിക്കുക"
+scriptaOfficeConvert = "Office Convert (ബീറ്റ) ഉപയോഗിക്കുക"
 scriptaOfficeConvertDescription = "കുറഞ്ഞ മെമ്മറിയിൽ മികച്ചതും വേഗത്തിലുള്ളതുമായ പരിവർത്തനങ്ങൾ. സാധാരണ കൺവെർട്ടർ ഉപയോഗിക്കാൻ ഓഫാക്കുക."
 strictMode = "കർശന മോഡ്"
 strictModeDesc = "Conversion perfect അല്ലെങ്കിൽ error (VeraPDF verification ഉപയോഗിക്കുന്നു)"
@@ -5349,7 +5349,7 @@ userTitle = "പ്ലാൻ അവലോകനം"
 [onboarding.processorIntro]
 body = "Scripta ഇപ്പോൾ <strong>Policies</strong> പ്രവർത്തിപ്പിക്കുന്നു — ഓരോ document എത്തുമ്പോഴും classify, secure, process ചെയ്യുന്ന automated rules. അവ setup ചെയ്ത് runs <strong>Processor</strong>-ൽ monitor ചെയ്യുക."
 cta = "Processor പരിശോധിക്കുക"
-title = "Scripta Processor പരിശോധിക്കുക"
+title = "Processor പരിശോധിക്കുക"
 
 [onboarding.securityCheck]
 message = "ആപ്ലിക്കേഷൻ അടുത്തിടെ വലിയ മാറ്റങ്ങൾ കണ്ടിട്ടുണ്ട്. നിങ്ങളുടെ സെർവർ അഡ്മിന്റെ ശ്രദ്ധ ആവശ്യമായേക്കാം. തുടരാൻ നിങ്ങളുടെ റോൾ സ്ഥിരീകരിക്കുക."
@@ -8047,7 +8047,7 @@ storageSharing = "ഫയൽ സംഭരണവും പങ്കിടലും
 systemSettings = "സിസ്റ്റം ക്രമീകരണങ്ങൾ"
 
 [settings.connectedInstances]
-confirmBody = "ഇത് Scripta Cloud-ൽ നിങ്ങളുടെ team-ിലേക്കുള്ള instance-ന്റെ access പിൻവലിക്കുന്നു. ഇത് local files ഇല്ലാതാക്കുകയോ ഇതിനകം രേഖപ്പെടുത്തിയ usage നീക്കംചെയ്യുകയോ ചെയ്യുന്നില്ല. വീണ്ടും ബന്ധിപ്പിക്കാൻ, instance-ൽ യഥാർത്ഥ connection steps പിന്തുടരുക."
+confirmBody = "ഇത് Cloud-ൽ നിങ്ങളുടെ team-ിലേക്കുള്ള instance-ന്റെ access പിൻവലിക്കുന്നു. ഇത് local files ഇല്ലാതാക്കുകയോ ഇതിനകം രേഖപ്പെടുത്തിയ usage നീക്കംചെയ്യുകയോ ചെയ്യുന്നില്ല. വീണ്ടും ബന്ധിപ്പിക്കാൻ, instance-ൽ യഥാർത്ഥ connection steps പിന്തുടരുക."
 confirmTitle = "{{name}} നീക്കംചെയ്യണോ?"
 connectedAt = "ബന്ധിപ്പിച്ചത്: {{date}}"
 connectedDate = "ബന്ധിപ്പിച്ചു"
@@ -8091,7 +8091,7 @@ user = "ലോഗിൻ ചെയ്തത്"
 
 [settings.connection.mode]
 local = "ലോക്കൽ മാത്രം"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "സെൽഫ്-ഹോസ്റ്റഡ്"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitoring"
 [settings.planBilling]
 currentPlan = "നിലവിലെ പ്ലാൻ"
 loading = "ബില്ലിംഗ് വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു..."
-notAvailable = "Plan & Billing, Scripta Cloud-ലേക്ക് (SaaS mode) കണക്റ്റ് ചെയ്തിരിക്കുന്നപ്പോൾ മാത്രമാണ് ലഭ്യമാകുന്നത്."
+notAvailable = "Plan & Billing, Cloud-ലേക്ക് (SaaS mode) കണക്റ്റ് ചെയ്തിരിക്കുന്നപ്പോൾ മാത്രമാണ് ലഭ്യമാകുന്നത്."
 title = "പ്ലാനും Billing-ഉം"
 
 [settings.planBilling.billing]

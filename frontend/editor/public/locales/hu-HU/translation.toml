@@ -614,7 +614,7 @@ description = "Maximális futási idő"
 label = "Időkorlát (perc)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "A Scripta Office Convert béta verzióban van. Jobb konverziókat kínál, gyorsabban és kevesebb memóriahasználattal, mint a LibreOffice."
+description = "A Office Convert béta verzióban van. Jobb konverziókat kínál, gyorsabban és kevesebb memóriahasználattal, mint a LibreOffice."
 label = "Új Scripta Office konverzió használata"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "A tessdata elérési út nem írható. A letöltések a bön
 [admin.settings.ai]
 customProvider = "Egyéni (OpenAI-kompatibilis)"
 description = "Csatlakoztassa a Scriptaet a Python AI motorhoz, válassza ki a modelljeit, és állítsa be a működési korlátokat."
-managedByCloud = "Ebben a módban a Scripta Cloud kezeli."
-managedByCloudShort = "Scripta Cloud által kezelve"
+managedByCloud = "Ebben a módban a Cloud kezeli."
+managedByCloudShort = "Cloud által kezelve"
 
 [admin.settings.ai.documents]
 description = "Konfigurálja a dokumentumokkal kapcsolatos kérdések megválaszolásához használt beágyazási modellt és visszakeresési beállításokat. Mentéskor az AI-motorra lesz alkalmazva."
@@ -735,16 +735,16 @@ description = "Kapcsolja be vagy ki az egyes AI-funkciókat. A letiltott funkci�
 title = "Képességek"
 
 [admin.settings.ai.general.cloud]
-note = "A modelleket és a szolgáltatói kulcsokat a Scripta Cloud kezeli, ezért ezek a beállítások ebben a módban nem érvényesek."
+note = "A modelleket és a szolgáltatói kulcsokat a Cloud kezeli, ezért ezek a beállítások ebben a módban nem érvényesek."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Minden AI eszköz elküldi azt az oldalszöveget, amelyre a válaszadáshoz szüksége van. Ez dönti el, hogy a Scripta Cloud megtarthatja-e ezt a szöveget indexelve, hogy a későbbi kérdések a dokumentumban kereshessenek."
+description = "Minden AI eszköz elküldi azt az oldalszöveget, amelyre a válaszadáshoz szüksége van. Ez dönti el, hogy a Cloud megtarthatja-e ezt a szöveget indexelve, hogy a későbbi kérdések a dokumentumban kereshessenek."
 help = "Kikapcsolva a dokumentumkérdések nem érhetők el. Ez nem akadályozza meg a szöveg elküldését – csak a tárolását."
-label = "A Scripta Cloud megtarthatja az indexelt dokumentumokat"
+label = "A Cloud megtarthatja az indexelt dokumentumokat"
 
 [admin.settings.ai.general.cloudNote]
-body = "Az érvelés a Scripta infrastruktúráján fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik. Itt nincs futtatandó konténer és nincs tárolandó szolgáltatói kulcs. Amit az AI olvas, azt a Scripta Cloud dolgozza fel, nem a saját hardvere."
-title = "A Scripta Cloud AI-ról"
+body = "Az érvelés a Scripta infrastruktúráján fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik. Itt nincs futtatandó konténer és nincs tárolandó szolgáltatói kulcs. Amit az AI olvas, azt a Cloud dolgozza fel, nem a saját hardvere."
+title = "A Cloud AI-ról"
 
 [admin.settings.ai.general.enabled]
 description = "Főkapcsoló. Kikapcsolt állapotban nem érhetők el AI-eszközök, ügynökök vagy motorhívások."
@@ -782,11 +782,11 @@ label = "Hosszú futású időtúllépés (másodperc)"
 label = "Hol fut az AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Nincs konténer, nincs szolgáltatói kulcs, nincs modellválasztás – a munka a Scripta Cloudban fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik."
+description = "Nincs konténer, nincs szolgáltatói kulcs, nincs modellválasztás – a munka a Cloudban fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik."
 linkCta = "Szerver csatlakoztatása egy Scripta-fiókhoz"
 notLinked = "Először kapcsoljon egy fiókot"
 ownerOnly = "Csak a szervezet tulajdonosa kapcsolhatja ezt a szervert egy Scripta-fiókhoz."
-title = "Scripta Cloud AI használata"
+title = "Cloud AI használata"
 
 [admin.settings.ai.general.mode.off]
 description = "Nincsenek AI eszközök az alkalmazásban, és semmi sem hagyja el ezt a szervert."
@@ -900,24 +900,24 @@ url = "Motor URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Nem elérhető"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Elérhető"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "AI megosztás"
 sharingOff = "Letiltva"
 sharingOn = "Engedélyezve"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "A Scripta Cloud válaszolt, de elutasította ezt a szervert. Lehet, hogy a fiókkapcsolat vissza lett vonva."
-title = "A Scripta Cloud elutasítja ezt a szervert"
+body = "A Cloud válaszolt, de elutasította ezt a szervert. Lehet, hogy a fiókkapcsolat vissza lett vonva."
+title = "A Cloud elutasítja ezt a szervert"
 
 [admin.settings.ai.status.cloud.down]
-body = "Ez a szerver nem tudta elérni a Scripta Cloudot. Ellenőrizze a fiókkapcsolatot, és hogy ez a szerver eléri-e az internetet."
-title = "A Scripta Cloud nem érhető el"
+body = "Ez a szerver nem tudta elérni a Cloudot. Ellenőrizze a fiókkapcsolatot, és hogy ez a szerver eléri-e az internetet."
+title = "A Cloud nem érhető el"
 
 [admin.settings.ai.status.cloud.ok]
-body = "A Scripta Cloud elfogadta ezt a szervert. Itt nincs mit futtatni vagy javítani."
-title = "Scripta Cloudon fut"
+body = "A Cloud elfogadta ezt a szervert. Itt nincs mit futtatni vagy javítani."
+title = "Cloudon fut"
 
 [admin.settings.ai.status.degraded]
 body = "Válaszolt az állapotellenőrzésre, de elutasított egy valódi kérést. A két oldal eltérő megosztott titkokat használ."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Először válasszon forrásformátumot"
 settings = "Beállítások"
 single = "Egyetlen"
 sourceFormatPlaceholder = "Forrásformátum"
-scriptaOfficeConvert = "Scripta Office Convert használata (béta)"
+scriptaOfficeConvert = "Office Convert használata (béta)"
 scriptaOfficeConvertDescription = "Jobb, gyorsabb konverziók kevesebb memóriahasználattal. Kapcsolja ki a standard konverter használatához."
 strictMode = "Szigorú mód"
 strictModeDesc = "Hiba, ha a konverzió nem tökéletes (VeraPDF ellenőrzést használ)"
@@ -5349,7 +5349,7 @@ userTitle = "Csomag áttekintése"
 [onboarding.processorIntro]
 body = "A Scripta mostantól <strong>Szabályokat</strong> futtat — automatizált szabályokat, amelyek érkezéskor minden dokumentumot osztályoznak, védenek és feldolgoznak. Állítsa be őket, és kövesse a futásokat a <strong>Processor</strong> felületén."
 cta = "A Processor megtekintése"
-title = "Ismerje meg a Scripta Processort"
+title = "Ismerje meg a Processort"
 
 [onboarding.securityCheck]
 message = "Az alkalmazás nemrég jelentős változásokon ment keresztül. Előfordulhat, hogy a szerver adminisztrátorának beavatkozása szükséges. A folytatáshoz erősítse meg a szerepkörét."
@@ -8047,7 +8047,7 @@ storageSharing = "Fájltárolás és megosztás"
 systemSettings = "Rendszerbeállítások"
 
 [settings.connectedInstances]
-confirmBody = "Ez visszavonja a példány hozzáférését a csapatához a Scripta Cloudban. Nem törli a helyi fájlokat, és nem távolítja el a már rögzített használatot. Az újbóli csatlakoztatáshoz kövesse az eredeti csatlakoztatási lépéseket a példányon."
+confirmBody = "Ez visszavonja a példány hozzáférését a csapatához a Cloudban. Nem törli a helyi fájlokat, és nem távolítja el a már rögzített használatot. Az újbóli csatlakoztatáshoz kövesse az eredeti csatlakoztatási lépéseket a példányon."
 confirmTitle = "Eltávolítja ezt: {{name}}?"
 connectedAt = "Csatlakoztatva: {{date}}"
 connectedDate = "Csatlakoztatva"
@@ -8091,7 +8091,7 @@ user = "Bejelentkezve mint"
 
 [settings.connection.mode]
 local = "Csak helyi"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Önhostolt"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorozás"
 [settings.planBilling]
 currentPlan = "Jelenlegi csomag"
 loading = "Számlázási információk betöltése..."
-notAvailable = "A Csomag és számlázás csak Scripta Cloud kapcsolattal érhető el (SaaS mód)."
+notAvailable = "A Csomag és számlázás csak Cloud kapcsolattal érhető el (SaaS mód)."
 title = "Csomag és számlázás"
 
 [settings.planBilling.billing]

@@ -614,7 +614,7 @@ description = "Najdaljši čas izvajanja"
 label = "Časovna omejitev (minute)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert je v različici beta. Omogoča boljše pretvorbe, hitreje in z manj pomnilnika kot LibreOffice."
+description = "Office Convert je v različici beta. Omogoča boljše pretvorbe, hitreje in z manj pomnilnika kot LibreOffice."
 label = "Uporabi novo pretvorbo Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "Pot tessdata ni zapisljiva. Prenosi se bodo odprli v brskaln
 [admin.settings.ai]
 customProvider = "Po meri (združljivo z OpenAI)"
 description = "Povežite Scripta z mehanizmom Python AI, izberite njegove modele in nastavite varovalke, pod katerimi se izvaja."
-managedByCloud = "V tem načinu upravlja Scripta Cloud."
-managedByCloudShort = "Upravlja Scripta Cloud"
+managedByCloud = "V tem načinu upravlja Cloud."
+managedByCloudShort = "Upravlja Cloud"
 
 [admin.settings.ai.documents]
 description = "Konfigurirajte model za vdelave in nastavitve pridobivanja, ki se uporabljajo za odgovarjanje na vprašanja o dokumentih. Ob shranjevanju se uporabi za AI pogon."
@@ -735,16 +735,16 @@ description = "Vklopite ali izklopite posamezne AI funkcije. Onemogočene funkci
 title = "Zmožnosti"
 
 [admin.settings.ai.general.cloud]
-note = "Modele in ključe ponudnikov upravlja Scripta Cloud, zato te nastavitve v tem načinu ne veljajo."
+note = "Modele in ključe ponudnikov upravlja Cloud, zato te nastavitve v tem načinu ne veljajo."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Vsako orodje AI pošlje besedilo strani, ki ga potrebuje za odgovor. To določa, ali sme Scripta Cloud to besedilo tudi hraniti indeksirano, da lahko poznejša vprašanja iščejo po dokumentu."
+description = "Vsako orodje AI pošlje besedilo strani, ki ga potrebuje za odgovor. To določa, ali sme Cloud to besedilo tudi hraniti indeksirano, da lahko poznejša vprašanja iščejo po dokumentu."
 help = "Izklopljeno pomeni, da vprašanja o dokumentih niso na voljo. To ne prepreči pošiljanja besedila – samo shranjevanje."
-label = "Dovoli Scripta Cloud hranjenje indeksiranih dokumentov"
+label = "Dovoli Cloud hranjenje indeksiranih dokumentov"
 
 [admin.settings.ai.general.cloudNote]
-body = "Sklepanje se izvaja na infrastrukturi Scripta in se zaračuna računu, s katerim je ta strežnik povezan. Tukaj ni vsebnika za zagon in ni ključa ponudnika za hrambo. Vse, kar AI prebere, obdela Scripta Cloud in ne vaša lastna strojna oprema."
-title = "O Scripta Cloud AI"
+body = "Sklepanje se izvaja na infrastrukturi Scripta in se zaračuna računu, s katerim je ta strežnik povezan. Tukaj ni vsebnika za zagon in ni ključa ponudnika za hrambo. Vse, kar AI prebere, obdela Cloud in ne vaša lastna strojna oprema."
+title = "O Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Glavno stikalo. Ko je izklopljeno, niso na voljo nobena AI orodja, agenti ali klici pogona."
@@ -782,11 +782,11 @@ label = "Časovna omejitev dolgotrajnih opravil (sekunde)"
 label = "Kje se izvaja AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Brez vsebnika, brez ključa ponudnika, brez izbire modela – delo se izvaja v Scripta Cloud in se zaračuna računu, s katerim je ta strežnik povezan."
+description = "Brez vsebnika, brez ključa ponudnika, brez izbire modela – delo se izvaja v Cloud in se zaračuna računu, s katerim je ta strežnik povezan."
 linkCta = "Povežite ta strežnik z računom Scripta"
 notLinked = "Najprej povežite račun"
 ownerOnly = "Samo lastnik organizacije lahko poveže ta strežnik z računom Scripta."
-title = "Uporabi Scripta Cloud AI"
+title = "Uporabi Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Orodij AI ni nikjer v aplikaciji in nič ne zapusti tega strežnika."
@@ -900,24 +900,24 @@ url = "URL mehanizma"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Nedosegljivo"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Dosegljivo"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "Deljenje AI"
 sharingOff = "Onemogočeno"
 sharingOn = "Omogočeno"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud je odgovoril, vendar je zavrnil ta strežnik. Povezava računa je bila morda preklicana."
-title = "Scripta Cloud zavrača ta strežnik"
+body = "Cloud je odgovoril, vendar je zavrnil ta strežnik. Povezava računa je bila morda preklicana."
+title = "Cloud zavrača ta strežnik"
 
 [admin.settings.ai.status.cloud.down]
-body = "Ta strežnik ni mogel doseči Scripta Cloud. Preverite povezavo računa in ali lahko ta strežnik dostopa do interneta."
-title = "Scripta Cloud ni dosegljiv"
+body = "Ta strežnik ni mogel doseči Cloud. Preverite povezavo računa in ali lahko ta strežnik dostopa do interneta."
+title = "Cloud ni dosegljiv"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud je sprejel ta strežnik. Tukaj ni ničesar za zagon ali popravljanje."
-title = "Izvaja se v Scripta Cloud"
+body = "Cloud je sprejel ta strežnik. Tukaj ni ničesar za zagon ali popravljanje."
+title = "Izvaja se v Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Odgovoril je na preverjanje stanja, vendar je zavrnil pravi zahtevek. Obe strani uporabljata različni deljeni skrivnosti."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Najprej izberite izvorni format"
 settings = "Nastavitve"
 single = "Posamezna"
 sourceFormatPlaceholder = "Izvorni format"
-scriptaOfficeConvert = "Uporabi Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Uporabi Office Convert (beta)"
 scriptaOfficeConvertDescription = "Boljše in hitrejše pretvorbe z manj pomnilnika. Izklopite, da uporabite standardni pretvornik."
 strictMode = "Strogi način"
 strictModeDesc = "Napaka, če pretvorba ni popolna (uporablja preverjanje VeraPDF)"
@@ -5349,7 +5349,7 @@ userTitle = "Pregled načrta"
 [onboarding.processorIntro]
 body = "Scripta zdaj izvaja <strong>Pravila</strong> — avtomatizirana pravila, ki razvrstijo, zaščitijo in obdelajo vsak dokument ob prihodu. Nastavite jih in spremljajte izvajanja v <strong>Processor</strong>."
 cta = "Oglejte si Processor"
-title = "Oglejte si Scripta Processor"
+title = "Oglejte si Processor"
 
 [onboarding.securityCheck]
 message = "Aplikacija je nedavno doživela pomembne spremembe. Morda bo potrebna pozornost skrbnika strežnika. Za nadaljevanje potrdite svojo vlogo."
@@ -8047,7 +8047,7 @@ storageSharing = "Shramba datotek in skupna raba"
 systemSettings = "Sistemske nastavitve"
 
 [settings.connectedInstances]
-confirmBody = "S tem prekličete dostop instance do vaše ekipe v Scripta Cloud. To ne izbriše lokalnih datotek niti ne odstrani že zabeležene porabe. Za ponovno povezavo sledite prvotnim korakom povezave na instanci."
+confirmBody = "S tem prekličete dostop instance do vaše ekipe v Cloud. To ne izbriše lokalnih datotek niti ne odstrani že zabeležene porabe. Za ponovno povezavo sledite prvotnim korakom povezave na instanci."
 confirmTitle = "Odstraniti {{name}}?"
 connectedAt = "Povezano: {{date}}"
 connectedDate = "Povezano"
@@ -8091,7 +8091,7 @@ user = "Prijavljeni kot"
 
 [settings.connection.mode]
 local = "Samo lokalno"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Samogostovano"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Spremljanje"
 [settings.planBilling]
 currentPlan = "Trenutni načrt"
 loading = "Nalaganje podatkov o zaračunavanju ..."
-notAvailable = "Načrt in zaračunavanje sta na voljo le ob povezavi s Scripta Cloud (način SaaS)."
+notAvailable = "Načrt in zaračunavanje sta na voljo le ob povezavi s Cloud (način SaaS)."
 title = "Načrt in zaračunavanje"
 
 [settings.planBilling.billing]

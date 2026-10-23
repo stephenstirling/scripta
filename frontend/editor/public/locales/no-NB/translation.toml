@@ -614,7 +614,7 @@ description = "Maksimal kjøretid"
 label = "Tidsavbrudd (minutter)"
 
 [admin.settings.advanced.scriptaOfficeConversion]
-description = "Scripta Office Convert er i beta. Den gir bedre konverteringer, raskere og med mindre minnebruk enn LibreOffice."
+description = "Office Convert er i beta. Den gir bedre konverteringer, raskere og med mindre minnebruk enn LibreOffice."
 label = "Bruk ny Scripta Office-konvertering"
 
 [admin.settings.advanced.tempFileManagement]
@@ -683,8 +683,8 @@ permissionNotice = "tessdata-stien er ikke skrivbar. Nedlastinger åpnes i nettl
 [admin.settings.ai]
 customProvider = "Egendefinert (OpenAI-kompatibel)"
 description = "Koble Scripta til Python AI-motoren, velg modellene dens og angi sikkerhetsrammene den kjører under."
-managedByCloud = "Administreres av Scripta Cloud i denne modusen."
-managedByCloudShort = "Administreres av Scripta Cloud"
+managedByCloud = "Administreres av Cloud i denne modusen."
+managedByCloudShort = "Administreres av Cloud"
 
 [admin.settings.ai.documents]
 description = "Konfigurer embedding-modellen og innstillingene for henting som brukes til å svare på spørsmål om dokumenter. Brukes på AI-motoren når det lagres."
@@ -735,16 +735,16 @@ description = "Slå individuelle AI-funksjoner av eller på. Deaktiverte funksjo
 title = "Funksjoner"
 
 [admin.settings.ai.general.cloud]
-note = "Modeller og leverandørnøkler administreres av Scripta Cloud, så disse innstillingene gjelder ikke i denne modusen."
+note = "Modeller og leverandørnøkler administreres av Cloud, så disse innstillingene gjelder ikke i denne modusen."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Hvert KI-verktøy sender sideteksten det trenger for å svare. Dette bestemmer om Scripta Cloud også kan beholde teksten, indeksert, slik at senere spørsmål kan søke i dokumentet."
+description = "Hvert KI-verktøy sender sideteksten det trenger for å svare. Dette bestemmer om Cloud også kan beholde teksten, indeksert, slik at senere spørsmål kan søke i dokumentet."
 help = "Av betyr at dokumentspørsmål ikke er tilgjengelige. Det stopper ikke tekst fra å bli sendt – bare lagret."
-label = "La Scripta Cloud beholde indekserte dokumenter"
+label = "La Cloud beholde indekserte dokumenter"
 
 [admin.settings.ai.general.cloudNote]
-body = "Resonneringen kjører på Scriptas infrastruktur, fakturert til kontoen denne serveren er koblet til. Det er ingen container å kjøre og ingen leverandørnøkkel å oppbevare her. Det KI leser, behandles av Scripta Cloud i stedet for på din egen maskinvare."
-title = "Om Scripta Cloud KI"
+body = "Resonneringen kjører på Scriptas infrastruktur, fakturert til kontoen denne serveren er koblet til. Det er ingen container å kjøre og ingen leverandørnøkkel å oppbevare her. Det KI leser, behandles av Cloud i stedet for på din egen maskinvare."
+title = "Om Cloud KI"
 
 [admin.settings.ai.general.enabled]
 description = "Hovedbryter. Når den er av, er ingen AI-verktøy, agenter eller motorkall tilgjengelige."
@@ -782,11 +782,11 @@ label = "Tidsavbrudd for langvarige operasjoner (sekunder)"
 label = "Hvor KI kjører"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Ingen container, ingen leverandørnøkkel, ingen modellvalg – arbeidet kjører på Scripta Cloud og faktureres til kontoen denne serveren er koblet til."
+description = "Ingen container, ingen leverandørnøkkel, ingen modellvalg – arbeidet kjører på Cloud og faktureres til kontoen denne serveren er koblet til."
 linkCta = "Koble denne serveren til en Scripta-konto"
 notLinked = "Koble til en konto først"
 ownerOnly = "Bare organisasjonseieren kan koble denne serveren til en Scripta-konto."
-title = "Bruk Scripta Cloud KI"
+title = "Bruk Cloud KI"
 
 [admin.settings.ai.general.mode.off]
 description = "Ingen KI-verktøy noe sted i appen, og ingenting forlater denne serveren."
@@ -900,24 +900,24 @@ url = "Motor-URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Nede"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Oppe"
-name = "Scripta Cloud"
+name = "Cloud"
 sharingLabel = "KI-deling"
 sharingOff = "Deaktivert"
 sharingOn = "Aktivert"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Scripta Cloud svarte, men avviste denne serveren. Kontokoblingen kan ha blitt tilbakekalt."
-title = "Scripta Cloud avviser denne serveren"
+body = "Cloud svarte, men avviste denne serveren. Kontokoblingen kan ha blitt tilbakekalt."
+title = "Cloud avviser denne serveren"
 
 [admin.settings.ai.status.cloud.down]
-body = "Denne serveren kunne ikke nå Scripta Cloud. Kontroller kontokoblingen og at denne serveren kan nå internett."
-title = "Scripta Cloud er utilgjengelig"
+body = "Denne serveren kunne ikke nå Cloud. Kontroller kontokoblingen og at denne serveren kan nå internett."
+title = "Cloud er utilgjengelig"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Scripta Cloud godtok denne serveren. Ingenting å kjøre eller oppdatere her."
-title = "Kjører på Scripta Cloud"
+body = "Cloud godtok denne serveren. Ingenting å kjøre eller oppdatere her."
+title = "Kjører på Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Den svarte på helsesjekken, men avviste en ekte forespørsel. De to sidene bruker forskjellige delte hemmeligheter."
@@ -3295,7 +3295,7 @@ selectSourceFormatFirst = "Velg et kildeformat først"
 settings = "Innstillinger"
 single = "Enkel"
 sourceFormatPlaceholder = "Kildeformat"
-scriptaOfficeConvert = "Bruk Scripta Office Convert (beta)"
+scriptaOfficeConvert = "Bruk Office Convert (beta)"
 scriptaOfficeConvertDescription = "Bedre og raskere konverteringer med mindre minnebruk. Slå av for å bruke standardkonvertereren."
 strictMode = "Streng modus"
 strictModeDesc = "Feil hvis konverteringen ikke er perfekt (bruker VeraPDF-verifisering)"
@@ -5349,7 +5349,7 @@ userTitle = "Planoversikt"
 [onboarding.processorIntro]
 body = "Scripta kjører nå <strong>policyer</strong> — automatiserte regler som klassifiserer, sikrer og behandler hvert dokument når det ankommer. Sett dem opp og overvåk kjøringer i <strong>Processor</strong>."
 cta = "Sjekk ut Processor"
-title = "Sjekk ut Scripta Processor"
+title = "Sjekk ut Processor"
 
 [onboarding.securityCheck]
 message = "Applikasjonen har nylig gjennomgått betydelige endringer. Serveradministratorens oppmerksomhet kan være nødvendig. Bekreft rollen din for å fortsette."
@@ -8047,7 +8047,7 @@ storageSharing = "Fil-lagring og deling"
 systemSettings = "Systeminnstillinger"
 
 [settings.connectedInstances]
-confirmBody = "Dette tilbakekaller instansens tilgang til teamet ditt i Scripta Cloud. Det sletter ikke lokale filer eller fjerner bruk som allerede er registrert. For å koble til igjen, følg de opprinnelige tilkoblingstrinnene på instansen."
+confirmBody = "Dette tilbakekaller instansens tilgang til teamet ditt i Cloud. Det sletter ikke lokale filer eller fjerner bruk som allerede er registrert. For å koble til igjen, følg de opprinnelige tilkoblingstrinnene på instansen."
 confirmTitle = "Fjerne {{name}}?"
 connectedAt = "Tilkoblet: {{date}}"
 connectedDate = "Tilkoblet"
@@ -8091,7 +8091,7 @@ user = "Logget inn som"
 
 [settings.connection.mode]
 local = "Kun lokalt"
-saas = "Scripta Cloud"
+saas = "Cloud"
 selfhosted = "Selvhostet"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Overvåking"
 [settings.planBilling]
 currentPlan = "Gjeldende plan"
 loading = "Laster faktureringsinformasjon..."
-notAvailable = "Plan og fakturering er bare tilgjengelig når du er koblet til Scripta Cloud (SaaS-modus)."
+notAvailable = "Plan og fakturering er bare tilgjengelig når du er koblet til Cloud (SaaS-modus)."
 title = "Plan og fakturering"
 
 [settings.planBilling.billing]

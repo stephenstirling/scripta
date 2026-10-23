@@ -215,7 +215,7 @@ These files provide pre-configured setups for different scenarios. For example, 
 services:
   scripta:
     container_name: Scripta-Security
-    image: docker.stirlingpdf.com/stirlingtools/scripta:latest
+    image: ghcr.io/stephenstirling/scripta:latest
     deploy:
       resources:
         limits:
@@ -289,20 +289,20 @@ Scripta uses different Docker images for various configurations. The build proce
    For the latest version:
 
    ```bash
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest -f ./Dockerfile .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t ghcr.io/stephenstirling/scripta:latest -f ./Dockerfile .
    ```
 
    For the ultra-lite version:
 
    ```bash
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest-ultra-lite -f ./Dockerfile.ultra-lite .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t ghcr.io/stephenstirling/scripta:latest-ultra-lite -f ./Dockerfile.ultra-lite .
    ```
 
    For the fat version (with login and security features enabled):
 
    ```bash
    export DISABLE_ADDITIONAL_FEATURES=false
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest-fat -f ./Dockerfile.fat .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t ghcr.io/stephenstirling/scripta:latest-fat -f ./Dockerfile.fat .
    ```
 
 Note: The `--no-cache` and `--pull` flags ensure that the build process uses the latest base images and doesn't use cached layers, which is useful for testing and ensuring reproducible builds. However, to improve build times these can often be removed depending on your use case

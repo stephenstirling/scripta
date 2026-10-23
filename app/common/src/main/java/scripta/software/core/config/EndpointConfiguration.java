@@ -615,7 +615,7 @@ public class EndpointConfiguration {
         // file-to-pdf has multiple implementations
         addEndpointAlternative("file-to-pdf", "LibreOffice");
         addEndpointAlternative("file-to-pdf", "Unoconvert");
-        // Scripta Office Convert, when enabled, keeps Office conversions working without
+        // Office Convert, when enabled, keeps Office conversions working without
         // LibreOffice
         if (applicationProperties.getSystem().isScriptaOfficeConversion()) {
             addEndpointAlternative("file-to-pdf", "Java");

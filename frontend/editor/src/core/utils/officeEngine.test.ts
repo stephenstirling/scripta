@@ -3,7 +3,7 @@ import { usesOfficeEngine } from "@app/utils/convertUtils";
 import { buildConvertFormData } from "@app/hooks/tools/convert/useConvertOperation";
 import { defaultParameters } from "@app/hooks/tools/convert/useConvertParameters";
 
-describe("Scripta Office Convert switch", () => {
+describe("Office Convert switch", () => {
   test("applies to Office conversions only", () => {
     expect(usesOfficeEngine("pdf", "docx")).toBe(true);
     expect(usesOfficeEngine("pdf", "pptx")).toBe(true);

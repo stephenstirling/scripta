@@ -25,7 +25,7 @@ import stirling.software.officeconvert.PdfToPptx;
 import stirling.software.officeconvert.legacy.PdfToPpt;
 
 /**
- * PDF to Office in process through Scripta Office Convert, and the switch between it and the legacy
+ * PDF to Office in process through Office Convert, and the switch between it and the legacy
  * converters. Conversions are stopped at the LibreOffice timeout.
  */
 @Service
@@ -68,7 +68,7 @@ public class OfficeConversionService {
         return endpointConfiguration.isGroupEnabled("LibreOffice");
     }
 
-    /** Scripta Office Convert replaces LibreOffice only when the admin enables it. */
+    /** Office Convert replaces LibreOffice only when the admin enables it. */
     public boolean replacesLibreOffice() {
         return !legacy();
     }
