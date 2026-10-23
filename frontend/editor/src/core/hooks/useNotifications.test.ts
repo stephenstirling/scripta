@@ -47,7 +47,7 @@ function feed(
 const VIEWER = "viewer-a";
 
 function readThroughKeyFor(viewerKey: string): string {
-  return `stirling.notifications.readThroughAt.${viewerKey}`;
+  return `scripta.notifications.readThroughAt.${viewerKey}`;
 }
 
 function notification(
@@ -369,7 +369,7 @@ describe("useNotifications", () => {
 
     expect(
       Object.keys(window.localStorage).filter((key) =>
-        key.startsWith("stirling.notifications.readThroughAt"),
+        key.startsWith("scripta.notifications.readThroughAt"),
       ),
     ).toEqual([]);
   });

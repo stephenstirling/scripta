@@ -4,7 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import { describe, expect, it, vi } from "vitest";
 import { FileGrid } from "@app/components/filesPage/FileGrid";
 import { FileContextProvider } from "@app/contexts/FileContext";
-import { createNewStirlingFileStub } from "@app/types/fileContext";
+import { createNewScriptaFileStub } from "@app/types/fileContext";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -21,7 +21,7 @@ vi.mock("@app/hooks/useLazyThumbnail", () => ({
   useDiskThumbnail: () => undefined,
 }));
 
-const stored = createNewStirlingFileStub(new File(["text"], "README"));
+const stored = createNewScriptaFileStub(new File(["text"], "README"));
 const disk = {
   path: "/documents/README",
   name: "README",
@@ -73,7 +73,7 @@ describe("file library accessibility", () => {
   });
 
   it("marks selected list rows without giving them checkboxes", () => {
-    const other = createNewStirlingFileStub(new File(["text"], "notes.pdf"));
+    const other = createNewScriptaFileStub(new File(["text"], "notes.pdf"));
     render(
       grid({
         viewMode: "list",

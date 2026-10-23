@@ -25,7 +25,7 @@ import i18n from "@app/i18n/config";
 import { detectFileExtension } from "@app/utils/fileUtils";
 import { FIT_OPTIONS } from "@app/constants/convertConstants";
 import {
-  createTestStirlingFile,
+  createTestScriptaFile,
   createTestFilesWithId,
 } from "@app/tests/utils/testFileHelpers";
 import { allowConsole, expectConsole } from "@app/tests/failOnConsole";
@@ -89,7 +89,7 @@ vi.mock("../../services/fileStorage", () => ({
         thumbnail: thumbnail,
       });
     }),
-    storeStirlingFile: vi.fn().mockResolvedValue(undefined),
+    storeScriptaFile: vi.fn().mockResolvedValue(undefined),
     persistVersionedOutputs: vi.fn().mockResolvedValue(undefined),
     getAllFileMetadata: vi.fn().mockResolvedValue([]),
     cleanup: vi.fn().mockResolvedValue(undefined),
@@ -152,7 +152,7 @@ describe("Convert Tool - Smart Detection Integration Tests", () => {
       );
 
       // Create mock DOCX file
-      const docxFile = createTestStirlingFile(
+      const docxFile = createTestScriptaFile(
         "document.docx",
         "docx content",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -206,7 +206,7 @@ describe("Convert Tool - Smart Detection Integration Tests", () => {
       );
 
       // Create mock unknown file
-      const unknownFile = createTestStirlingFile(
+      const unknownFile = createTestScriptaFile(
         "document.xyz",
         "unknown content",
         "application/octet-stream",
@@ -441,7 +441,7 @@ describe("Convert Tool - Smart Detection Integration Tests", () => {
         },
       );
 
-      const htmlFile = createTestStirlingFile(
+      const htmlFile = createTestScriptaFile(
         "page.html",
         "<html>content</html>",
         "text/html",
@@ -482,7 +482,7 @@ describe("Convert Tool - Smart Detection Integration Tests", () => {
         },
       );
 
-      const emlFile = createTestStirlingFile(
+      const emlFile = createTestScriptaFile(
         "email.eml",
         "email content",
         "message/rfc822",
@@ -536,7 +536,7 @@ describe("Convert Tool - Smart Detection Integration Tests", () => {
         },
       );
 
-      const pdfFile = createTestStirlingFile(
+      const pdfFile = createTestScriptaFile(
         "document.pdf",
         "pdf content",
         "application/pdf",

@@ -10,7 +10,7 @@ vi.mock("@app/contexts/IndexedDBContext", () => ({
   useIndexedDB: () => ({}),
 }));
 vi.mock("@app/services/fileStorage", () => ({
-  fileStorage: { getLeafStirlingFileStubs: vi.fn(async () => []) },
+  fileStorage: { getLeafScriptaFileStubs: vi.fn(async () => []) },
 }));
 vi.mock("@app/services/pruneMissingRecentFiles", () => ({
   pruneMissingRecentFiles: vi.fn(async (stubs: unknown[]) => stubs),

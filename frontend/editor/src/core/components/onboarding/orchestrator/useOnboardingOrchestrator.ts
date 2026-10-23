@@ -26,7 +26,7 @@ const SESSION_SELECTED_ROLE = "onboarding::session::selected-role";
 // Check if user has an auth token (to avoid flash before redirect)
 function hasAuthToken(): boolean {
   if (typeof window === "undefined") return false;
-  return !!localStorage.getItem("stirling_jwt");
+  return !!localStorage.getItem("scripta_jwt");
 }
 
 // Get initial runtime state from session storage (survives remounts)

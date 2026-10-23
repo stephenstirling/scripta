@@ -2,7 +2,7 @@
  * Type safety declarations to prevent file.name/UUID confusion
  */
 
-import { FileId, StirlingFile } from "@app/types/fileContext";
+import { FileId, ScriptaFile } from "@app/types/fileContext";
 
 declare global {
   namespace FileIdSafety {
@@ -14,16 +14,16 @@ declare global {
           : T
         : T;
 
-    // Mark functions that should only accept StirlingFile, not regular File
-    type StirlingFileOnlyFunction<T extends (...args: never[]) => unknown> =
+    // Mark functions that should only accept ScriptaFile, not regular File
+    type ScriptaFileOnlyFunction<T extends (...args: never[]) => unknown> =
       T extends (...args: infer P) => infer _R
         ? P extends readonly [File, ...unknown[]]
-          ? never // Reject File parameters in first position for StirlingFile functions
+          ? never // Reject File parameters in first position for ScriptaFile functions
           : T
         : T;
 
-    // Utility type to enforce StirlingFile usage
-    type RequireStirlingFile<T> = T extends File ? StirlingFile : T;
+    // Utility type to enforce ScriptaFile usage
+    type RequireScriptaFile<T> = T extends File ? ScriptaFile : T;
   }
 
   // Extend Window interface for debugging
@@ -32,25 +32,25 @@ declare global {
   }
 }
 
-// Augment FileContext types to prevent bypassing StirlingFile
+// Augment FileContext types to prevent bypassing ScriptaFile
 declare module "../contexts/FileContext" {
   export interface StrictFileContextActions {
-    pinFile: (file: StirlingFile) => void; // Must be StirlingFile
-    unpinFile: (file: StirlingFile) => void; // Must be StirlingFile
+    pinFile: (file: ScriptaFile) => void; // Must be ScriptaFile
+    unpinFile: (file: ScriptaFile) => void; // Must be ScriptaFile
     addFiles: (
       files: File[],
       options?: { insertAfterPageId?: string },
-    ) => Promise<StirlingFile[]>; // Returns StirlingFile
+    ) => Promise<ScriptaFile[]>; // Returns ScriptaFile
     consumeFiles: (
       inputFileIds: FileId[],
       outputFiles: File[],
-    ) => Promise<StirlingFile[]>; // Returns StirlingFile
+    ) => Promise<ScriptaFile[]>; // Returns ScriptaFile
   }
 
   export interface StrictFileContextSelectors {
-    getFile: (id: FileId) => StirlingFile | undefined; // Returns StirlingFile
-    getFiles: (ids?: FileId[]) => StirlingFile[]; // Returns StirlingFile[]
-    isFilePinned: (file: StirlingFile) => boolean; // Must be StirlingFile
+    getFile: (id: FileId) => ScriptaFile | undefined; // Returns ScriptaFile
+    getFiles: (ids?: FileId[]) => ScriptaFile[]; // Returns ScriptaFile[]
+    isFilePinned: (file: ScriptaFile) => boolean; // Must be ScriptaFile
   }
 }
 

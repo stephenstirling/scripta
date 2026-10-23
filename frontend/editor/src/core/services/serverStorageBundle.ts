@@ -2,7 +2,7 @@ import JSZip from "jszip";
 
 import { fileStorage } from "@app/services/fileStorage";
 import type { FileId, ToolOperation } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 interface ShareBundleEntry {
   logicalId: string;
@@ -60,7 +60,7 @@ export async function buildHistoryBundle(
 
   for (const chain of allStubs) {
     for (const stub of chain.stubs) {
-      const file = await fileStorage.getStirlingFile(stub.id);
+      const file = await fileStorage.getScriptaFile(stub.id);
       if (!file) {
         throw new Error(`Missing file data for ${stub.name || stub.id}`);
       }
@@ -94,7 +94,7 @@ export async function buildHistoryBundle(
     entries,
   };
 
-  zip.file("stirling-share.json", JSON.stringify(manifest, null, 2));
+  zip.file("scripta-share.json", JSON.stringify(manifest, null, 2));
 
   const zipBlob = await zip.generateAsync({
     type: "blob",
@@ -112,7 +112,7 @@ export async function buildHistoryBundle(
   return { bundleFile, manifest };
 }
 
-export async function buildSharePackage(stubs: StirlingFileStub[]): Promise<{
+export async function buildSharePackage(stubs: ScriptaFileStub[]): Promise<{
   bundleFile: File;
   manifest: ShareBundleManifest;
 }> {
@@ -124,7 +124,7 @@ export async function buildSharePackage(stubs: StirlingFileStub[]): Promise<{
   const entries: ShareBundleEntry[] = [];
 
   for (const stub of stubs) {
-    const file = await fileStorage.getStirlingFile(stub.id);
+    const file = await fileStorage.getScriptaFile(stub.id);
     if (!file) {
       throw new Error(`Missing file data for ${stub.name || stub.id}`);
     }
@@ -157,7 +157,7 @@ export async function buildSharePackage(stubs: StirlingFileStub[]): Promise<{
     entries,
   };
 
-  zip.file("stirling-share.json", JSON.stringify(manifest, null, 2));
+  zip.file("scripta-share.json", JSON.stringify(manifest, null, 2));
 
   const zipBlob = await zip.generateAsync({
     type: "blob",

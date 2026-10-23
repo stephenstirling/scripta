@@ -18,7 +18,7 @@ export default function ProcessorIntroSlide(): SlideConfig {
     title: (
       <Trans
         i18nKey="onboarding.processorIntro.title"
-        defaults="Check out the Stirling Processor"
+        defaults="Check out the Scripta Processor"
       />
     ),
     body: <ProcessorIntroBody />,

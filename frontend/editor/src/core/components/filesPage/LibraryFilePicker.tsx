@@ -43,8 +43,8 @@ import { openFilesFromDisk } from "@app/services/openFilesFromDisk";
 import { readDiskFile } from "@app/services/localFolderContents";
 import { zipFileService } from "@app/services/zipFileService";
 import {
-  createNewStirlingFileStub,
-  type StirlingFileStub,
+  createNewScriptaFileStub,
+  type ScriptaFileStub,
 } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { folderKind, type FolderId } from "@app/types/folder";
@@ -386,7 +386,7 @@ export function LibraryFilePicker({
       }
       // Deferred native paths stay attached to the File until editor ingestion.
       const localFilePath = pendingFilePathMappings.get(file);
-      const stub = createNewStirlingFileStub(file);
+      const stub = createNewScriptaFileStub(file);
       if (typeof localFilePath === "string") stub.localFilePath = localFilePath;
       const item = { kind: "upload" as const, file, stub };
       uploadsByKey.set(key, item);
@@ -439,7 +439,7 @@ export function LibraryFilePicker({
     closeFilesModal();
     const errors: string[] = [];
     try {
-      const stored: StirlingFileStub[] = [];
+      const stored: ScriptaFileStub[] = [];
       const incoming: File[] = [];
       for (const item of eligible) {
         if (item.kind === "stored")
@@ -484,7 +484,7 @@ export function LibraryFilePicker({
     }
   };
 
-  const unzip = (stub: StirlingFileStub) =>
+  const unzip = (stub: ScriptaFileStub) =>
     run(async () => {
       const upload = uploads.get(stub.id);
       const [file] = upload ? [upload.file] : await loadFiles([stub]);
@@ -506,7 +506,7 @@ export function LibraryFilePicker({
       const extracted = result.extractedFiles.map((file) => ({
         kind: "upload" as const,
         file,
-        stub: createNewStirlingFileStub(file),
+        stub: createNewScriptaFileStub(file),
       }));
       setUploads(
         (previous) =>

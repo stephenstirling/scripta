@@ -613,18 +613,18 @@ label = "Saio-muga"
 description = "Gehienezko exekuzio-denbora"
 label = "Denbora-muga (minutuak)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert beta bertsioan dago. LibreOffice baino bihurketa hobeak eta azkarragoak eskaintzen ditu, memoria gutxiagorekin."
-label = "Erabili Stirling Office bihurketa berria"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Scripta Office Convert beta bertsioan dago. LibreOffice baino bihurketa hobeak eta azkarragoak eskaintzen ditu, memoria gutxiagorekin."
+label = "Erabili Scripta Office bihurketa berria"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Konfiguratu aldi baterako fitxategien biltegiratzea eta garbiketaren portaera"
 label = "Aldi baterako fitxategien kudeaketa"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Aldi baterako fitxategietarako oinarrizko direktorioa (utzi hutsik lehenetsia erabiltzeko: java.io.tmpdir/stirling-pdf)"
+description = "Aldi baterako fitxategietarako oinarrizko direktorioa (utzi hutsik lehenetsia erabiltzeko: java.io.tmpdir/scripta)"
 label = "Oinarrizko aldi baterako direktorioa"
-placeholder = "Lehenetsia: java.io.tmpdir/stirling-pdf"
+placeholder = "Lehenetsia: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Zenbatero exekutatu garbiketa (minututan)"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata bidea ez da idazgarria. Deskargak nabigatzailean ir
 [admin.settings.ai]
 customProvider = "Pertsonalizatua (OpenAI-rekin bateragarria)"
 description = "Konektatu Scripta Python AI motorrera, aukeratu haren ereduak eta ezarri exekutatzeko babes-mugak."
-managedByCloud = "Modu honetan Stirling Cloud-ek kudeatzen du."
-managedByCloudShort = "Stirling Cloud-ek kudeatua"
+managedByCloud = "Modu honetan Scripta Cloud-ek kudeatzen du."
+managedByCloudShort = "Scripta Cloud-ek kudeatua"
 
 [admin.settings.ai.documents]
 description = "Konfiguratu dokumentuei buruzko galderei erantzuteko erabiltzen diren embedding eredua eta berreskuratze-ezarpenak. Gordetzean AI motorrari aplikatzen zaio."
@@ -735,16 +735,16 @@ description = "Aktibatu edo desaktibatu AI eginbide bakoitza. Desaktibatutako eg
 title = "Gaitasunak"
 
 [admin.settings.ai.general.cloud]
-note = "Ereduak eta hornitzaileen gakoak Stirling Cloud-ek kudeatzen ditu; beraz, ezarpen horiek ez dira aplikatzen modu honetan."
+note = "Ereduak eta hornitzaileen gakoak Scripta Cloud-ek kudeatzen ditu; beraz, ezarpen horiek ez dira aplikatzen modu honetan."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "AI tresna bakoitzak erantzuteko behar duen orrialde-testua bidaltzen du. Honek erabakitzen du Stirling Cloud-ek testu hori ere gorde dezakeen, indexatuta, ondorengo galderek dokumentuan bilatu ahal izan dezaten."
+description = "AI tresna bakoitzak erantzuteko behar duen orrialde-testua bidaltzen du. Honek erabakitzen du Scripta Cloud-ek testu hori ere gorde dezakeen, indexatuta, ondorengo galderek dokumentuan bilatu ahal izan dezaten."
 help = "Desaktibatuta badago, dokumentu-galderak ez dira erabilgarri egongo. Horrek ez du testua bidaltzea eragozten, gordetzea bakarrik."
-label = "Utzi Stirling Cloud-i dokumentu indexatuak gordetzen"
+label = "Utzi Scripta Cloud-i dokumentu indexatuak gordetzen"
 
 [admin.settings.ai.general.cloudNote]
-body = "Arrazonamendua Scripta-en azpiegituran exekutatzen da, zerbitzari hau lotuta dagoen kontuan fakturatuta. Ez dago exekutatu beharreko edukiontzirik, ezta hemen gordetzeko hornitzaile-gakorik ere. AI-k irakurtzen duen guztia Stirling Cloud-ek prozesatzen du, ez zure hardware propioan."
-title = "Stirling Cloud AI-ri buruz"
+body = "Arrazonamendua Scripta-en azpiegituran exekutatzen da, zerbitzari hau lotuta dagoen kontuan fakturatuta. Ez dago exekutatu beharreko edukiontzirik, ezta hemen gordetzeko hornitzaile-gakorik ere. AI-k irakurtzen duen guztia Scripta Cloud-ek prozesatzen du, ez zure hardware propioan."
+title = "Scripta Cloud AI-ri buruz"
 
 [admin.settings.ai.general.enabled]
 description = "Etengailu nagusia. Desaktibatuta dagoenean, ez dago AI tresnarik, agenterik edo motor-deirik erabilgarri."
@@ -782,11 +782,11 @@ label = "Iraupen luzeko denbora-muga (segundoak)"
 label = "AI non exekutatzen den"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Ez dago edukiontzirik, ez hornitzaile-gakorik, ez eredu-aukerarik: lana Stirling Cloud-en exekutatzen da eta zerbitzari hau lotuta dagoen kontuan fakturatzen da."
+description = "Ez dago edukiontzirik, ez hornitzaile-gakorik, ez eredu-aukerarik: lana Scripta Cloud-en exekutatzen da eta zerbitzari hau lotuta dagoen kontuan fakturatzen da."
 linkCta = "Konektatu zerbitzari hau Scripta kontu batera"
 notLinked = "Lotu kontu bat lehenik"
 ownerOnly = "Erakundearen jabeak bakarrik lotu dezake zerbitzari hau Scripta kontu batera."
-title = "Erabili Stirling Cloud AI"
+title = "Erabili Scripta Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Ez dago AI tresnarik aplikazioko inon, eta ezer ez da zerbitzari honetatik irteten."
@@ -818,7 +818,7 @@ description = "Motorra bidaltzen diren AI eskaera estandarretarako denbora-muga.
 label = "Eskaeraren denbora-muga (segundoak)"
 
 [admin.settings.ai.general.url]
-description = "Python AI motorraren barne-URL, adib. http://stirling-pdf-engine:5001."
+description = "Python AI motorraren barne-URL, adib. http://scripta-engine:5001."
 label = "AI motorraren URL"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "Motor URL-a"
 hostDown = "Erorita"
 hostLabel = "Stirling.com"
 hostUp = "Aktibo"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "AI partekatzea"
 sharingOff = "Desgaituta"
 sharingOn = "Gaituta"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud-ek erantzun du, baina zerbitzari hau baztertu du. Baliteke kontu-lotura baliogabetu izana."
-title = "Stirling Cloud-ek zerbitzari hau baztertzen ari da"
+body = "Scripta Cloud-ek erantzun du, baina zerbitzari hau baztertu du. Baliteke kontu-lotura baliogabetu izana."
+title = "Scripta Cloud-ek zerbitzari hau baztertzen ari da"
 
 [admin.settings.ai.status.cloud.down]
-body = "Zerbitzari honek ezin izan du Stirling Cloud-era iritsi. Egiaztatu kontu-lotura eta zerbitzari honek internetera irits daitekeela."
-title = "Stirling Cloud ez dago eskuragarri"
+body = "Zerbitzari honek ezin izan du Scripta Cloud-era iritsi. Egiaztatu kontu-lotura eta zerbitzari honek internetera irits daitekeela."
+title = "Scripta Cloud ez dago eskuragarri"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud-ek zerbitzari hau onartu du. Ez dago hemen exekutatu edo adabakia jarri beharreko ezer."
-title = "Stirling Cloud-en exekutatzen"
+body = "Scripta Cloud-ek zerbitzari hau onartu du. Ez dago hemen exekutatu edo adabakia jarri beharreko ezer."
+title = "Scripta Cloud-en exekutatzen"
 
 [admin.settings.ai.status.degraded]
 body = "Osasun-egiaztapenari erantzun dio, baina benetako eskaera bat baztertu du. Bi aldeek sekretu partekatu desberdinak erabiltzen dituzte."
@@ -1885,7 +1885,7 @@ wrapUp = "Hori izan da administratzailearen ibilbidea! Scripta erakundeentzat ir
 title = "Erabiltzailearen Ezarpenen Kontrolak"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabiera"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Aukeratu lehenik jatorri-formatu bat"
 settings = "Ezarpenak"
 single = "Bakarra"
 sourceFormatPlaceholder = "Iturburu formatua"
-stirlingOfficeConvert = "Erabili Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Bihurketa hobeak eta azkarragoak, memoria gutxiagorekin. Desaktibatu bihurgailu estandarra erabiltzeko."
+scriptaOfficeConvert = "Erabili Scripta Office Convert (beta)"
+scriptaOfficeConvertDescription = "Bihurketa hobeak eta azkarragoak, memoria gutxiagorekin. Desaktibatu bihurgailu estandarra erabiltzeko."
 strictMode = "Modu zorrotza"
 strictModeDesc = "Errorea bihurketa perfektua ez bada (VeraPDF egiaztapena erabiltzen du)"
 svgPdfOptions = "SVGtik PDFra aukerak"
@@ -3956,7 +3956,7 @@ recentFiles = "Azkenak"
 refresh = "Freskatu"
 refreshNeedsConnection = "Hasi saioa zerbitzaritik freskatzeko."
 remove = "Ezabatu"
-removeLocalFolder = "Desmuntatu Stirlingetik"
+removeLocalFolder = "Desmuntatu Scriptaetik"
 removeVersion = "Kendu bertsio hau"
 rename = "Aldatu izena"
 renamed = "Berrizendatua"
@@ -3977,7 +3977,7 @@ summary_other = "{{count}} elementu"
 tree = "Karpetak"
 unmount = "Desmuntatu"
 unmountFolderBody = "Desmuntatu \"{{name}}\"? Karpeta eta bere fitxategiak zure diskoan geratuko dira."
-unmountFolderTitle = "Desmuntatu Stirlingetik?"
+unmountFolderTitle = "Desmuntatu Scriptaetik?"
 upload = "Igo"
 uploadFromMobile = "Igo mugikorretik"
 versionActions = "Bertsio-ekintzak"
@@ -4020,7 +4020,7 @@ orphaned = "Ez dago diskoan"
 orphanedHint = "Jatorrizkoa {{path}} kokapenean desagertu da. Kopia hau hemen bakarrik dago; gordetzean kokapen berri bat eskatuko da."
 unavailable = "Ez erabilgarri"
 unavailableHintOffline = "Fitxategi hau dagoen unitatea edo partekatzea ez dago konektatuta. Konektatu berriro aldaketak berriz jasotzeko."
-unavailableHintPermission = "Stirlingek ez du baimenik kokapen hau irakurtzeko. Eman sarbidea Sistemaren ezarpenetan aldaketak berriz jasotzeko."
+unavailableHintPermission = "Scriptaek ez du baimenik kokapen hau irakurtzeko. Eman sarbidea Sistemaren ezarpenetan aldaketak berriz jasotzeko."
 unavailableHintUnknown = "Fitxategi hau ezin da une honetan atzitu. Hemengo kopia ez da aldatu."
 
 [filesPage.diskState]
@@ -5349,7 +5349,7 @@ userTitle = "Planaren ikuspegi orokorra"
 [onboarding.processorIntro]
 body = "Scripta-ek orain <strong>Politikak</strong> exekutatzen ditu — dokumentu bakoitza iristen denean sailkatu, babestu eta prozesatzen duten arau automatizatuak. Konfiguratu eta monitorizatu exekuzioak <strong>Processor</strong>-en."
 cta = "Ikusi Processor"
-title = "Ikusi Stirling Processor"
+title = "Ikusi Scripta Processor"
 
 [onboarding.securityCheck]
 message = "Aplikazioak aldaketa handiak izan ditu azkenaldian. Zure zerbitzariaren administratzailearen arreta behar izan daiteke. Mesedez, berretsi zure rola jarraitzeko."
@@ -5359,9 +5359,9 @@ roleUser = "Erabiltzailea"
 title = "Segurtasun-egiaztapena"
 
 [onboarding.serverLicense]
-freeBody = "Gure <strong>Open-Core</strong> lizentziak <strong>OAuth SSO</strong> eta gehienez <strong>{{freeTierLimit}}</strong> erabiltzaile barne hartzen ditu doan. Etenik gabe hazteko, Stirling Team plana gomendatzen dugu — <strong>100 erabiltzaile</strong> hilean 99 $-ren truke."
+freeBody = "Gure <strong>Open-Core</strong> lizentziak <strong>OAuth SSO</strong> eta gehienez <strong>{{freeTierLimit}}</strong> erabiltzaile barne hartzen ditu doan. Etenik gabe hazteko, Scripta Team plana gomendatzen dugu — <strong>100 erabiltzaile</strong> hilean 99 $-ren truke."
 freeTitle = "Team plana"
-overLimitBody = "Gure lizentziak gehienez <strong>{{freeTierLimit}}</strong> erabiltzaile baimentzen ditu doan. <strong>{{overLimitUserCopy}}</strong> Scripta erabiltzaile dituzu. Etenik gabe jarraitzeko, eguneratu Stirling Team planera - <strong>100 erabiltzaile</strong>, PDF testu-edizioa eta administrazio-kontrol osoa $99/mo truke."
+overLimitBody = "Gure lizentziak gehienez <strong>{{freeTierLimit}}</strong> erabiltzaile baimentzen ditu doan. <strong>{{overLimitUserCopy}}</strong> Scripta erabiltzaile dituzu. Etenik gabe jarraitzeko, eguneratu Scripta Team planera - <strong>100 erabiltzaile</strong>, PDF testu-edizioa eta administrazio-kontrol osoa $99/mo truke."
 overLimitTitle = "Team plana behar da"
 seePlans = "Ikusi planak →"
 upgrade = "Eguneratu orain →"
@@ -5372,7 +5372,7 @@ title = "Ibilbidearen ikuspegi orokorra"
 
 [onboarding.welcomeSlide]
 body = "Scripta orain tamaina guztietako taldeentzat prest dago. Eguneratze honek diseinu berria, admin gaitasun indartsu berriak, eta eskatuen izan den eginbidea dakar - <strong>Testua editatu</strong>."
-title = "Ongi etorri Stirlingera"
+title = "Ongi etorri Scriptaera"
 
 [onboarding.whatsNew]
 activeFilesView = "Erabili Fitxategi aktiboak irekitako guztia ikusteko eta zerrekin lan egin hautatzeko."
@@ -6683,7 +6683,7 @@ description = "Zerbitzari honek urratsak behar duen softwarea falta du; beraz, e
 title = "Softwarea ez dago instalatuta"
 
 [portal.failures.kind.unknown]
-description = "Stirlingek oraindik ezagutzen ez duen zerbait gaizki joan da."
+description = "Scriptaek oraindik ezagutzen ez duen zerbait gaizki joan da."
 title = "Ezagutzen ez den arazoa"
 
 [portal.infrastructure.encryption.migration.state]
@@ -6918,7 +6918,7 @@ label = "Goiburukoak"
 
 [portal.policies.operations.fields.index]
 label = "Indizea"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Arazo-gakoa"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud erabiltzaile-izena"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Espazio bati jakinarazten dio politikak dokumentu bat kudeatu duela."
@@ -7192,7 +7192,7 @@ secretNote = "Sinadura-sekretua behin erakusten da, webhook-a sortzen denean. It
 copy = "Kopiatu"
 done = "Eginda"
 secret = "Sinadura-sekretua"
-secretHelp = "Sinatu bidalketa bakoitzaren gorputz gordina gako honekin (HMAC-SHA256) eta bidali X-Stirling-Signature goiburu gisa."
+secretHelp = "Sinatu bidalketa bakoitzaren gorputz gordina gako honekin (HMAC-SHA256) eta bidali X-Scripta-Signature goiburu gisa."
 secretWarning = "Kopiatu sinadura-sekretua orain. Zure segurtasunerako behin bakarrik erakusten da eta ezin da gero berreskuratu."
 title = "Webhook sortuta"
 url = "Bidalketa-URL"
@@ -8047,7 +8047,7 @@ storageSharing = "Fitxategi biltegiratzea eta partekatzea"
 systemSettings = "Sistemaren ezarpenak"
 
 [settings.connectedInstances]
-confirmBody = "Honek instantziak Stirling Cloud-en zure taldera duen sarbidea baliogabetzen du. Ez ditu tokiko fitxategiak ezabatzen eta ez du dagoeneko erregistratutako erabilera kentzen. Berriro konektatzeko, jarraitu instantziako jatorrizko konexio-urratsak."
+confirmBody = "Honek instantziak Scripta Cloud-en zure taldera duen sarbidea baliogabetzen du. Ez ditu tokiko fitxategiak ezabatzen eta ez du dagoeneko erregistratutako erabilera kentzen. Berriro konektatzeko, jarraitu instantziako jatorrizko konexio-urratsak."
 confirmTitle = "Kendu {{name}}?"
 connectedAt = "Konektatuta: {{date}}"
 connectedDate = "Konektatuta"
@@ -8091,7 +8091,7 @@ user = "Saioa hasita:"
 
 [settings.connection.mode]
 local = "Tokikoa bakarrik"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Auto-ostatua"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorizazioa"
 [settings.planBilling]
 currentPlan = "Uneko plana"
 loading = "Fakturazio-informazioa kargatzen..."
-notAvailable = "Planak eta Fakturazioa erabilgarri daude soilik Stirling Cloud-era konektatuta dagoenean (SaaS modua)."
+notAvailable = "Planak eta Fakturazioa erabilgarri daude soilik Scripta Cloud-era konektatuta dagoenean (SaaS modua)."
 title = "Plana eta Fakturazioa"
 
 [settings.planBilling.billing]

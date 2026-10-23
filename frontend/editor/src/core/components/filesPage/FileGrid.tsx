@@ -21,7 +21,7 @@ import {
   useVirtualFileRows,
   rowHeightPx,
 } from "@app/components/filesPage/useVirtualFileRows";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import {
   detectFileExtension,
   formatFileSize,
@@ -76,7 +76,7 @@ export interface FilesPageEntry {
   folder?: FolderRecord;
 
   folderFileCount?: number;
-  file?: StirlingFileStub;
+  file?: ScriptaFileStub;
 
   disk?: DiskFileEntry;
   /** The file's processing state; absent on a folder with no pipeline. */
@@ -98,7 +98,7 @@ export interface FileGridPicker {
   selectedDiskPaths: ReadonlySet<string>;
   onSelectDiskFile: (entry: DiskFileEntry, shift: boolean) => void;
   onSetDiskSelection: (entries: DiskFileEntry[]) => void;
-  onUnzipFile: (file: StirlingFileStub) => void;
+  onUnzipFile: (file: ScriptaFileStub) => void;
 }
 
 interface FileGridProps {
@@ -112,7 +112,7 @@ interface FileGridProps {
 
   onSetSelection?: (ids: Set<FileId>) => void;
   onOpenFolder: (id: FolderId) => void;
-  onOpenFile: (file: StirlingFileStub) => void;
+  onOpenFile: (file: ScriptaFileStub) => void;
   onOpenDiskFile?: (entry: DiskFileEntry) => void;
 
   onStartProcessing?: (folder: FolderRecord) => void;
@@ -139,15 +139,15 @@ interface FileGridProps {
   onRemoveFiles?: (fileIds: FileId[]) => void;
   onPromptMoveFiles?: (fileIds: FileId[]) => void;
   /** Per-file library upload; hidden when file already has remoteStorageId. */
-  onSaveToServer?: (file: StirlingFileStub) => void;
+  onSaveToServer?: (file: ScriptaFileStub) => void;
   /** Open the version-history modal for a file (only when it has >1 version). */
-  onVersionHistory?: (file: StirlingFileStub) => void;
+  onVersionHistory?: (file: ScriptaFileStub) => void;
 
-  onDownloadFile?: (file: StirlingFileStub) => void;
+  onDownloadFile?: (file: ScriptaFileStub) => void;
 
-  onRenameFile?: (file: StirlingFileStub) => void;
+  onRenameFile?: (file: ScriptaFileStub) => void;
 
-  onDuplicateFile?: (file: StirlingFileStub) => void;
+  onDuplicateFile?: (file: ScriptaFileStub) => void;
   /** When set, the library upload item renders disabled with this tooltip. */
   saveToServerDisabledReason?: string | null;
   /** When supplied the list-view column headers become sortable. */
@@ -174,14 +174,14 @@ interface FileGridProps {
 interface FileGridActions {
   selectFile: (id: FileId, shiftKey: boolean, ctrlKey: boolean) => void;
   activateFile: (
-    file: StirlingFileStub,
+    file: ScriptaFileStub,
     canOpen: boolean,
     shiftKey: boolean,
     ctrlKey: boolean,
   ) => void;
   toggleFile: (id: FileId) => void;
   openFolder: (id: FolderId) => void;
-  openFile: (file: StirlingFileStub) => void;
+  openFile: (file: ScriptaFileStub) => void;
   openDiskFile: (entry: DiskFileEntry) => void;
   startProcessing: (folder: FolderRecord) => void;
   retryFile: (name: string) => void;
@@ -203,13 +203,13 @@ interface FileGridActions {
   requestMoveFile: (id: FileId) => void;
   /** Drag payload for this file — or the whole selection when selected. */
   fileDragPayload: (id: FileId) => string;
-  saveToServer: (file: StirlingFileStub) => void;
-  versionHistory: (file: StirlingFileStub) => void;
-  downloadFile: (file: StirlingFileStub) => void;
-  renameFile: (file: StirlingFileStub) => void;
-  duplicateFile: (file: StirlingFileStub) => void;
+  saveToServer: (file: ScriptaFileStub) => void;
+  versionHistory: (file: ScriptaFileStub) => void;
+  downloadFile: (file: ScriptaFileStub) => void;
+  renameFile: (file: ScriptaFileStub) => void;
+  duplicateFile: (file: ScriptaFileStub) => void;
   selectDiskFile: (entry: DiskFileEntry, shift: boolean) => void;
-  unzipFile: (file: StirlingFileStub) => void;
+  unzipFile: (file: ScriptaFileStub) => void;
 }
 
 export function FileGrid(props: FileGridProps & { loading?: boolean }) {
@@ -969,7 +969,7 @@ const NO_BADGES: FileItemPolicyRef[] = [];
 
 interface FileActionsMenuProps {
   selectionOnly?: boolean;
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
   locked?: boolean;
   downloadAvailable: boolean;
@@ -1162,7 +1162,7 @@ interface FileCardProps {
   folderPicker?: boolean;
   selectionOnly?: boolean;
   disabledReason?: string;
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   isSelected: boolean;
   isInWorkspace: boolean;
 
@@ -1845,7 +1845,7 @@ interface FileRowProps {
   folderPicker?: boolean;
   selectionOnly?: boolean;
   disabledReason?: string;
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   isSelected: boolean;
   isInWorkspace: boolean;
   parentPath?: string;

@@ -1,15 +1,15 @@
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderId, FolderRecord } from "@app/types/folder";
 
 export type FileOrigin = "local" | "cloud" | "shared-with-me";
 
 /** Browser-only files have neither a server copy nor a link to a file on disk. */
-export function isBrowserOnlyFile(file: StirlingFileStub): boolean {
+export function isBrowserOnlyFile(file: ScriptaFileStub): boolean {
   return getFileOrigin(file) === "local" && !file.localFilePath;
 }
 
 /** Local includes browser and disk copies without server storage; shared access takes precedence. */
-export function getFileOrigin(file: StirlingFileStub): FileOrigin {
+export function getFileOrigin(file: ScriptaFileStub): FileOrigin {
   if (file.remoteSharedViaLink || file.remoteOwnedByCurrentUser === false) {
     return "shared-with-me";
   }
@@ -21,7 +21,7 @@ export function getFileOrigin(file: StirlingFileStub): FileOrigin {
 
 /** Local files without a known folder are hidden from Scripta library but remain in Recents. */
 export function isUnfiledLocalFile(
-  file: StirlingFileStub,
+  file: ScriptaFileStub,
   foldersById: ReadonlyMap<FolderId, FolderRecord>,
 ): boolean {
   return (

@@ -9,7 +9,7 @@
 //   npx tsx scripts/generate-og-image.mjs --name "Sign" --icon draw --bg-top "#1e3a5f" \
 //        --bg-bottom "#3b6ea5" --rotate -3 --out /path/sign.png
 //
-// --icon is a registry icon name (a lucide icon, or one of src/core/icons/svg/stirling),
+// --icon is a registry icon name (a lucide icon, or one of src/core/icons/svg/scripta),
 // or a raw "<svg…>" string. Theme is fully customizable (see THEME / the CLI flags below).
 // After adding images, run `node scripts/generate-og-metadata.mjs` so they get picked up.
 
@@ -73,7 +73,7 @@ export const THEME = {
 // the tool actually uses in the app.
 const ICON_DIRS = [
   path.join(ROOT, "../node_modules/lucide-static/icons"),
-  path.join(ROOT, "src/core/icons/svg/stirling"),
+  path.join(ROOT, "src/core/icons/svg/scripta"),
 ];
 
 function iconFile(name) {
@@ -91,7 +91,7 @@ export async function resolveIcon(icon) {
   const file = iconFile(icon);
   if (!file)
     throw new Error(
-      `icon not found in the registry (lucide or src/core/icons/svg/stirling): "${icon}"`,
+      `icon not found in the registry (lucide or src/core/icons/svg/scripta): "${icon}"`,
     );
   const raw = await fs.readFile(file, "utf8");
   const open = raw.indexOf("<svg");
@@ -107,7 +107,7 @@ export async function resolveIcon(icon) {
 async function buildHtml({ name, description, iconSvg, theme }) {
   const t = theme;
   const lockup = await fs.readFile(
-    path.join(HERE, "og-assets/stirling-lockup.png"),
+    path.join(HERE, "og-assets/scripta-lockup.png"),
   );
   const lockupUri = `data:image/png;base64,${lockup.toString("base64")}`;
   return `<!doctype html><html><head><meta charset="utf-8" />

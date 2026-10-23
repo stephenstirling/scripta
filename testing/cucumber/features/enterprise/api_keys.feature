@@ -16,7 +16,7 @@ Feature: API Keys management API
     The legacy single per-user key (the global API key) must keep working so no
     key created before multi-key support is ever lost.
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
     Global API key: 123456789
 
     # =========================================================================

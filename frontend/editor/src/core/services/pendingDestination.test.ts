@@ -6,7 +6,7 @@ import {
   takePendingDestination,
 } from "@app/services/pendingDestination";
 
-const KEY = "stirling-pending-destination";
+const KEY = "scripta-pending-destination";
 
 beforeEach(() => {
   window.localStorage.clear();

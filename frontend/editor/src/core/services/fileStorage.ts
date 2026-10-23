@@ -7,9 +7,9 @@
 import { FileId, BaseFileMetadata } from "@app/types/file";
 import { FolderId } from "@app/types/folder";
 import {
-  StirlingFile,
-  StirlingFileStub,
-  createStirlingFile,
+  ScriptaFile,
+  ScriptaFileStub,
+  createScriptaFile,
   type ClassificationConfidence,
 } from "@app/types/fileContext";
 import {
@@ -21,16 +21,16 @@ import i18n from "i18next";
 
 /**
  * Storage record - single source of truth
- * Contains all data needed for both StirlingFile and StirlingFileStub
+ * Contains all data needed for both ScriptaFile and ScriptaFileStub
  */
 const THUMBNAIL_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
-export interface StoredStirlingFileRecord extends BaseFileMetadata {
+export interface StoredScriptaFileRecord extends BaseFileMetadata {
   // Blob since the large-file OOM fix (stored by reference, no JS-side copy);
   // ArrayBuffer records predate it and are still readable.
   data: ArrayBuffer | Blob;
-  fileId: FileId; // Matches runtime StirlingFile.fileId exactly
-  quickKey: string; // Matches runtime StirlingFile.quickKey exactly
+  fileId: FileId; // Matches runtime ScriptaFile.fileId exactly
+  quickKey: string; // Matches runtime ScriptaFile.quickKey exactly
   thumbnail?: string;
   thumbnailStoredAt?: number; // Epoch ms - sliding 30-day TTL
   url?: string; // For compatibility with existing components
@@ -53,11 +53,11 @@ export interface StoredStirlingFileRecord extends BaseFileMetadata {
   isDirty?: boolean;
   // Cached classification labels — mirrors the stub field so the sidebar can
   // group by label without re-reading PDF bytes, and it survives versioning.
-  // See StirlingFileStub.classificationLabels.
+  // See ScriptaFileStub.classificationLabels.
   classificationLabels?: string[];
-  // See StirlingFileStub.classificationConfidence.
+  // See ScriptaFileStub.classificationConfidence.
   classificationConfidence?: ClassificationConfidence;
-  // See StirlingFileStub.classificationLocked. Persisted because the guarantee it
+  // See ScriptaFileStub.classificationLocked. Persisted because the guarantee it
   // carries — that no policy reclassifies this file — has to outlive a reload.
   classificationLocked?: boolean;
 }
@@ -80,7 +80,7 @@ export interface StorageStats {
  * pre-existing files on first read after upgrade.
  */
 export function legacyDerivedFromTool(
-  record: StoredStirlingFileRecord,
+  record: StoredScriptaFileRecord,
 ): boolean | undefined {
   if ((record.toolHistory?.length ?? 0) > 0) return true;
   if ((record.versionNumber ?? 1) > 1) return true;
@@ -116,7 +116,7 @@ function writeStallDeadlineMs(size: number): number {
 
 /** This engine loses Blob values, remembered per browser: session-scoped, each
  *  reload re-decides optimistically and writes more files it will lose. */
-const BLOB_VALUES_UNSUPPORTED_KEY = "stirling.indexeddb.blobValuesUnsupported";
+const BLOB_VALUES_UNSUPPORTED_KEY = "scripta.indexeddb.blobValuesUnsupported";
 
 function readBlobValuesSupported(): boolean {
   try {
@@ -158,7 +158,7 @@ export function maintenanceMayRewrite(
  * that cross the halfway mark, instead of every thumbnailed record per scan.
  */
 export function shouldBumpThumbnailTtl(
-  record: Pick<StoredStirlingFileRecord, "thumbnail" | "thumbnailStoredAt">,
+  record: Pick<StoredScriptaFileRecord, "thumbnail" | "thumbnailStoredAt">,
   now: number = Date.now(),
 ): boolean {
   if (!record.thumbnail || !record.thumbnailStoredAt) return false;
@@ -224,7 +224,7 @@ function withProbeDeadline(
  * The File for a stored record. Re-wrapping a stored blob can cost WebKit the
  * backing handle, so hand it back untouched when its identity fields match.
  */
-function fileFromRecord(record: StoredStirlingFileRecord): File {
+function fileFromRecord(record: StoredScriptaFileRecord): File {
   const { data } = record;
   if (
     data instanceof File &&
@@ -284,7 +284,7 @@ class FileStorageService {
   }
 
   /** Returns thumbnail if within TTL, otherwise undefined. */
-  private isThumbnailFresh(record: StoredStirlingFileRecord): boolean {
+  private isThumbnailFresh(record: StoredScriptaFileRecord): boolean {
     if (!record.thumbnail) return false;
     if (!record.thumbnailStoredAt) return false;
     return Date.now() - record.thumbnailStoredAt < THUMBNAIL_TTL_MS;
@@ -307,7 +307,7 @@ class FileStorageService {
       targets.forEach((id) => {
         const req = store.get(id);
         req.onsuccess = () => {
-          const record = req.result as StoredStirlingFileRecord | undefined;
+          const record = req.result as StoredScriptaFileRecord | undefined;
           if (!record) return;
           if (clear) {
             record.thumbnail = undefined;
@@ -346,29 +346,29 @@ class FileStorageService {
   }
 
   /**
-   * Store a StirlingFile with its metadata from StirlingFileStub
+   * Store a ScriptaFile with its metadata from ScriptaFileStub
    */
-  async storeStirlingFile(
-    stirlingFile: StirlingFile,
-    stub: StirlingFileStub,
+  async storeScriptaFile(
+    scriptaFile: ScriptaFile,
+    stub: ScriptaFileStub,
   ): Promise<void> {
     const db = await this.getDatabase();
 
-    const record: StoredStirlingFileRecord = {
-      id: stirlingFile.fileId,
-      fileId: stirlingFile.fileId, // Explicit field for clarity
-      quickKey: stirlingFile.quickKey,
-      name: stirlingFile.name,
-      type: stirlingFile.type,
-      size: stirlingFile.size,
-      lastModified: stirlingFile.lastModified,
+    const record: StoredScriptaFileRecord = {
+      id: scriptaFile.fileId,
+      fileId: scriptaFile.fileId, // Explicit field for clarity
+      quickKey: scriptaFile.quickKey,
+      name: scriptaFile.name,
+      type: scriptaFile.type,
+      size: scriptaFile.size,
+      lastModified: scriptaFile.lastModified,
       createdAt: stub.createdAt,
       // Store the File (a Blob) itself: IndexedDB persists it by reference and
       // streams to disk, so multi-GB files never materialize in JS memory.
       // Engines that reject blob values fall back to a copy — see addFileRecord.
       data: this.blobValuesSupported
-        ? stirlingFile
-        : await copyBlobBytes(stirlingFile),
+        ? scriptaFile
+        : await copyBlobBytes(scriptaFile),
       thumbnail: stub.thumbnailUrl,
       thumbnailStoredAt: stub.thumbnailUrl ? Date.now() : undefined,
       localFilePath: stub.localFilePath,
@@ -390,7 +390,7 @@ class FileStorageService {
 
       // History data from stub
       versionNumber: stub.versionNumber ?? 1,
-      originalFileId: stub.originalFileId ?? stirlingFile.fileId,
+      originalFileId: stub.originalFileId ?? scriptaFile.fileId,
       parentFileId: stub.parentFileId ?? undefined,
       toolHistory: stub.toolHistory ?? [],
       derivedFromTool: stub.derivedFromTool ?? false,
@@ -405,7 +405,7 @@ class FileStorageService {
       classificationLocked: stub.classificationLocked,
     };
 
-    const deadline = writeStallDeadlineMs(stirlingFile.size);
+    const deadline = writeStallDeadlineMs(scriptaFile.size);
     try {
       const unproven = record.data instanceof Blob && !this.blobWriteVerified;
       await this.addFileRecord(db, record, unproven ? deadline : undefined);
@@ -429,7 +429,7 @@ class FileStorageService {
     // Committed is not retrievable. Prove the round-trip while the source File is
     // still in hand; after a reload there is nothing left to repair from.
     if (record.data instanceof Blob && !this.blobReadbackVerified) {
-      await this.verifyStoredBlobReadable(db, record, stirlingFile);
+      await this.verifyStoredBlobReadable(db, record, scriptaFile);
     }
   }
 
@@ -437,7 +437,7 @@ class FileStorageService {
    *  bytes don't come with it. Runs until one round-trip succeeds. */
   private async verifyStoredBlobReadable(
     db: IDBDatabase,
-    record: StoredStirlingFileRecord,
+    record: StoredScriptaFileRecord,
     source: File,
   ): Promise<void> {
     // A record we can't read back at all is the caller's problem, not the probe's.
@@ -515,7 +515,7 @@ class FileStorageService {
    *   record to an ArrayBuffer copy now, while the bytes still exist. Legacy blob
    *   records on WebKit are one engine hiccup away from being lost for good.
    */
-  private reportIfUnreadable(record: StoredStirlingFileRecord): void {
+  private reportIfUnreadable(record: StoredScriptaFileRecord): void {
     if (!(record.data instanceof Blob)) return;
     if (this.auditedRecords.has(record.id)) return;
     this.auditedRecords.add(record.id);
@@ -557,7 +557,7 @@ class FileStorageService {
   /** One console error and one toast per dead record: every consumer of the file
    *  hits the same record, and the user needs the reason once, not per reader. */
   private reportUnreadableRecord(
-    record: StoredStirlingFileRecord,
+    record: StoredScriptaFileRecord,
     failure: unknown,
   ): void {
     if (this.unreadableRecords.has(record.id)) return;
@@ -587,7 +587,7 @@ class FileStorageService {
    *  across two promises, the abort guard covers one and the other hangs. */
   private async updateRecord(
     fileId: FileId,
-    mutate: (record: StoredStirlingFileRecord) => boolean | void,
+    mutate: (record: StoredScriptaFileRecord) => boolean | void,
   ): Promise<boolean> {
     const db = await this.getDatabase();
     try {
@@ -603,7 +603,7 @@ class FileStorageService {
   private readModifyWrite(
     db: IDBDatabase,
     fileId: FileId,
-    mutate: (record: StoredStirlingFileRecord) => boolean | void,
+    mutate: (record: StoredScriptaFileRecord) => boolean | void,
   ): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");
@@ -617,7 +617,7 @@ class FileStorageService {
       getRequest.onerror = () => reject(getRequest.error);
       getRequest.onsuccess = () => {
         const record = getRequest.result as
-          | StoredStirlingFileRecord
+          | StoredScriptaFileRecord
           | undefined;
         // Nothing to write: let the empty transaction commit and report false.
         if (!record || mutate(record) === false) return;
@@ -632,7 +632,7 @@ class FileStorageService {
   private async rewriteRecordAsCopy(
     db: IDBDatabase,
     fileId: FileId,
-    mutate: (record: StoredStirlingFileRecord) => boolean | void,
+    mutate: (record: StoredScriptaFileRecord) => boolean | void,
   ): Promise<boolean> {
     const record = await this.readRecord(db, fileId);
     if (!record || mutate(record) === false) return false;
@@ -647,7 +647,7 @@ class FileStorageService {
   private readRecord(
     db: IDBDatabase,
     fileId: FileId,
-  ): Promise<StoredStirlingFileRecord | undefined> {
+  ): Promise<StoredScriptaFileRecord | undefined> {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readonly");
       settleOnAbort(transaction, reject);
@@ -660,7 +660,7 @@ class FileStorageService {
   /** One `put`, resolving on commit. */
   private putRecord(
     db: IDBDatabase,
-    record: StoredStirlingFileRecord,
+    record: StoredScriptaFileRecord,
   ): Promise<void> {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], "readwrite");
@@ -675,7 +675,7 @@ class FileStorageService {
    *  {@link StalledWriteError} (aborting the write) if it outlives `deadlineMs`. */
   private addFileRecord(
     db: IDBDatabase,
-    record: StoredStirlingFileRecord,
+    record: StoredScriptaFileRecord,
     deadlineMs?: number,
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -719,9 +719,9 @@ class FileStorageService {
     });
   }
 
-  /** Get StirlingFile with full data - for loading into workbench. Null covers
+  /** Get ScriptaFile with full data - for loading into workbench. Null covers
    *  both no such record and bytes gone; neither is a file callers can use. */
-  async getStirlingFile(id: FileId): Promise<StirlingFile | null> {
+  async getScriptaFile(id: FileId): Promise<ScriptaFile | null> {
     // Already proven unreadable this session: don't hand the same dead bytes to
     // another consumer that will spin on them. Session-scoped, so a reload retries.
     if (this.unreadableRecords.has(id)) return null;
@@ -732,24 +732,24 @@ class FileStorageService {
     // store pending forever, and this is the path every file open goes through.
     this.reportIfUnreadable(record);
 
-    // Convert to StirlingFile with preserved IDs
-    return createStirlingFile(fileFromRecord(record), record.fileId);
+    // Convert to ScriptaFile with preserved IDs
+    return createScriptaFile(fileFromRecord(record), record.fileId);
   }
 
   /**
-   * Get multiple StirlingFiles - for batch loading
+   * Get multiple ScriptaFiles - for batch loading
    */
-  async getStirlingFiles(ids: FileId[]): Promise<StirlingFile[]> {
+  async getScriptaFiles(ids: FileId[]): Promise<ScriptaFile[]> {
     const results = await Promise.all(
-      ids.map((id) => this.getStirlingFile(id)),
+      ids.map((id) => this.getScriptaFile(id)),
     );
-    return results.filter((file): file is StirlingFile => file !== null);
+    return results.filter((file): file is ScriptaFile => file !== null);
   }
 
   /**
-   * Get StirlingFileStub (metadata only) - for UI browsing
+   * Get ScriptaFileStub (metadata only) - for UI browsing
    */
-  async getStirlingFileStub(id: FileId): Promise<StirlingFileStub | null> {
+  async getScriptaFileStub(id: FileId): Promise<ScriptaFileStub | null> {
     const db = await this.getDatabase();
 
     return new Promise((resolve, reject) => {
@@ -760,7 +760,7 @@ class FileStorageService {
 
       request.onerror = () => reject(request.error);
       request.onsuccess = () => {
-        const record = request.result as StoredStirlingFileRecord | undefined;
+        const record = request.result as StoredScriptaFileRecord | undefined;
         if (!record) {
           resolve(null);
           return;
@@ -776,7 +776,7 @@ class FileStorageService {
         // still-readable legacy blobs) instead of listing files that can't open.
         this.reportIfUnreadable(record);
 
-        const stub: StirlingFileStub = {
+        const stub: ScriptaFileStub = {
           id: record.id,
           dataUnavailable: this.unreadableRecords.has(record.id) || undefined,
           name: record.name,
@@ -821,9 +821,9 @@ class FileStorageService {
   }
 
   /**
-   * Get all StirlingFileStubs (metadata only) - for FileManager browsing
+   * Get all ScriptaFileStubs (metadata only) - for FileManager browsing
    */
-  async getAllStirlingFileStubs(): Promise<StirlingFileStub[]> {
+  async getAllScriptaFileStubs(): Promise<ScriptaFileStub[]> {
     const db = await this.getDatabase();
 
     return new Promise((resolve, reject) => {
@@ -831,7 +831,7 @@ class FileStorageService {
       settleOnAbort(transaction, reject);
       const store = transaction.objectStore(this.storeName);
       const request = store.openCursor();
-      const stubs: StirlingFileStub[] = [];
+      const stubs: ScriptaFileStub[] = [];
 
       const tobump: FileId[] = [];
       const toexpire: FileId[] = [];
@@ -840,7 +840,7 @@ class FileStorageService {
       request.onsuccess = (event) => {
         const cursor = (event.target as IDBRequest).result;
         if (cursor) {
-          const record = cursor.value as StoredStirlingFileRecord;
+          const record = cursor.value as StoredScriptaFileRecord;
           if (record && record.name && typeof record.size === "number") {
             const fresh = this.isThumbnailFresh(record);
             if (
@@ -916,17 +916,17 @@ class FileStorageService {
    */
   async getHistoryChainStubs(
     originalFileId: FileId,
-  ): Promise<StirlingFileStub[]> {
-    const stubs = await this.getAllStirlingFileStubs();
+  ): Promise<ScriptaFileStub[]> {
+    const stubs = await this.getAllScriptaFileStubs();
     return stubs
       .filter((stub) => (stub.originalFileId || stub.id) === originalFileId)
       .sort((a, b) => (a.versionNumber || 1) - (b.versionNumber || 1));
   }
 
   /**
-   * Get leaf StirlingFileStubs only - for unprocessed files
+   * Get leaf ScriptaFileStubs only - for unprocessed files
    */
-  async getLeafStirlingFileStubs(): Promise<StirlingFileStub[]> {
+  async getLeafScriptaFileStubs(): Promise<ScriptaFileStub[]> {
     const db = await this.getDatabase();
 
     return new Promise((resolve, reject) => {
@@ -934,7 +934,7 @@ class FileStorageService {
       settleOnAbort(transaction, reject);
       const store = transaction.objectStore(this.storeName);
       const request = store.openCursor();
-      const leafStubs: StirlingFileStub[] = [];
+      const leafStubs: ScriptaFileStub[] = [];
       const tobump: FileId[] = [];
       const toexpire: FileId[] = [];
 
@@ -942,7 +942,7 @@ class FileStorageService {
       request.onsuccess = (event) => {
         const cursor = (event.target as IDBRequest).result;
         if (cursor) {
-          const record = cursor.value as StoredStirlingFileRecord;
+          const record = cursor.value as StoredScriptaFileRecord;
           // Only include leaf files (default to true if undefined)
           if (
             record &&
@@ -1040,7 +1040,7 @@ class FileStorageService {
       fileIds.forEach((id) => {
         const request = store.get(id);
         request.onsuccess = () => {
-          const record = request.result as StoredStirlingFileRecord | undefined;
+          const record = request.result as StoredScriptaFileRecord | undefined;
           if (!record) return;
           record.folderId = folderId;
           store.put(record);
@@ -1087,7 +1087,7 @@ class FileStorageService {
           const cursor = (event.target as IDBRequest)
             .result as IDBCursorWithValue | null;
           if (!cursor) return;
-          const record = cursor.value as StoredStirlingFileRecord;
+          const record = cursor.value as StoredScriptaFileRecord;
           record.folderId = null;
           cursor.update(record);
           cleared += 1;
@@ -1109,7 +1109,7 @@ class FileStorageService {
    */
   async orphanedAncestorIds(deleting: FileId[]): Promise<FileId[]> {
     if (deleting.length === 0) return [];
-    const stubs = await this.getAllStirlingFileStubs();
+    const stubs = await this.getAllScriptaFileStubs();
     const byId = new Map(stubs.map((s) => [s.id as string, s]));
     const doomed = new Set(deleting.map(String));
 
@@ -1140,9 +1140,9 @@ class FileStorageService {
   }
 
   /**
-   * Delete StirlingFile - single operation, no sync issues
+   * Delete ScriptaFile - single operation, no sync issues
    */
-  async deleteStirlingFile(id: FileId): Promise<void> {
+  async deleteScriptaFile(id: FileId): Promise<void> {
     const db = await this.getDatabase();
 
     return new Promise((resolve, reject) => {
@@ -1157,9 +1157,9 @@ class FileStorageService {
   }
 
   /**
-   * Delete multiple StirlingFiles in a single transaction
+   * Delete multiple ScriptaFiles in a single transaction
    */
-  async deleteMultipleStirlingFiles(ids: FileId[]): Promise<void> {
+  async deleteMultipleScriptaFiles(ids: FileId[]): Promise<void> {
     if (ids.length === 0) return;
     const db = await this.getDatabase();
 
@@ -1225,7 +1225,7 @@ class FileStorageService {
       }
 
       // Calculate our actual IndexedDB usage from file metadata
-      const stubs = await this.getAllStirlingFileStubs();
+      const stubs = await this.getAllScriptaFileStubs();
       used = stubs.reduce((total, stub) => total + (stub?.size || 0), 0);
       fileCount = stubs.length;
 
@@ -1294,16 +1294,16 @@ class FileStorageService {
    */
   async persistVersionedOutputs(
     inputFileIds: FileId[],
-    outputStirlingFiles: StirlingFile[],
-    outputStirlingFileStubs: StirlingFileStub[],
+    outputScriptaFiles: ScriptaFile[],
+    outputScriptaFileStubs: ScriptaFileStub[],
   ): Promise<void> {
-    if (outputStirlingFiles.length !== outputStirlingFileStubs.length) {
+    if (outputScriptaFiles.length !== outputScriptaFileStubs.length) {
       throw new Error(
-        `Mismatch between output files (${outputStirlingFiles.length}) and stubs (${outputStirlingFileStubs.length})`,
+        `Mismatch between output files (${outputScriptaFiles.length}) and stubs (${outputScriptaFileStubs.length})`,
       );
     }
 
-    const allV1 = outputStirlingFileStubs.every(
+    const allV1 = outputScriptaFileStubs.every(
       (stub) => stub.versionNumber === 1,
     );
     if (!allV1) {
@@ -1318,8 +1318,8 @@ class FileStorageService {
     }
 
     await Promise.all(
-      outputStirlingFiles.map((file, i) =>
-        this.storeStirlingFile(file, outputStirlingFileStubs[i]).catch(
+      outputScriptaFiles.map((file, i) =>
+        this.storeScriptaFile(file, outputScriptaFileStubs[i]).catch(
           (error) =>
             console.error(
               "Failed to persist output file to storage:",
@@ -1354,7 +1354,7 @@ class FileStorageService {
    */
   async updateFileMetadata(
     fileId: FileId,
-    updates: Partial<StoredStirlingFileRecord>,
+    updates: Partial<StoredScriptaFileRecord>,
   ): Promise<boolean> {
     try {
       return await this.updateRecord(fileId, (record) => {

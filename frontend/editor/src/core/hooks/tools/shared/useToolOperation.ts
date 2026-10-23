@@ -21,10 +21,10 @@ import {
   isSignupRequiredError,
 } from "@app/utils/toolErrorHandler";
 import {
-  StirlingFile,
+  ScriptaFile,
   extractFiles,
   FileId,
-  StirlingFileStub,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 import { FILE_EVENTS } from "@app/services/errorUtils";
 import {
@@ -42,7 +42,7 @@ import {
   createChildStub,
   generateProcessedFileMetadata,
 } from "@app/contexts/file/fileActions";
-import { createNewStirlingFileStub } from "@app/types/fileContext";
+import { createNewScriptaFileStub } from "@app/types/fileContext";
 import { ToolOperation } from "@app/types/file";
 import { ensureBackendReady } from "@app/services/backendReadinessGuard";
 import { trackEditorOperation } from "@app/services/analytics";
@@ -143,7 +143,7 @@ export const useToolOperation = <TParams>(
   // Track last operation for undo functionality
   const lastOperationRef = useRef<{
     inputFiles: File[];
-    inputStirlingFileStubs: StirlingFileStub[];
+    inputScriptaFileStubs: ScriptaFileStub[];
     outputFileIds: FileId[];
   } | null>(null);
 
@@ -196,7 +196,7 @@ export const useToolOperation = <TParams>(
   );
 
   const getCompatibleFiles = useCallback(
-    (params: TParams, selectedFiles: StirlingFile[]) => {
+    (params: TParams, selectedFiles: ScriptaFile[]) => {
       const endpoint =
         typeof config.endpoint === "function"
           ? config.endpoint(params)
@@ -204,16 +204,16 @@ export const useToolOperation = <TParams>(
       return selectedFiles.filter((file) =>
         toolAcceptsFile(
           endpoint ?? undefined,
-          selectors.getStirlingFileStub(file.fileId) ?? file,
+          selectors.getScriptaFileStub(file.fileId) ?? file,
         ),
       );
     },
     [config.endpoint, selectors],
   );
 
-  const eligibleFilesRef = useRef<StirlingFile[]>([]);
+  const eligibleFilesRef = useRef<ScriptaFile[]>([]);
   const getEligibleFiles = useCallback(
-    (params: TParams, selectedFiles: StirlingFile[]) => {
+    (params: TParams, selectedFiles: ScriptaFile[]) => {
       const eligibleFiles = getCompatibleFiles(params, selectedFiles).filter(
         (file) => file.size > 0,
       );
@@ -231,9 +231,9 @@ export const useToolOperation = <TParams>(
   );
 
   const executeOperation = useCallback(
-    async (params: TParams, selectedFiles: StirlingFile[]): Promise<void> => {
+    async (params: TParams, selectedFiles: ScriptaFile[]): Promise<void> => {
       const policyIds = selectedFiles.flatMap((file) => {
-        const stub = selectors.getStirlingFileStub(file.fileId);
+        const stub = selectors.getScriptaFileStub(file.fileId);
         return stub ? policySourceIds(stub) : [file.fileId];
       });
       try {
@@ -267,7 +267,7 @@ export const useToolOperation = <TParams>(
           console.log("markFileError", e);
         }
       }
-      const validFiles: StirlingFile[] = compatibleFiles.filter(
+      const validFiles: ScriptaFile[] = compatibleFiles.filter(
         (file) => file.size > 0,
       );
       if (validFiles.length === 0) {
@@ -546,7 +546,7 @@ export const useToolOperation = <TParams>(
             processedFiles.map((file) => generateProcessedFileMetadata(file)),
           );
 
-          const { inputFileIds, inputStirlingFileStubs } = buildInputTracking(
+          const { inputFileIds, inputScriptaFileStubs } = buildInputTracking(
             validFiles,
             selectors,
           );
@@ -561,7 +561,7 @@ export const useToolOperation = <TParams>(
             // Output is a modified version of the input — link it to the input's version chain.
             // The input is removed from the workbench and replaced in-place by the output.
             const downloadLocalPath =
-              selectors.getStirlingFileStub(validFiles[0].fileId)
+              selectors.getScriptaFileStub(validFiles[0].fileId)
                 ?.localFilePath ?? null;
 
             const newToolOperation: ToolOperation = {
@@ -570,8 +570,8 @@ export const useToolOperation = <TParams>(
             };
 
             const successInputStubs = successSourceIds
-              .map((id) => selectors.getStirlingFileStub(id))
-              .filter(Boolean) as StirlingFileStub[];
+              .map((id) => selectors.getScriptaFileStub(id))
+              .filter(Boolean) as ScriptaFileStub[];
 
             if (successInputStubs.length !== processedFiles.length) {
               console.warn(
@@ -583,7 +583,7 @@ export const useToolOperation = <TParams>(
               );
             }
 
-            const { outputStirlingFileStubs, outputStirlingFiles } =
+            const { outputScriptaFileStubs, outputScriptaFiles } =
               buildOutputPairs(
                 processedFiles,
                 thumbnails,
@@ -591,8 +591,8 @@ export const useToolOperation = <TParams>(
                 (file, thumbnail, metadata, index) =>
                   createChildStub(
                     successInputStubs[index] ||
-                      inputStirlingFileStubs[index] ||
-                      inputStirlingFileStubs[0],
+                      inputScriptaFileStubs[index] ||
+                      inputScriptaFileStubs[0],
                     newToolOperation,
                     file,
                     metadata?.thumbnailUrl || thumbnail,
@@ -612,8 +612,8 @@ export const useToolOperation = <TParams>(
             assertFilesNotBlocked(policyIds);
             const outputFileIds = await consumeFiles(
               toConsumeInputIds,
-              outputStirlingFiles,
-              outputStirlingFileStubs,
+              outputScriptaFiles,
+              outputScriptaFileStubs,
             );
             // Tell the viewer to follow the replacement file — consumeFiles prepends the new file
             // to the list, so activeFileIndex would point to the wrong file without this.
@@ -625,11 +625,11 @@ export const useToolOperation = <TParams>(
 
             // Carry the desktop save path forward so the output can be saved back to the same file
             if (toConsumeInputIds.length === 1 && outputFileIds.length === 1) {
-              const inputStub = selectors.getStirlingFileStub(
+              const inputStub = selectors.getScriptaFileStub(
                 toConsumeInputIds[0],
               );
               if (inputStub?.localFilePath) {
-                fileActions.updateStirlingFileStub(outputFileIds[0], {
+                fileActions.updateScriptaFileStub(outputFileIds[0], {
                   localFilePath: inputStub.localFilePath,
                 });
               }
@@ -644,7 +644,7 @@ export const useToolOperation = <TParams>(
 
             lastOperationRef.current = {
               inputFiles: extractFiles(validFiles),
-              inputStirlingFileStubs: inputStirlingFileStubs.map((record) => ({
+              inputScriptaFileStubs: inputScriptaFileStubs.map((record) => ({
                 ...record,
               })),
               outputFileIds,
@@ -664,13 +664,13 @@ export const useToolOperation = <TParams>(
             // Outputs are independent artifacts (format conversion, merge, split).
             // Create fresh root stubs with no parent chain, then swap out only the inputs
             // that successfully produced outputs — other workbench files are untouched.
-            const { outputStirlingFileStubs, outputStirlingFiles } =
+            const { outputScriptaFileStubs, outputScriptaFiles } =
               buildOutputPairs(
                 processedFiles,
                 thumbnails,
                 processedFileMetadataArray,
                 (file, thumbnail, metadata) =>
-                  createNewStirlingFileStub(
+                  createNewScriptaFileStub(
                     file,
                     undefined,
                     metadata?.thumbnailUrl || thumbnail,
@@ -689,8 +689,8 @@ export const useToolOperation = <TParams>(
             assertFilesNotBlocked(policyIds);
             const outputFileIds = await consumeFiles(
               toConsumeInputIds,
-              outputStirlingFiles,
-              outputStirlingFileStubs,
+              outputScriptaFiles,
+              outputScriptaFileStubs,
             );
             producedFileIds = outputFileIds;
 
@@ -712,7 +712,7 @@ export const useToolOperation = <TParams>(
 
             lastOperationRef.current = {
               inputFiles: extractFiles(validFiles),
-              inputStirlingFileStubs: inputStirlingFileStubs.map((record) => ({
+              inputScriptaFileStubs: inputScriptaFileStubs.map((record) => ({
                 ...record,
               })),
               outputFileIds,
@@ -735,7 +735,7 @@ export const useToolOperation = <TParams>(
           // the outputs that replaced it.
           notifyToolCompleted({
             toolId: config.operationType,
-            inputs: inputStirlingFileStubs.filter((stub) =>
+            inputs: inputScriptaFileStubs.filter((stub) =>
               consumedInputIds.includes(stub.id),
             ),
             outputFileIds: producedFileIds,
@@ -830,11 +830,11 @@ export const useToolOperation = <TParams>(
       return;
     }
 
-    const { inputFiles, inputStirlingFileStubs, outputFileIds } =
+    const { inputFiles, inputScriptaFileStubs, outputFileIds } =
       lastOperationRef.current;
 
     // Validate that we have data to undo
-    if (inputFiles.length === 0 || inputStirlingFileStubs.length === 0) {
+    if (inputFiles.length === 0 || inputScriptaFileStubs.length === 0) {
       actions.setError(
         t("invalidUndoData", "Cannot undo: invalid operation data"),
       );
@@ -853,7 +853,7 @@ export const useToolOperation = <TParams>(
 
     try {
       // Undo the consume operation
-      await undoConsumeFiles(inputFiles, inputStirlingFileStubs, outputFileIds);
+      await undoConsumeFiles(inputFiles, inputScriptaFileStubs, outputFileIds);
 
       // Clear results and operation tracking
       resetResults();

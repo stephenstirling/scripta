@@ -346,41 +346,41 @@ import Zap from "lucide-static/icons/zap.svg?react";
 import ZoomIn from "lucide-static/icons/zoom-in.svg?react";
 import ZoomOut from "lucide-static/icons/zoom-out.svg?react";
 
-import AnnotationOff from "@app/icons/svg/stirling/annotation-off.svg?react";
-import Api from "@app/icons/svg/stirling/api.svg?react";
-import Automate from "@app/icons/svg/stirling/automate.svg?react";
-import Cpu from "@app/icons/svg/stirling/cpu.svg?react";
-import Editor from "@app/icons/svg/stirling/editor.svg?react";
-import FileConvert from "@app/icons/svg/stirling/file-convert.svg?react";
-import FileDocArchive from "@app/icons/svg/stirling/file-doc-archive.svg?react";
-import FileDocCode from "@app/icons/svg/stirling/file-doc-code.svg?react";
-import FileDocImage from "@app/icons/svg/stirling/file-doc-image.svg?react";
-import FileDocSheet from "@app/icons/svg/stirling/file-doc-sheet.svg?react";
-import FileDocText from "@app/icons/svg/stirling/file-doc-text.svg?react";
-import FileHtml from "@app/icons/svg/stirling/file-html.svg?react";
-import FileLockOpen from "@app/icons/svg/stirling/file-lock-open.svg?react";
-import FormScan from "@app/icons/svg/stirling/form-scan.svg?react";
-import FilePdf from "@app/icons/svg/stirling/file-pdf.svg?react";
-import Ftp from "@app/icons/svg/stirling/ftp.svg?react";
-import ImageCompare from "@app/icons/svg/stirling/image-compare.svg?react";
-import LineWeight from "@app/icons/svg/stirling/line-weight.svg?react";
-import LockOpenPassword from "@app/icons/svg/stirling/lock-open-password.svg?react";
-import MoveItemDown from "@app/icons/svg/stirling/move-item-down.svg?react";
-import OverlayPages from "@app/icons/svg/stirling/overlay-pages.svg?react";
-import Password from "@app/icons/svg/stirling/password.svg?react";
-import Polyline from "@app/icons/svg/stirling/polyline.svg?react";
-import QrCode from "@app/icons/svg/stirling/qr-code.svg?react";
-import Redact from "@app/icons/svg/stirling/redact.svg?react";
-import RadioChecked from "@app/icons/svg/stirling/radio-checked.svg?react";
-import RemoveSelection from "@app/icons/svg/stirling/remove-selection.svg?react";
-import ReplaceText from "@app/icons/svg/stirling/replace-text.svg?react";
-import SelectAll from "@app/icons/svg/stirling/select-all.svg?react";
-import Sftp from "@app/icons/svg/stirling/sftp.svg?react";
-import SinglePage from "@app/icons/svg/stirling/single-page.svg?react";
-import ScriptaMark from "@app/icons/svg/stirling/scripta-mark.svg?react";
-import StirlingTile from "@app/icons/svg/stirling/stirling-tile.svg?react";
-import UsersPlus from "@app/icons/svg/stirling/users-plus.svg?react";
-import Watermark from "@app/icons/svg/stirling/watermark.svg?react";
+import AnnotationOff from "@app/icons/svg/scripta/annotation-off.svg?react";
+import Api from "@app/icons/svg/scripta/api.svg?react";
+import Automate from "@app/icons/svg/scripta/automate.svg?react";
+import Cpu from "@app/icons/svg/scripta/cpu.svg?react";
+import Editor from "@app/icons/svg/scripta/editor.svg?react";
+import FileConvert from "@app/icons/svg/scripta/file-convert.svg?react";
+import FileDocArchive from "@app/icons/svg/scripta/file-doc-archive.svg?react";
+import FileDocCode from "@app/icons/svg/scripta/file-doc-code.svg?react";
+import FileDocImage from "@app/icons/svg/scripta/file-doc-image.svg?react";
+import FileDocSheet from "@app/icons/svg/scripta/file-doc-sheet.svg?react";
+import FileDocText from "@app/icons/svg/scripta/file-doc-text.svg?react";
+import FileHtml from "@app/icons/svg/scripta/file-html.svg?react";
+import FileLockOpen from "@app/icons/svg/scripta/file-lock-open.svg?react";
+import FormScan from "@app/icons/svg/scripta/form-scan.svg?react";
+import FilePdf from "@app/icons/svg/scripta/file-pdf.svg?react";
+import Ftp from "@app/icons/svg/scripta/ftp.svg?react";
+import ImageCompare from "@app/icons/svg/scripta/image-compare.svg?react";
+import LineWeight from "@app/icons/svg/scripta/line-weight.svg?react";
+import LockOpenPassword from "@app/icons/svg/scripta/lock-open-password.svg?react";
+import MoveItemDown from "@app/icons/svg/scripta/move-item-down.svg?react";
+import OverlayPages from "@app/icons/svg/scripta/overlay-pages.svg?react";
+import Password from "@app/icons/svg/scripta/password.svg?react";
+import Polyline from "@app/icons/svg/scripta/polyline.svg?react";
+import QrCode from "@app/icons/svg/scripta/qr-code.svg?react";
+import Redact from "@app/icons/svg/scripta/redact.svg?react";
+import RadioChecked from "@app/icons/svg/scripta/radio-checked.svg?react";
+import RemoveSelection from "@app/icons/svg/scripta/remove-selection.svg?react";
+import ReplaceText from "@app/icons/svg/scripta/replace-text.svg?react";
+import SelectAll from "@app/icons/svg/scripta/select-all.svg?react";
+import Sftp from "@app/icons/svg/scripta/sftp.svg?react";
+import SinglePage from "@app/icons/svg/scripta/single-page.svg?react";
+import ScriptaMark from "@app/icons/svg/scripta/scripta-mark.svg?react";
+import ScriptaTile from "@app/icons/svg/scripta/scripta-tile.svg?react";
+import UsersPlus from "@app/icons/svg/scripta/users-plus.svg?react";
+import Watermark from "@app/icons/svg/scripta/watermark.svg?react";
 
 import Apple from "@app/icons/svg/third-party/apple.svg?react";
 import Authentik from "@app/icons/svg/third-party/authentik.svg?react";
@@ -422,8 +422,8 @@ type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
 interface IconEntry {
   Component: IconComponent;
-  /** Where the drawing comes from: lucide, our own svg/stirling, or a brand mark that keeps its own colours. */
-  kind: "lucide" | "stirling" | "brand";
+  /** Where the drawing comes from: lucide, our own svg/scripta, or a brand mark that keeps its own colours. */
+  kind: "lucide" | "scripta" | "brand";
 }
 
 export const ICONS = {
@@ -774,42 +774,42 @@ export const ICONS = {
   zap: { Component: Zap, kind: "lucide" },
   "zoom-in": { Component: ZoomIn, kind: "lucide" },
   "zoom-out": { Component: ZoomOut, kind: "lucide" },
-  "annotation-off": { Component: AnnotationOff, kind: "stirling" },
-  api: { Component: Api, kind: "stirling" },
-  automate: { Component: Automate, kind: "stirling" },
-  cpu: { Component: Cpu, kind: "stirling" },
-  editor: { Component: Editor, kind: "stirling" },
-  "file-convert": { Component: FileConvert, kind: "stirling" },
-  "file-doc-archive": { Component: FileDocArchive, kind: "stirling" },
-  "file-doc-code": { Component: FileDocCode, kind: "stirling" },
-  "file-doc-image": { Component: FileDocImage, kind: "stirling" },
-  "file-doc-sheet": { Component: FileDocSheet, kind: "stirling" },
-  "file-doc-text": { Component: FileDocText, kind: "stirling" },
-  "file-html": { Component: FileHtml, kind: "stirling" },
-  "file-lock-open": { Component: FileLockOpen, kind: "stirling" },
-  "file-pdf": { Component: FilePdf, kind: "stirling" },
-  "form-scan": { Component: FormScan, kind: "stirling" },
-  ftp: { Component: Ftp, kind: "stirling" },
-  "image-compare": { Component: ImageCompare, kind: "stirling" },
-  "line-weight": { Component: LineWeight, kind: "stirling" },
-  "lock-open-password": { Component: LockOpenPassword, kind: "stirling" },
-  "move-item-down": { Component: MoveItemDown, kind: "stirling" },
-  "overlay-pages": { Component: OverlayPages, kind: "stirling" },
-  password: { Component: Password, kind: "stirling" },
-  polyline: { Component: Polyline, kind: "stirling" },
-  "qr-code": { Component: QrCode, kind: "stirling" },
-  redact: { Component: Redact, kind: "stirling" },
-  "radio-checked": { Component: RadioChecked, kind: "stirling" },
-  "remove-selection": { Component: RemoveSelection, kind: "stirling" },
-  "replace-text": { Component: ReplaceText, kind: "stirling" },
-  "select-all": { Component: SelectAll, kind: "stirling" },
-  sftp: { Component: Sftp, kind: "stirling" },
-  "single-page": { Component: SinglePage, kind: "stirling" },
+  "annotation-off": { Component: AnnotationOff, kind: "scripta" },
+  api: { Component: Api, kind: "scripta" },
+  automate: { Component: Automate, kind: "scripta" },
+  cpu: { Component: Cpu, kind: "scripta" },
+  editor: { Component: Editor, kind: "scripta" },
+  "file-convert": { Component: FileConvert, kind: "scripta" },
+  "file-doc-archive": { Component: FileDocArchive, kind: "scripta" },
+  "file-doc-code": { Component: FileDocCode, kind: "scripta" },
+  "file-doc-image": { Component: FileDocImage, kind: "scripta" },
+  "file-doc-sheet": { Component: FileDocSheet, kind: "scripta" },
+  "file-doc-text": { Component: FileDocText, kind: "scripta" },
+  "file-html": { Component: FileHtml, kind: "scripta" },
+  "file-lock-open": { Component: FileLockOpen, kind: "scripta" },
+  "file-pdf": { Component: FilePdf, kind: "scripta" },
+  "form-scan": { Component: FormScan, kind: "scripta" },
+  ftp: { Component: Ftp, kind: "scripta" },
+  "image-compare": { Component: ImageCompare, kind: "scripta" },
+  "line-weight": { Component: LineWeight, kind: "scripta" },
+  "lock-open-password": { Component: LockOpenPassword, kind: "scripta" },
+  "move-item-down": { Component: MoveItemDown, kind: "scripta" },
+  "overlay-pages": { Component: OverlayPages, kind: "scripta" },
+  password: { Component: Password, kind: "scripta" },
+  polyline: { Component: Polyline, kind: "scripta" },
+  "qr-code": { Component: QrCode, kind: "scripta" },
+  redact: { Component: Redact, kind: "scripta" },
+  "radio-checked": { Component: RadioChecked, kind: "scripta" },
+  "remove-selection": { Component: RemoveSelection, kind: "scripta" },
+  "replace-text": { Component: ReplaceText, kind: "scripta" },
+  "select-all": { Component: SelectAll, kind: "scripta" },
+  sftp: { Component: Sftp, kind: "scripta" },
+  "single-page": { Component: SinglePage, kind: "scripta" },
   // Brand: they paint with their own fills and CSS classes, so <Icon> must not restroke them.
   "scripta-mark": { Component: ScriptaMark, kind: "brand" },
-  "stirling-tile": { Component: StirlingTile, kind: "brand" },
-  "users-plus": { Component: UsersPlus, kind: "stirling" },
-  watermark: { Component: Watermark, kind: "stirling" },
+  "scripta-tile": { Component: ScriptaTile, kind: "brand" },
+  "users-plus": { Component: UsersPlus, kind: "scripta" },
+  watermark: { Component: Watermark, kind: "scripta" },
   apple: { Component: Apple, kind: "brand" },
   authentik: { Component: Authentik, kind: "brand" },
   box: { Component: Box, kind: "brand" },

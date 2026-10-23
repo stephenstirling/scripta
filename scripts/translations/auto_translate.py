@@ -298,7 +298,7 @@ def verify_completion(language_code):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Automated translation pipeline for Stirling PDF",
+        description="Automated translation pipeline for Scripta",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Note: This script works with TOML translation files.

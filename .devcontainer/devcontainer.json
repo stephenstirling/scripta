@@ -68,7 +68,7 @@
                     "jakarta",
                     "lombok",
                     "me",
-                    "stirling"
+                    "scripta"
                 ],
                 "java.project.resourceFilters": [
                     ".devcontainer/",
@@ -113,7 +113,7 @@
                 "java.eclipse.downloadSources": true,
                 "java.import.gradle.wrapper.enabled": true,
                 "spring.initializr.defaultLanguage": "Java",
-                "spring.initializr.defaultGroupId": "stirling.software.SPDF",
+                "spring.initializr.defaultGroupId": "scripta.software.core",
                 "spring.initializr.defaultArtifactId": "SPDF"
             },
             "extensions": [

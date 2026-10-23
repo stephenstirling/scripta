@@ -1,6 +1,6 @@
 services:
   keycloak-mcp-db:
-    container_name: stirling-keycloak-mcp-db
+    container_name: scripta-keycloak-mcp-db
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: keycloak
@@ -12,10 +12,10 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      - stirling-mcp-test
+      - scripta-mcp-test
 
   keycloak-mcp:
-    container_name: stirling-keycloak-mcp
+    container_name: scripta-keycloak-mcp
     image: quay.io/keycloak/keycloak:24.0
     command:
       - start-dev
@@ -27,7 +27,7 @@ services:
       KC_DB_PASSWORD: keycloak
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      # Issuer hostname must resolve identically from host and Stirling container (see start-mcp-test.sh preflight).
+      # Issuer hostname must resolve identically from host and Scripta container (see start-mcp-test.sh preflight).
       KC_HOSTNAME: "${KEYCLOAK_HOST:-kubernetes.docker.internal}"
       KC_HOSTNAME_PORT: 9080
       KC_HOSTNAME_STRICT: "false"
@@ -40,16 +40,16 @@ services:
       keycloak-mcp-db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /realms/stirling-mcp HTTP/1.1\\nHost: localhost\\nConnection: close\\n\\n' >&3 && timeout 2 cat <&3 | head -n 1 | grep -q '200'"]
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /realms/scripta-mcp HTTP/1.1\\nHost: localhost\\nConnection: close\\n\\n' >&3 && timeout 2 cat <&3 | head -n 1 | grep -q '200'"]
       interval: 10s
       timeout: 10s
       retries: 30
       start_period: 60s
     networks:
-      - stirling-mcp-test
+      - scripta-mcp-test
 
-  stirling-pdf-mcp:
-    container_name: stirling-pdf-mcp-test
+  scripta-mcp:
+    container_name: scripta-mcp-test
     image: ghcr.io/stephenstirling/scripta:latest
     build:
       context: ../..
@@ -65,11 +65,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ../../../stirling/keycloak-mcp-test/data:/usr/share/tessdata:rw
-      - ../../../stirling/keycloak-mcp-test/config:/configs:rw
-      - ../../../stirling/keycloak-mcp-test/logs:/logs:rw
+      - ../../../scripta/keycloak-mcp-test/data:/usr/share/tessdata:rw
+      - ../../../scripta/keycloak-mcp-test/config:/configs:rw
+      - ../../../scripta/keycloak-mcp-test/logs:/logs:rw
     environment:
-      # Security/login on so we have real Stirling accounts to bind to.
+      # Security/login on so we have real Scripta accounts to bind to.
       DOCKER_ENABLE_SECURITY: "true"
       SECURITY_ENABLELOGIN: "true"
       SECURITY_LOGINMETHOD: "normal"
@@ -77,13 +77,13 @@ services:
       SYSTEM_BACKENDURL: "http://localhost:8080"
       PREMIUM_KEY: "${PREMIUM_KEY:-00000000-0000-0000-0000-000000000000}"
       PREMIUM_ENABLED: "true"
-      UI_APPNAME: Stirling-PDF MCP Test
+      UI_APPNAME: Scripta MCP Test
       UI_HOMEDESCRIPTION: Keycloak MCP (OAuth resource server) Test Instance
-      UI_APPNAMENAVBAR: Stirling-PDF MCP
+      UI_APPNAMENAVBAR: Scripta MCP
       SYSTEM_MAXFILESIZE: "100"
 
-      # Seed the Stirling account the Keycloak "email" claim binds to (proves account-binding).
-      SECURITY_INITIALLOGIN_USERNAME: "mcpuser@stirling.local"
+      # Seed the Scripta account the Keycloak "email" claim binds to (proves account-binding).
+      SECURITY_INITIALLOGIN_USERNAME: "mcpuser@scripta.local"
       SECURITY_INITIALLOGIN_PASSWORD: "mcppassword"
 
       # MCP server: OAuth2 resource-server mode (validates Keycloak tokens at /mcp, no web SSO).
@@ -92,10 +92,10 @@ services:
       # Lowered so the oversized-body 413 check stays fast; production default is 10MB.
       MCP_MAXREQUESTBYTES: "262144"
       # Must match the token "iss" exactly.
-      MCP_AUTH_ISSUERURI: "http://${KEYCLOAK_HOST:-kubernetes.docker.internal}:9080/realms/stirling-mcp"
+      MCP_AUTH_ISSUERURI: "http://${KEYCLOAK_HOST:-kubernetes.docker.internal}:9080/realms/scripta-mcp"
       # RFC 8707 audience - must equal the "aud" the realm's mapper injects.
       MCP_AUTH_RESOURCEID: "http://localhost:8080/mcp"
-      # Bind the JWT to a Stirling user by the "email" claim.
+      # Bind the JWT to a Scripta user by the "email" claim.
       MCP_AUTH_USERNAMECLAIM: "email"
       MCP_AUTH_REQUIREEXISTINGACCOUNT: "true"
 
@@ -105,7 +105,7 @@ services:
 
       # Debug logging
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY_OAUTH2: DEBUG
-      LOGGING_LEVEL_STIRLING_SOFTWARE_PROPRIETARY_MCP: DEBUG
+      LOGGING_LEVEL_SCRIPTA_SOFTWARE_PROPRIETARY_MCP: DEBUG
 
       # LibreOffice settings
       PROCESS_EXECUTOR_AUTO_UNO_SERVER: "true"
@@ -126,9 +126,9 @@ services:
       keycloak-mcp:
         condition: service_healthy
     networks:
-      - stirling-mcp-test
+      - scripta-mcp-test
     restart: on-failure:5
 
 networks:
-  stirling-mcp-test:
+  scripta-mcp-test:
     driver: bridge

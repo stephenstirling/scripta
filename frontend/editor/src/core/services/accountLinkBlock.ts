@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 /** Shared by the editor and Processor, including runs outside the portal HTTP client. */
-export const FREE_TIER_EXHAUSTED_EVENT = "stirling:portal-free-tier-exhausted";
+export const FREE_TIER_EXHAUSTED_EVENT = "scripta:portal-free-tier-exhausted";
 
 export type AccountLinkBlockReason =
   | "FREE_TIER_EXHAUSTED"
@@ -16,7 +16,7 @@ export interface AccountLinkBlockContext {
   trigger: "upload" | "export" | "manual" | "automatic";
 }
 
-const PROMPT_SESSION_KEY = "stirling:credit-prompt-shown";
+const PROMPT_SESSION_KEY = "scripta:credit-prompt-shown";
 let shownInMemory = false;
 let storageWriteFailed = false;
 const EMPTY = {

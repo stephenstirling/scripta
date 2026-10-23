@@ -3,20 +3,20 @@
  */
 
 import {
-  StirlingFileStub,
+  ScriptaFileStub,
   FileContextAction,
   FileContextState,
-  createNewStirlingFileStub,
+  createNewScriptaFileStub,
   createFileId,
   createQuickKey,
-  createStirlingFile,
+  createScriptaFile,
   ProcessedFileMetadata,
 } from "@app/types/fileContext";
 import { FileId, ToolOperation } from "@app/types/file";
 import { generateThumbnailPairWithMetadata } from "@app/utils/thumbnailUtils";
 import { FileLifecycleManager } from "@app/contexts/file/lifecycle";
 import { buildQuickKeySet } from "@app/contexts/file/fileSelectors";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import { fileStorage } from "@app/services/fileStorage";
 import { zipFileService } from "@app/services/zipFileService";
 import { FileAnalyzer } from "@app/services/fileAnalyzer";
@@ -176,23 +176,23 @@ export async function generateProcessedFileMetadata(
 }
 
 /**
- * Create a child StirlingFileStub from a parent stub with proper history management.
+ * Create a child ScriptaFileStub from a parent stub with proper history management.
  * Used when a tool processes an existing file to create a new version with incremented history.
  *
- * @param parentStub - The parent StirlingFileStub to create a child from
+ * @param parentStub - The parent ScriptaFileStub to create a child from
  * @param operation - Tool operation information (toolName, timestamp)
  * @param resultingFile - The processed File object
  * @param thumbnail - Optional thumbnail for the child
  * @param processedFileMetadata - Optional fresh metadata for the processed file
- * @returns New child StirlingFileStub with proper version history
+ * @returns New child ScriptaFileStub with proper version history
  */
 export function createChildStub(
-  parentStub: StirlingFileStub,
+  parentStub: ScriptaFileStub,
   operation: ToolOperation,
   resultingFile: File,
   thumbnail?: string,
   processedFileMetadata?: ProcessedFileMetadata,
-): StirlingFileStub {
+): ScriptaFileStub {
   const newFileId = createFileId();
 
   // Build new tool history by appending to parent's history
@@ -288,7 +288,7 @@ interface AddFileOptions {
    *  locked, so no policy can reclassify it or escalate it to the AI. */
   presetClassification?: {
     labels: string[];
-    confidence: StirlingFileStub["classificationConfidence"];
+    confidence: ScriptaFileStub["classificationConfidence"];
   };
   /**
    * The folder every added file is born into — membership set at creation, atomically
@@ -315,13 +315,13 @@ export async function addFiles(
   dispatch: React.Dispatch<FileContextAction>,
   lifecycleManager: FileLifecycleManager,
   enablePersistence: boolean = false,
-): Promise<StirlingFile[]> {
+): Promise<ScriptaFile[]> {
   // Acquire mutex to prevent race conditions
   await addFilesMutex.lock();
 
   try {
-    const stirlingFileStubs: StirlingFileStub[] = [];
-    const stirlingFiles: StirlingFile[] = [];
+    const scriptaFileStubs: ScriptaFileStub[] = [];
+    const scriptaFiles: ScriptaFile[] = [];
     // Hydration tasks are scheduled per-file to update thumbnails/metadata without blocking add flow
 
     // Build quickKey lookup from existing files for deduplication
@@ -401,7 +401,7 @@ export async function addFiles(
         `📄 addFiles: After ZIP processing, ${filesToProcess.length} files to add`,
       );
 
-    // Collect hydrations to schedule after dispatch so updateStirlingFileStub finds files in state.
+    // Collect hydrations to schedule after dispatch so updateScriptaFileStub finds files in state.
     const pendingHydrations: Array<() => Promise<void>> = [];
     // Per-chunk persistence promises (kicked off as chunks flush, awaited before
     // return). See flushChunk — we stream writes instead of one batch at the end.
@@ -421,25 +421,25 @@ export async function addFiles(
     // auto-run tries to read the file back from storage.
     const flushChunk = (): Array<Promise<unknown>> => {
       const chunkWrites: Array<Promise<unknown>> = [];
-      if (stirlingFileStubs.length > flushedStubs) {
+      if (scriptaFileStubs.length > flushedStubs) {
         const from = flushedStubs;
-        const newStubs = stirlingFileStubs.slice(from);
-        flushedStubs = stirlingFileStubs.length;
+        const newStubs = scriptaFileStubs.slice(from);
+        flushedStubs = scriptaFileStubs.length;
         if (!options.skipWorkspaceDispatch) {
           dispatch({
             type: "ADD_FILES",
-            payload: { stirlingFileStubs: newStubs },
+            payload: { scriptaFileStubs: newStubs },
           });
         }
         // Persist each chunk as it flushes, not one batch at the end: the policy
         // auto-run reads files from IndexedDB with no in-memory fallback.
         if (enablePersistence) {
-          const newFiles = stirlingFiles.slice(from);
+          const newFiles = scriptaFiles.slice(from);
           for (let i = 0; i < newFiles.length; i++) {
             const sf = newFiles[i];
             const stub = newStubs[i];
             const write = fileStorage
-              .storeStirlingFile(sf, stub)
+              .storeScriptaFile(sf, stub)
               .catch((error) => {
                 console.error(
                   "Failed to persist file to storage:",
@@ -456,7 +456,7 @@ export async function addFiles(
         }
       }
       // Hydrations only after their chunk is dispatched, so
-      // updateStirlingFileStub finds the files in state.
+      // updateScriptaFileStub finds the files in state.
       while (flushedHydrations < pendingHydrations.length) {
         scheduleMetadataHydration(pendingHydrations[flushedHydrations++]);
       }
@@ -479,7 +479,7 @@ export async function addFiles(
       filesRef.current.set(fileId, file);
 
       // Create new filestub with minimal metadata; hydrate thumbnails/processedFile asynchronously
-      const fileStub = createNewStirlingFileStub(file, fileId);
+      const fileStub = createNewScriptaFileStub(file, fileId);
       if (options.derivedFromTool) fileStub.derivedFromTool = true;
       if (options.presetClassification) {
         // Set together: a stub that is labelled but not yet locked is exactly the window
@@ -490,7 +490,7 @@ export async function addFiles(
         fileStub.classificationLocked = true;
       }
       if (options.folderId) {
-        fileStub.folderId = options.folderId as StirlingFileStub["folderId"];
+        fileStub.folderId = options.folderId as ScriptaFileStub["folderId"];
       }
 
       // Early encryption detection for PDFs — set the flag before dispatch so the
@@ -522,11 +522,11 @@ export async function addFiles(
       if (!allowDuplicates) {
         existingQuickKeys.add(quickKey);
       }
-      stirlingFileStubs.push(fileStub);
+      scriptaFileStubs.push(fileStub);
 
-      // Create StirlingFile directly
-      const stirlingFile = createStirlingFile(file, fileId);
-      stirlingFiles.push(stirlingFile);
+      // Create ScriptaFile directly
+      const scriptaFile = createScriptaFile(file, fileId);
+      scriptaFiles.push(scriptaFile);
 
       // Capture per-file hydration task — scheduled after batch dispatch below
       const hydrate = async () => {
@@ -562,7 +562,7 @@ export async function addFiles(
           }
         }
 
-        const updates: Partial<StirlingFileStub> = {};
+        const updates: Partial<ScriptaFileStub> = {};
         const primaryThumbnail =
           thumbnail ||
           processedFileMetadata?.thumbnailUrl ||
@@ -580,7 +580,7 @@ export async function addFiles(
         }
 
         if (Object.keys(updates).length > 0) {
-          lifecycleManager.updateStirlingFileStub(fileId, updates, stateRef);
+          lifecycleManager.updateScriptaFileStub(fileId, updates, stateRef);
         }
 
         // Persist the thumbnail to IndexedDB so it's available in future sessions.
@@ -601,7 +601,7 @@ export async function addFiles(
       if (!options.skipMetadataHydration) pendingHydrations.push(hydrate);
 
       reportBulkAddProgress(++scannedCount, filesToProcess.length);
-      if (stirlingFileStubs.length - flushedStubs >= DISPATCH_CHUNK) {
+      if (scriptaFileStubs.length - flushedStubs >= DISPATCH_CHUNK) {
         const chunkWrites = flushChunk();
         // Yield a MACROTASK so React commits this chunk and runs its effects
         // (incl. the policy-enforcement dispatch) before the next chunk scans.
@@ -623,11 +623,11 @@ export async function addFiles(
       await Promise.all(persistPromises);
     }
 
-    if (!options.skipUploadTracking && stirlingFiles.length > 0) {
-      trackPdfUploaded(stirlingFiles);
+    if (!options.skipUploadTracking && scriptaFiles.length > 0) {
+      trackPdfUploaded(scriptaFiles);
     }
 
-    return stirlingFiles;
+    return scriptaFiles;
   } finally {
     clearBulkAddProgress();
     // Always release mutex even if error occurs
@@ -637,12 +637,12 @@ export async function addFiles(
 
 /**
  * Consume files helper - replace unpinned input files with output files
- * Now accepts pre-created StirlingFiles and StirlingFileStubs to preserve all metadata
+ * Now accepts pre-created ScriptaFiles and ScriptaFileStubs to preserve all metadata
  */
 export async function consumeFiles(
   inputFileIds: FileId[],
-  outputStirlingFiles: StirlingFile[],
-  outputStirlingFileStubs: StirlingFileStub[],
+  outputScriptaFiles: ScriptaFile[],
+  outputScriptaFileStubs: ScriptaFileStub[],
   filesRef: React.MutableRefObject<Map<FileId, File>>,
   dispatch: React.Dispatch<FileContextAction>,
   // Silent: replace the input in place (same grid slot) without auto-selecting
@@ -652,32 +652,32 @@ export async function consumeFiles(
 ): Promise<FileId[]> {
   if (DEBUG)
     console.log(
-      `📄 consumeFiles: Processing ${inputFileIds.length} input files, ${outputStirlingFiles.length} output files with pre-created stubs`,
+      `📄 consumeFiles: Processing ${inputFileIds.length} input files, ${outputScriptaFiles.length} output files with pre-created stubs`,
     );
 
   // Validate that we have matching files and stubs
-  if (outputStirlingFiles.length !== outputStirlingFileStubs.length) {
+  if (outputScriptaFiles.length !== outputScriptaFileStubs.length) {
     throw new Error(
-      `Mismatch between output files (${outputStirlingFiles.length}) and stubs (${outputStirlingFileStubs.length})`,
+      `Mismatch between output files (${outputScriptaFiles.length}) and stubs (${outputScriptaFileStubs.length})`,
     );
   }
 
-  // Store StirlingFiles in filesRef using their existing IDs (no ID generation needed)
-  for (let i = 0; i < outputStirlingFiles.length; i++) {
-    const stirlingFile = outputStirlingFiles[i];
-    const stub = outputStirlingFileStubs[i];
+  // Store ScriptaFiles in filesRef using their existing IDs (no ID generation needed)
+  for (let i = 0; i < outputScriptaFiles.length; i++) {
+    const scriptaFile = outputScriptaFiles[i];
+    const stub = outputScriptaFileStubs[i];
 
-    if (stirlingFile.fileId !== stub.id) {
+    if (scriptaFile.fileId !== stub.id) {
       console.warn(
-        `📄 consumeFiles: ID mismatch between StirlingFile (${stirlingFile.fileId}) and stub (${stub.id})`,
+        `📄 consumeFiles: ID mismatch between ScriptaFile (${scriptaFile.fileId}) and stub (${stub.id})`,
       );
     }
 
-    filesRef.current.set(stirlingFile.fileId, stirlingFile);
+    filesRef.current.set(scriptaFile.fileId, scriptaFile);
 
     if (DEBUG)
       console.log(
-        `📄 consumeFiles: Stored StirlingFile ${stirlingFile.name} with ID ${stirlingFile.fileId}`,
+        `📄 consumeFiles: Stored ScriptaFile ${scriptaFile.name} with ID ${scriptaFile.fileId}`,
       );
   }
 
@@ -685,8 +685,8 @@ export async function consumeFiles(
   // storage helper, so a policy run recovered after a reload versions the file identically.
   await fileStorage.persistVersionedOutputs(
     inputFileIds,
-    outputStirlingFiles,
-    outputStirlingFileStubs,
+    outputScriptaFiles,
+    outputScriptaFileStubs,
   );
 
   // Dispatch the consume action with pre-created stubs (no processing needed)
@@ -694,17 +694,17 @@ export async function consumeFiles(
     type: "CONSUME_FILES",
     payload: {
       inputFileIds,
-      outputStirlingFileStubs: outputStirlingFileStubs,
+      outputScriptaFileStubs: outputScriptaFileStubs,
       silent: options?.silent ?? false,
     },
   });
 
   if (DEBUG)
     console.log(
-      `📄 consumeFiles: Successfully consumed files - removed ${inputFileIds.length} inputs, added ${outputStirlingFileStubs.length} outputs`,
+      `📄 consumeFiles: Successfully consumed files - removed ${inputFileIds.length} inputs, added ${outputScriptaFileStubs.length} outputs`,
     );
   // Return the output file IDs for undo tracking
-  return outputStirlingFileStubs.map((stub) => stub.id);
+  return outputScriptaFileStubs.map((stub) => stub.id);
 }
 
 /**
@@ -713,7 +713,7 @@ export async function consumeFiles(
  */
 export async function undoConsumeFiles(
   inputFiles: File[],
-  inputStirlingFileStubs: StirlingFileStub[],
+  inputScriptaFileStubs: ScriptaFileStub[],
   outputFileIds: FileId[],
   filesRef: React.MutableRefObject<Map<FileId, File>>,
   dispatch: React.Dispatch<FileContextAction>,
@@ -722,20 +722,20 @@ export async function undoConsumeFiles(
       file: File,
       fileId: FileId,
       existingThumbnail?: string,
-    ) => Promise<StirlingFileStub>;
+    ) => Promise<ScriptaFileStub>;
     deleteFile: (fileId: FileId) => Promise<void>;
     bumpRevision?: () => void;
   } | null,
 ): Promise<void> {
   if (DEBUG)
     console.log(
-      `📄 undoConsumeFiles: Restoring ${inputStirlingFileStubs.length} input files, removing ${outputFileIds.length} output files`,
+      `📄 undoConsumeFiles: Restoring ${inputScriptaFileStubs.length} input files, removing ${outputFileIds.length} output files`,
     );
 
   // Validate inputs
-  if (inputFiles.length !== inputStirlingFileStubs.length) {
+  if (inputFiles.length !== inputScriptaFileStubs.length) {
     throw new Error(
-      `Mismatch between input files (${inputFiles.length}) and records (${inputStirlingFileStubs.length})`,
+      `Mismatch between input files (${inputFiles.length}) and records (${inputScriptaFileStubs.length})`,
     );
   }
 
@@ -746,14 +746,14 @@ export async function undoConsumeFiles(
     // Sync filesRef before dispatch — prevents bumpRevision re-renders from seeing stale output IDs with no File objects.
     outputFileIds.forEach((id) => filesRef.current.delete(id));
     inputFiles.forEach((file, index) => {
-      const record = inputStirlingFileStubs[index];
+      const record = inputScriptaFileStubs[index];
       if (file && record && file.size > 0) {
         filesRef.current.set(record.id, file);
       }
     });
 
     // Mark restored files dirty if they have a local path (they now differ from disk).
-    const stubsWithDirtyMarked = inputStirlingFileStubs.map((stub) =>
+    const stubsWithDirtyMarked = inputScriptaFileStubs.map((stub) =>
       stub.localFilePath ? { ...stub, isDirty: true } : stub,
     );
 
@@ -761,7 +761,7 @@ export async function undoConsumeFiles(
     dispatch({
       type: "UNDO_CONSUME_FILES",
       payload: {
-        inputStirlingFileStubs: stubsWithDirtyMarked,
+        inputScriptaFileStubs: stubsWithDirtyMarked,
         outputFileIds,
       },
     });
@@ -803,7 +803,7 @@ export async function undoConsumeFiles(
 
     if (DEBUG)
       console.log(
-        `📄 undoConsumeFiles: Successfully undone consume operation - restored ${inputStirlingFileStubs.length} inputs, removed ${outputFileIds.length} outputs`,
+        `📄 undoConsumeFiles: Successfully undone consume operation - restored ${inputScriptaFileStubs.length} inputs, removed ${outputFileIds.length} outputs`,
       );
   } catch (error) {
     // Rollback filesRef to previous state
@@ -828,17 +828,17 @@ export async function undoConsumeFiles(
  *  Queued, because parsing several PDFs at once is what the limit bounds. */
 function hydrateMetadataFor(
   fileId: FileId,
-  stirlingFile: StirlingFile,
+  scriptaFile: ScriptaFile,
   stateRef: React.MutableRefObject<FileContextState>,
   lifecycleManager: FileLifecycleManager,
 ): void {
-  if (!stirlingFile.type.startsWith("application/pdf")) return;
+  if (!scriptaFile.type.startsWith("application/pdf")) return;
   scheduleMetadataHydration(async () => {
     const processedFileMetadata =
-      await generateProcessedFileMetadata(stirlingFile);
+      await generateProcessedFileMetadata(scriptaFile);
     if (!processedFileMetadata) return;
 
-    const updates: Partial<StirlingFileStub> = {
+    const updates: Partial<ScriptaFileStub> = {
       processedFile: processedFileMetadata,
     };
 
@@ -851,7 +851,7 @@ function hydrateMetadataFor(
       }
     }
 
-    lifecycleManager.updateStirlingFileStub(fileId, updates, stateRef);
+    lifecycleManager.updateScriptaFileStub(fileId, updates, stateRef);
   });
 }
 
@@ -866,16 +866,16 @@ function reconcilePort(
     getStub: (fileId) => stateRef.current.files.byId[fileId],
     listStubs: () => Object.values(stateRef.current.files.byId),
     putFile: (fileId, file) =>
-      filesRef.current.set(fileId, createStirlingFile(file, fileId)),
+      filesRef.current.set(fileId, createScriptaFile(file, fileId)),
     updateStub: (fileId, updates) =>
-      lifecycleManager.updateStirlingFileStub(fileId, updates, stateRef),
+      lifecycleManager.updateScriptaFileStub(fileId, updates, stateRef),
     dropFile: (fileId) => lifecycleManager.removeFiles([fileId], stateRef),
     reprocessFile: (fileId) => {
       const file = filesRef.current.get(fileId);
       if (file) {
         hydrateMetadataFor(
           fileId,
-          createStirlingFile(file, fileId),
+          createScriptaFile(file, fileId),
           stateRef,
           lifecycleManager,
         );
@@ -898,41 +898,41 @@ export async function reconcileOpenFilesAt(
 }
 
 /**
- * Add files using existing StirlingFileStubs from storage - preserves all metadata
+ * Add files using existing ScriptaFileStubs from storage - preserves all metadata
  * Use this when loading files that already exist in storage (FileManager, etc.)
- * StirlingFileStubs come with proper thumbnails, history, processing state
+ * ScriptaFileStubs come with proper thumbnails, history, processing state
  */
-export async function addStirlingFileStubs(
-  stirlingFileStubs: StirlingFileStub[],
+export async function addScriptaFileStubs(
+  scriptaFileStubs: ScriptaFileStub[],
   options: { insertAfterPageId?: string; selectFiles?: boolean } = {},
   stateRef: React.MutableRefObject<FileContextState>,
   filesRef: React.MutableRefObject<Map<FileId, File>>,
   dispatch: React.Dispatch<FileContextAction>,
   lifecycleManager: FileLifecycleManager,
-): Promise<StirlingFile[]> {
+): Promise<ScriptaFile[]> {
   await addFilesMutex.lock();
 
   try {
     // Show loading indicator while preparing files from storage
-    if (stirlingFileStubs.length > 0) {
+    if (scriptaFileStubs.length > 0) {
       dispatch({
         type: "SET_PROCESSING",
         payload: { isProcessing: true, progress: 0 },
       });
     }
 
-    const loadedFiles: StirlingFile[] = [];
+    const loadedFiles: ScriptaFile[] = [];
     let firstFileDispatched = false;
 
     // Process and dispatch files one by one for progressive UI updates
-    for (const stub of stirlingFileStubs) {
+    for (const stub of scriptaFileStubs) {
       // Dedup by stable fileId. Two distinct files in history can share
       // name|size|lastModified (and therefore quickKey), so quickKey dedup
       // here would silently drop a legitimately different file.
       if (stateRef.current.files.byId[stub.id]) {
         if (DEBUG)
           console.log(
-            `📄 Skipping already-loaded StirlingFileStub: ${stub.name}`,
+            `📄 Skipping already-loaded ScriptaFileStub: ${stub.name}`,
           );
         continue;
       }
@@ -946,7 +946,7 @@ export async function addStirlingFileStubs(
       }
 
       // Dispatch each file immediately as we process it (progressive loading)
-      dispatch({ type: "ADD_FILES", payload: { stirlingFileStubs: [record] } });
+      dispatch({ type: "ADD_FILES", payload: { scriptaFileStubs: [record] } });
 
       // Clear loading indicator after first file appears
       if (!firstFileDispatched) {
@@ -960,8 +960,8 @@ export async function addStirlingFileStubs(
       // Load File object and hydrate metadata in background (non-blocking)
       const fileId = stub.id;
 
-      const scheduleMetadataFor = (stirlingFile: StirlingFile): void =>
-        hydrateMetadataFor(fileId, stirlingFile, stateRef, lifecycleManager);
+      const scheduleMetadataFor = (scriptaFile: ScriptaFile): void =>
+        hydrateMetadataFor(fileId, scriptaFile, stateRef, lifecycleManager);
 
       // Load and publish the File, ahead of any parsing. NOT queued: whether a
       // file opens at all must not wait on other files' parses.
@@ -986,12 +986,12 @@ export async function addStirlingFileStubs(
           return;
         }
         // Bytes the reconciler holds win over the stored copy.
-        const stirlingFile = await (
+        const scriptaFile = await (
           decision.file
-            ? Promise.resolve(createStirlingFile(decision.file, fileId))
-            : fileStorage.getStirlingFile(fileId)
+            ? Promise.resolve(createScriptaFile(decision.file, fileId))
+            : fileStorage.getScriptaFile(fileId)
         ).finally(() => clearTimeout(stall));
-        if (!stirlingFile) {
+        if (!scriptaFile) {
           // A row with no bytes renders empty and its clicks look dead, so take it
           // back out. Storage keeps the record; fileStorage has said why.
           console.error(
@@ -1001,13 +1001,13 @@ export async function addStirlingFileStubs(
           return;
         }
 
-        filesRef.current.set(fileId, stirlingFile);
+        filesRef.current.set(fileId, scriptaFile);
 
         // Workbench selectors only see the file once something dispatches, and
-        // updateStirlingFileStub drops updates for a file not yet in filesRef,
+        // updateScriptaFileStub drops updates for a file not yet in filesRef,
         // so this must follow the write above - and must happen even when the
         // reconciler had nothing to say, or the bytes never become visible.
-        lifecycleManager.updateStirlingFileStub(
+        lifecycleManager.updateScriptaFileStub(
           fileId,
           decision.updates ?? {},
           stateRef,
@@ -1022,7 +1022,7 @@ export async function addStirlingFileStubs(
           stub.processedFile.pages.length === 0 ||
           stub.processedFile.totalPages !== stub.processedFile.pages.length;
         if (needsProcessing) {
-          scheduleMetadataFor(stirlingFile);
+          scheduleMetadataFor(scriptaFile);
         }
       })().catch((error) =>
         console.error(`[Hydration] Failed to load ${fileId}:`, error),
@@ -1057,9 +1057,9 @@ export const createFileActions = (
   clearFileError: (fileId: FileId) =>
     dispatch({ type: "CLEAR_FILE_ERROR", payload: { fileId } }),
   clearAllFileErrors: () => dispatch({ type: "CLEAR_ALL_FILE_ERRORS" }),
-  updateStirlingFileStub: (
+  updateScriptaFileStub: (
     fileId: FileId,
-    updates: Partial<StirlingFileStub>,
+    updates: Partial<ScriptaFileStub>,
   ) =>
     dispatch({ type: "UPDATE_FILE_RECORD", payload: { id: fileId, updates } }),
 });

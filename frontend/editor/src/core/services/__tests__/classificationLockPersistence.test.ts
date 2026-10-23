@@ -3,8 +3,8 @@ import { IDBFactory } from "fake-indexeddb";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { fileStorage } from "@app/services/fileStorage";
 import {
-  createNewStirlingFileStub,
-  createStirlingFile,
+  createNewScriptaFileStub,
+  createScriptaFile,
 } from "@app/types/fileContext";
 
 // classificationLocked is what stops a policy reclassifying a file the onboarding demo
@@ -17,16 +17,16 @@ beforeEach(() => {
 });
 
 async function storeAndReload(locked: boolean) {
-  const file = createStirlingFile(
+  const file = createScriptaFile(
     new File(["%PDF-1.4"], "invoice.pdf", { type: "application/pdf" }),
   );
-  const stub = createNewStirlingFileStub(file, file.fileId);
+  const stub = createNewScriptaFileStub(file, file.fileId);
   stub.classificationLabels = ["invoice"];
   stub.classificationConfidence = "none";
   if (locked) stub.classificationLocked = true;
 
-  await fileStorage.storeStirlingFile(file, stub);
-  return fileStorage.getStirlingFileStub(file.fileId);
+  await fileStorage.storeScriptaFile(file, stub);
+  return fileStorage.getScriptaFileStub(file.fileId);
 }
 
 describe("classificationLocked survives storage", () => {

@@ -71,7 +71,7 @@ A comment block over ~12 lines outside a file or type header usually means the c
 After modifying any files in the project, you must run the relevant `task check` command that covers that area of the code. For example, when editing frontend files run `task frontend:check`; for Python engine files run `task engine:check`; for Java backend files run `task backend:check`.
 
 ### Docker Development
-- **Build standard**: `task docker:build` (or `docker build -t stirling-pdf -f docker/embedded/Dockerfile .`)
+- **Build standard**: `task docker:build` (or `docker build -t scripta -f docker/embedded/Dockerfile .`)
 - **Build fat version**: `task docker:build:fat`
 - **Build ultra-lite**: `task docker:build:ultra-lite`
 - **Start compose stack**: `task docker:up` (or `task docker:up:fat`, `task docker:up:ultra-lite`)
@@ -84,7 +84,7 @@ Set `DOCKER_ENABLE_SECURITY=true` environment variable to enable security featur
 
 ### Python Development (AI Engine)
 
-The engine is a Python reasoning service for Stirling: it plans and interprets work, but it does not own durable state, and it does not execute Stirling PDF operations directly. Keep the service narrow: typed contracts in, typed contracts out, with AI only where it adds reasoning value. The frontend calls the Python engine via Java as a proxy.
+The engine is a Python reasoning service for Scripta: it plans and interprets work, but it does not own durable state, and it does not execute Scripta operations directly. Keep the service narrow: typed contracts in, typed contracts out, with AI only where it adds reasoning value. The frontend calls the Python engine via Java as a proxy.
 
 #### Python Commands
 All engine commands run from the repo root using Task:
@@ -115,34 +115,34 @@ The project structure is defined in `engine/pyproject.toml`. Any new dependencie
 - Do not pass raw `dict[str, Any]` or `dict[str, object]` across important boundaries when a typed model can exist instead.
 - Avoid `Any` wherever possible.
 - Avoid `cast()` wherever possible (reconsider the structure first).
-- All shared models should subclass `stirling.models.ApiModel` so the service behaves consistently.
+- All shared models should subclass `scripta.models.ApiModel` so the service behaves consistently.
 - Do not use string literals for any type annotations, including `cast()`.
 
 #### Python Configuration
-- Keep application-owned configuration in `stirling.config`.
-- Only add `STIRLING_*` environment variables that the engine itself truly owns.
+- Keep application-owned configuration in `scripta.config`.
+- Only add `SCRIPTA_*` environment variables that the engine itself truly owns.
 - Do not mirror third-party provider environment variables unless the engine is actually interpreting them.
 - Let `pydantic-ai` own provider authentication configuration when possible.
 
 #### Python Architecture
 
 **Package roles:**
-- `stirling.contracts`: request/response models and shared typed workflow contracts. If a shape crosses a module or service boundary, it probably belongs here.
-- `stirling.models`: shared model primitives and generated tool models.
-- `stirling.agents`: reasoning modules for individual capabilities.
-- `stirling.api`: HTTP layer, dependency access, and app startup wiring.
-- `stirling.services`: shared runtime and non-AI infrastructure.
-- `stirling.config`: application-owned settings.
+- `scripta.contracts`: request/response models and shared typed workflow contracts. If a shape crosses a module or service boundary, it probably belongs here.
+- `scripta.models`: shared model primitives and generated tool models.
+- `scripta.agents`: reasoning modules for individual capabilities.
+- `scripta.api`: HTTP layer, dependency access, and app startup wiring.
+- `scripta.services`: shared runtime and non-AI infrastructure.
+- `scripta.config`: application-owned settings.
 
 **Source of truth:**
-- `stirling.models.tool_models` is the source of truth for operation IDs and parameter models.
+- `scripta.models.tool_models` is the source of truth for operation IDs and parameter models.
 - Do not duplicate operation lists if they can be derived from `tool_models.OPERATIONS`.
 - Do not hand-maintain parallel parameter schemas when the generated tool models already define them.
 - If a tool ID must match a parameter model, validate that relationship explicitly in code.
 
 **Boundaries:**
 - Keep the API layer thin. Route modules should bind requests, resolve dependencies, and call agents or services. They should not contain business logic.
-- Keep agents focused on one reasoning domain. They should not own FastAPI routing, persistence, or execution of Stirling operations.
+- Keep agents focused on one reasoning domain. They should not own FastAPI routing, persistence, or execution of Scripta operations.
 - Build long-lived runtime objects centrally at startup when possible rather than reconstructing heavy AI objects per request.
 - If an agent delegates to another agent, the delegated agent should remain the source of truth for its own domain output.
 
@@ -414,7 +414,7 @@ return useToolOperation({
   - Follow pattern: `@RestController` + `@RequestMapping("/api/v1/...")`
 
 ### Key Components
-- **SPDFApplication.java**: Main application class with desktop UI and browser launching logic
+- **ScriptaApplication.java**: Main application class with desktop UI and browser launching logic
 - **ConfigInitializer**: Handles runtime configuration and settings files
 - **Pipeline System**: Automated PDF processing workflows via `PipelineController`
 - **Security Layer**: Authentication, authorization, and user management (when enabled)

@@ -42,11 +42,11 @@ import type {
   SignaturePreview,
   SignatureOverlayAPI,
 } from "@app/components/viewer/viewerTypes";
-import { createStirlingFilesAndStubs } from "@app/services/fileStubHelpers";
+import { createScriptaFilesAndStubs } from "@app/services/fileStubHelpers";
 import {
-  isStirlingFile,
+  isScriptaFile,
   getFormFillFileId,
-  type StirlingFile,
+  type ScriptaFile,
   documentBytesReplaced,
   type DocumentIdentity,
 } from "@app/types/fileContext";
@@ -89,7 +89,7 @@ export interface EmbedPdfViewerProps {
  *  replaces the bytes under an unchanged fileId, and an outline cached under the
  *  id alone would then describe a document nobody is looking at. Preload keys are
  *  matched against this, so both call sites must derive it the same way. */
-const documentCacheKey = (file: StirlingFile): string =>
+const documentCacheKey = (file: ScriptaFile): string =>
   `${file.fileId}|${file.quickKey}`;
 
 // Guards only; a restore completes on plugin events. A missed event costs a
@@ -623,7 +623,7 @@ const EmbedPdfViewerContent = ({
     } else if (activeFiles.length > 0) {
       const byId = activeFileId
         ? activeFiles.find(
-            (f) => isStirlingFile(f) && f.fileId === activeFileId,
+            (f) => isScriptaFile(f) && f.fileId === activeFileId,
           )
         : null;
       return byId || activeFiles[0];
@@ -642,7 +642,7 @@ const EmbedPdfViewerContent = ({
   // The workbench record to act on. Bare id, not the content key above: the
   // consume/undo paths below pass it back as a FileId.
   const currentFileStableId =
-    currentFile && isStirlingFile(currentFile) ? currentFile.fileId : null;
+    currentFile && isScriptaFile(currentFile) ? currentFile.fileId : null;
   const fileWithUrl = useFileWithUrl(currentFile, currentFileId);
 
   // Lineage root of the open document: saves and tool outputs add a child record,
@@ -651,8 +651,8 @@ const EmbedPdfViewerContent = ({
     if (previewFile) {
       return `preview-${previewFile.name}|${previewFile.size}|${previewFile.lastModified}`;
     }
-    if (currentFile && isStirlingFile(currentFile)) {
-      const stub = selectors.getStirlingFileStub(currentFile.fileId);
+    if (currentFile && isScriptaFile(currentFile)) {
+      const stub = selectors.getScriptaFileStub(currentFile.fileId);
       return stub?.originalFileId ?? stub?.id ?? currentFile.fileId;
     }
     return currentFileId;
@@ -673,13 +673,13 @@ const EmbedPdfViewerContent = ({
 
   // Check if the current file is encrypted (gate the viewer to prevent PDFium crash)
   const isCurrentFileEncrypted = useFileSelector((s) =>
-    currentFile && isStirlingFile(currentFile)
+    currentFile && isScriptaFile(currentFile)
       ? s.files.byId[currentFile.fileId]?.processedFile?.isEncrypted === true
       : false,
   );
 
   const bookmarkCacheKey = React.useMemo(() => {
-    if (currentFile && isStirlingFile(currentFile)) {
+    if (currentFile && isScriptaFile(currentFile)) {
       return documentCacheKey(currentFile);
     }
 
@@ -708,7 +708,7 @@ const EmbedPdfViewerContent = ({
 
     return activeFiles
       .map((file) =>
-        isStirlingFile(file) ? documentCacheKey(file) : undefined,
+        isScriptaFile(file) ? documentCacheKey(file) : undefined,
       )
       .filter(Boolean) as string[];
   }, [activeFiles, previewFile, bookmarkCacheKey]);
@@ -1057,15 +1057,15 @@ const EmbedPdfViewerContent = ({
       const filename = currentFile.name || "document.pdf";
       const file = new File([blob], filename, { type: "application/pdf" });
 
-      // Step 3: Create StirlingFiles and stubs for version history
+      // Step 3: Create ScriptaFiles and stubs for version history
       // Only consume the current file, not all active files
       const currentFileId = currentFileStableId;
       if (!currentFileId) throw new Error("Current file ID not found");
 
-      const parentStub = selectors.getStirlingFileStub(currentFileId);
+      const parentStub = selectors.getScriptaFileStub(currentFileId);
       if (!parentStub) throw new Error("Parent stub not found");
 
-      const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+      const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
         [file],
         parentStub,
         selectedTool ?? "multiTool",
@@ -1073,7 +1073,7 @@ const EmbedPdfViewerContent = ({
 
       // The live document already renders what was exported, and a reopen would
       // reset the scroll, so the save must not reopen it.
-      const savedFile = stirlingFiles[0];
+      const savedFile = scriptaFiles[0];
       if (savedFile) {
         skipReloadContentKeyRef.current = getFormFillFileId(savedFile);
       }
@@ -1083,7 +1083,7 @@ const EmbedPdfViewerContent = ({
       if (newFileId) setActiveFileId(newFileId);
 
       // Step 4: Consume only the current file (replace in context)
-      await actions.consumeFiles([currentFileId], stirlingFiles, stubs);
+      await actions.consumeFiles([currentFileId], scriptaFiles, stubs);
 
       // The exported bytes cover everything up to this revision; an edit that
       // landed while the save was in flight stays unsaved.
@@ -1153,11 +1153,11 @@ const EmbedPdfViewerContent = ({
         const currentFileId = currentFileStableId;
         if (!currentFileId) throw new Error("Current file ID not found");
 
-        const parentStub = selectors.getStirlingFileStub(currentFileId);
+        const parentStub = selectors.getScriptaFileStub(currentFileId);
         if (!parentStub) throw new Error("Parent stub not found");
 
-        // Create StirlingFiles and stubs for version history
-        const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+        // Create ScriptaFiles and stubs for version history
+        const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
           [file],
           parentStub,
           selectedTool ?? "multiTool",
@@ -1167,7 +1167,7 @@ const EmbedPdfViewerContent = ({
         if (newFileId) setActiveFileId(newFileId);
 
         // Replace the current file in context
-        await actions.consumeFiles([currentFileId], stirlingFiles, stubs);
+        await actions.consumeFiles([currentFileId], scriptaFiles, stubs);
 
         console.log("[Viewer] Form fill changes applied successfully");
       } catch (error) {
@@ -1214,10 +1214,10 @@ const EmbedPdfViewerContent = ({
         const currentFileId = currentFileStableId;
         if (!currentFileId) throw new Error("Current file ID not found");
 
-        const parentStub = selectors.getStirlingFileStub(currentFileId);
+        const parentStub = selectors.getScriptaFileStub(currentFileId);
         if (!parentStub) throw new Error("Parent stub not found");
 
-        const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+        const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
           [file],
           parentStub,
           selectedTool ?? "multiTool",
@@ -1226,7 +1226,7 @@ const EmbedPdfViewerContent = ({
         const newFileId = stubs[0]?.id;
         if (newFileId) setActiveFileId(newFileId);
 
-        await actions.consumeFiles([currentFileId], stirlingFiles, stubs);
+        await actions.consumeFiles([currentFileId], scriptaFiles, stubs);
       } catch (error) {
         console.error("[Viewer] Apply layer changes failed:", error);
       } finally {
@@ -1269,14 +1269,14 @@ const EmbedPdfViewerContent = ({
       const filename = currentFile.name || "document.pdf";
       const file = new File([blob], filename, { type: "application/pdf" });
 
-      // Create StirlingFiles and stubs for version history
+      // Create ScriptaFiles and stubs for version history
       const currentFileId = currentFileStableId;
       if (!currentFileId) throw new Error("Current file ID not found");
 
-      const parentStub = selectors.getStirlingFileStub(currentFileId);
+      const parentStub = selectors.getScriptaFileStub(currentFileId);
       if (!parentStub) throw new Error("Parent stub not found");
 
-      const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+      const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
         [file],
         parentStub,
         selectedTool ?? "multiTool",
@@ -1286,7 +1286,7 @@ const EmbedPdfViewerContent = ({
       if (newFileId) setActiveFileId(newFileId);
 
       // Consume only the current file (replace in context)
-      await actions.consumeFiles([currentFileId], stirlingFiles, stubs);
+      await actions.consumeFiles([currentFileId], scriptaFiles, stubs);
 
       // Clear flags
       hasAnnotationChangesRef.current = false;
@@ -1802,7 +1802,7 @@ const EmbedPdfViewerContent = ({
             </Text>
             <Button
               onClick={() => {
-                if (currentFile && isStirlingFile(currentFile)) {
+                if (currentFile && isScriptaFile(currentFile)) {
                   actions.openEncryptedUnlockPrompt(currentFile.fileId);
                 }
               }}
@@ -1841,7 +1841,7 @@ const EmbedPdfViewerContent = ({
               fileName={
                 previewFile
                   ? previewFile.name
-                  : currentFile && isStirlingFile(currentFile)
+                  : currentFile && isScriptaFile(currentFile)
                     ? currentFile.name
                     : effectiveFile?.file instanceof File
                       ? effectiveFile.file.name

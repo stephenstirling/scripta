@@ -18,7 +18,7 @@ Example entry:
 * N: Example Corp
   D: Using Scripta for automated document processing in our SaaS platform focusing on compression.
   U: OCR, merging PDFs, metadata editing, encryption, compression.
-  L: https://example.com/stirling-pdf
+  L: https://example.com/scripta
   Q: @example-user on Discord/email
 ```
 

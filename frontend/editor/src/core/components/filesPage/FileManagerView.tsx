@@ -41,7 +41,7 @@ import { LibraryTabs } from "@app/components/filesPage/LibraryTabs";
 import { useLibraryScrollPosition } from "@app/components/filesPage/useLibraryScrollPosition";
 
 import { FileId } from "@app/types/file";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import {
   FolderId,
   FolderRecord,
@@ -108,11 +108,11 @@ export default function FileManagerView() {
   const detailsAsSheet = useMediaQuery("(max-width: 640px)") ?? false;
   const [mobileDetailsOpen, setMobileDetailsOpen] = useState(false);
   const [saveToServerTarget, setSaveToServerTarget] = useState<
-    StirlingFileStub[] | null
+    ScriptaFileStub[] | null
   >(null);
 
   const [versionHistoryFile, setVersionHistoryFile] =
-    useState<StirlingFileStub | null>(null);
+    useState<ScriptaFileStub | null>(null);
   const folders = useFolders();
   const setFolderError = folders.setError;
   const { actions: fileActions } = useFileActions();
@@ -200,7 +200,7 @@ export default function FileManagerView() {
     () =>
       deleteDialogFileIds
         .map((id) => fileMap.get(id))
-        .filter((s): s is StirlingFileStub => Boolean(s)),
+        .filter((s): s is ScriptaFileStub => Boolean(s)),
     [deleteDialogFileIds, fileMap],
   );
 
@@ -643,7 +643,7 @@ export default function FileManagerView() {
     async (fileIds: FileId[]) => {
       const stubs = fileIds
         .map((id) => fileMap.get(id))
-        .filter((s): s is StirlingFileStub => Boolean(s));
+        .filter((s): s is ScriptaFileStub => Boolean(s));
       if (stubs.length === 0) return;
 
       const proceed = async () => {
@@ -660,7 +660,7 @@ export default function FileManagerView() {
         // Server-only stubs have no bytes in IDB; download + ingest first.
         const materialized = await materializeServerStubs(toOpen, {
           addFiles: fileActions.addFilesWithOptions,
-          updateStub: fileActions.updateStirlingFileStub,
+          updateStub: fileActions.updateScriptaFileStub,
         });
         if (materialized.length !== toOpen.length) {
           // Refresh successful imports even when another file fails.
@@ -669,7 +669,7 @@ export default function FileManagerView() {
         }
 
         if (materialized.length > 0) {
-          await fileActions.addStirlingFileStubs(materialized, {
+          await fileActions.addScriptaFileStubs(materialized, {
             selectFiles: false,
           });
         }
@@ -710,7 +710,7 @@ export default function FileManagerView() {
   );
 
   const handleOpenFile = useCallback(
-    (file: StirlingFileStub) => {
+    (file: ScriptaFileStub) => {
       void handleAddToWorkspace([file.id]);
     },
     [handleAddToWorkspace],
@@ -893,10 +893,10 @@ export default function FileManagerView() {
 
   /** Cloud-only rows hold no bytes; pull them local before acting on them. */
   const localCopyOf = useCallback(
-    async (file: StirlingFileStub): Promise<StirlingFileStub | null> => {
+    async (file: ScriptaFileStub): Promise<ScriptaFileStub | null> => {
       const [materialized] = await materializeServerStubs([file], {
         addFiles: fileActions.addFilesWithOptions,
-        updateStub: fileActions.updateStirlingFileStub,
+        updateStub: fileActions.updateScriptaFileStub,
       });
       return materialized ?? null;
     },
@@ -904,7 +904,7 @@ export default function FileManagerView() {
   );
 
   const handleDownloadFile = useCallback(
-    async (file: StirlingFileStub) => {
+    async (file: ScriptaFileStub) => {
       try {
         const local = await localCopyOf(file);
         if (!local) return;
@@ -920,7 +920,7 @@ export default function FileManagerView() {
   );
 
   const handleDuplicateFile = useCallback(
-    async (file: StirlingFileStub) => {
+    async (file: ScriptaFileStub) => {
       try {
         const local = await localCopyOf(file);
         if (!local) return;
@@ -943,7 +943,7 @@ export default function FileManagerView() {
     [localCopyOf, allFiles, addFiles, refresh, folders, t],
   );
 
-  const [renameTarget, setRenameTarget] = useState<StirlingFileStub | null>(
+  const [renameTarget, setRenameTarget] = useState<ScriptaFileStub | null>(
     null,
   );
 
@@ -958,7 +958,7 @@ export default function FileManagerView() {
       const saved = await renameStoredFile(
         local,
         name,
-        fileActions.updateStirlingFileStub,
+        fileActions.updateScriptaFileStub,
       );
       if (!saved) {
         throw new Error(
@@ -984,7 +984,7 @@ export default function FileManagerView() {
       selectedFiles
         .map((id) => fileMap.get(id))
         .filter(
-          (s): s is StirlingFileStub =>
+          (s): s is ScriptaFileStub =>
             Boolean(s) && s!.remoteStorageId == null,
         ),
     [selectedFiles, fileMap],

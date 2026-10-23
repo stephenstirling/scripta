@@ -88,10 +88,10 @@ test.describe("Workbench survives the editor/processor switch", () => {
     expect(
       await page.evaluate(() => ({
         session: JSON.parse(
-          sessionStorage.getItem("stirling.workbench.session") ?? "{}",
+          sessionStorage.getItem("scripta.workbench.session") ?? "{}",
         ),
         returnPath: sessionStorage.getItem(
-          "stirling.workbench.editorReturnPath",
+          "scripta.workbench.editorReturnPath",
         ),
       })),
     ).toMatchObject({

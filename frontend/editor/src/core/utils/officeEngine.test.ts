@@ -3,7 +3,7 @@ import { usesOfficeEngine } from "@app/utils/convertUtils";
 import { buildConvertFormData } from "@app/hooks/tools/convert/useConvertOperation";
 import { defaultParameters } from "@app/hooks/tools/convert/useConvertParameters";
 
-describe("Stirling Office Convert switch", () => {
+describe("Scripta Office Convert switch", () => {
   test("applies to Office conversions only", () => {
     expect(usesOfficeEngine("pdf", "docx")).toBe(true);
     expect(usesOfficeEngine("pdf", "pptx")).toBe(true);
@@ -21,20 +21,20 @@ describe("Stirling Office Convert switch", () => {
       toExtension: "docx",
     };
     expect(
-      buildConvertFormData(base, [file]).has("useStirlingOfficeConvert"),
+      buildConvertFormData(base, [file]).has("useScriptaOfficeConvert"),
     ).toBe(false);
     const chosen = buildConvertFormData(
-      { ...base, useStirlingOfficeConvert: true },
+      { ...base, useScriptaOfficeConvert: true },
       [file],
     );
-    expect(chosen.get("useStirlingOfficeConvert")).toBe("true");
+    expect(chosen.get("useScriptaOfficeConvert")).toBe("true");
     const image = {
       ...base,
       toExtension: "png",
-      useStirlingOfficeConvert: true,
+      useScriptaOfficeConvert: true,
     };
     expect(
-      buildConvertFormData(image, [file]).has("useStirlingOfficeConvert"),
+      buildConvertFormData(image, [file]).has("useScriptaOfficeConvert"),
     ).toBe(false);
   });
 });

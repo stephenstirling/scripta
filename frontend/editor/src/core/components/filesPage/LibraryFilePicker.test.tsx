@@ -12,7 +12,7 @@ import { MantineProvider } from "@mantine/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { createAppQueryClient } from "@app/query/queryClient";
 import { LibraryFilePicker } from "@app/components/filesPage/LibraryFilePicker";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderRecord } from "@app/types/folder";
 import type { DiskFileEntry } from "@app/services/localFolderContents";
 import type { ProcessingFolderState } from "@app/hooks/useProcessingFolders";
@@ -38,7 +38,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 const state = vi.hoisted(() => ({
-  files: [] as StirlingFileStub[],
+  files: [] as ScriptaFileStub[],
   folders: [] as FolderRecord[],
   diskFiles: [] as DiskFileEntry[],
   selected: vi.fn().mockResolvedValue(undefined),
@@ -152,7 +152,7 @@ const file = (id: string, name: string, folderId: string | null = null) =>
     originalFileId: id,
     isLeaf: true,
     versionNumber: 1,
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 const folder = (id: string, name: string, extra = {}) =>
   ({
     id,

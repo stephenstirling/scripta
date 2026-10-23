@@ -81,7 +81,7 @@ import { Button } from "@app/ui/Button";
 import "@app/components/layout/WorkspaceFrame.css";
 import "@app/pages/HomePage.css";
 
-const SWIPE_HINT_SEEN_STORAGE_KEY = "stirling.mobileSwipeHintSeen";
+const SWIPE_HINT_SEEN_STORAGE_KEY = "scripta.mobileSwipeHintSeen";
 
 /**
  * The wings' slide is `--wings-ms` (dimensions.css). Read from the document so one

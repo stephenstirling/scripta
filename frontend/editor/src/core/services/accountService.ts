@@ -29,7 +29,7 @@ export const accountService = {
    * This is a public endpoint - doesn't require authentication
    */
   async getLoginPageData(): Promise<LoginPageData> {
-    // Also auto-called by onboarding when a stale stirling_jwt exists; a 401
+    // Also auto-called by onboarding when a stale scripta_jwt exists; a 401
     // must never trigger the global login redirect.
     const response = await apiClient.get<LoginPageData>(
       "/api/v1/proprietary/ui-data/login",

@@ -613,18 +613,18 @@ label = "Sessiya limiti"
 description = "Maksimal icra müddəti"
 label = "Vaxt məhdudu (dəqiqə)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert beta mərhələsindədir. O, LibreOffice ilə müqayisədə daha yaxşı, daha sürətli və daha az yaddaşla çevirmələr təklif edir."
-label = "Yeni Stirling Office çevirməsindən istifadə edin"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Scripta Office Convert beta mərhələsindədir. O, LibreOffice ilə müqayisədə daha yaxşı, daha sürətli və daha az yaddaşla çevirmələr təklif edir."
+label = "Yeni Scripta Office çevirməsindən istifadə edin"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Müvəqqəti fayl saxlama və təmizləmə davranışını konfiqurasiya edin"
 label = "Müvəqqəti Fayl İdarəetməsi"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Müvəqqəti fayllar üçün baza qovluq (defolt üçün boş saxlayın: java.io.tmpdir/stirling-pdf)"
+description = "Müvəqqəti fayllar üçün baza qovluq (defolt üçün boş saxlayın: java.io.tmpdir/scripta)"
 label = "Baza Müvəqqəti Qovluq"
-placeholder = "Standart: java.io.tmpdir/stirling-pdf"
+placeholder = "Standart: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Təmizləmənin nə qədər tez-tez işlədiləcəyi (dəqiqə ilə)"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata yolu yazıla bilən deyil. Endirmələr brauzerdə 
 [admin.settings.ai]
 customProvider = "Fərdi (OpenAI-uyğun)"
 description = "Scripta-i Python AI mühərrikinə qoşun, modellərini seçin və işlədiyi qoruyucu qaydaları təyin edin."
-managedByCloud = "Bu rejimdə Stirling Cloud tərəfindən idarə olunur."
-managedByCloudShort = "Stirling Cloud tərəfindən idarə olunur"
+managedByCloud = "Bu rejimdə Scripta Cloud tərəfindən idarə olunur."
+managedByCloudShort = "Scripta Cloud tərəfindən idarə olunur"
 
 [admin.settings.ai.documents]
 description = "Sənədlər üzrə suallara cavab vermək üçün istifadə olunan embedding modeli və axtarış parametrlərini konfiqurasiya edin. Saxlanıldıqda AI mühərrikinə tətbiq olunur."
@@ -735,16 +735,16 @@ description = "Ayrı-ayrı AI funksiyalarını aktiv və ya deaktiv edin. Deakti
 title = "İmkanlar"
 
 [admin.settings.ai.general.cloud]
-note = "Modellər və provayder açarları Stirling Cloud tərəfindən idarə olunur, buna görə bu ayarlar bu rejimdə tətbiq edilmir."
+note = "Modellər və provayder açarları Scripta Cloud tərəfindən idarə olunur, buna görə bu ayarlar bu rejimdə tətbiq edilmir."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Hər AI aləti cavab vermək üçün lazım olan səhifə mətnini göndərir. Bu, Stirling Cloud-un həmin mətni indekslənmiş şəkildə saxlayıb-saxlamayacağını müəyyən edir ki, sonrakı suallar sənəd üzrə axtarış edə bilsin."
+description = "Hər AI aləti cavab vermək üçün lazım olan səhifə mətnini göndərir. Bu, Scripta Cloud-un həmin mətni indekslənmiş şəkildə saxlayıb-saxlamayacağını müəyyən edir ki, sonrakı suallar sənəd üzrə axtarış edə bilsin."
 help = "Söndürülü olduqda sənəd sualları əlçatan olmur. Bu, mətnin göndərilməsini dayandırmır - yalnız saxlanmasını dayandırır."
-label = "Stirling Cloud-un indekslənmiş sənədləri saxlamasına icazə ver"
+label = "Scripta Cloud-un indekslənmiş sənədləri saxlamasına icazə ver"
 
 [admin.settings.ai.general.cloudNote]
-body = "Məntiqi emal Scripta-in infrastrukturunda işləyir və bu serverin bağlandığı hesaba hesablanır. Burada işlədiləcək konteyner və saxlanılacaq provayder açarı yoxdur. AI-nin oxuduğu hər şey öz avadanlığınızda deyil, Stirling Cloud tərəfindən emal olunur."
-title = "Stirling Cloud AI haqqında"
+body = "Məntiqi emal Scripta-in infrastrukturunda işləyir və bu serverin bağlandığı hesaba hesablanır. Burada işlədiləcək konteyner və saxlanılacaq provayder açarı yoxdur. AI-nin oxuduğu hər şey öz avadanlığınızda deyil, Scripta Cloud tərəfindən emal olunur."
+title = "Scripta Cloud AI haqqında"
 
 [admin.settings.ai.general.enabled]
 description = "Əsas açar. Söndürülü olduqda heç bir AI aləti, agenti və ya mühərrik çağırışı əlçatan deyil."
@@ -782,11 +782,11 @@ label = "Uzunmüddətli vaxt limiti (saniyə)"
 label = "AI harada işləyir"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Konteyner yoxdur, provayder açarı yoxdur, model seçimi yoxdur - iş Stirling Cloud-da işləyir və bu serverin bağlandığı hesaba hesablanır."
+description = "Konteyner yoxdur, provayder açarı yoxdur, model seçimi yoxdur - iş Scripta Cloud-da işləyir və bu serverin bağlandığı hesaba hesablanır."
 linkCta = "Bu serveri Scripta hesabına qoş"
 notLinked = "Əvvəlcə hesabı əlaqələndirin"
 ownerOnly = "Yalnız təşkilat sahibi bu serveri Scripta hesabına qoşa bilər."
-title = "Stirling Cloud AI istifadə et"
+title = "Scripta Cloud AI istifadə et"
 
 [admin.settings.ai.general.mode.off]
 description = "Tətbiqin heç bir yerində AI alətləri yoxdur və heç nə bu serverdən çıxmır."
@@ -818,7 +818,7 @@ description = "Mühərrikə standart AI sorğuları üçün vaxt limiti."
 label = "Sorğu vaxt limiti (saniyə)"
 
 [admin.settings.ai.general.url]
-description = "Python AI mühərrikinin daxili URL-i, məsələn http://stirling-pdf-engine:5001."
+description = "Python AI mühərrikinin daxili URL-i, məsələn http://scripta-engine:5001."
 label = "AI mühərriki URL-i"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "Mühərrik URL"
 hostDown = "İşləmir"
 hostLabel = "Stirling.com"
 hostUp = "İşləyir"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "AI paylaşımı"
 sharingOff = "Deaktiv edilib"
 sharingOn = "Aktiv edilib"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud cavab verdi, lakin bu serveri rədd etdi. Hesab bağlantısı ləğv edilmiş ola bilər."
-title = "Stirling Cloud bu serveri rədd edir"
+body = "Scripta Cloud cavab verdi, lakin bu serveri rədd etdi. Hesab bağlantısı ləğv edilmiş ola bilər."
+title = "Scripta Cloud bu serveri rədd edir"
 
 [admin.settings.ai.status.cloud.down]
-body = "Bu server Stirling Cloud-a çata bilmədi. Hesab bağlantısını və bu serverin internetə çıxışının olub-olmadığını yoxlayın."
-title = "Stirling Cloud əlçatmazdır"
+body = "Bu server Scripta Cloud-a çata bilmədi. Hesab bağlantısını və bu serverin internetə çıxışının olub-olmadığını yoxlayın."
+title = "Scripta Cloud əlçatmazdır"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud bu serveri qəbul etdi. Burada işlədiləcək və ya yenilənəcək heç nə yoxdur."
-title = "Stirling Cloud-da işləyir"
+body = "Scripta Cloud bu serveri qəbul etdi. Burada işlədiləcək və ya yenilənəcək heç nə yoxdur."
+title = "Scripta Cloud-da işləyir"
 
 [admin.settings.ai.status.degraded]
 body = "Sağlamlıq yoxlamasına cavab verdi, lakin real sorğunu rədd etdi. İki tərəf fərqli paylaşılan sirrlərdən istifadə edir."
@@ -1885,7 +1885,7 @@ wrapUp = "Admin turu budur! Scripta-i təşkilatlar üçün güclü, fərdiləş
 title = "İstifadəçi İdarəetmə Parametrləri"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Ərəb"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Əvvəlcə mənbə formatını seçin"
 settings = "Parametrlər"
 single = "Tək"
 sourceFormatPlaceholder = "Mənbə formatı"
-stirlingOfficeConvert = "Stirling Office Convert-dən istifadə edin (beta)"
-stirlingOfficeConvertDescription = "Daha az yaddaşla daha yaxşı, daha sürətli çevirmələr. Standart çeviricidən istifadə etmək üçün söndürün."
+scriptaOfficeConvert = "Scripta Office Convert-dən istifadə edin (beta)"
+scriptaOfficeConvertDescription = "Daha az yaddaşla daha yaxşı, daha sürətli çevirmələr. Standart çeviricidən istifadə etmək üçün söndürün."
 strictMode = "Ciddi rejim"
 strictModeDesc = "Çevirmə mükəmməl deyilsə xəta ver (VeraPDF yoxlamasından istifadə edir)"
 svgPdfOptions = "SVG to PDF seçimləri"
@@ -5349,7 +5349,7 @@ userTitle = "Plan icmalı"
 [onboarding.processorIntro]
 body = "Scripta indi <strong>Siyasətlər</strong> işlədir — hər sənəd daxil olduqda onu təsnif edən, qoruyan və emal edən avtomatlaşdırılmış qaydalar. Onları qurun və icraları <strong>Processor</strong>-də izləyin."
 cta = "Processor-ə baxın"
-title = "Stirling Processor-ə baxın"
+title = "Scripta Processor-ə baxın"
 
 [onboarding.securityCheck]
 message = "Tətbiq son vaxtlar əhəmiyyətli dəyişikliklərdən keçib. Server administratorunun müdaxiləsi tələb oluna bilər. Davam etmək üçün rolunuzu təsdiqləyin."
@@ -5359,9 +5359,9 @@ roleUser = "İstifadəçi"
 title = "Təhlükəsizlik yoxlaması"
 
 [onboarding.serverLicense]
-freeBody = "Bizim <strong>Open-Core</strong> lisenziyamıza <strong>OAuth SSO</strong> və maksimum <strong>{{freeTierLimit}}</strong> istifadəçi pulsuz daxildir. Fasiləsiz böyümək üçün Stirling Team planını tövsiyə edirik — ayda $99 qarşılığında <strong>100 istifadəçi</strong>."
+freeBody = "Bizim <strong>Open-Core</strong> lisenziyamıza <strong>OAuth SSO</strong> və maksimum <strong>{{freeTierLimit}}</strong> istifadəçi pulsuz daxildir. Fasiləsiz böyümək üçün Scripta Team planını tövsiyə edirik — ayda $99 qarşılığında <strong>100 istifadəçi</strong>."
 freeTitle = "Team planı"
-overLimitBody = "Lisenziyamız pulsuz olaraq <strong>{{freeTierLimit}}</strong> istifadəçiyə qədər icazə verir. Sizdə <strong>{{overLimitUserCopy}}</strong> Scripta istifadəçisi var. Fasiləsiz davam etmək üçün Stirling Team planına yüksəldin - <strong>100 istifadəçi</strong>, PDF mətn redaktəsi və $99/ay üçün tam admin nəzarəti."
+overLimitBody = "Lisenziyamız pulsuz olaraq <strong>{{freeTierLimit}}</strong> istifadəçiyə qədər icazə verir. Sizdə <strong>{{overLimitUserCopy}}</strong> Scripta istifadəçisi var. Fasiləsiz davam etmək üçün Scripta Team planına yüksəldin - <strong>100 istifadəçi</strong>, PDF mətn redaktəsi və $99/ay üçün tam admin nəzarəti."
 overLimitTitle = "Team planı lazımdır"
 seePlans = "Planlara baxın →"
 upgrade = "İndi yüksəlt →"
@@ -6918,7 +6918,7 @@ label = "Başlıqlar"
 
 [portal.policies.operations.fields.index]
 label = "İndeks"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Issue açarı"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud istifadəçi adı"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Siyasətin sənədi emal etdiyini space-ə bildirir."
@@ -7192,7 +7192,7 @@ secretNote = "Signing secret webhook yaradıldıqda bir dəfə göstərilir. Onu
 copy = "Kopyala"
 done = "Hazır"
 secret = "İmzalama sirri"
-secretHelp = "Hər delivery-nin raw body-sini bu açarla imzalayın (HMAC-SHA256) və X-Stirling-Signature header-i kimi göndərin."
+secretHelp = "Hər delivery-nin raw body-sini bu açarla imzalayın (HMAC-SHA256) və X-Scripta-Signature header-i kimi göndərin."
 secretWarning = "Signing secret-i indi kopyalayın. Təhlükəsizliyiniz üçün o yalnız bir dəfə göstərilir və sonra əldə edilə bilməz."
 title = "Webhook yaradıldı"
 url = "Çatdırılma URL-i"
@@ -8047,7 +8047,7 @@ storageSharing = "Fayl Saxlama və Paylaşma"
 systemSettings = "Sistem parametrləri"
 
 [settings.connectedInstances]
-confirmBody = "Bu, instansiyanın Stirling Cloud-da komandanıza girişini ləğv edir. Yerli faylları silmir və artıq qeydə alınmış istifadəni aradan qaldırmır. Yenidən qoşulmaq üçün instansiyada ilkin qoşulma addımlarını izləyin."
+confirmBody = "Bu, instansiyanın Scripta Cloud-da komandanıza girişini ləğv edir. Yerli faylları silmir və artıq qeydə alınmış istifadəni aradan qaldırmır. Yenidən qoşulmaq üçün instansiyada ilkin qoşulma addımlarını izləyin."
 confirmTitle = "{{name}} silinsin?"
 connectedAt = "Qoşulub: {{date}}"
 connectedDate = "Qoşulub"
@@ -8091,7 +8091,7 @@ user = "Daxil olub:"
 
 [settings.connection.mode]
 local = "Yalnız yerli"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Öz serverində"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorinq"
 [settings.planBilling]
 currentPlan = "Cari plan"
 loading = "Hesab-faktura məlumatları yüklənir..."
-notAvailable = "Plan və Hesab-faktura yalnız Stirling Cloud-a (SaaS rejimi) qoşulduqda mövcuddur."
+notAvailable = "Plan və Hesab-faktura yalnız Scripta Cloud-a (SaaS rejimi) qoşulduqda mövcuddur."
 title = "Plan və Hesab-faktura"
 
 [settings.planBilling.billing]

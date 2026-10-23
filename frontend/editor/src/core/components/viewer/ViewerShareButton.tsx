@@ -12,7 +12,7 @@ import { uploadHistoryChain } from "@app/services/serverStorageUpload";
 import { fileStorage } from "@app/services/fileStorage";
 import { alert } from "@app/components/toast";
 import { Z_INDEX_OVER_FILE_MANAGER_MODAL } from "@app/styles/zIndex";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { usePolicyFileBadges } from "@app/hooks/usePolicyFileBadges";
 import {
@@ -42,7 +42,7 @@ export default function ViewerShareButton({
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [shareStub, setShareStub] = useState<StirlingFileStub | null>(null);
+  const [shareStub, setShareStub] = useState<ScriptaFileStub | null>(null);
 
   // Resolve strictly to the file shown in the viewer. Never fall back to an
   // arbitrary file — sharing the wrong document would be worse than not
@@ -101,7 +101,7 @@ export default function ViewerShareButton({
     label
   );
 
-  const openShare = (target: StirlingFileStub) => {
+  const openShare = (target: ScriptaFileStub) => {
     setShareStub(target);
     setShareOpen(true);
   };
@@ -135,7 +135,7 @@ export default function ViewerShareButton({
       try {
         await Promise.all(
           chain.map((s) => {
-            actions.updateStirlingFileStub(s.id, metadata);
+            actions.updateScriptaFileStub(s.id, metadata);
             return fileStorage.updateFileMetadata(s.id, metadata);
           }),
         );

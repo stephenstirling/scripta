@@ -613,18 +613,18 @@ label = "Limit relací"
 description = "Maximální doba běhu"
 label = "Časový limit (minuty)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert je ve verzi beta. Nabízí lepší a rychlejší převody s menší spotřebou paměti než LibreOffice."
-label = "Použít nový převod Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Scripta Office Convert je ve verzi beta. Nabízí lepší a rychlejší převody s menší spotřebou paměti než LibreOffice."
+label = "Použít nový převod Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Nakonfigurujte úložiště dočasných souborů a chování čištění"
 label = "Správa dočasných souborů"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Základní adresář pro dočasné soubory (ponechte prázdné pro výchozí: java.io.tmpdir/stirling-pdf)"
+description = "Základní adresář pro dočasné soubory (ponechte prázdné pro výchozí: java.io.tmpdir/scripta)"
 label = "Základní dočasný adresář"
-placeholder = "Výchozí: java.io.tmpdir/stirling-pdf"
+placeholder = "Výchozí: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Jak často spouštět čištění (v minutách)"
@@ -683,8 +683,8 @@ permissionNotice = "Cesta k tessdata není zapisovatelná. Stažení se otevře 
 [admin.settings.ai]
 customProvider = "Vlastní (kompatibilní s OpenAI)"
 description = "Připojte Scripta k Python AI enginu, vyberte jeho modely a nastavte omezení, podle kterých poběží."
-managedByCloud = "V tomto režimu spravuje Stirling Cloud."
-managedByCloudShort = "Spravováno službou Stirling Cloud"
+managedByCloud = "V tomto režimu spravuje Scripta Cloud."
+managedByCloudShort = "Spravováno službou Scripta Cloud"
 
 [admin.settings.ai.documents]
 description = "Nakonfigurujte embedding model a nastavení vyhledávání používané k odpovídání na otázky nad dokumenty. Po uložení se použije pro AI engine."
@@ -735,16 +735,16 @@ description = "Zapněte nebo vypněte jednotlivé AI funkce. Vypnuté funkce jso
 title = "Schopnosti"
 
 [admin.settings.ai.general.cloud]
-note = "Modely a klíče poskytovatelů spravuje Stirling Cloud, takže tato nastavení se v tomto režimu nepoužijí."
+note = "Modely a klíče poskytovatelů spravuje Scripta Cloud, takže tato nastavení se v tomto režimu nepoužijí."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Každý nástroj AI odesílá text stránky, který potřebuje k odpovědi. Toto určuje, zda může Stirling Cloud tento text také uchovávat indexovaný, aby pozdější dotazy mohly vyhledávat v celém dokumentu."
+description = "Každý nástroj AI odesílá text stránky, který potřebuje k odpovědi. Toto určuje, zda může Scripta Cloud tento text také uchovávat indexovaný, aby pozdější dotazy mohly vyhledávat v celém dokumentu."
 help = "Vypnuto znamená, že otázky k dokumentům nejsou dostupné. Nezastaví to odesílání textu – pouze jeho ukládání."
-label = "Povolit Stirling Cloud uchovávat indexované dokumenty"
+label = "Povolit Scripta Cloud uchovávat indexované dokumenty"
 
 [admin.settings.ai.general.cloudNote]
-body = "Vyhodnocování běží na infrastruktuře Scripta a účtuje se účtu, se kterým je tento server propojen. Není zde žádný kontejner ke spuštění ani klíč poskytovatele k uložení. Cokoli AI čte, zpracovává Stirling Cloud místo vašeho vlastního hardwaru."
-title = "O Stirling Cloud AI"
+body = "Vyhodnocování běží na infrastruktuře Scripta a účtuje se účtu, se kterým je tento server propojen. Není zde žádný kontejner ke spuštění ani klíč poskytovatele k uložení. Cokoli AI čte, zpracovává Scripta Cloud místo vašeho vlastního hardwaru."
+title = "O Scripta Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Hlavní přepínač. Když je vypnutý, nejsou dostupné žádné AI nástroje, agenti ani volání enginu."
@@ -782,11 +782,11 @@ label = "Časový limit dlouhých operací (sekundy)"
 label = "Kde běží AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Žádný kontejner, žádný klíč poskytovatele, žádná volba modelu – práce běží ve Stirling Cloud a účtuje se účtu, se kterým je tento server propojen."
+description = "Žádný kontejner, žádný klíč poskytovatele, žádná volba modelu – práce běží ve Scripta Cloud a účtuje se účtu, se kterým je tento server propojen."
 linkCta = "Propojit tento server s účtem Scripta"
 notLinked = "Nejprve propojte účet"
 ownerOnly = "Pouze vlastník organizace může propojit tento server s účtem Scripta."
-title = "Použít Stirling Cloud AI"
+title = "Použít Scripta Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Žádné nástroje AI nikde v aplikaci a nic neopouští tento server."
@@ -818,7 +818,7 @@ description = "Časový limit pro standardní AI požadavky na engine."
 label = "Časový limit požadavku (sekundy)"
 
 [admin.settings.ai.general.url]
-description = "Interní URL Python AI enginu, např. http://stirling-pdf-engine:5001."
+description = "Interní URL Python AI enginu, např. http://scripta-engine:5001."
 label = "URL AI enginu"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "URL enginu"
 hostDown = "Nedostupné"
 hostLabel = "Stirling.com"
 hostUp = "Dostupné"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "Sdílení AI"
 sharingOff = "Zakázáno"
 sharingOn = "Povoleno"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud odpověděl, ale odmítl tento server. Propojení účtu mohlo být odvoláno."
-title = "Stirling Cloud odmítá tento server"
+body = "Scripta Cloud odpověděl, ale odmítl tento server. Propojení účtu mohlo být odvoláno."
+title = "Scripta Cloud odmítá tento server"
 
 [admin.settings.ai.status.cloud.down]
-body = "Tento server se nemohl spojit se Stirling Cloud. Zkontrolujte propojení účtu a zda se tento server může připojit k internetu."
-title = "Stirling Cloud je nedostupný"
+body = "Tento server se nemohl spojit se Scripta Cloud. Zkontrolujte propojení účtu a zda se tento server může připojit k internetu."
+title = "Scripta Cloud je nedostupný"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud přijal tento server. Zde není třeba nic spouštět ani aktualizovat."
-title = "Běží ve Stirling Cloud"
+body = "Scripta Cloud přijal tento server. Zde není třeba nic spouštět ani aktualizovat."
+title = "Běží ve Scripta Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Odpověděl na kontrolu stavu, ale odmítl skutečný požadavek. Obě strany používají odlišná sdílená tajemství."
@@ -1885,7 +1885,7 @@ wrapUp = "To je vše z prohlídky pro správce! Viděli jste enterprise funkce, 
 title = "Nastavení správy uživatelů"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabština"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Nejprve vyberte zdrojový formát"
 settings = "Nastavení"
 single = "Jeden"
 sourceFormatPlaceholder = "Zdrojový formát"
-stirlingOfficeConvert = "Použít Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Lepší a rychlejší převody s menší spotřebou paměti. Vypněte pro použití standardního převodníku."
+scriptaOfficeConvert = "Použít Scripta Office Convert (beta)"
+scriptaOfficeConvertDescription = "Lepší a rychlejší převody s menší spotřebou paměti. Vypněte pro použití standardního převodníku."
 strictMode = "Striktní režim"
 strictModeDesc = "Chyba, pokud převod není dokonalý (používá ověření VeraPDF)"
 svgPdfOptions = "Možnosti SVG na PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Přehled plánu"
 [onboarding.processorIntro]
 body = "Scripta nyní spouští <strong>Zásady</strong> — automatizovaná pravidla, která klasifikují, zabezpečují a zpracovávají každý dokument při jeho příchodu. Nastavte je a sledujte běhy v <strong>Processoru</strong>."
 cta = "Podívat se na Processor"
-title = "Podívejte se na Stirling Processor"
+title = "Podívejte se na Scripta Processor"
 
 [onboarding.securityCheck]
 message = "Aplikace nedávno prošla významnými změnami. Může být nutný zásah správce serveru. Pro pokračování prosím potvrďte svou roli."
@@ -5359,9 +5359,9 @@ roleUser = "Uživatel"
 title = "Kontrola zabezpečení"
 
 [onboarding.serverLicense]
-freeBody = "Naše licence <strong>Open-Core</strong> zahrnuje <strong>OAuth SSO</strong> a až <strong>{{freeTierLimit}}</strong> uživatelů zdarma. Pro růst bez přerušení doporučujeme plán Stirling Team — <strong>100 uživatelů</strong> za 99 $/měsíc."
+freeBody = "Naše licence <strong>Open-Core</strong> zahrnuje <strong>OAuth SSO</strong> a až <strong>{{freeTierLimit}}</strong> uživatelů zdarma. Pro růst bez přerušení doporučujeme plán Scripta Team — <strong>100 uživatelů</strong> za 99 $/měsíc."
 freeTitle = "Plán Team"
-overLimitBody = "Naše licence umožňuje zdarma až <strong>{{freeTierLimit}}</strong> uživatelů. Máte <strong>{{overLimitUserCopy}}</strong> uživatelů Scripta. Chcete-li pokračovat bez přerušení, upgradujte na plán Stirling Team – <strong>100 uživatelů</strong>, úpravy textu PDF a plná administrátorská kontrola za $99/mo."
+overLimitBody = "Naše licence umožňuje zdarma až <strong>{{freeTierLimit}}</strong> uživatelů. Máte <strong>{{overLimitUserCopy}}</strong> uživatelů Scripta. Chcete-li pokračovat bez přerušení, upgradujte na plán Scripta Team – <strong>100 uživatelů</strong>, úpravy textu PDF a plná administrátorská kontrola za $99/mo."
 overLimitTitle = "Je potřeba plán Team"
 seePlans = "Zobrazit plány →"
 upgrade = "Upgradovat nyní →"
@@ -6918,7 +6918,7 @@ label = "Hlavičky"
 
 [portal.policies.operations.fields.index]
 label = "Index"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Klíč issue"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Uživatelské jméno Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Informuje prostor, že zásada zpracovala dokument."
@@ -7192,7 +7192,7 @@ secretNote = "Podpisový tajný klíč se zobrazí jednou, při vytvoření webh
 copy = "Kopírovat"
 done = "Hotovo"
 secret = "Podpisový tajný klíč"
-secretHelp = "Podepište nezpracované tělo každého doručení tímto klíčem (HMAC-SHA256) a odešlete jej jako hlavičku X-Stirling-Signature."
+secretHelp = "Podepište nezpracované tělo každého doručení tímto klíčem (HMAC-SHA256) a odešlete jej jako hlavičku X-Scripta-Signature."
 secretWarning = "Zkopírujte podpisový tajný klíč nyní. Kvůli vaší bezpečnosti se zobrazí pouze jednou a později jej nelze získat."
 title = "Webhook vytvořen"
 url = "URL pro doručení"
@@ -8047,7 +8047,7 @@ storageSharing = "Ukládání souborů a sdílení"
 systemSettings = "Systémová nastavení"
 
 [settings.connectedInstances]
-confirmBody = "Tím se zruší přístup instance k vašemu týmu ve Stirling Cloud. Nesmaže to místní soubory ani neodstraní již zaznamenané využití. Chcete-li se znovu připojit, postupujte podle původních kroků připojení na instanci."
+confirmBody = "Tím se zruší přístup instance k vašemu týmu ve Scripta Cloud. Nesmaže to místní soubory ani neodstraní již zaznamenané využití. Chcete-li se znovu připojit, postupujte podle původních kroků připojení na instanci."
 confirmTitle = "Odebrat {{name}}?"
 connectedAt = "Připojeno: {{date}}"
 connectedDate = "Připojeno"
@@ -8091,7 +8091,7 @@ user = "Přihlášen jako"
 
 [settings.connection.mode]
 local = "Pouze místní"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Vlastní hosting"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorování"
 [settings.planBilling]
 currentPlan = "Aktuální tarif"
 loading = "Načítání fakturačních informací..."
-notAvailable = "Plán a fakturace jsou dostupné pouze při připojení ke Stirling Cloud (režim SaaS)."
+notAvailable = "Plán a fakturace jsou dostupné pouze při připojení ke Scripta Cloud (režim SaaS)."
 title = "Plán a fakturace"
 
 [settings.planBilling.billing]

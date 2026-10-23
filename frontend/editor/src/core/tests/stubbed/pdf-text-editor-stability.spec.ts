@@ -5,7 +5,7 @@ import path from "path";
 // Clicking text places a caret. It must not move the page, and it must not
 // move a single word. Every regression in this area has been something
 // shifting at the moment of focus, so this pins the whole class.
-const FIXTURES = ["sample", "mushroom-life", "stirling-marketing"];
+const FIXTURES = ["sample", "mushroom-life", "scripta-marketing"];
 
 interface Geometry {
   pageX: number;

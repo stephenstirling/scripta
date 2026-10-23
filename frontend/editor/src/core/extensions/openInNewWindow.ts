@@ -1,10 +1,10 @@
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 
 export interface OpenInNewWindowApi {
   /** Whether this file can be opened in a separate window. */
-  canOpenInNewWindow: (file: StirlingFileStub) => boolean;
+  canOpenInNewWindow: (file: ScriptaFileStub) => boolean;
   /** Open the file in a separate window. */
-  openInNewWindow: (file: StirlingFileStub) => void;
+  openInNewWindow: (file: ScriptaFileStub) => void;
 }
 
 /**

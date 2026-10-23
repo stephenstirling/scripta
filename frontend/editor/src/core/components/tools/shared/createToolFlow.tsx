@@ -10,14 +10,14 @@ import {
   ToolWorkflowTitle,
   ToolWorkflowTitleProps,
 } from "@app/components/tools/shared/ToolWorkflowTitle";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import type { TooltipTip } from "@app/types/tips";
 import type { ExecuteDisabledReason } from "@app/hooks/tools/shared/toolOperationTypes";
 import classes from "@app/components/tools/shared/createToolFlow.module.css";
 import { ToolFileEligibility } from "@app/contexts/ToolFileEligibilityContext";
 
 export interface FilesStepConfig {
-  selectedFiles: StirlingFile[];
+  selectedFiles: ScriptaFile[];
   isCollapsed?: boolean;
   minFiles?: number;
   onCollapsedClick?: () => void;

@@ -40,7 +40,7 @@ export async function skipOnboarding(page: Page): Promise<void> {
  *
  * Default credentials are `admin / adminadmin` — set by the live-setup
  * bootstrap spec, which performs the real first-login password change from
- * the backend's default `admin / stirling` (min 8 chars per
+ * the backend's default `admin / scripta` (min 8 chars per
  * FirstLoginSlide validation).
  */
 export const DEFAULT_TEST_USERNAME = "admin";

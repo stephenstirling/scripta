@@ -19,7 +19,7 @@ const STARTUP_DELAY_MS = 15_000;
  * Shared with the desktop popup so snoozing in either context suppresses
  * both popups for the same 24h window.
  */
-const SNOOZE_KEY = "stirling-pdf-updater:snoozedUntil";
+const SNOOZE_KEY = "scripta-updater:snoozedUntil";
 const SNOOZE_DURATION_MS = 24 * 60 * 60 * 1000;
 
 /**

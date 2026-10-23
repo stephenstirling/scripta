@@ -71,17 +71,17 @@ export const test = base.extend<StubFixtures>({
     await bypassOnboarding(page);
     if (seedJwt) {
       await page.addInitScript((token) => {
-        localStorage.setItem("stirling_jwt", token);
+        localStorage.setItem("scripta_jwt", token);
       }, STUB_JWT);
     }
     if (filesViewMode) {
       await page.addInitScript((mode) => {
-        localStorage.setItem("stirling.filesPageViewMode", mode);
+        localStorage.setItem("scripta.filesPageViewMode", mode);
       }, filesViewMode);
     }
     if (filesViewMode) {
       await page.addInitScript((mode) => {
-        localStorage.setItem("stirling.filesPageViewMode", mode);
+        localStorage.setItem("scripta.filesPageViewMode", mode);
       }, filesViewMode);
     }
     await mockAppApis(page, stubOptions);

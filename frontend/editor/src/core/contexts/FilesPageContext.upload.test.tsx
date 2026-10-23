@@ -5,12 +5,12 @@ import {
   FilesPageProvider,
   useFilesPage,
 } from "@app/contexts/FilesPageContext";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderId, FolderRecord } from "@app/types/folder";
 import type { FileId } from "@app/types/file";
 
 const state = vi.hoisted(() => ({
-  files: [] as StirlingFileStub[],
+  files: [] as ScriptaFileStub[],
   upload: vi.fn(),
   bulkMove: vi.fn(),
   cacheMove: vi.fn(),
@@ -21,13 +21,13 @@ const state = vi.hoisted(() => ({
     currentFolderId: null,
     setError: vi.fn(),
   },
-  actions: { updateStirlingFileStub: vi.fn() },
+  actions: { updateScriptaFileStub: vi.fn() },
   disk: { openFileIdsRef: { current: [] }, onOpenFilesDetached: vi.fn() },
 }));
 vi.mock("@app/services/fileStorage", () => ({
   fileStorage: {
-    getAllStirlingFileStubs: async () => state.files,
-    getStirlingFileStub: async (id: FileId) =>
+    getAllScriptaFileStubs: async () => state.files,
+    getScriptaFileStub: async (id: FileId) =>
       state.files.find((file) => file.id === id),
     updateFileMetadata: state.updateMetadata,
   },
@@ -39,10 +39,10 @@ vi.mock("@app/services/folderSyncService", () => ({
   folderSyncService: { bulkMoveFiles: state.bulkMove },
 }));
 vi.mock("@app/services/fileSyncService", () => ({
-  reconcileServerFiles: async (files: StirlingFileStub[]) => files,
+  reconcileServerFiles: async (files: ScriptaFileStub[]) => files,
 }));
 vi.mock("@app/services/pruneMissingRecentFiles", () => ({
-  pruneMissingRecentFiles: async (files: StirlingFileStub[]) => files,
+  pruneMissingRecentFiles: async (files: ScriptaFileStub[]) => files,
 }));
 vi.mock("@app/contexts/IndexedDBContext", () => ({
   useIndexedDB: () => ({ moveFilesToFolder: state.cacheMove }),
@@ -64,7 +64,7 @@ vi.mock("@app/auth/UseSession", () => ({
   useAuth: () => ({ isAnonymous: false }),
 }));
 
-const stub = (id: string): StirlingFileStub => ({
+const stub = (id: string): ScriptaFileStub => ({
   id: id as FileId,
   originalFileId: id,
   name: `${id}.pdf`,
@@ -88,7 +88,7 @@ describe("adding browser files to the library", () => {
     vi.clearAllMocks();
     state.files = [stub("one"), stub("two"), stub("three")];
     state.updateMetadata.mockImplementation(
-      async (id: FileId, patch: Partial<StirlingFileStub>) => {
+      async (id: FileId, patch: Partial<ScriptaFileStub>) => {
         state.files = state.files.map((file) =>
           file.id === id ? { ...file, ...patch } : file,
         );

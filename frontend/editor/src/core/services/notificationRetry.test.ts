@@ -8,14 +8,14 @@ import type { RetryPayload } from "@app/services/notificationRetry";
 
 // The stash survives a reload, cannot grow without bound, and never holds a password.
 
-const getStirlingFileStub = vi.fn();
-const getStirlingFiles = vi.fn();
+const getScriptaFileStub = vi.fn();
+const getScriptaFiles = vi.fn();
 const post = vi.fn();
 
 vi.mock("@app/services/fileStorage", () => ({
   fileStorage: {
-    getStirlingFileStub: (...args: unknown[]) => getStirlingFileStub(...args),
-    getStirlingFiles: (...args: unknown[]) => getStirlingFiles(...args),
+    getScriptaFileStub: (...args: unknown[]) => getScriptaFileStub(...args),
+    getScriptaFiles: (...args: unknown[]) => getScriptaFiles(...args),
   },
 }));
 
@@ -38,7 +38,7 @@ const {
 } = await import("@app/services/notificationRetry");
 
 /** Duplicated from the service, which keeps its storage details private. */
-const DB_NAME = "stirling-pdf-retry";
+const DB_NAME = "scripta-retry";
 const STORE_NAME = "retryPayloads";
 
 function payload(overrides: Partial<Record<string, unknown>> = {}) {
@@ -80,8 +80,8 @@ async function storedRecords(): Promise<Record<string, unknown>[]> {
 }
 
 beforeEach(async () => {
-  getStirlingFileStub.mockReset().mockResolvedValue(null);
-  getStirlingFiles.mockReset().mockResolvedValue([]);
+  getScriptaFileStub.mockReset().mockResolvedValue(null);
+  getScriptaFiles.mockReset().mockResolvedValue([]);
   post.mockReset().mockResolvedValue({ status: 200, data: new Blob() });
   await indexedDBManager.deleteDatabase(DB_NAME);
 });
@@ -298,14 +298,14 @@ describe("the retry stash", () => {
 
 describe("hasLocalFile", () => {
   it("is false once the document has left this browser", async () => {
-    getStirlingFileStub.mockResolvedValue(null);
+    getScriptaFileStub.mockResolvedValue(null);
 
     await expect(hasLocalFile("f-1")).resolves.toBe(false);
     await expect(hasLocalFile(null)).resolves.toBe(false);
   });
 
   it("is true while the document is still stored here", async () => {
-    getStirlingFileStub.mockResolvedValue({ id: "f-1", name: "doc.pdf" });
+    getScriptaFileStub.mockResolvedValue({ id: "f-1", name: "doc.pdf" });
 
     await expect(hasLocalFile("f-1")).resolves.toBe(true);
   });
@@ -313,7 +313,7 @@ describe("hasLocalFile", () => {
 
 describe("retryWithPassword", () => {
   it("reports the file is gone instead of throwing, which is an expected outcome here", async () => {
-    getStirlingFiles.mockResolvedValue([]);
+    getScriptaFiles.mockResolvedValue([]);
 
     const result = await retryWithPassword(payload(), "hunter2");
 
@@ -324,7 +324,7 @@ describe("retryWithPassword", () => {
   });
 
   it("re-submits the stashed operation with the password added", async () => {
-    getStirlingFiles.mockResolvedValue([
+    getScriptaFiles.mockResolvedValue([
       new File(["%PDF-1.7"], "doc.pdf", { type: "application/pdf" }),
     ]);
 
@@ -344,7 +344,7 @@ describe("retryWithPassword", () => {
   });
 
   it("hands the output back, since a retry the user cannot see the result of is no retry", async () => {
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
     const unlocked = new Blob(["unlocked"]);
     post.mockResolvedValue({
       data: unlocked,
@@ -363,7 +363,7 @@ describe("retryWithPassword", () => {
   });
 
   it("names the output after its input when the server sent no filename", async () => {
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
     post.mockResolvedValue({ data: new Blob(["unlocked"]), headers: {} });
 
     const result = await retryWithPassword(payload(), "hunter2");
@@ -372,7 +372,7 @@ describe("retryWithPassword", () => {
   });
 
   it("returns the server's own message when the retry fails again", async () => {
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
     post.mockRejectedValue({
       response: { data: "The password is incorrect." },
       message: "Request failed with status code 400",
@@ -389,7 +389,7 @@ describe("retryWithPassword", () => {
 /** The unlock for a failure with no stash behind it: fixed endpoint, no payload. */
 describe("unlockLocalDocument", () => {
   it("removes the password from the document this browser holds, and stores nothing", async () => {
-    getStirlingFiles.mockResolvedValue([
+    getScriptaFiles.mockResolvedValue([
       new File(["%PDF-1.7"], "locked.pdf", { type: "application/pdf" }),
     ]);
     post.mockResolvedValue({
@@ -411,7 +411,7 @@ describe("unlockLocalDocument", () => {
   });
 
   it("reports the document is gone instead of posting a password nowhere", async () => {
-    getStirlingFiles.mockResolvedValue([]);
+    getScriptaFiles.mockResolvedValue([]);
 
     const result = await unlockLocalDocument("f-1", "hunter2");
 
@@ -423,7 +423,7 @@ describe("unlockLocalDocument", () => {
   it("reads the reason out of a blob body, rather than showing the transport's words", async () => {
     // An error body arrives as a blob here too. Left unread, a document nothing can repair
     // reported only "Request failed with status code 500".
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "broken.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "broken.pdf")]);
     post.mockRejectedValue({
       response: {
         data: new Blob([
@@ -446,7 +446,7 @@ describe("unlockLocalDocument", () => {
   });
 
   it("returns the server's own message when the password is wrong", async () => {
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "locked.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "locked.pdf")]);
     post.mockRejectedValue({
       response: { data: "The password is incorrect." },
       message: "Request failed with status code 400",
@@ -576,7 +576,7 @@ describe("retryInputIds", () => {
 
 describe("repairDocuments", () => {
   it("repairs one document per call, since the endpoint takes one at a time", async () => {
-    getStirlingFiles.mockImplementation(async (ids: string[]) =>
+    getScriptaFiles.mockImplementation(async (ids: string[]) =>
       ids.map((id) => new File(["%PDF-1.7"], `${id}.pdf`)),
     );
     post.mockResolvedValue({ data: new Blob(["fixed"]), headers: {} });
@@ -591,7 +591,7 @@ describe("repairDocuments", () => {
   });
 
   it("never sends a password, having none to send", async () => {
-    getStirlingFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
+    getScriptaFiles.mockResolvedValue([new File(["%PDF-1.7"], "doc.pdf")]);
     post.mockResolvedValue({ data: new Blob(["fixed"]), headers: {} });
 
     await repairDocuments(["f-1"]);
@@ -603,7 +603,7 @@ describe("repairDocuments", () => {
 
   it("fails the whole batch when one document cannot be repaired", async () => {
     // All or nothing: a partial repair still fails the re-run.
-    getStirlingFiles.mockImplementation(async (ids: string[]) =>
+    getScriptaFiles.mockImplementation(async (ids: string[]) =>
       ids.map((id) => new File(["%PDF-1.7"], `${id}.pdf`)),
     );
     post
@@ -618,7 +618,7 @@ describe("repairDocuments", () => {
   });
 
   it("reports the file is gone rather than repairing nothing quietly", async () => {
-    getStirlingFiles.mockResolvedValue([]);
+    getScriptaFiles.mockResolvedValue([]);
 
     const result = await repairDocuments(["f-1"]);
 
@@ -656,7 +656,7 @@ describe("retryWithFiles", () => {
     expect(formData.get("level")).toBe("5");
     // The repaired bytes, not a re-read of the original from storage.
     expect(formData.get("fileInput")).toBe(repaired);
-    expect(getStirlingFiles).not.toHaveBeenCalled();
+    expect(getScriptaFiles).not.toHaveBeenCalled();
   });
 
   it("sends every document at once, which is what a multi-file endpoint failed on", async () => {

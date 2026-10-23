@@ -1,4 +1,4 @@
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { FileId } from "@app/types/file";
 import { PDFDocument, PDFPage } from "@app/types/pageEditor";
 import { pdfExportService } from "@app/services/pdfExportService";
@@ -16,14 +16,14 @@ import {
 } from "@app/components/pageTracks/types";
 
 export interface TrackFileLookup {
-  getStub: (id: FileId) => StirlingFileStub | undefined;
+  getStub: (id: FileId) => ScriptaFileStub | undefined;
   getFile: (id: FileId) => File | undefined;
 }
 
 export interface BuiltTrackFile {
   file: File;
   /** The file the output descends from: the track's own, or a split's source. */
-  parentStub: StirlingFileStub;
+  parentStub: ScriptaFileStub;
 }
 
 /** Shape the export service expects: pages tagged with their source page. */

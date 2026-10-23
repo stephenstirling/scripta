@@ -125,11 +125,11 @@ describe("injectOg (build-time prerender)", () => {
     );
 
     const originRoot = buildOgTags(entry, {
-      ogBase: "https://abc123.stirling-pdf.pages.dev",
+      ogBase: "https://abc123.scripta.pages.dev",
       pageUrlPath: "/compress",
     });
     expect(originRoot).toContain(
-      '<meta property="og:image" content="https://abc123.stirling-pdf.pages.dev/og_images/compress.png" />',
+      '<meta property="og:image" content="https://abc123.scripta.pages.dev/og_images/compress.png" />',
     );
   });
 
@@ -138,14 +138,14 @@ describe("injectOg (build-time prerender)", () => {
       TEMPLATE,
       {
         image: "/og_images/saas/app.png",
-        title: "Stirling - Edit any PDF. Govern every PDF.",
+        title: "Scripta - Edit any PDF. Govern every PDF.",
         ogTitle: "Edit any PDF. Govern every PDF.",
         description: "d",
       },
       {},
     );
     expect(out).toContain(
-      "<title>Stirling - Edit any PDF. Govern every PDF.</title>",
+      "<title>Scripta - Edit any PDF. Govern every PDF.</title>",
     );
     expect(out).toContain(
       '<meta property="og:title" content="Edit any PDF. Govern every PDF." />',
@@ -605,7 +605,7 @@ describe("resolveDeployBases (which origin may be published)", () => {
     expect(
       resolveDeployBases({
         canonicalOrigin: "https://stirling.com/",
-        deployOrigin: "https://abc123.stirling-pdf.pages.dev",
+        deployOrigin: "https://abc123.scripta.pages.dev",
         baseHref: "/app/",
       }),
     ).toEqual({
@@ -617,11 +617,11 @@ describe("resolveDeployBases (which origin may be published)", () => {
   it("serves a per-deployment origin from its own root and never canonicalises there", () => {
     expect(
       resolveDeployBases({
-        deployOrigin: "https://abc123.stirling-pdf.pages.dev/",
+        deployOrigin: "https://abc123.scripta.pages.dev/",
         baseHref: "/app/",
       }),
     ).toEqual({
-      ogBase: "https://abc123.stirling-pdf.pages.dev",
+      ogBase: "https://abc123.scripta.pages.dev",
       canonicalBase: "",
     });
   });
@@ -675,13 +675,13 @@ describe("prerenderOg on a sub-path deploy", () => {
   it("keeps assets at the deployment's own root and publishes no indexing signal", async () => {
     const { html, bases } = await run(
       {
-        deployOrigin: "https://abc123.stirling-pdf.pages.dev",
+        deployOrigin: "https://abc123.scripta.pages.dev",
         baseHref: "/app/",
       },
       "og-preview-",
     );
     expect(html).toContain(
-      '<meta property="og:image" content="https://abc123.stirling-pdf.pages.dev/og_images/compress.png" />',
+      '<meta property="og:image" content="https://abc123.scripta.pages.dev/og_images/compress.png" />',
     );
     expect(html).not.toContain("/app/og_images");
     expect(html).not.toContain('rel="canonical"');
@@ -693,7 +693,7 @@ describe("prerenderOg on a sub-path deploy", () => {
     const { html, bases } = await run(
       {
         canonicalOrigin: "https://stirling.com",
-        deployOrigin: "https://abc123.stirling-pdf.pages.dev",
+        deployOrigin: "https://abc123.scripta.pages.dev",
         baseHref: "/app/",
       },
       "og-canonical-",
@@ -705,7 +705,7 @@ describe("prerenderOg on a sub-path deploy", () => {
       '<link rel="canonical" href="https://stirling.com/app/compress" />',
     );
     expect(html).toContain('"logo":"https://stirling.com/app/modern-logo');
-    expect(html).not.toContain("stirling-pdf.pages.dev");
+    expect(html).not.toContain("scripta.pages.dev");
     expect(buildSitemap(manifest, bases)).toContain(
       "<loc>https://stirling.com/app/compress</loc>",
     );

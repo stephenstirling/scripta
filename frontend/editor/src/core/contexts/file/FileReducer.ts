@@ -6,7 +6,7 @@ import { FileId } from "@app/types/file";
 import {
   FileContextState,
   FileContextAction,
-  StirlingFileStub,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 
 // Initial state
@@ -30,7 +30,7 @@ export const initialFileContextState: FileContextState = {
 function processFileSwap(
   state: FileContextState,
   filesToRemove: FileId[],
-  filesToAdd: StirlingFileStub[],
+  filesToAdd: ScriptaFileStub[],
 ): FileContextState {
   // Only remove unpinned files
   const unpinnedRemoveIds = filesToRemove.filter(
@@ -85,7 +85,7 @@ function processFileSwap(
 function processFileSwapInPlace(
   state: FileContextState,
   filesToRemove: FileId[],
-  filesToAdd: StirlingFileStub[],
+  filesToAdd: ScriptaFileStub[],
 ): FileContextState {
   const unpinnedRemoveIds = filesToRemove.filter(
     (id) => !state.pinnedFiles.has(id),
@@ -157,11 +157,11 @@ export function fileContextReducer(
 ): FileContextState {
   switch (action.type) {
     case "ADD_FILES": {
-      const { stirlingFileStubs } = action.payload;
+      const { scriptaFileStubs } = action.payload;
       const newIds: FileId[] = [];
-      const newById: Record<FileId, StirlingFileStub> = { ...state.files.byId };
+      const newById: Record<FileId, ScriptaFileStub> = { ...state.files.byId };
 
-      stirlingFileStubs.forEach((record) => {
+      scriptaFileStubs.forEach((record) => {
         // Only add if not already present (dedupe by stable ID)
         if (!newById[record.id]) {
           newIds.push(record.id);
@@ -369,7 +369,7 @@ export function fileContextReducer(
     }
 
     case "CONSUME_FILES": {
-      const { inputFileIds, outputStirlingFileStubs, silent } = action.payload;
+      const { inputFileIds, outputScriptaFileStubs, silent } = action.payload;
 
       // Transitive provenance: the outputs derive from these inputs AND from
       // whatever those inputs themselves derived from. Accumulating the closure
@@ -405,7 +405,7 @@ export function fileContextReducer(
       // and stamp its provenance. Tag here, not in processFileSwap, so
       // UNDO_CONSUME (which restores the original inputs through the same helper)
       // doesn't mislabel real uploads.
-      const provenancedOutputs = outputStirlingFileStubs.map((stub) => ({
+      const provenancedOutputs = outputScriptaFileStubs.map((stub) => ({
         ...stub,
         derivedFromTool: true,
         sourceFileIds,
@@ -430,9 +430,9 @@ export function fileContextReducer(
     }
 
     case "UNDO_CONSUME_FILES": {
-      const { inputStirlingFileStubs, outputFileIds } = action.payload;
+      const { inputScriptaFileStubs, outputFileIds } = action.payload;
 
-      return processFileSwap(state, outputFileIds, inputStirlingFileStubs);
+      return processFileSwap(state, outputFileIds, inputScriptaFileStubs);
     }
 
     case "RESET_CONTEXT": {
@@ -459,8 +459,8 @@ function idsUnchanged(a: FileId[], b: FileId[]): boolean {
 }
 
 function byIdUnchanged(
-  a: Record<FileId, StirlingFileStub>,
-  b: Record<FileId, StirlingFileStub>,
+  a: Record<FileId, ScriptaFileStub>,
+  b: Record<FileId, ScriptaFileStub>,
 ): boolean {
   const keysA = Object.keys(a);
   return (

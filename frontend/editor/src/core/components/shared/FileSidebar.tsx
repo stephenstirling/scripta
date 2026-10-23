@@ -33,7 +33,7 @@ import {
   useIndexedDBRevision,
 } from "@app/contexts/IndexedDBContext";
 import { SidebarHeader } from "@app/components/shared/SidebarHeader";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { FileItem } from "@app/components/shared/FileSidebarFileItem";
 import { useLabelName } from "@app/data/labelDisplay";
@@ -200,7 +200,7 @@ function SidebarActionRow({ action }: { action: SidebarAction }) {
 }
 
 interface LibraryHeaderProps {
-  stubs: StirlingFileStub[];
+  stubs: ScriptaFileStub[];
   scrolled: boolean;
   isGoogleDriveEnabled: boolean;
   onGoogleDrive: () => void;
@@ -305,7 +305,7 @@ function FileGroupSymbol({ icon, color, isOpen }: FileGroupSymbolProps) {
   );
 }
 
-type RenderFileRow = (stub: StirlingFileStub) => React.ReactNode;
+type RenderFileRow = (stub: ScriptaFileStub) => React.ReactNode;
 
 interface FileGroupProps {
   group: FileSidebarGroup;
@@ -398,7 +398,7 @@ interface LibraryFileListProps extends Omit<
   "groups" | "total" | "onViewAll"
 > {
   loaded: boolean;
-  stubs: StirlingFileStub[];
+  stubs: ScriptaFileStub[];
   groups: FileSidebarGroup[] | null;
   scrollRef: RefCallback<HTMLElement>;
   onOpenFilesPage: () => void;
@@ -525,7 +525,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
     const credits = useFreeCreditsSummary();
     const openPlan = useOpenPlan();
 
-    const [allFileStubs, setAllFileStubs] = useState<StirlingFileStub[]>([]);
+    const [allFileStubs, setAllFileStubs] = useState<ScriptaFileStub[]>([]);
     // Keep unreadable records so a reload can retry their bytes.
     const [lostFileIds, setLostFileIds] = useState<ReadonlySet<string>>(
       () => new Set(),
@@ -539,16 +539,16 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
     );
     const [stubsLoaded, setStubsLoaded] = useState(false);
     const [saveToServerTarget, setSaveToServerTarget] = useState<
-      StirlingFileStub[] | null
+      ScriptaFileStub[] | null
     >(null);
     const [versionHistoryTarget, setVersionHistoryTarget] =
-      useState<StirlingFileStub | null>(null);
+      useState<ScriptaFileStub | null>(null);
     // Kebab "Delete" target when the file is on the cloud; drives the
     // local/cloud/both choice dialog. Local-only files delete immediately.
-    const [deleteTarget, setDeleteTarget] = useState<StirlingFileStub | null>(
+    const [deleteTarget, setDeleteTarget] = useState<ScriptaFileStub | null>(
       null,
     );
-    const [renameTarget, setRenameTarget] = useState<StirlingFileStub | null>(
+    const [renameTarget, setRenameTarget] = useState<ScriptaFileStub | null>(
       null,
     );
     // Storage gate: only offer Save-to-cloud when the server allows it and
@@ -563,7 +563,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
       const gen = ++stubsGenRef.current;
       // `stubsLoaded` gates the spinner, so the `finally` below must set it on
       // every path - callers never await this, so a rejection goes nowhere.
-      let stubs: StirlingFileStub[] = [];
+      let stubs: ScriptaFileStub[] = [];
       try {
         stubs = await indexedDB.loadLeafMetadata();
       } catch (error) {
@@ -656,7 +656,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
             remoteSharedViaLink: false,
             remoteHasShareLinks: undefined,
           };
-          fileActions.updateStirlingFileStub(stub.id, cleared);
+          fileActions.updateScriptaFileStub(stub.id, cleared);
           await fileStorage.updateFileMetadata(stub.id, cleared);
         }
         setDeleteTarget(null);
@@ -699,7 +699,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
     const handleDownload = useCallback(
       async (fileId: FileId) => {
         const stub = allFileStubs.find((s) => s.id === fileId);
-        const file = await fileStorage.getStirlingFile(fileId);
+        const file = await fileStorage.getScriptaFile(fileId);
         if (!file) {
           warnDataUnavailable();
           return;
@@ -766,7 +766,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
         const saved = await renameStoredFile(
           stub,
           name,
-          fileActions.updateStirlingFileStub,
+          fileActions.updateScriptaFileStub,
         );
         if (!saved) {
           throw new Error(
@@ -889,7 +889,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
             navActions.setWorkbench("fileEditor");
           }
 
-          await fileActions.addStirlingFileStubs([stub]);
+          await fileActions.addScriptaFileStubs([stub]);
 
           if (staysOnAdd) {
             fileActions.setSelectedFiles([
@@ -950,7 +950,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
             if (state.files.ids.length > 0 && currentWorkbench === "viewer") {
               navActions.setWorkbench("fileEditor");
             }
-            await fileActions.addStirlingFileStubs([stub]);
+            await fileActions.addScriptaFileStubs([stub]);
           }
 
           // Route through pendingViewFileId so both setActiveFileIndex + setWorkbench fire together.
@@ -1040,7 +1040,7 @@ const FileSidebar = forwardRef<HTMLDivElement, FileSidebarProps>(
 
     const eligibleFileIds = useToolEligibleFileIds();
 
-    const renderFileRow = (stub: StirlingFileStub) => {
+    const renderFileRow = (stub: ScriptaFileStub) => {
       const isInWorkbench = workbenchIds.has(stub.id);
       const workbenchFileId = isInWorkbench ? stub.id : undefined;
       const isViewedInViewer = !!(

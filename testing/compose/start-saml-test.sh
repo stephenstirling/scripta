@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${BLUE}╔════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║  Stirling PDF + Keycloak SAML Test Environment   ║${NC}"
+echo -e "${BLUE}║  Scripta + Keycloak SAML Test Environment   ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -155,7 +155,7 @@ echo -e "${YELLOW}▶ Waiting for Keycloak (SAML)...${NC}"
 MAX_WAIT=180
 WAITED=0
 while [ $WAITED -lt $MAX_WAIT ]; do
-    if curl -sf http://localhost:9080/realms/stirling-saml/protocol/saml/descriptor 2>/dev/null | grep -q "EntityDescriptor"; then
+    if curl -sf http://localhost:9080/realms/scripta-saml/protocol/saml/descriptor 2>/dev/null | grep -q "EntityDescriptor"; then
         echo -e "${GREEN}✓ Keycloak is ready${NC}"
         break
     fi
@@ -180,7 +180,7 @@ PUBLIC_CERT="${SCRIPT_DIR}/saml-public-cert.crt"
 
 if [ ! -f "$PRIVATE_KEY" ] || [ ! -f "$PUBLIC_CERT" ]; then
     openssl req -x509 -newkey rsa:2048 -keyout "$PRIVATE_KEY" -out "$PUBLIC_CERT" \
-        -days 3650 -nodes -subj "/CN=stirling-pdf-saml-sp" >/dev/null 2>&1
+        -days 3650 -nodes -subj "/CN=scripta-saml-sp" >/dev/null 2>&1
     echo -e "${GREEN}✓ Generated SAML SP certificates${NC}"
 else
     echo -e "${BLUE}Using existing SAML SP certificates${NC}"
@@ -189,7 +189,7 @@ fi
 echo ""
 echo -e "${YELLOW}▶ Fetching Keycloak SAML signing certificate...${NC}"
 CERT_PATH="${SCRIPT_DIR}/keycloak-saml-cert.pem"
-CERT_BODY="$(curl -sf http://localhost:9080/realms/stirling-saml/protocol/saml/descriptor \
+CERT_BODY="$(curl -sf http://localhost:9080/realms/scripta-saml/protocol/saml/descriptor \
     | awk 'BEGIN{RS="<[^>]*X509Certificate>|</[^>]*X509Certificate>"} NR==2{gsub(/[[:space:]]+/,""); print; exit}')"
 if [ -n "$CERT_BODY" ]; then
     {
@@ -205,15 +205,15 @@ fi
 echo -e "${GREEN}✓ Keycloak SAML certificate updated${NC}"
 
 echo ""
-echo -e "${YELLOW}▶ Starting Stirling PDF...${NC}"
-docker-compose -f docker-compose-keycloak-saml.yml up "${COMPOSE_UP_ARGS[@]}" stirling-pdf-saml
+echo -e "${YELLOW}▶ Starting Scripta...${NC}"
+docker-compose -f docker-compose-keycloak-saml.yml up "${COMPOSE_UP_ARGS[@]}" scripta-saml
 
 echo ""
-echo -e "${YELLOW}▶ Waiting for Stirling PDF...${NC}"
+echo -e "${YELLOW}▶ Waiting for Scripta...${NC}"
 WAITED=0
 while [ $WAITED -lt $MAX_WAIT ]; do
     if curl -sf http://localhost:8080/api/v1/info/status 2>/dev/null | grep -q "UP"; then
-        echo -e "${GREEN}✓ Stirling PDF is ready${NC}"
+        echo -e "${GREEN}✓ Scripta is ready${NC}"
         break
     fi
     echo -n "."
@@ -222,7 +222,7 @@ while [ $WAITED -lt $MAX_WAIT ]; do
 done
 
 if [ $WAITED -ge $MAX_WAIT ]; then
-    echo -e "${RED}✗ Stirling PDF failed to start${NC}"
+    echo -e "${RED}✗ Scripta failed to start${NC}"
     exit 1
 fi
 
@@ -232,7 +232,7 @@ echo -e "${GREEN}║          SAML Test Environment Ready! ✓           ║${NC
 echo -e "${GREEN}╚════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${BLUE}📍 Services:${NC}"
-echo -e "   Stirling PDF:   ${GREEN}http://localhost:8080${NC}"
+echo -e "   Scripta:   ${GREEN}http://localhost:8080${NC}"
 echo -e "   Keycloak Admin: ${GREEN}http://localhost:9080/admin${NC}"
 echo ""
 echo -e "${BLUE}🔑 Keycloak Admin:${NC}"

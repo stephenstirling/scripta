@@ -72,15 +72,15 @@ if [ ${#_py_entries[@]} -gt 0 ]; then
 fi
 unset _venv _site _py_entries
 
-if [ -x /scripts/stirling-diagnostics.sh ]; then
+if [ -x /scripts/scripta-diagnostics.sh ]; then
   mkdir -p /usr/local/bin
-  ln -sf /scripts/stirling-diagnostics.sh /usr/local/bin/diagnostics
-  ln -sf /scripts/stirling-diagnostics.sh /usr/local/bin/stirling-diagnostics
-  ln -sf /scripts/stirling-diagnostics.sh /usr/local/bin/diag
-  ln -sf /scripts/stirling-diagnostics.sh /usr/local/bin/debug
-  ln -sf /scripts/stirling-diagnostics.sh /usr/local/bin/diagnostic
+  ln -sf /scripts/scripta-diagnostics.sh /usr/local/bin/diagnostics
+  ln -sf /scripts/scripta-diagnostics.sh /usr/local/bin/scripta-diagnostics
+  ln -sf /scripts/scripta-diagnostics.sh /usr/local/bin/diag
+  ln -sf /scripts/scripta-diagnostics.sh /usr/local/bin/debug
+  ln -sf /scripts/scripta-diagnostics.sh /usr/local/bin/diagnostic
 fi
-if [ -x /scripts/aot-diagnostics.sh ] && [ "${STIRLING_AOT_ENABLE:-false}" = "true" ]; then
+if [ -x /scripts/aot-diagnostics.sh ] && [ "${SCRIPTA_AOT_ENABLE:-false}" = "true" ]; then
   mkdir -p /usr/local/bin
   ln -sf /scripts/aot-diagnostics.sh /usr/local/bin/aot-diag
   ln -sf /scripts/aot-diagnostics.sh /usr/local/bin/aot-diagnostics
@@ -246,7 +246,7 @@ SWITCH_USER_WARNING_EMITTED=false
 
 warn_switch_user_once() {
   if [ "$SWITCH_USER_WARNING_EMITTED" = false ]; then
-    log "WARNING: Unable to switch to user ${RUNTIME_USER:-stirlingpdfuser}; running command as ${CURRENT_USER}."
+    log "WARNING: Unable to switch to user ${RUNTIME_USER:-scriptauser}; running command as ${CURRENT_USER}."
     SWITCH_USER_WARNING_EMITTED=true
   fi
 }
@@ -266,7 +266,7 @@ run_as_runtime_user() {
   fi
 }
 
-OFFICE_USER="${STIRLING_OFFICE_USER:-stirlingofficeuser}"
+OFFICE_USER="${SCRIPTA_OFFICE_USER:-scriptaofficeuser}"
 OFFICE_SANDBOX_HOME="/var/lib/libreoffice-sandbox"
 OFFICE_USER_AVAILABLE=false
 # LibreOffice's own temp and XDG dirs. The inherited TMPDIR/SAL_TMP/XDG_RUNTIME_DIR point into
@@ -323,16 +323,16 @@ clear_stale_office_pipes() {
   done
 }
 
-# Read-only paths come from lo-sandbox's built-in default unless STIRLING_LO_ALLOW_RO is set.
+# Read-only paths come from lo-sandbox's built-in default unless SCRIPTA_LO_ALLOW_RO is set.
 # Java narrows RW/SOCK further per job for the soffice commands it runs itself.
 export_office_sandbox_policy() {
   local profile_root=$1
   local rw="/dev:${profile_root}:${OFFICE_TMP}:${OFFICE_XDG}"
   [ "$OFFICE_USER_AVAILABLE" = true ] && rw="${rw}:${OFFICE_SANDBOX_HOME}"
-  export STIRLING_LO_SANDBOX="${STIRLING_LO_SANDBOX:-enforce}"
-  export STIRLING_LO_ALLOW_RW="${STIRLING_LO_ALLOW_RW:-${rw}}"
-  export STIRLING_LO_ALLOW_SOCK="${STIRLING_LO_ALLOW_SOCK:-/tmp}"
-  log "LibreOffice sandbox mode=${STIRLING_LO_SANDBOX} user=$([ "$OFFICE_USER_AVAILABLE" = true ] && echo "$OFFICE_USER" || echo "$RUNTIME_USER")"
+  export SCRIPTA_LO_SANDBOX="${SCRIPTA_LO_SANDBOX:-enforce}"
+  export SCRIPTA_LO_ALLOW_RW="${SCRIPTA_LO_ALLOW_RW:-${rw}}"
+  export SCRIPTA_LO_ALLOW_SOCK="${SCRIPTA_LO_ALLOW_SOCK:-/tmp}"
+  log "LibreOffice sandbox mode=${SCRIPTA_LO_SANDBOX} user=$([ "$OFFICE_USER_AVAILABLE" = true ] && echo "$OFFICE_USER" || echo "$RUNTIME_USER")"
   check_office_sandbox
 }
 
@@ -342,22 +342,22 @@ check_office_sandbox() {
   local soffice out rc
   soffice="$(command -v soffice || true)"
   [ -n "$soffice" ] || return 0
-  if [ ! -x /usr/local/lib/stirling/lo-sandbox ]; then
+  if [ ! -x /usr/local/lib/scripta/lo-sandbox ]; then
     log "WARNING: LibreOffice sandbox launcher is not in this image; LibreOffice runs unconfined"
     return 0
   fi
-  [ "$STIRLING_LO_SANDBOX" = off ] && { log "WARNING: LibreOffice sandbox disabled (STIRLING_LO_SANDBOX=off)"; return 0; }
+  [ "$SCRIPTA_LO_SANDBOX" = off ] && { log "WARNING: LibreOffice sandbox disabled (SCRIPTA_LO_SANDBOX=off)"; return 0; }
   rc=0
-  out="$("$soffice" --stirling-sandbox-check 2>&1)" || rc=$?
+  out="$("$soffice" --scripta-sandbox-check 2>&1)" || rc=$?
   out="$(printf '%s' "$out" | tr '\n' ' ')"
   if [ "$rc" -eq 125 ]; then
     log "ERROR: LibreOffice sandbox required but unavailable; office conversions will fail: ${out}"
   elif [ "$rc" -ne 0 ] || ! printf '%s' "$out" | grep -q 'lo-sandbox: landlock ABI'; then
     log "ERROR: LibreOffice sandbox self-check failed (exit ${rc}): ${out}"
   elif printf '%s' "$out" | grep -qE 'landlock unavailable|seccomp unavailable'; then
-    log "WARNING: LibreOffice sandbox is only partially active on this kernel: ${out}. Set STIRLING_LO_SANDBOX=required to refuse to run LibreOffice unconfined."
+    log "WARNING: LibreOffice sandbox is only partially active on this kernel: ${out}. Set SCRIPTA_LO_SANDBOX=required to refuse to run LibreOffice unconfined."
   elif printf '%s' "$out" | grep -q 'scoping unavailable'; then
-    log "WARNING: LibreOffice sandbox active without signal and abstract-socket scoping on this kernel: ${out}. STIRLING_LO_SANDBOX=required needs Landlock ABI 6 (Linux 6.12+) and would refuse every conversion here."
+    log "WARNING: LibreOffice sandbox active without signal and abstract-socket scoping on this kernel: ${out}. SCRIPTA_LO_SANDBOX=required needs Landlock ABI 6 (Linux 6.12+) and would refuse every conversion here."
   else
     log "LibreOffice sandbox active (${out})"
   fi
@@ -379,7 +379,7 @@ create_office_profile_template() {
     chown -R "$RUNTIME_USER" "$build"
   fi
   run_as_office_user env HOME="$build" TMPDIR="$build/tmp" TMP="$build/tmp" TEMP="$build/tmp" \
-      SAL_TMP="$build/tmp" XDG_RUNTIME_DIR="$build/tmp" STIRLING_LO_ALLOW_RW="/dev:${build}" \
+      SAL_TMP="$build/tmp" XDG_RUNTIME_DIR="$build/tmp" SCRIPTA_LO_ALLOW_RW="/dev:${build}" \
       timeout 120 soffice --headless --norestore --terminate_after_init \
       "-env:UserInstallation=file://${build}" >/dev/null 2>&1 || true
   clear_stale_office_pipes
@@ -753,14 +753,14 @@ start_unoserver_demand_manager() {
 
 # ---------- VERSION_TAG ----------
 # Load VERSION_TAG from file if not provided via environment.
-if [ -z "${VERSION_TAG:-}" ] && [ -f /etc/stirling_version ]; then
-  VERSION_TAG="$(tr -d '\r\n' < /etc/stirling_version)"
+if [ -z "${VERSION_TAG:-}" ] && [ -f /etc/scripta_version ]; then
+  VERSION_TAG="$(tr -d '\r\n' < /etc/scripta_version)"
   export VERSION_TAG
 fi
 
 # ---------- AOT ----------
-# OFF by default. Set STIRLING_AOT_ENABLE=true to opt in.
-AOT_ENABLED="${STIRLING_AOT_ENABLE:-false}"
+# OFF by default. Set SCRIPTA_AOT_ENABLE=true to opt in.
+AOT_ENABLED="${SCRIPTA_AOT_ENABLE:-false}"
 
 # ---------- Dynamic Memory Detection ----------
 # Detects the container memory limit (in MB) from cgroups v2/v1 or /proc/meminfo.
@@ -866,7 +866,7 @@ generate_aot_cache() {
   aot_dir=$(dirname "$aot_path")
   mkdir -p "$aot_dir" 2>/dev/null || true
 
-  local aot_conf="/tmp/stirling.aotconf"
+  local aot_conf="/tmp/scripta.aotconf"
   local arch
   arch=$(uname -m)
 
@@ -909,7 +909,7 @@ generate_aot_cache() {
            -XX:AOTConfiguration="$aot_conf" \
            -Dspring.main.banner-mode=off \
            -Dspring.context.exit=onRefresh \
-           -Dstirling.datasource.url="jdbc:h2:mem:aottraining;DB_CLOSE_DELAY=-1;MODE=PostgreSQL" \
+           -Dscripta.datasource.url="jdbc:h2:mem:aottraining;DB_CLOSE_DELAY=-1;MODE=PostgreSQL" \
            "$@" >/tmp/aot-record.log 2>&1 || record_exit=$?
   else
     JAVA_TOOL_OPTIONS= JDK_JAVA_OPTIONS= _JAVA_OPTIONS= \
@@ -919,7 +919,7 @@ generate_aot_cache() {
          -XX:AOTConfiguration="$aot_conf" \
          -Dspring.main.banner-mode=off \
          -Dspring.context.exit=onRefresh \
-         -Dstirling.datasource.url="jdbc:h2:mem:aottraining;DB_CLOSE_DELAY=-1;MODE=PostgreSQL" \
+         -Dscripta.datasource.url="jdbc:h2:mem:aottraining;DB_CLOSE_DELAY=-1;MODE=PostgreSQL" \
          "$@" >/tmp/aot-record.log 2>&1 || record_exit=$?
   fi
 
@@ -930,7 +930,7 @@ generate_aot_cache() {
   fi
   if [ "$record_exit" -eq 137 ]; then
     log "AOT: RECORD phase OOM-killed (exit 137), container memory too low for training"
-    log "AOT: Set STIRLING_AOT_ENABLE=false or increase container memory above 1GB"
+    log "AOT: Set SCRIPTA_AOT_ENABLE=false or increase container memory above 1GB"
     rm -f "$aot_conf" /tmp/aot-record.log
     return 1
   fi
@@ -1095,8 +1095,8 @@ else
 fi
 
 if [ -z "${JAVA_BASE_OPTS:-}" ]; then
-  if [ -n "${STIRLING_JVM_PROFILE:-}" ]; then
-    log "STIRLING_JVM_PROFILE is deprecated; use _JVM_OPTS or JAVA_BASE_OPTS instead"
+  if [ -n "${SCRIPTA_JVM_PROFILE:-}" ]; then
+    log "SCRIPTA_JVM_PROFILE is deprecated; use _JVM_OPTS or JAVA_BASE_OPTS instead"
   fi
   if [ -n "${_JVM_OPTS:-}" ]; then
     STRIPPED_JVM_OPTS=$(echo "$_JVM_OPTS" | sed -E 's/-XX:ConcGCThreads=[^ ]*//g')
@@ -1104,7 +1104,7 @@ if [ -z "${JAVA_BASE_OPTS:-}" ]; then
     log "Using _JVM_OPTS (ConcGCThreads=${CONC_GC_THREADS})"
   else
     log "JAVA_BASE_OPTS and _JVM_OPTS unset; applying fallback defaults."
-    JAVA_BASE_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/stirling-pdf/heap_dumps -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCMode=generational -XX:ShenandoahGCHeuristics=adaptive -XX:ShenandoahUncommitDelay=1000 -XX:ShenandoahGuaranteedYoungGCInterval=10000 -XX:ShenandoahGuaranteedOldGCInterval=30000 -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:+ExplicitGCInvokesConcurrent -XX:ConcGCThreads=${CONC_GC_THREADS} -XX:ReservedCodeCacheSize=96m -XX:CICompilerCount=2 -Dspring.threads.virtual.enabled=true -Djava.awt.headless=true"
+    JAVA_BASE_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/scripta/heap_dumps -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCMode=generational -XX:ShenandoahGCHeuristics=adaptive -XX:ShenandoahUncommitDelay=1000 -XX:ShenandoahGuaranteedYoungGCInterval=10000 -XX:ShenandoahGuaranteedOldGCInterval=30000 -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:+ExplicitGCInvokesConcurrent -XX:ConcGCThreads=${CONC_GC_THREADS} -XX:ReservedCodeCacheSize=96m -XX:CICompilerCount=2 -Dspring.threads.virtual.enabled=true -Djava.awt.headless=true"
   fi
 
   # Strip any hardcoded memory/CDS/AOT flags from the options (managed dynamically)
@@ -1169,7 +1169,7 @@ if [ "$AOT_ENABLED" = "true" ]; then
 fi
 
 # ---------- AOT Cache Management (Project Leyden) ----------
-AOT_CACHE="/configs/cache/stirling.aot"
+AOT_CACHE="/configs/cache/scripta.aot"
 AOT_GENERATE_BACKGROUND=false
 
 if [ "$AOT_ENABLED" = "true" ]; then
@@ -1184,7 +1184,7 @@ if [ "$AOT_ENABLED" = "true" ]; then
   elif validate_aot_cache "$AOT_CACHE"; then
     log "AOT cache valid: $AOT_CACHE"
     JAVA_BASE_OPTS="${JAVA_BASE_OPTS} -XX:AOTCache=${AOT_CACHE}"
-    rm -f /app/stirling.jsa /app/stirling.aot /app/stirling.aot.fingerprint 2>/dev/null || true
+    rm -f /app/scripta.jsa /app/scripta.aot /app/scripta.aot.fingerprint 2>/dev/null || true
   else
     log "No valid AOT cache found. Will generate in background after app starts."
     AOT_GENERATE_BACKGROUND=true
@@ -1212,7 +1212,7 @@ umask "$UMASK_VAL" 2>/dev/null || umask 022
 
 # ---------- XDG_RUNTIME_DIR ----------
 # Create the runtime directory, respecting UID/GID settings.
-RUNTIME_USER="stirlingpdfuser"
+RUNTIME_USER="scriptauser"
 if id -u "$RUNTIME_USER" >/dev/null 2>&1; then
   RUID="$(id -u "$RUNTIME_USER")"
   RGRP="$(id -gn "$RUNTIME_USER")"
@@ -1246,15 +1246,15 @@ fi
 # ---------- UID/GID remap ----------
 # Remap user/group IDs to match container runtime settings.
 if [ "$(id -u)" -eq 0 ]; then
-  if id -u stirlingpdfuser >/dev/null 2>&1; then
-    if [ -n "${PUID:-}" ] && [ "$PUID" != "$(id -u stirlingpdfuser)" ]; then
-      usermod -o -u "$PUID" stirlingpdfuser || true
-      chown stirlingpdfuser:stirlingpdfgroup "${XDG_RUNTIME_DIR}" 2>/dev/null || true
+  if id -u scriptauser >/dev/null 2>&1; then
+    if [ -n "${PUID:-}" ] && [ "$PUID" != "$(id -u scriptauser)" ]; then
+      usermod -o -u "$PUID" scriptauser || true
+      chown scriptauser:scriptagroup "${XDG_RUNTIME_DIR}" 2>/dev/null || true
     fi
   fi
-  if getent group stirlingpdfgroup >/dev/null 2>&1; then
-    if [ -n "${PGID:-}" ] && [ "$PGID" != "$(getent group stirlingpdfgroup | cut -d: -f3)" ]; then
-      groupmod -o -g "$PGID" stirlingpdfgroup || true
+  if getent group scriptagroup >/dev/null 2>&1; then
+    if [ -n "${PGID:-}" ] && [ "$PGID" != "$(getent group scriptagroup | cut -d: -f3)" ]; then
+      groupmod -o -g "$PGID" scriptagroup || true
     fi
   fi
 fi
@@ -1262,18 +1262,18 @@ fi
 # ---------- Permissions ----------
 # Ensure required directories exist and set correct permissions.
 log "Setting permissions..."
-mkdir -p /tmp/stirling-pdf /tmp/stirling-pdf/heap_dumps /logs /configs /configs/heap_dumps /configs/cache /customFiles /pipeline /storage || true
-CHOWN_PATHS=("$HOME" "/logs" "/scripts" "/configs" "/customFiles" "/pipeline" "/storage" "/tmp/stirling-pdf" "/app.jar")
+mkdir -p /tmp/scripta /tmp/scripta/heap_dumps /logs /configs /configs/heap_dumps /configs/cache /customFiles /pipeline /storage || true
+CHOWN_PATHS=("$HOME" "/logs" "/scripts" "/configs" "/customFiles" "/pipeline" "/storage" "/tmp/scripta" "/app.jar")
 [ -d /usr/share/fonts/truetype ] && CHOWN_PATHS+=("/usr/share/fonts/truetype")
 # Chowned here rather than at build time so it follows PUID/PGID remapping.
-if [ -d "${STIRLING_ENGINE_HOME:-/opt/stirling-engine}" ]; then
-  mkdir -p "${STIRLING_ENGINE_HOME:-/opt/stirling-engine}/data" || true
-  CHOWN_PATHS+=("${STIRLING_ENGINE_HOME:-/opt/stirling-engine}/data")
+if [ -d "${SCRIPTA_ENGINE_HOME:-/opt/scripta-engine}" ]; then
+  mkdir -p "${SCRIPTA_ENGINE_HOME:-/opt/scripta-engine}/data" || true
+  CHOWN_PATHS+=("${SCRIPTA_ENGINE_HOME:-/opt/scripta-engine}/data")
 fi
 CHOWN_OK=true
 for p in "${CHOWN_PATHS[@]}"; do
   if [ -e "$p" ]; then
-    chown -R "stirlingpdfuser:stirlingpdfgroup" "$p" 2>/dev/null || CHOWN_OK=false
+    chown -R "scriptauser:scriptagroup" "$p" 2>/dev/null || CHOWN_OK=false
     find "$p" -type d -exec chmod 755 {} + 2>/dev/null || true
   fi
 done
@@ -1294,10 +1294,10 @@ for dir in "${CRITICAL_DIRS[@]}"; do
 done
 
 # ---------- Private work areas ----------
-# STIRLING_TEMPDIR is user-set; a shared dir such as /tmp must keep its sticky bit and owner,
+# SCRIPTA_TEMPDIR is user-set; a shared dir such as /tmp must keep its sticky bit and owner,
 # or the office user can no longer bind LibreOffice's IPC pipes there.
-STIRLING_FILE_STORE="${STIRLING_TEMPDIR:-/tmp/stirling-files}"
-for private_dir in /tmp/stirling-pdf "$STIRLING_FILE_STORE"; do
+SCRIPTA_FILE_STORE="${SCRIPTA_TEMPDIR:-/tmp/scripta-files}"
+for private_dir in /tmp/scripta "$SCRIPTA_FILE_STORE"; do
   case "$(realpath -m "$private_dir" 2>/dev/null || printf '%s' "$private_dir")" in
     /|/tmp|/var|/var/tmp|/dev/shm|/home|/run|/usr|/etc|/opt)
       log "Not locking down shared dir ${private_dir}"
@@ -1306,7 +1306,7 @@ for private_dir in /tmp/stirling-pdf "$STIRLING_FILE_STORE"; do
   esac
   mkdir -p "$private_dir" 2>/dev/null || true
   if [ -d "$private_dir" ]; then
-    chown "stirlingpdfuser:stirlingpdfgroup" "$private_dir" 2>/dev/null || true
+    chown "scriptauser:scriptagroup" "$private_dir" 2>/dev/null || true
     chmod 700 "$private_dir" 2>/dev/null || true
   fi
 done
@@ -1339,7 +1339,7 @@ if [ -n "$UNOSERVER_BIN" ] && [ -n "$UNOCONVERT_BIN" ]; then
     run_as_runtime_user chmod 700 "$OFFICE_TMP" "$OFFICE_XDG" 2>/dev/null || true
   fi
   export_office_sandbox_policy "$LIBREOFFICE_PROFILE"
-  export STIRLING_LO_PROFILE_TEMPLATE="$OFFICE_PROFILE_TEMPLATE"
+  export SCRIPTA_LO_PROFILE_TEMPLATE="$OFFICE_PROFILE_TEMPLATE"
   create_office_profile_template &
 
   if [ "$UNO_DEMAND_ENABLED" = "true" ]; then
@@ -1366,7 +1366,7 @@ log "Starting Scripta"
 JAVA_CMD=(
   java
   -Dfile.encoding=UTF-8
-  -Djava.io.tmpdir=/tmp/stirling-pdf
+  -Djava.io.tmpdir=/tmp/scripta
 )
 
 if [ -f "/app.jar" ]; then
@@ -1374,7 +1374,7 @@ if [ -f "/app.jar" ]; then
 elif [ -f "/app/app.jar" ]; then
   # Spring Boot 4 layered JAR structure (exploded via extract --layers).
   # Use -cp (not -jar) so the classpath matches the AOT cache exactly.
-  JAVA_CMD+=("-cp" "/app/app.jar:/app/lib/*" "stirling.software.SPDF.SPDFApplication")
+  JAVA_CMD+=("-cp" "/app/app.jar:/app/lib/*" "scripta.software.core.ScriptaApplication")
 else
   # Legacy fallback for Spring Boot 3 layered layout
   export JAVA_MAIN_CLASS=org.springframework.boot.loader.launch.JarLauncher
@@ -1383,13 +1383,13 @@ fi
 
 # ---------- AI engine ----------
 # Only the fat image ships it. The backend already defaults to http://localhost:5001.
-STIRLING_ENGINE_HOME="${STIRLING_ENGINE_HOME:-/opt/stirling-engine}"
+SCRIPTA_ENGINE_HOME="${SCRIPTA_ENGINE_HOME:-/opt/scripta-engine}"
 ENGINE_PID=""
 
 # Prints aiEngine.enabled from a settings file, parsed as real YAML by the engine's own Python.
 read_ai_engine_enabled() {
   [ -f "$1" ] || return
-  env -u PYTHONPATH "$STIRLING_ENGINE_HOME/.venv/bin/python" -c '
+  env -u PYTHONPATH "$SCRIPTA_ENGINE_HOME/.venv/bin/python" -c '
 import sys, yaml
 doc = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))
 ai = doc.get("aiEngine") if isinstance(doc, dict) else None
@@ -1404,21 +1404,21 @@ ai_engine_wanted() {
     [ "$(printf '%s' "$AIENGINE_ENABLED" | tr '[:upper:]' '[:lower:]')" = "true" ]
     return
   fi
-  local settings="${STIRLING_BASE_PATH:+${STIRLING_BASE_PATH%/}/configs/settings.yml}"
+  local settings="${SCRIPTA_BASE_PATH:+${SCRIPTA_BASE_PATH%/}/configs/settings.yml}"
   [ "$(read_ai_engine_enabled "${settings:-$CONFIG_FILE}")" = "true" ]
 }
 
-if [ -x "$STIRLING_ENGINE_HOME/.venv/bin/python" ] && ! ai_engine_wanted; then
+if [ -x "$SCRIPTA_ENGINE_HOME/.venv/bin/python" ] && ! ai_engine_wanted; then
   log "AI engine bundled but aiEngine.enabled is not true; not starting it (enabling it later needs a container restart)."
-elif [ -x "$STIRLING_ENGINE_HOME/.venv/bin/python" ]; then
-  log "Starting bundled AI engine on port ${STIRLING_ENGINE_PORT:-5001}..."
+elif [ -x "$SCRIPTA_ENGINE_HOME/.venv/bin/python" ]; then
+  log "Starting bundled AI engine on port ${SCRIPTA_ENGINE_PORT:-5001}..."
   ENGINE_CMD=(
-    "$STIRLING_ENGINE_HOME/.venv/bin/python" -m uvicorn
-    stirling.api.app:app
+    "$SCRIPTA_ENGINE_HOME/.venv/bin/python" -m uvicorn
+    scripta.api.app:app
     --host 127.0.0.1
-    --port "${STIRLING_ENGINE_PORT:-5001}"
-    --workers "${STIRLING_ENGINE_WORKERS:-2}"
-    --app-dir "$STIRLING_ENGINE_HOME/src"
+    --port "${SCRIPTA_ENGINE_PORT:-5001}"
+    --workers "${SCRIPTA_ENGINE_WORKERS:-2}"
+    --app-dir "$SCRIPTA_ENGINE_HOME/src"
   )
   # init.sh exports PYTHONPATH for unoserver's 3.12 venv; inheriting it breaks the 3.13 engine.
   if [ "$CURRENT_USER" = "$RUNTIME_USER" ]; then
@@ -1505,7 +1505,7 @@ if [ "$AOT_GENERATE_BACKGROUND" = true ]; then
         _gen_rc=0
         if [ -f /app/app.jar ] && [ -d /app/lib ]; then
           generate_aot_cache "$AOT_CACHE" \
-            -cp "/app/app.jar:/app/lib/*" stirling.software.SPDF.SPDFApplication || _gen_rc=$?
+            -cp "/app/app.jar:/app/lib/*" scripta.software.core.ScriptaApplication || _gen_rc=$?
         elif [ -f /app.jar ]; then
           generate_aot_cache "$AOT_CACHE" -jar /app.jar || _gen_rc=$?
         elif [ -d /app/BOOT-INF ]; then
@@ -1534,7 +1534,7 @@ if [ "$AOT_GENERATE_BACKGROUND" = true ]; then
         fi
       done
       log "AOT: All attempts failed. App runs normally without cache."
-      log "AOT: To disable, set STIRLING_AOT_ENABLE=false"
+      log "AOT: To disable, set SCRIPTA_AOT_ENABLE=false"
     ) &
     AOT_GEN_PID=$!
     log "AOT: Background generation scheduled (PID $AOT_GEN_PID, arch=$(uname -m))"

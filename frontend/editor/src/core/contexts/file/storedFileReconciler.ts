@@ -1,4 +1,4 @@
-import { FileId, StirlingFileStub } from "@app/types/fileContext";
+import { FileId, ScriptaFileStub } from "@app/types/fileContext";
 
 // Seam for settling a stored record against wherever it came from. Core owns
 // when a record is reconciled - on open, and when a source reports a change -
@@ -8,11 +8,11 @@ import { FileId, StirlingFileStub } from "@app/types/fileContext";
 
 /** The workbench access a reconciler needs to settle a record in place. */
 export interface ReconcilePort {
-  getStub(fileId: FileId): StirlingFileStub | undefined;
-  listStubs(): StirlingFileStub[];
+  getStub(fileId: FileId): ScriptaFileStub | undefined;
+  listStubs(): ScriptaFileStub[];
   /** Publish bytes for a record already in state. */
   putFile(fileId: FileId, file: File): void;
-  updateStub(fileId: FileId, updates: Partial<StirlingFileStub>): void;
+  updateStub(fileId: FileId, updates: Partial<ScriptaFileStub>): void;
   dropFile(fileId: FileId): void;
   /** Re-derive page data and thumbnails from the bytes now published. Every
    *  path that replaces a record's content owes this: the cached page data
@@ -24,7 +24,7 @@ export interface ReconcilePort {
 export interface OpenDecision {
   /** Bytes fresher than the ones storage holds. */
   file?: File;
-  updates?: Partial<StirlingFileStub>;
+  updates?: Partial<ScriptaFileStub>;
   /** The record's source is gone and it held nothing the source did not. */
   drop?: boolean;
   /** Whether the cached page data now describes bytes that have moved on. */
@@ -39,16 +39,16 @@ export interface OpenDecision {
  *  describe the record's source rather than its content. Null where a record
  *  has no source and the stored copy is written whole. */
 export function persistedSourceFields(
-  _updates: Partial<StirlingFileStub>,
-): Partial<StirlingFileStub> | null {
+  _updates: Partial<ScriptaFileStub>,
+): Partial<ScriptaFileStub> | null {
   return null;
 }
 
 /** Source-link fields a derived file inherits from the file it was made from,
  *  given that deriving it wrote nothing back to that source. */
 export function inheritedSourceLink(
-  _sourceStub: StirlingFileStub,
-): Partial<StirlingFileStub> {
+  _sourceStub: ScriptaFileStub,
+): Partial<ScriptaFileStub> {
   return {};
 }
 
@@ -56,13 +56,13 @@ export function inheritedSourceLink(
  * Empty where files have no source outside the app. */
 export async function sourceLinkForNewFile(
   _file: File,
-): Promise<Partial<StirlingFileStub>> {
+): Promise<Partial<ScriptaFileStub>> {
   return {};
 }
 
 /** Settle one stored record against its source before the workbench serves it. */
 export async function reconcileBeforeOpen(
-  _stub: StirlingFileStub,
+  _stub: ScriptaFileStub,
   _port: ReconcilePort,
 ): Promise<OpenDecision> {
   return {};
@@ -79,8 +79,8 @@ export async function reconcileOpenFiles(
  *  @param applyUpdates stamps late-arriving fields, e.g. a re-read baseline. */
 export function noteFileSaved(
   _fileId: FileId,
-  _updates: Partial<StirlingFileStub>,
-  _applyUpdates: (updates: Partial<StirlingFileStub>) => void,
+  _updates: Partial<ScriptaFileStub>,
+  _applyUpdates: (updates: Partial<ScriptaFileStub>) => void,
 ): void {}
 
 /** A record is leaving the workbench; abandon anything pending against it. */

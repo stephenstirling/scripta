@@ -18,7 +18,7 @@ import { absoluteWithBasePath } from "@app/constants/app";
 import { alert } from "@app/components/toast";
 import { Z_INDEX_OVER_FILE_MANAGER_MODAL } from "@app/styles/zIndex";
 import { useAppConfig } from "@app/contexts/AppConfigContext";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { uploadHistoryChains } from "@app/services/serverStorageUpload";
 import { fileStorage } from "@app/services/fileStorage";
 import { useFileActions } from "@app/contexts/FileContext";
@@ -27,7 +27,7 @@ import type { FileId } from "@app/types/file";
 interface BulkShareModalProps {
   opened: boolean;
   onClose: () => void;
-  files: StirlingFileStub[];
+  files: ScriptaFileStub[];
   onShared?: () => Promise<void> | void;
 }
 
@@ -127,7 +127,7 @@ const BulkShareModal: React.FC<BulkShareModalProps> = ({
       setShareToken(shareResponse.token ?? null);
 
       for (const stub of chain) {
-        actions.updateStirlingFileStub(stub.id, {
+        actions.updateScriptaFileStub(stub.id, {
           remoteStorageId: storedId,
           remoteStorageUpdatedAt: updatedAt,
           remoteOwnedByCurrentUser: true,

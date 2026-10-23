@@ -47,10 +47,10 @@ test.beforeEach(async ({ page, context }) => {
 });
 
 for (const [path, action] of [
-  ["/settings/account-link", "Connect your Stirling account"],
-  ["/settings/billing", "Connect a Stirling account"],
+  ["/settings/account-link", "Connect your Scripta account"],
+  ["/settings/billing", "Connect a Scripta account"],
   ["/settings/billing", "Switch on the Processor"],
-  ["/processor/pipelines", "Link Stirling account"],
+  ["/processor/pipelines", "Link Scripta account"],
 ]) {
   test(`dismissing ${action} on ${path} leaves one usable connection action`, async ({
     page,
@@ -61,7 +61,7 @@ for (const [path, action] of [
     await expect(dialog).toHaveCount(1);
     await expect(
       dialog.getByRole("button", {
-        name: "Connect Stirling account",
+        name: "Connect Scripta account",
         exact: true,
       }),
     ).toBeVisible();
@@ -101,7 +101,7 @@ for (const path of ["/settings/account-link", "/settings/billing"]) {
       page.getByRole("button", { name: "Try again", exact: true }),
     ).toHaveCount(0);
     await expect(
-      page.getByText("This server has no Stirling account"),
+      page.getByText("This server has no Scripta account"),
     ).toHaveCount(0);
   });
 }
@@ -117,7 +117,7 @@ test("dismissing the trial connection prerequisite does not reopen it", async ({
     .click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Connect a Stirling account", exact: true })
+    .getByRole("button", { name: "Connect a Scripta account", exact: true })
     .click();
   await expect(page.getByRole("dialog")).toHaveCount(1);
 });
@@ -155,10 +155,10 @@ test("late exhausted-credit responses do not reopen a dismissed dialog", async (
   await page.reload();
   await repeatedFailure;
   await expect(
-    page.getByRole("button", { name: "Link Stirling account" }),
+    page.getByRole("button", { name: "Link Scripta account" }),
   ).toBeVisible();
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  await page.getByRole("button", { name: "Link Stirling account" }).click();
+  await page.getByRole("button", { name: "Link Scripta account" }).click();
   await expect(page.getByRole("dialog")).toHaveCount(1);
 });
 
@@ -194,12 +194,12 @@ for (const role of ["ROLE_ADMIN", "ROLE_TEAM_LEAD", "ROLE_USER"]) {
         page.getByRole("button", { name: "colleague — Account", exact: true }),
       ).toBeVisible();
       await page.evaluate(() =>
-        window.dispatchEvent(new Event("stirling:portal-free-tier-exhausted")),
+        window.dispatchEvent(new Event("scripta:portal-free-tier-exhausted")),
       );
       await expect(page.getByRole("dialog")).toHaveCount(0);
       await expect(
         page.getByRole("button", {
-          name: /^(Connect your Stirling account|Connect a Stirling account|Link Stirling account|Sign in again)$/,
+          name: /^(Connect your Scripta account|Connect a Scripta account|Link Scripta account|Sign in again)$/,
         }),
       ).toHaveCount(0);
       await expect(
@@ -330,7 +330,7 @@ for (const connectionState of [
       ).toBeVisible();
       await expect(page.getByRole("dialog")).toHaveCount(0);
       await expect(
-        page.getByText("Connect your Stirling account", { exact: true }),
+        page.getByText("Connect your Scripta account", { exact: true }),
       ).toHaveCount(0);
       await expect(
         page.getByText("Renew billing access", { exact: true }),

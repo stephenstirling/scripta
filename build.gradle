@@ -18,7 +18,7 @@ import groovy.xml.XmlSlurper
 import org.gradle.api.JavaVersion
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
-import stirling.software.gradle.ModuleLicenseOverrideFilter
+import scripta.software.gradle.ModuleLicenseOverrideFilter
 
 ext {
     springBootVersion = "4.1.1"
@@ -79,8 +79,8 @@ ext.getEnv = { ->
     logger.lifecycle("SECURITY_ENABLELOGIN: ${sel}")
     def des = System.getenv('DOCKER_ENABLE_SECURITY')
     logger.lifecycle("DOCKER_ENABLE_SECURITY: ${des}")
-    def flavorValue = System.getenv('STIRLING_FLAVOR')
-    logger.lifecycle("STIRLING_FLAVOR: ${flavorValue}")
+    def flavorValue = System.getenv('SCRIPTA_FLAVOR')
+    logger.lifecycle("SCRIPTA_FLAVOR: ${flavorValue}")
     def saas = System.getenv('ENABLE_SAAS')
     logger.lifecycle("ENABLE_SAAS: ${saas}")
     def daf = System.getenv('DISABLE_ADDITIONAL_FEATURES')
@@ -117,11 +117,11 @@ tasks.named('clean') {
 
 // Configure main class for the root project
 springBoot {
-    mainClass = 'stirling.software.SPDF.SPDFApplication'
+    mainClass = 'scripta.software.core.ScriptaApplication'
 }
 
 allprojects {
-    group = 'stirling.software'
+    group = 'scripta.software'
     version = '3.1.0'
 
     configurations.configureEach {
@@ -133,8 +133,8 @@ def appVersionStr = project.version.toString()
 def tauriConfigPath = layout.projectDirectory.file('frontend/editor/src-tauri/tauri.conf.json').asFile.path
 def sim1Path = layout.projectDirectory.file('frontend/editor/src/core/testing/serverExperienceSimulations.ts').asFile.path
 def sim2Path = layout.projectDirectory.file('frontend/editor/src/proprietary/testing/serverExperienceSimulations.ts').asFile.path
-def aurDesktopPkgbuildPath = layout.projectDirectory.file('.github/aur/stirling-pdf-desktop/PKGBUILD').asFile.path
-def aurServerPkgbuildPath = layout.projectDirectory.file('.github/aur/stirling-pdf-server-bin/PKGBUILD').asFile.path
+def aurDesktopPkgbuildPath = layout.projectDirectory.file('.github/aur/scripta-desktop/PKGBUILD').asFile.path
+def aurServerPkgbuildPath = layout.projectDirectory.file('.github/aur/scripta-server-bin/PKGBUILD').asFile.path
 
 tasks.register('syncAppVersion') {
     group = 'versioning'
@@ -210,7 +210,7 @@ subprojects {
         }
     }
 
-    if (project.name != "stirling-pdf") {
+    if (project.name != "scripta") {
         bootJar {
             enabled = false
         }
@@ -465,7 +465,7 @@ subprojects {
         dependsOn(rootProject.tasks.writeVersion)
     }
 
-    if (name == 'stirling-pdf') {
+    if (name == 'scripta') {
         apply plugin: 'org.springdoc.openapi-gradle-plugin'
 
         def openApiPort = rootProject.findProperty('openApiPort')?.toString()
@@ -610,11 +610,11 @@ tasks.named('checkLicensePreparation') {
     inputs.file(moduleLicenseOverridesFile)
 }
 
-// Configure the forked spring boot run task to properly delegate to the stirling-pdf module
+// Configure the forked spring boot run task to properly delegate to the scripta module
 tasks.named('forkedSpringBootRun') {
-    dependsOn ':stirling-pdf:bootRun'
+    dependsOn ':scripta:bootRun'
     doFirst {
-        println "Delegating forkedSpringBootRun to :stirling-pdf:bootRun"
+        println "Delegating forkedSpringBootRun to :scripta:bootRun"
     }
 }
 
@@ -635,8 +635,8 @@ spotless {
 
 sonar {
     properties {
-        property "sonar.projectKey", "Stirling-Tools_Stirling-PDF"
-        property "sonar.organization", "stirling-tools"
+        property "sonar.projectKey", "stephenstirling_scripta"
+        property "sonar.organization", "stephenstirling"
 
         property "sonar.exclusions", "**/build-wrapper-dump.json, **/src/main/java/org/apache/**, **/src/main/resources/static/pdfjs/**, **/src/main/resources/static/js/thirdParty/**"
         property "sonar.coverage.exclusions", "**/src/main/java/org/apache/**, **/src/main/resources/static/pdfjs/**, **/src/main/resources/static/js/thirdParty/**"
@@ -646,7 +646,7 @@ sonar {
 
 swaggerhubUpload {
     // dependsOn = generateOpenApiDocs  // Depends on your task generating Swagger docs
-    api = "Stirling-PDF"  // The name of your API on SwaggerHub
+    api = "Scripta"  // The name of your API on SwaggerHub
     owner = "${System.getenv().getOrDefault('SWAGGERHUB_USER', 'Frooodle')}"  // Your SwaggerHub username (or organization name)
     version = project.version  // The version of your API
     inputFile = file("SwaggerDoc.json")  // The path to your Swagger docs
@@ -674,7 +674,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':stirling-pdf')
+    implementation project(':scripta')
     implementation project(':common')
     rootProject.ext.getEnv()
 
@@ -700,21 +700,21 @@ tasks.register('printVersion') {
 
 tasks.named('bootRun') {
     group = 'application'
-    description = 'Delegates to :stirling-pdf:bootRun'
-    dependsOn ':stirling-pdf:bootRun'
+    description = 'Delegates to :scripta:bootRun'
+    dependsOn ':scripta:bootRun'
 
     doFirst {
-        println "Delegating to :stirling-pdf:bootRun"
+        println "Delegating to :scripta:bootRun"
     }
 }
 
 tasks.named('build') {
     group = 'build'
-    description = 'Delegates to :stirling-pdf:bootJar'
-    dependsOn ':stirling-pdf:bootJar', 'buildRestartHelper', 'syncAppVersion'
+    description = 'Delegates to :scripta:bootJar'
+    dependsOn ':scripta:bootJar', 'buildRestartHelper', 'syncAppVersion'
 
     doFirst {
-        println "Delegating to :stirling-pdf:bootJar"
+        println "Delegating to :scripta:bootJar"
     }
 }
 

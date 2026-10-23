@@ -34,7 +34,7 @@ const CAUSES: Cause[] = [
 ];
 
 /** Causes, not sentences, so a language change can't resurrect stale text. */
-const STORAGE_KEY = "stirling.quickNav.toolCauses";
+const STORAGE_KEY = "scripta.quickNav.toolCauses";
 
 function readRemembered(): Causes | null {
   try {

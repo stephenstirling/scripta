@@ -274,7 +274,7 @@ export async function mockAppApis(
       route.fulfill({
         json: {
           enabled: false,
-          url: "http://stirling-pdf-engine:5001",
+          url: "http://scripta-engine:5001",
           rag: { embeddingProvider: "voyageai", embeddingModel: "voyage-3" },
         },
       }),

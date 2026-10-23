@@ -2,14 +2,14 @@
 #
 # DB migration smoke test: for each H2 fixture under
 # app/proprietary/src/test/resources/db-migration-fixtures/, copy it into a
-# fresh working directory, boot the current Stirling-PDF JAR against it, then
+# fresh working directory, boot the current Scripta JAR against it, then
 # POST /api/v1/auth/login with the fixture's admin credentials. A 200 means
 # Hibernate's ddl-auto=update migrated the legacy schema without breaking
 # existing data.
 #
 # Inputs:
-#   STIRLING_JAR  - path to a pre-built Stirling-PDF .jar (defaults to the
-#                   :stirling-pdf:bootJar output)
+#   SCRIPTA_JAR  - path to a pre-built Scripta .jar (defaults to the
+#                   :scripta:bootJar output)
 #   JAVA_BIN      - override the Java executable used to launch the JAR
 #                   (defaults to MIGRATION_TEST_JAVA, JAVA_HOME, then PATH)
 #   FIXTURE_DIR   - override the fixture directory (rarely needed)
@@ -20,10 +20,10 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 FIXTURE_DIR="${FIXTURE_DIR:-$REPO_ROOT/app/proprietary/src/test/resources/db-migration-fixtures}"
-STIRLING_JAR="${STIRLING_JAR:-}"
+SCRIPTA_JAR="${SCRIPTA_JAR:-}"
 JAVA_BIN="${JAVA_BIN:-${MIGRATION_TEST_JAVA:-}}"
 ADMIN_USERNAME="${ADMIN_USERNAME:-admin}"
-ADMIN_PASSWORD="${ADMIN_PASSWORD:-stirling}"
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-scripta}"
 STARTUP_TIMEOUT_SEC="${STARTUP_TIMEOUT_SEC:-300}"
 
 log()  { printf '[migration-test] %s\n' "$*" >&2; }
@@ -77,13 +77,13 @@ assert_supported_java() {
 
 find_jar() {
     local candidate
-    if [[ -n "$STIRLING_JAR" ]]; then
-        [[ -f "$STIRLING_JAR" ]] || fail "STIRLING_JAR='$STIRLING_JAR' not found"
-        candidate="$STIRLING_JAR"
+    if [[ -n "$SCRIPTA_JAR" ]]; then
+        [[ -f "$SCRIPTA_JAR" ]] || fail "SCRIPTA_JAR='$SCRIPTA_JAR' not found"
+        candidate="$SCRIPTA_JAR"
     else
-        candidate=$(find "$REPO_ROOT/app/core/build/libs" -maxdepth 1 -name 'Stirling-PDF*.jar' -o -name 'stirling-pdf*.jar' 2>/dev/null \
+        candidate=$(find "$REPO_ROOT/app/core/build/libs" -maxdepth 1 -name 'Scripta*.jar' -o -name 'scripta*.jar' 2>/dev/null \
             | grep -vE '(-plain|-sources)\.jar$' | head -n 1 || true)
-        [[ -n "$candidate" ]] || fail "No JAR under app/core/build/libs - run './gradlew :stirling-pdf:bootJar' first"
+        [[ -n "$candidate" ]] || fail "No JAR under app/core/build/libs - run './gradlew :scripta:bootJar' first"
     fi
     # Resolve to an absolute path: test_fixture pushd's into a temp workdir
     # before launching java, so a relative path here would dangle.
@@ -118,7 +118,7 @@ test_fixture() {
     local workdir; workdir=$(mktemp -d)
     local configsdir="$workdir/configs"
     mkdir -p "$configsdir"
-    cp "$fixture_path" "$configsdir/stirling-pdf-DB-2.3.232.mv.db"
+    cp "$fixture_path" "$configsdir/scripta-DB-2.3.232.mv.db"
 
     local port; port=$(free_port)
     local base_url="http://127.0.0.1:$port"
@@ -140,10 +140,10 @@ test_fixture() {
     pushd "$workdir" >/dev/null
     "$java_bin" -Xmx1g -jar "$jar" \
         "--server.port=$port" \
-        "--spring.datasource.url=jdbc:h2:file:./configs/stirling-pdf-DB-2.3.232;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;MODE=PostgreSQL" \
+        "--spring.datasource.url=jdbc:h2:file:./configs/scripta-DB-2.3.232;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;MODE=PostgreSQL" \
         "--spring.jpa.show-sql=false" \
         "--logging.level.root=WARN" \
-        "--logging.level.stirling=INFO" \
+        "--logging.level.scripta=INFO" \
         "--logging.level.org.hibernate.tool.schema=INFO" \
         > "$log_file" 2>&1 &
     local pid=$!
@@ -210,7 +210,7 @@ test_fixture() {
         # Preserve workdir so CI can upload the app log as an artifact for
         # post-mortem. Move it to a stable name so the upload path is fixed.
         local preserved
-        preserved="${MIGRATION_TEST_LOG_DIR:-/tmp}/stirling-migration-failed-$label"
+        preserved="${MIGRATION_TEST_LOG_DIR:-/tmp}/scripta-migration-failed-$label"
         rm -rf "$preserved"
         mv "$workdir" "$preserved" 2>/dev/null || true
         log "  preserved failing workdir at $preserved"

@@ -76,11 +76,11 @@ const rel = (f: string) => path.relative(EDITOR, f);
 // An svg citing the vendored notice is only safe to trust while that notice is still here.
 const licenceFile = path.join(ICONS_DIR, "LICENSE-lucide.txt");
 const citing = fs
-  .readdirSync(path.join(ICONS_DIR, "svg/stirling"))
+  .readdirSync(path.join(ICONS_DIR, "svg/scripta"))
   .filter((f) => f.endsWith(".svg"))
   .filter((f) =>
     fs
-      .readFileSync(path.join(ICONS_DIR, "svg/stirling", f), "utf8")
+      .readFileSync(path.join(ICONS_DIR, "svg/scripta", f), "utf8")
       .includes("LICENSE-lucide.txt"),
   );
 if (citing.length && !fs.existsSync(licenceFile)) {
@@ -107,10 +107,10 @@ try {
 }
 if (lucidePath.size) {
   for (const svg of fs
-    .readdirSync(path.join(ICONS_DIR, "svg/stirling"))
+    .readdirSync(path.join(ICONS_DIR, "svg/scripta"))
     .filter((f) => f.endsWith(".svg"))) {
     const raw = fs.readFileSync(
-      path.join(ICONS_DIR, "svg/stirling", svg),
+      path.join(ICONS_DIR, "svg/scripta", svg),
       "utf8",
     );
     const copied = [...raw.matchAll(/\sd="([^"]+)"/g)]
@@ -122,7 +122,7 @@ if (lucidePath.size) {
       );
     if (copied.length && !raw.includes("LICENSE-lucide.txt")) {
       problems.push(
-        `src/core/icons/svg/stirling/${svg}: undeclared lucide geometry ` +
+        `src/core/icons/svg/scripta/${svg}: undeclared lucide geometry ` +
           `(from ${[...new Set(copied.map((d) => lucidePath.get(d)))].join(", ")}). ` +
           `Add a comment citing src/core/icons/LICENSE-lucide.txt, or redraw it.`,
       );
@@ -135,7 +135,7 @@ const NOT_AN_ICON_POSITION =
   /(?:\b(?:id|key|type|kind|variant|mode|status|action|value|label|className|class|href|path|to|for|role)|data-[\w-]*|aria-[\w-]*|testid)\s*[:=]\s*$/i;
 
 const ourNames = fs
-  .readdirSync(path.join(ICONS_DIR, "svg/stirling"))
+  .readdirSync(path.join(ICONS_DIR, "svg/scripta"))
   .filter((f) => f.endsWith(".svg"))
   .map((f) => path.basename(f, ".svg"));
 const known = new Set(iconNames(path.join(ICONS_DIR, "icons.ts")));
@@ -311,7 +311,7 @@ if (mode === "unused") {
   console.log(
     unused.length
       ? `${unused.length} of our own svgs that nothing references:\n  ${unused.join("\n  ")}`
-      : "✅ every svg in svg/stirling is referenced",
+      : "✅ every svg in svg/scripta is referenced",
   );
   process.exit(0);
 }

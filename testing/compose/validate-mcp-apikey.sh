@@ -17,7 +17,7 @@ fail() { echo -e "${RED}✗ $1${NC}"; FAIL=$((FAIL + 1)); }
 wait_up() {
     local w=0
     while [ $w -lt 360 ]; do
-        if [ "$(docker inspect -f '{{.State.Health.Status}}' stirling-pdf-mcp-test 2>/dev/null)" = "healthy" ]; then
+        if [ "$(docker inspect -f '{{.State.Health.Status}}' scripta-mcp-test 2>/dev/null)" = "healthy" ]; then
             echo ""
             return 0
         fi
@@ -32,11 +32,11 @@ echo -e "${BLUE}║      Validating MCP - API-KEY mode (+ real client) ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════╝${NC}"
 echo ""
 
-echo -e "${YELLOW}▶ Recreating Stirling in apikey mode...${NC}"
+echo -e "${YELLOW}▶ Recreating Scripta in apikey mode...${NC}"
 MCP_AUTH_MODE=apikey PREMIUM_KEY="${PREMIUM_KEY:-}" \
-    docker compose -f "$COMPOSE" up -d --no-build --force-recreate stirling-pdf-mcp >/dev/null 2>&1
+    docker compose -f "$COMPOSE" up -d --no-build --force-recreate scripta-mcp >/dev/null 2>&1
 if ! wait_up; then
-    fail "Stirling did not become healthy in apikey mode"
+    fail "Scripta did not become healthy in apikey mode"
     echo -e "${RED}Aborting.${NC}"; exit 1
 fi
 # In apikey mode the OAuth metadata is not served (404, or 401 from the app chain).
@@ -47,10 +47,10 @@ else
     fail "expected OAuth metadata absent in apikey mode, got $META_CODE"
 fi
 
-echo -e "${YELLOW}▶ Minting a Stirling API key for mcpuser...${NC}"
+echo -e "${YELLOW}▶ Minting a Scripta API key for mcpuser...${NC}"
 JWT=$(curl -s -X POST http://localhost:8080/api/v1/auth/login \
     -H "Content-Type: application/json" \
-    -d '{"username":"mcpuser@stirling.local","password":"mcppassword"}' \
+    -d '{"username":"mcpuser@scripta.local","password":"mcppassword"}' \
     | sed -n 's/.*"access_token":"\([^"]*\)".*/\1/p')
 if [ -n "$JWT" ]; then
     pass "logged in as mcpuser (got a session token)"
@@ -77,7 +77,7 @@ BAD_KEY=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$MCP_URL" -H "Content-
 [ "$BAD_KEY" = "401" ] && pass "bad key -> 401" || fail "bad key -> $BAD_KEY (expected 401)"
 if [ -n "$APIKEY" ]; then
     OK_CODE=$(curl -s -o /tmp/mcp_apikey_list.json -w "%{http_code}" -X POST "$MCP_URL" -H "Content-Type: application/json" -H "X-API-KEY: $APIKEY" -d "$RPC_LIST")
-    if [ "$OK_CODE" = "200" ] && grep -q "stirling_describe_operation" /tmp/mcp_apikey_list.json; then
+    if [ "$OK_CODE" = "200" ] && grep -q "scripta_describe_operation" /tmp/mcp_apikey_list.json; then
         pass "valid X-API-KEY -> 200 + tools listed"
     else
         fail "valid X-API-KEY -> $OK_CODE (tools listed? check body)"
@@ -109,7 +109,7 @@ elif [ ! -f "$SAMPLE_PDF" ]; then
     fail "sample PDF not found at $SAMPLE_PDF"
 else
     B64=$(base64 -w0 "$SAMPLE_PDF" 2>/dev/null || base64 "$SAMPLE_PDF" | tr -d '\n')
-    EXEC_RPC=$(printf '{"jsonrpc":"2.0","id":91,"method":"tools/call","params":{"name":"stirling_pages","arguments":{"operation":"rotate-pdf","fileName":"example.pdf","parameters":{"angle":90},"file":"%s"}}}' "$B64")
+    EXEC_RPC=$(printf '{"jsonrpc":"2.0","id":91,"method":"tools/call","params":{"name":"scripta_pages","arguments":{"operation":"rotate-pdf","fileName":"example.pdf","parameters":{"angle":90},"file":"%s"}}}' "$B64")
     EXEC=$(curl -s -X POST "$MCP_URL" -H "Content-Type: application/json" -H "X-API-KEY: $APIKEY" -d "$EXEC_RPC")
     if echo "$EXEC" | grep -q '"isError":true'; then
         fail "rotate-pdf returned isError: $(printf '%s' "$EXEC" | head -c 300)"
@@ -122,8 +122,8 @@ fi
 echo ""
 
 echo -e "${YELLOW}▶ Restoring oauth mode...${NC}"
-PREMIUM_KEY="${PREMIUM_KEY:-}" docker compose -f "$COMPOSE" up -d --no-build --force-recreate stirling-pdf-mcp >/dev/null 2>&1
-wait_up && pass "restored oauth mode" || fail "Stirling not healthy after restoring oauth"
+PREMIUM_KEY="${PREMIUM_KEY:-}" docker compose -f "$COMPOSE" up -d --no-build --force-recreate scripta-mcp >/dev/null 2>&1
+wait_up && pass "restored oauth mode" || fail "Scripta not healthy after restoring oauth"
 echo ""
 
 echo -e "${BLUE}────────────────────────────────────────────────────${NC}"

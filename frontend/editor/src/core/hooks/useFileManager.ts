@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useIndexedDB } from "@app/contexts/IndexedDBContext";
 import { fileStorage } from "@app/services/fileStorage";
 import { pruneMissingRecentFiles } from "@app/services/pruneMissingRecentFiles";
-import { StirlingFileStub, StirlingFile } from "@app/types/fileContext";
+import { ScriptaFileStub, ScriptaFile } from "@app/types/fileContext";
 import { FileId } from "@app/types/fileContext";
 import apiClient from "@app/services/apiClient";
 import { useAppConfig } from "@app/contexts/AppConfigContext";
@@ -86,7 +86,7 @@ export const useFileManager = () => {
   );
 
   const convertToFile = useCallback(
-    async (fileStub: StirlingFileStub): Promise<File> => {
+    async (fileStub: ScriptaFileStub): Promise<File> => {
       if (!indexedDB) {
         throw new Error("IndexedDB context not available");
       }
@@ -105,7 +105,7 @@ export const useFileManager = () => {
     [indexedDB],
   );
 
-  const loadRecentFiles = useCallback(async (): Promise<StirlingFileStub[]> => {
+  const loadRecentFiles = useCallback(async (): Promise<ScriptaFileStub[]> => {
     setLoading(true);
     try {
       if (!indexedDB) {
@@ -113,19 +113,19 @@ export const useFileManager = () => {
       }
 
       // Load only leaf files metadata (processed files that haven't been used as input for other tools)
-      const storedStubs = await fileStorage.getLeafStirlingFileStubs();
+      const storedStubs = await fileStorage.getLeafScriptaFileStubs();
       // A file deleted outside the app must not be offered here, so reconcile
       // before the list is built.
-      const stirlingFileStubs = await pruneMissingRecentFiles(storedStubs, {
+      const scriptaFileStubs = await pruneMissingRecentFiles(storedStubs, {
         openFileIds: new Set(openFileIdsRef.current),
         onOpenFilesDetached,
       });
       const remoteIdSet = new Set(
-        stirlingFileStubs
+        scriptaFileStubs
           .map((stub) => stub.remoteStorageId)
           .filter((id): id is number => typeof id === "number"),
       );
-      let combinedStubs = stirlingFileStubs;
+      let combinedStubs = scriptaFileStubs;
 
       // Guests have no server storage; the request would only 401.
       const shouldFetchServerFiles =
@@ -141,7 +141,7 @@ export const useFileManager = () => {
             },
           );
           const serverFiles = Array.isArray(response.data) ? response.data : [];
-          const serverStubs: StirlingFileStub[] = [];
+          const serverStubs: ScriptaFileStub[] = [];
           const serverMap = new Map<number, StoredFileResponse>();
           serverFiles.forEach((file) => {
             if (file && typeof file.id === "number") {
@@ -149,7 +149,7 @@ export const useFileManager = () => {
             }
           });
 
-          const updatedLocalStubs = stirlingFileStubs.map((stub) => {
+          const updatedLocalStubs = scriptaFileStubs.map((stub) => {
             if (!stub.remoteStorageId) {
               return stub;
             }
@@ -317,7 +317,7 @@ export const useFileManager = () => {
                 .map((stub) => stub.remoteShareToken)
                 .filter((token): token is string => Boolean(token)),
             );
-            const sharedStubs: StirlingFileStub[] = [];
+            const sharedStubs: ScriptaFileStub[] = [];
 
             for (const link of sharedLinks) {
               if (!link || !link.shareToken) {
@@ -393,8 +393,8 @@ export const useFileManager = () => {
   const handleRemoveFile = useCallback(
     async (
       index: number,
-      files: StirlingFileStub[],
-      setFiles: (files: StirlingFileStub[]) => void,
+      files: ScriptaFileStub[],
+      setFiles: (files: ScriptaFileStub[]) => void,
       onRemovedFromWorkbench?: (fileId: FileId) => void,
       onDeleteFailed?: () => void,
     ) => {
@@ -414,7 +414,7 @@ export const useFileManager = () => {
         .orphanedAncestorIds([file.id])
         .then((orphans) =>
           orphans.length > 0
-            ? fileStorage.deleteMultipleStirlingFiles(orphans)
+            ? fileStorage.deleteMultipleScriptaFiles(orphans)
             : undefined,
         )
         .catch((error) =>
@@ -479,28 +479,28 @@ export const useFileManager = () => {
       };
 
       const selectMultipleFiles = async (
-        files: StirlingFileStub[],
-        onStirlingFilesSelect: (stirlingFiles: StirlingFile[]) => void,
+        files: ScriptaFileStub[],
+        onScriptaFilesSelect: (scriptaFiles: ScriptaFile[]) => void,
       ) => {
         if (selectedFiles.length === 0) return;
 
         try {
-          // Filter by UUID and load full StirlingFile objects directly
+          // Filter by UUID and load full ScriptaFile objects directly
           const selectedFileObjects = files.filter((f) =>
             selectedFiles.includes(f.id),
           );
 
-          const stirlingFiles = await Promise.all(
+          const scriptaFiles = await Promise.all(
             selectedFileObjects.map(async (stub) => {
-              const stirlingFile = await fileStorage.getStirlingFile(stub.id);
-              if (!stirlingFile) {
+              const scriptaFile = await fileStorage.getScriptaFile(stub.id);
+              if (!scriptaFile) {
                 throw new Error(`File not found in storage: ${stub.name}`);
               }
-              return stirlingFile;
+              return scriptaFile;
             }),
           );
 
-          onStirlingFilesSelect(stirlingFiles);
+          onScriptaFilesSelect(scriptaFiles);
           clearSelection();
         } catch (error) {
           console.error("Failed to load selected files:", error);

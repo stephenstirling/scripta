@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   legacyDerivedFromTool,
-  type StoredStirlingFileRecord,
+  type StoredScriptaFileRecord,
 } from "@app/services/fileStorage";
 import type { FileId } from "@app/types/file";
 
@@ -11,8 +11,8 @@ import type { FileId } from "@app/types/file";
  * helper only governs pre-upgrade records.
  */
 function record(
-  overrides: Partial<StoredStirlingFileRecord>,
-): StoredStirlingFileRecord {
+  overrides: Partial<StoredScriptaFileRecord>,
+): StoredScriptaFileRecord {
   return {
     id: "f" as FileId,
     fileId: "f" as FileId,

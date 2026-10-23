@@ -12,7 +12,7 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { policyCategoryIcon } from "@app/components/policies/policyCategoryIcon";
 import {
   PolicyBadges,
@@ -47,7 +47,7 @@ import { FileEditorStatusDot } from "@app/components/fileEditor/FileEditorStatus
 import { useToolEligibleFileIds } from "@app/contexts/ToolFileEligibilityContext";
 
 interface FileEditorThumbnailProps {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   index: number;
   totalFiles: number;
   onCloseFile: (fileId: FileId) => void;
@@ -258,7 +258,7 @@ const FileEditorThumbnail = ({
           fileId: file.id,
         });
         if (!result.cancelled && result.savedPath) {
-          fileActions.updateStirlingFileStub(file.id, {
+          fileActions.updateScriptaFileStub(file.id, {
             localFilePath: file.localFilePath ?? result.savedPath,
             isDirty: false,
           });

@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@app/ui";
 import { Icon } from "@app/ui/Icon";
 // No brand webfont is loaded, so the wordmark must be this SVG rather than styled text.
-import wordmarkLight from "@app/assets/brand/modern-logo/StirlingProcessorLogoBlackText.svg";
-import wordmarkDark from "@app/assets/brand/modern-logo/StirlingProcessorLogoWhiteText.svg";
+import wordmarkLight from "@app/assets/brand/modern-logo/ScriptaProcessorLogoBlackText.svg";
+import wordmarkDark from "@app/assets/brand/modern-logo/ScriptaProcessorLogoWhiteText.svg";
 import "@app/components/shared/StepModalHeader.css";
 
 /**

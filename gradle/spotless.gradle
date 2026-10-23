@@ -1,7 +1,7 @@
 spotless {
     java {
         target 'src/**/java/**/*.java'
-        if (project.name == 'stirling-pdf') {
+        if (project.name == 'scripta') {
             targetExclude 'src/main/resources/static/**', 'src/main/java/org/apache/**'
         } else {
             targetExclude 'src/main/java/org/apache/**'
@@ -11,14 +11,14 @@ spotless {
         removeUnusedImports()
         googleJavaFormat(rootProject.ext.googleJavaFormatVersion).aosp().reorderImports(false)
 
-        importOrder('java', 'javax', 'org', 'com', 'net', 'io', 'jakarta', 'lombok', 'me', 'stirling')
+        importOrder('java', 'javax', 'org', 'com', 'net', 'io', 'jakarta', 'lombok', 'me', 'scripta')
         trimTrailingWhitespace()
         leadingTabsToSpaces()
         endWithNewline()
     }
     yaml {
         target '**/*.yml', '**/*.yaml'
-        if (project.name == 'stirling-pdf') {
+        if (project.name == 'scripta') {
             targetExclude 'src/main/resources/static/**'
         }
         trimTrailingWhitespace()
@@ -27,7 +27,7 @@ spotless {
     }
     format 'gradle', {
         target '**/gradle/*.gradle', '**/*.gradle'
-        if (project.name == 'stirling-pdf') {
+        if (project.name == 'scripta') {
             targetExclude 'src/main/resources/static/**'
         }
         trimTrailingWhitespace()

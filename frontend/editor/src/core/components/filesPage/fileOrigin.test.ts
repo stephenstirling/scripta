@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isUnfiledLocalFile } from "@app/components/filesPage/fileOrigin";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { createFolderId, type FolderRecord } from "@app/types/folder";
 
 describe("isUnfiledLocalFile", () => {
@@ -19,7 +19,7 @@ describe("isUnfiledLocalFile", () => {
     ["shared file", { remoteOwnedByCurrentUser: false }, false],
     ["file opened through a share link", { remoteSharedViaLink: true }, false],
   ])("identifies a %s", (_name, metadata, expected) => {
-    expect(isUnfiledLocalFile(metadata as StirlingFileStub, folders)).toBe(
+    expect(isUnfiledLocalFile(metadata as ScriptaFileStub, folders)).toBe(
       expected,
     );
   });

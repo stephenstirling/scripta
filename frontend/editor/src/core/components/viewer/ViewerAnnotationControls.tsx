@@ -9,7 +9,7 @@ import {
   useFileSelectors,
   useFileContext,
 } from "@app/contexts/FileContext";
-import { createStirlingFilesAndStubs } from "@app/services/fileStubHelpers";
+import { createScriptaFilesAndStubs } from "@app/services/fileStubHelpers";
 import {
   useNavigationState,
   useNavigationGuard,
@@ -96,15 +96,15 @@ export default function ViewerAnnotationControls({
       const file = new File([new Blob([arrayBuffer])], activeFiles[0].name, {
         type: "application/pdf",
       });
-      const parentStub = selectors.getStirlingFileStub(fileIds[0]);
+      const parentStub = selectors.getScriptaFileStub(fileIds[0]);
       if (!parentStub) return;
 
-      const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+      const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
         [file],
         parentStub,
         "redact",
       );
-      await fileActions.consumeFiles([fileIds[0]], stirlingFiles, stubs);
+      await fileActions.consumeFiles([fileIds[0]], scriptaFiles, stubs);
 
       // Clear unsaved changes flags after successful save
       setHasUnsavedChanges(false);

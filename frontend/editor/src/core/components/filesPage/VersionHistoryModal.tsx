@@ -4,7 +4,7 @@ import { Icon } from "@app/ui/Icon";
 import { Center, Group, Loader, Modal, Text } from "@mantine/core";
 
 import type { FileId } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { fileStorage } from "@app/services/fileStorage";
 import { useFileActions } from "@app/contexts/file/fileHooks";
 import { useNavigationActions } from "@app/contexts/NavigationContext";
@@ -15,7 +15,7 @@ interface VersionHistoryModalProps {
   opened: boolean;
   onClose: () => void;
   /** The file whose version journey to show (the current/leaf version). */
-  file: StirlingFileStub | null;
+  file: ScriptaFileStub | null;
   /** Called after a destructive change so the launcher can refresh its list. */
   onChanged?: () => void;
 }
@@ -36,7 +36,7 @@ export function VersionHistoryModal({
   const { actions: navActions } = useNavigationActions();
   const dbRevision = useIndexedDBRevision();
 
-  const [chain, setChain] = useState<StirlingFileStub[]>([]);
+  const [chain, setChain] = useState<ScriptaFileStub[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -74,9 +74,9 @@ export function VersionHistoryModal({
     (ids: FileId[]) => {
       const stubs = ids
         .map((id) => stubById(id))
-        .filter((s): s is StirlingFileStub => Boolean(s));
+        .filter((s): s is ScriptaFileStub => Boolean(s));
       if (stubs.length === 0) return;
-      void fileActions.addStirlingFileStubs(stubs);
+      void fileActions.addScriptaFileStubs(stubs);
       navActions.setWorkbench("fileEditor");
       onClose();
     },

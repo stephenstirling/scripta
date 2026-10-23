@@ -2,7 +2,7 @@ package fixtures;
 
 /**
  * Authority on which filesystem locations a policy may read or write. Fail-closed:
- * denied entirely under the saas profile, then Stirling's own config directory is
+ * denied entirely under the saas profile, then Scripta's own config directory is
  * always rejected, then the path must resolve inside an allowed root.
  *
  * <p>Compared after normalisation so {@code ..} cannot escape a root. Symlink

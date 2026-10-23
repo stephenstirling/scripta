@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { expectConsole } from "@app/tests/failOnConsole";
-import type { StirlingFile } from "@app/types/fileContext";
+import type { ScriptaFile } from "@app/types/fileContext";
 
 // One bad file in a batch must come back named, with its error: the caller reports each one,
 // and it cannot derive the failure kind without the error the request threw.
@@ -20,10 +20,10 @@ vi.mock("@app/utils/toolResponseProcessor", () => ({
 const { useToolApiCalls } =
   await import("@app/hooks/tools/shared/useToolApiCalls");
 
-const file = (name: string, id: string): StirlingFile =>
-  ({ name, fileId: id, size: 10 }) as unknown as StirlingFile;
+const file = (name: string, id: string): ScriptaFile =>
+  ({ name, fileId: id, size: 10 }) as unknown as ScriptaFile;
 
-function run(files: StirlingFile[]) {
+function run(files: ScriptaFile[]) {
   const { processFiles } = renderHook(() => useToolApiCalls()).result.current;
   return processFiles(
     undefined,

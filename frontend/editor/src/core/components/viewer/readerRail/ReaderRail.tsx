@@ -11,7 +11,7 @@ import { useNavigationGuard } from "@app/contexts/NavigationContext";
 import { useAllFiles, useFileManagement } from "@app/contexts/file/fileHooks";
 import { useFilesModalContext } from "@app/contexts/FilesModalContext";
 import { truncateCenter } from "@app/utils/textUtils";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 import "@app/components/viewer/readerRail/ReaderRail.css";
 
 /** The quick-nav rail's icon size, so the two rails read as one family. */
@@ -114,7 +114,7 @@ export function ReaderRail() {
   const documents = useMemo(
     () =>
       files
-        .filter((file) => isStirlingFile(file))
+        .filter((file) => isScriptaFile(file))
         .map((file) => ({ id: file.fileId as string, name: file.name })),
     [files],
   );

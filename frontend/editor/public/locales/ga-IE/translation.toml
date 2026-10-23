@@ -613,18 +613,18 @@ label = "Teorainn Seisiúin"
 description = "Am reatha uasta"
 label = "Teorainn Ama (nóiméid)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Tá Stirling Office Convert i mbéite. Cuireann sé tiontuithe níos fearr ar fáil, níos tapúla agus le níos lú cuimhne ná LibreOffice."
-label = "Úsáid tiontú nua Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Tá Scripta Office Convert i mbéite. Cuireann sé tiontuithe níos fearr ar fáil, níos tapúla agus le níos lú cuimhne ná LibreOffice."
+label = "Úsáid tiontú nua Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Cumraigh stóráil agus iompar glanta comhad sealadach"
 label = "Bainistíocht Comhad Sealadach"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Bun‑chomhadlann do chomhaid shealadacha (fág folamh don réamhshocrú: java.io.tmpdir/stirling-pdf)"
+description = "Bun‑chomhadlann do chomhaid shealadacha (fág folamh don réamhshocrú: java.io.tmpdir/scripta)"
 label = "Bun‑Chomhadlann Shealadach"
-placeholder = "Réamhshocrú: java.io.tmpdir/stirling-pdf"
+placeholder = "Réamhshocrú: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Cé chomh minic is a rithfear an glanadh (i nóiméid)"
@@ -683,8 +683,8 @@ permissionNotice = "Níl cosán an tessdata inscríofa. Osclófar íoslódálach
 [admin.settings.ai]
 customProvider = "Saincheaptha (comhoiriúnach le OpenAI)"
 description = "Ceangail Scripta leis an inneall Python AI, roghnaigh a shamhlacha, agus socraigh na cosaintí faoina ritheann sé."
-managedByCloud = "Á bhainistiú ag Stirling Cloud sa mhód seo."
-managedByCloudShort = "Á bhainistiú ag Stirling Cloud"
+managedByCloud = "Á bhainistiú ag Scripta Cloud sa mhód seo."
+managedByCloudShort = "Á bhainistiú ag Scripta Cloud"
 
 [admin.settings.ai.documents]
 description = "Cumraigh an tsamhail leabaithe agus na socruithe aisghabhála a úsáidtear chun ceisteanna faoi dhoiciméid a fhreagairt. Cuirtear i bhfeidhm ar an inneall AI nuair a shábháiltear iad."
@@ -735,16 +735,16 @@ description = "Cas gnéithe AI aonair air nó as. Bíonn gnéithe díchumasaithe
 title = "Cumais"
 
 [admin.settings.ai.general.cloud]
-note = "Bainistíonn Stirling Cloud samhlacha agus eochracha soláthraithe, mar sin ní bhaineann na socruithe sin leis an mód seo."
+note = "Bainistíonn Scripta Cloud samhlacha agus eochracha soláthraithe, mar sin ní bhaineann na socruithe sin leis an mód seo."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Seolann gach uirlis AI téacs an leathanaigh atá de dhíth uirthi chun freagra a thabhairt. Socraíonn sé seo an bhféadfaidh Stirling Cloud an téacs sin a choinneáil freisin, innéacsaithe, ionas gur féidir le ceisteanna níos déanaí cuardach a dhéanamh ar fud an doiciméid."
+description = "Seolann gach uirlis AI téacs an leathanaigh atá de dhíth uirthi chun freagra a thabhairt. Socraíonn sé seo an bhféadfaidh Scripta Cloud an téacs sin a choinneáil freisin, innéacsaithe, ionas gur féidir le ceisteanna níos déanaí cuardach a dhéanamh ar fud an doiciméid."
 help = "Ciallaíonn múchta nach bhfuil ceisteanna doiciméid ar fáil. Ní stopann sé téacs a bheith á sheoladh - ní dhéanann sé ach é a stóráil."
-label = "Lig do Stirling Cloud doiciméid innéacsaithe a choinneáil"
+label = "Lig do Scripta Cloud doiciméid innéacsaithe a choinneáil"
 
 [admin.settings.ai.general.cloudNote]
-body = "Ritheann an réasúnú ar bhonneagar Scripta, billeáilte don chuntas a bhfuil an freastalaí seo nasctha leis. Níl aon choimeádán le rith agus níl aon eochair soláthraí le coinneáil anseo. Próiseálann Stirling Cloud cibé rud a léann an AI seachas ar do chrua-earraí féin."
-title = "Maidir le Stirling Cloud AI"
+body = "Ritheann an réasúnú ar bhonneagar Scripta, billeáilte don chuntas a bhfuil an freastalaí seo nasctha leis. Níl aon choimeádán le rith agus níl aon eochair soláthraí le coinneáil anseo. Próiseálann Scripta Cloud cibé rud a léann an AI seachas ar do chrua-earraí féin."
+title = "Maidir le Scripta Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Príomhlasc. Nuair atá sé as, níl aon uirlisí AI, gníomhairí ná glaonna innill ar fáil."
@@ -782,11 +782,11 @@ label = "Teorainn ama fhada (soicindí)"
 label = "Cá ritheann AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Gan choimeádán, gan eochair soláthraí, gan rogha samhla - ritheann an obair ar Stirling Cloud agus billeáiltear í don chuntas a bhfuil an freastalaí seo nasctha leis."
+description = "Gan choimeádán, gan eochair soláthraí, gan rogha samhla - ritheann an obair ar Scripta Cloud agus billeáiltear í don chuntas a bhfuil an freastalaí seo nasctha leis."
 linkCta = "Ceangail an freastalaí seo le cuntas Scripta"
 notLinked = "Nasc cuntas ar dtús"
 ownerOnly = "Ní féidir ach le húinéir na heagraíochta an freastalaí seo a nascadh le cuntas Scripta."
-title = "Úsáid Stirling Cloud AI"
+title = "Úsáid Scripta Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Gan aon uirlisí AI áit ar bith san aip, agus ní fhágann aon rud an freastalaí seo."
@@ -818,7 +818,7 @@ description = "Teorainn ama d'iarratais chaighdeánacha AI chuig an inneall."
 label = "Teorainn ama iarratais (soicindí)"
 
 [admin.settings.ai.general.url]
-description = "URL inmheánach an innill Python AI, m.sh. http://stirling-pdf-engine:5001."
+description = "URL inmheánach an innill Python AI, m.sh. http://scripta-engine:5001."
 label = "URL innill AI"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "URL an innill"
 hostDown = "Síos"
 hostLabel = "Stirling.com"
 hostUp = "Suas"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "Comhroinnt AI"
 sharingOff = "Díchumasaithe"
 sharingOn = "Cumasaithe"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "D'fhreagair Stirling Cloud ach dhiúltaigh sé don fhreastalaí seo. B'fhéidir gur cúlghaireadh an nasc cuntais."
-title = "Tá Stirling Cloud ag diúltú don fhreastalaí seo"
+body = "D'fhreagair Scripta Cloud ach dhiúltaigh sé don fhreastalaí seo. B'fhéidir gur cúlghaireadh an nasc cuntais."
+title = "Tá Scripta Cloud ag diúltú don fhreastalaí seo"
 
 [admin.settings.ai.status.cloud.down]
-body = "Ní raibh an freastalaí seo in ann Stirling Cloud a bhaint amach. Seiceáil an nasc cuntais agus go bhfuil an freastalaí seo in ann an t-idirlíon a bhaint amach."
-title = "Ní féidir Stirling Cloud a bhaint amach"
+body = "Ní raibh an freastalaí seo in ann Scripta Cloud a bhaint amach. Seiceáil an nasc cuntais agus go bhfuil an freastalaí seo in ann an t-idirlíon a bhaint amach."
+title = "Ní féidir Scripta Cloud a bhaint amach"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Ghlac Stirling Cloud leis an bhfreastalaí seo. Níl aon rud le rith ná le paisteáil anseo."
-title = "Ag rith ar Stirling Cloud"
+body = "Ghlac Scripta Cloud leis an bhfreastalaí seo. Níl aon rud le rith ná le paisteáil anseo."
+title = "Ag rith ar Scripta Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "D'fhreagair sé an tseiceáil sláinte ach dhiúltaigh sé d'fhíor-iarratas. Tá an dá thaobh ag úsáid rúin chomhroinnte éagsúla."
@@ -1885,7 +1885,7 @@ wrapUp = "Sin é an turas riaracháin! Tá na gnéithe enterprise feicthe agat a
 title = "Socruithe Rialaithe Úsáideora"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabach"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Roghnaigh formáid fhoinse ar dtús"
 settings = "Socruithe"
 single = "Aonair"
 sourceFormatPlaceholder = "Formáid fhoinseach"
-stirlingOfficeConvert = "Úsáid Stirling Office Convert (béite)"
-stirlingOfficeConvertDescription = "Tiontuithe níos fearr agus níos tapúla le níos lú cuimhne. Múch é chun an tiontaire caighdeánach a úsáid."
+scriptaOfficeConvert = "Úsáid Scripta Office Convert (béite)"
+scriptaOfficeConvertDescription = "Tiontuithe níos fearr agus níos tapúla le níos lú cuimhne. Múch é chun an tiontaire caighdeánach a úsáid."
 strictMode = "Mód Docht"
 strictModeDesc = "Earráid mura bhfuil an tiontú foirfe (úsáideann sé fíorú VeraPDF)"
 svgPdfOptions = "Roghanna SVG go PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Forbhreathnú Plean"
 [onboarding.processorIntro]
 body = "Ritheann Scripta <strong>Polasaithe</strong> anois — rialacha uathoibrithe a aicmíonn, a dhaingníonn agus a phróiseálann gach doiciméad de réir mar a thagann sé isteach. Socraigh iad agus déan monatóireacht ar rith sa <strong>Processor</strong>."
 cta = "Féach ar an Processor"
-title = "Féach ar an Stirling Processor"
+title = "Féach ar an Scripta Processor"
 
 [onboarding.securityCheck]
 message = "Tá athruithe suntasacha déanta ar an bhfeidhmchlár le déanaí. B’fhéidir go mbeidh aird riarthóir do fhreastalaí ag teastáil. Deimhnigh do ról le leanúint ar aghaidh."
@@ -5359,9 +5359,9 @@ roleUser = "Úsáideoir"
 title = "Seiceáil Slándála"
 
 [onboarding.serverLicense]
-freeBody = "Cuimsíonn ár gceadúnas <strong>Open-Core</strong> <strong>OAuth SSO</strong> agus suas le <strong>{{freeTierLimit}}</strong> úsáideoir saor in aisce. Chun fás gan bhriseadh, molaimid plean Stirling Team — <strong>100 úsáideoir</strong> ar $99 sa mhí."
+freeBody = "Cuimsíonn ár gceadúnas <strong>Open-Core</strong> <strong>OAuth SSO</strong> agus suas le <strong>{{freeTierLimit}}</strong> úsáideoir saor in aisce. Chun fás gan bhriseadh, molaimid plean Scripta Team — <strong>100 úsáideoir</strong> ar $99 sa mhí."
 freeTitle = "Plean foirne"
-overLimitBody = "Ceadaíonn ár gceadúnú suas le <strong>{{freeTierLimit}}</strong> úsáideoir saor in aisce. Tá <strong>{{overLimitUserCopy}}</strong> úsáideoir Scripta agat. Chun leanúint ar aghaidh gan bhriseadh, uasghrádaigh go plean Stirling Team - <strong>100 úsáideoir</strong>, eagarthóireacht téacs PDF, agus rialú iomlán riaracháin ar $99/mo."
+overLimitBody = "Ceadaíonn ár gceadúnú suas le <strong>{{freeTierLimit}}</strong> úsáideoir saor in aisce. Tá <strong>{{overLimitUserCopy}}</strong> úsáideoir Scripta agat. Chun leanúint ar aghaidh gan bhriseadh, uasghrádaigh go plean Scripta Team - <strong>100 úsáideoir</strong>, eagarthóireacht téacs PDF, agus rialú iomlán riaracháin ar $99/mo."
 overLimitTitle = "Tá plean foirne ag teastáil"
 seePlans = "Féach ar Phleananna →"
 upgrade = "Uasghrádaigh anois →"
@@ -6918,7 +6918,7 @@ label = "Ceanntásca"
 
 [portal.policies.operations.fields.index]
 label = "Innéacs"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Eochair eisiúna"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Ainm úsáideora Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Insíonn sé do spás gur láimhseáil an polasaí doiciméad."
@@ -7192,7 +7192,7 @@ secretNote = "Taispeántar an rún sínithe uair amháin, nuair a chruthaítear 
 copy = "Cóipeáil"
 done = "Déanta"
 secret = "Rún sínithe"
-secretHelp = "Sínigh corp amh gach seachadta leis an eochair seo (HMAC-SHA256) agus seol é mar cheanntásc X-Stirling-Signature."
+secretHelp = "Sínigh corp amh gach seachadta leis an eochair seo (HMAC-SHA256) agus seol é mar cheanntásc X-Scripta-Signature."
 secretWarning = "Cóipeáil an rún sínithe anois. Ar mhaithe le do shlándáil, ní thaispeántar é ach uair amháin agus ní féidir é a aisghabháil níos déanaí."
 title = "Webhook cruthaithe"
 url = "URL seachadta"
@@ -8047,7 +8047,7 @@ storageSharing = "Stóráil Comhad agus Comhroinnt"
 systemSettings = "Socruithe Córais"
 
 [settings.connectedInstances]
-confirmBody = "Cúlghairtear leis seo rochtain na hinstainte ar d’fhoireann i Stirling Cloud. Ní scriosann sé comhaid áitiúla ná ní bhaineann sé úsáid atá taifeadta cheana. Chun ceangal arís, lean na céimeanna ceangail bunaidh ar an instaint."
+confirmBody = "Cúlghairtear leis seo rochtain na hinstainte ar d’fhoireann i Scripta Cloud. Ní scriosann sé comhaid áitiúla ná ní bhaineann sé úsáid atá taifeadta cheana. Chun ceangal arís, lean na céimeanna ceangail bunaidh ar an instaint."
 confirmTitle = "Bain {{name}}?"
 connectedAt = "Ceangailte: {{date}}"
 connectedDate = "Ceangailte"
@@ -8091,7 +8091,7 @@ user = "Logáilte isteach mar"
 
 [settings.connection.mode]
 local = "Áitiúil Amháin"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Féin-óstáilte"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monatóireacht"
 [settings.planBilling]
 currentPlan = "Plean Reatha"
 loading = "Eolas billeála á lódáil..."
-notAvailable = "Tá Plean & Billeáil ar fáil ach amháin nuair a bhíonn ceangal le Stirling Cloud (mód SaaS)."
+notAvailable = "Tá Plean & Billeáil ar fáil ach amháin nuair a bhíonn ceangal le Scripta Cloud (mód SaaS)."
 title = "Plean & Billeáil"
 
 [settings.planBilling.billing]

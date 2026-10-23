@@ -613,18 +613,18 @@ label = "Munkamenet-korlát"
 description = "Maximális futási idő"
 label = "Időkorlát (perc)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "A Stirling Office Convert béta verzióban van. Jobb konverziókat kínál, gyorsabban és kevesebb memóriahasználattal, mint a LibreOffice."
-label = "Új Stirling Office konverzió használata"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "A Scripta Office Convert béta verzióban van. Jobb konverziókat kínál, gyorsabban és kevesebb memóriahasználattal, mint a LibreOffice."
+label = "Új Scripta Office konverzió használata"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Ideiglenes fájltárolás és takarítási viselkedés konfigurálása"
 label = "Ideiglenes fájlok kezelése"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Alapkönyvtár az ideiglenes fájlokhoz (hagyja üresen az alapértelmezettért: java.io.tmpdir/stirling-pdf)"
+description = "Alapkönyvtár az ideiglenes fájlokhoz (hagyja üresen az alapértelmezettért: java.io.tmpdir/scripta)"
 label = "Alap ideiglenes könyvtár"
-placeholder = "Alapértelmezett: java.io.tmpdir/stirling-pdf"
+placeholder = "Alapértelmezett: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "A takarítás futtatásának gyakorisága (percekben)"
@@ -682,9 +682,9 @@ permissionNotice = "A tessdata elérési út nem írható. A letöltések a bön
 
 [admin.settings.ai]
 customProvider = "Egyéni (OpenAI-kompatibilis)"
-description = "Csatlakoztassa a Stirlinget a Python AI motorhoz, válassza ki a modelljeit, és állítsa be a működési korlátokat."
-managedByCloud = "Ebben a módban a Stirling Cloud kezeli."
-managedByCloudShort = "Stirling Cloud által kezelve"
+description = "Csatlakoztassa a Scriptaet a Python AI motorhoz, válassza ki a modelljeit, és állítsa be a működési korlátokat."
+managedByCloud = "Ebben a módban a Scripta Cloud kezeli."
+managedByCloudShort = "Scripta Cloud által kezelve"
 
 [admin.settings.ai.documents]
 description = "Konfigurálja a dokumentumokkal kapcsolatos kérdések megválaszolásához használt beágyazási modellt és visszakeresési beállításokat. Mentéskor az AI-motorra lesz alkalmazva."
@@ -735,16 +735,16 @@ description = "Kapcsolja be vagy ki az egyes AI-funkciókat. A letiltott funkci�
 title = "Képességek"
 
 [admin.settings.ai.general.cloud]
-note = "A modelleket és a szolgáltatói kulcsokat a Stirling Cloud kezeli, ezért ezek a beállítások ebben a módban nem érvényesek."
+note = "A modelleket és a szolgáltatói kulcsokat a Scripta Cloud kezeli, ezért ezek a beállítások ebben a módban nem érvényesek."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Minden AI eszköz elküldi azt az oldalszöveget, amelyre a válaszadáshoz szüksége van. Ez dönti el, hogy a Stirling Cloud megtarthatja-e ezt a szöveget indexelve, hogy a későbbi kérdések a dokumentumban kereshessenek."
+description = "Minden AI eszköz elküldi azt az oldalszöveget, amelyre a válaszadáshoz szüksége van. Ez dönti el, hogy a Scripta Cloud megtarthatja-e ezt a szöveget indexelve, hogy a későbbi kérdések a dokumentumban kereshessenek."
 help = "Kikapcsolva a dokumentumkérdések nem érhetők el. Ez nem akadályozza meg a szöveg elküldését – csak a tárolását."
-label = "A Stirling Cloud megtarthatja az indexelt dokumentumokat"
+label = "A Scripta Cloud megtarthatja az indexelt dokumentumokat"
 
 [admin.settings.ai.general.cloudNote]
-body = "Az érvelés a Scripta infrastruktúráján fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik. Itt nincs futtatandó konténer és nincs tárolandó szolgáltatói kulcs. Amit az AI olvas, azt a Stirling Cloud dolgozza fel, nem a saját hardvere."
-title = "A Stirling Cloud AI-ról"
+body = "Az érvelés a Scripta infrastruktúráján fut, és annak a fióknak kerül kiszámlázásra, amelyhez ez a szerver kapcsolódik. Itt nincs futtatandó konténer és nincs tárolandó szolgáltatói kulcs. Amit az AI olvas, azt a Scripta Cloud dolgozza fel, nem a saját hardvere."
+title = "A Scripta Cloud AI-ról"
 
 [admin.settings.ai.general.enabled]
 description = "Főkapcsoló. Kikapcsolt állapotban nem érhetők el AI-eszközök, ügynökök vagy motorhívások."
@@ -786,7 +786,7 @@ description = "Nincs konténer, nincs szolgáltatói kulcs, nincs modellválaszt
 linkCta = "Szerver csatlakoztatása egy Scripta-fiókhoz"
 notLinked = "Először kapcsoljon egy fiókot"
 ownerOnly = "Csak a szervezet tulajdonosa kapcsolhatja ezt a szervert egy Scripta-fiókhoz."
-title = "Stirling Cloud AI használata"
+title = "Scripta Cloud AI használata"
 
 [admin.settings.ai.general.mode.off]
 description = "Nincsenek AI eszközök az alkalmazásban, és semmi sem hagyja el ezt a szervert."
@@ -818,7 +818,7 @@ description = "Időtúllépés a motorhoz intézett szabványos AI-kérésekhez.
 label = "Kérés időtúllépése (másodperc)"
 
 [admin.settings.ai.general.url]
-description = "A Python AI-motor belső URL-je, pl. http://stirling-pdf-engine:5001."
+description = "A Python AI-motor belső URL-je, pl. http://scripta-engine:5001."
 label = "AI-motor URL"
 
 [admin.settings.ai.limits]
@@ -902,21 +902,21 @@ url = "Motor URL"
 hostDown = "Nem elérhető"
 hostLabel = "Stirling.com"
 hostUp = "Elérhető"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "AI megosztás"
 sharingOff = "Letiltva"
 sharingOn = "Engedélyezve"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "A Stirling Cloud válaszolt, de elutasította ezt a szervert. Lehet, hogy a fiókkapcsolat vissza lett vonva."
-title = "A Stirling Cloud elutasítja ezt a szervert"
+body = "A Scripta Cloud válaszolt, de elutasította ezt a szervert. Lehet, hogy a fiókkapcsolat vissza lett vonva."
+title = "A Scripta Cloud elutasítja ezt a szervert"
 
 [admin.settings.ai.status.cloud.down]
 body = "Ez a szerver nem tudta elérni a Scripta Cloudot. Ellenőrizze a fiókkapcsolatot, és hogy ez a szerver eléri-e az internetet."
-title = "A Stirling Cloud nem érhető el"
+title = "A Scripta Cloud nem érhető el"
 
 [admin.settings.ai.status.cloud.ok]
-body = "A Stirling Cloud elfogadta ezt a szervert. Itt nincs mit futtatni vagy javítani."
+body = "A Scripta Cloud elfogadta ezt a szervert. Itt nincs mit futtatni vagy javítani."
 title = "Scripta Cloudon fut"
 
 [admin.settings.ai.status.degraded]
@@ -1069,7 +1069,7 @@ confirmCodeLabel = "A folytatáshoz adja meg a megerősítő kódot"
 confirmImport = "Importálás megerősítése"
 confirmImportTitle = "Adatbázis-import megerősítése"
 connection = "Kapcsolat"
-connectionDescription = "Irányítsa a Stirlinget külső adatbázisra a beágyazott helyett."
+connectionDescription = "Irányítsa a Scriptaet külső adatbázisra a beágyazott helyett."
 createBackup = "Biztonsági mentés készítése"
 created = "Létrehozva"
 delete = "Törlés"
@@ -1885,7 +1885,7 @@ wrapUp = "Ezzel véget ért az admin bemutató! Látta az enterprise funkciókat
 title = "Felhasználókezelés"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arab"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Először válasszon forrásformátumot"
 settings = "Beállítások"
 single = "Egyetlen"
 sourceFormatPlaceholder = "Forrásformátum"
-stirlingOfficeConvert = "Stirling Office Convert használata (béta)"
-stirlingOfficeConvertDescription = "Jobb, gyorsabb konverziók kevesebb memóriahasználattal. Kapcsolja ki a standard konverter használatához."
+scriptaOfficeConvert = "Scripta Office Convert használata (béta)"
+scriptaOfficeConvertDescription = "Jobb, gyorsabb konverziók kevesebb memóriahasználattal. Kapcsolja ki a standard konverter használatához."
 strictMode = "Szigorú mód"
 strictModeDesc = "Hiba, ha a konverzió nem tökéletes (VeraPDF ellenőrzést használ)"
 svgPdfOptions = "SVG PDF-be beállítások"
@@ -3956,7 +3956,7 @@ recentFiles = "Legutóbbiak"
 refresh = "Frissítés"
 refreshNeedsConnection = "Jelentkezz be a szerverről való frissítéshez."
 remove = "Törlés"
-removeLocalFolder = "Leválasztás a Stirlingből"
+removeLocalFolder = "Leválasztás a Scriptaből"
 removeVersion = "E verzió eltávolítása"
 rename = "Átnevezés"
 renamed = "Átnevezve"
@@ -3977,7 +3977,7 @@ summary_other = "{{count}} elem"
 tree = "Mappák"
 unmount = "Leválasztás"
 unmountFolderBody = "Leválasztod ezt: „{{name}}”? A mappa és a fájljai a lemezeden maradnak."
-unmountFolderTitle = "Leválasztás a Stirlingből?"
+unmountFolderTitle = "Leválasztás a Scriptaből?"
 upload = "Feltöltés"
 uploadFromMobile = "Feltöltés mobilról"
 versionActions = "Verzióműveletek"
@@ -5340,8 +5340,8 @@ success = "Az MFA engedélyezve lett. Most már folytathatja."
 title = "Többtényezős hitelesítés beállítása"
 
 [onboarding.planOverview]
-adminBodyLoginDisabled = "A bejelentkezési mód engedélyezése után kezelheti a felhasználókat, beállításokat és figyelheti a szerver állapotát. A szerver első <strong>{{freeTierLimit}}</strong> felhasználója ingyen használhatja a Stirlinget."
-adminBodyLoginEnabled = "Adminisztrátorként kezelheti a felhasználókat, beállításokat és figyelheti a szerver állapotát. A szerver első <strong>{{freeTierLimit}}</strong> felhasználója ingyen használhatja a Stirlinget."
+adminBodyLoginDisabled = "A bejelentkezési mód engedélyezése után kezelheti a felhasználókat, beállításokat és figyelheti a szerver állapotát. A szerver első <strong>{{freeTierLimit}}</strong> felhasználója ingyen használhatja a Scriptaet."
+adminBodyLoginEnabled = "Adminisztrátorként kezelheti a felhasználókat, beállításokat és figyelheti a szerver állapotát. A szerver első <strong>{{freeTierLimit}}</strong> felhasználója ingyen használhatja a Scriptaet."
 adminTitle = "Admin áttekintés"
 userBody = "Hívja meg a csapattagokat, rendeljen szerepköröket, és tartsa rendezve dokumentumait egy biztonságos munkaterületen. Engedélyezze a bejelentkezési módot, amikor továbblépne az egyéni használatról."
 userTitle = "Csomag áttekintése"
@@ -5359,9 +5359,9 @@ roleUser = "Felhasználó"
 title = "Biztonsági ellenőrzés"
 
 [onboarding.serverLicense]
-freeBody = "Az <strong>Open-Core</strong> licencünk ingyenesen tartalmazza az <strong>OAuth SSO</strong> funkciót és legfeljebb <strong>{{freeTierLimit}}</strong> felhasználót. A zavartalan bővüléshez a Stirling Team csomagot ajánljuk — <strong>100 felhasználó</strong> havi 99 dollárért."
+freeBody = "Az <strong>Open-Core</strong> licencünk ingyenesen tartalmazza az <strong>OAuth SSO</strong> funkciót és legfeljebb <strong>{{freeTierLimit}}</strong> felhasználót. A zavartalan bővüléshez a Scripta Team csomagot ajánljuk — <strong>100 felhasználó</strong> havi 99 dollárért."
 freeTitle = "Team csomag"
-overLimitBody = "Licencelésünk legfeljebb <strong>{{freeTierLimit}}</strong> felhasználót engedélyez ingyenesen. Neked <strong>{{overLimitUserCopy}}</strong> Scripta-felhasználód van. A megszakítás nélküli folytatáshoz válts a Stirling Team csomagra – <strong>100 felhasználó</strong>, PDF-szövegszerkesztés és teljes adminisztrátori vezérlés $99/hó áron."
+overLimitBody = "Licencelésünk legfeljebb <strong>{{freeTierLimit}}</strong> felhasználót engedélyez ingyenesen. Neked <strong>{{overLimitUserCopy}}</strong> Scripta-felhasználód van. A megszakítás nélküli folytatáshoz válts a Scripta Team csomagra – <strong>100 felhasználó</strong>, PDF-szövegszerkesztés és teljes adminisztrátori vezérlés $99/hó áron."
 overLimitTitle = "Team csomag szükséges"
 seePlans = "Csomagok megtekintése →"
 upgrade = "Frissítés most →"
@@ -5372,7 +5372,7 @@ title = "Bemutató áttekintése"
 
 [onboarding.welcomeSlide]
 body = "A Scripta mostantól minden méretű csapat számára készen áll. Ez a frissítés új elrendezést, erőteljes új adminisztrátori képességeket és a leggyakrabban kért funkciónkat – a <strong>Szöveg szerkesztése</strong>-t tartalmazza."
-title = "Üdvözöljük a Stirlingben"
+title = "Üdvözöljük a Scriptaben"
 
 [onboarding.whatsNew]
 activeFilesView = "Az Aktív fájlokban láthat mindent, ami meg van nyitva, és kiválaszthatja, min dolgozik."
@@ -6918,7 +6918,7 @@ label = "Fejlécek"
 
 [portal.policies.operations.fields.index]
 label = "Index"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Ügykulcs"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud felhasználónév"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Értesít egy space-t, hogy a házirend kezelt egy dokumentumot."
@@ -7061,7 +7061,7 @@ gatingAction = "Ajánlat elfogadása"
 label = "Ajánlat"
 
 [portal.procurement.journeySteps.trial]
-blurb = "Értékelje a Stirlinget saját dokumentumaival és munkafolyamataival."
+blurb = "Értékelje a Scriptaet saját dokumentumaival és munkafolyamataival."
 gatingAction = "Ajánlat összeállítása"
 label = "Próbaidőszak"
 
@@ -7192,7 +7192,7 @@ secretNote = "Az aláírási titok egyszer jelenik meg, a webhook létrehozásak
 copy = "Másolás"
 done = "Kész"
 secret = "Aláírási titok"
-secretHelp = "Írja alá minden kézbesítés nyers törzsét ezzel a kulccsal (HMAC-SHA256), és küldje el X-Stirling-Signature headerként."
+secretHelp = "Írja alá minden kézbesítés nyers törzsét ezzel a kulccsal (HMAC-SHA256), és küldje el X-Scripta-Signature headerként."
 secretWarning = "Másolja ki most az aláírási titkot. Biztonsága érdekében csak egyszer jelenik meg, és később nem kérhető le."
 title = "Webhook létrehozva"
 url = "Kézbesítési URL"
@@ -8091,7 +8091,7 @@ user = "Bejelentkezve mint"
 
 [settings.connection.mode]
 local = "Csak helyi"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Önhostolt"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitorozás"
 [settings.planBilling]
 currentPlan = "Jelenlegi csomag"
 loading = "Számlázási információk betöltése..."
-notAvailable = "A Csomag és számlázás csak Stirling Cloud kapcsolattal érhető el (SaaS mód)."
+notAvailable = "A Csomag és számlázás csak Scripta Cloud kapcsolattal érhető el (SaaS mód)."
 title = "Csomag és számlázás"
 
 [settings.planBilling.billing]
@@ -9144,7 +9144,7 @@ all = "Mind"
 ariaLabel = "Szuperkeresés"
 filtersAriaLabel = "Keresési szűrők"
 hint = "Írj a kereséshez"
-placeholder = "Keresés a Stirlingben"
+placeholder = "Keresés a Scriptaben"
 placeholderShort = "Keresés"
 showLess = "Kevesebb megjelenítése"
 showMore = "További {{count}} megjelenítése"
@@ -9634,7 +9634,7 @@ text = "Szöveg"
 addFile = "Fájl hozzáadása"
 count_one = "{{count}} fájl ebben a portfólióban"
 count_other = "{{count}} fájl ebben a portfólióban"
-import = "Importálás a Stirlingbe"
+import = "Importálás a Scriptabe"
 importFailed = "Ezt a fájlt nem sikerült hozzáadni a munkaterületéhez."
 memberUnavailable = "Ezt a fájlt nem sikerült beolvasni a portfólióból."
 preview = "Előnézet"

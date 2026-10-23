@@ -54,7 +54,7 @@ describe("credit prompt session", () => {
   });
 
   it("honours persisted session suppression and rearms for a fresh tab session", () => {
-    sessionStorage.setItem("stirling:credit-prompt-shown", "true");
+    sessionStorage.setItem("scripta:credit-prompt-shown", "true");
     clearAccountLinkBlock();
     const { result } = renderHook(useAccountLinkBlock);
     act(() => reportFreeTierExhausted(cause));

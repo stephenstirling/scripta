@@ -1,42 +1,42 @@
 import {
-  StirlingFile,
+  ScriptaFile,
   FileId,
-  StirlingFileStub,
-  createStirlingFile,
+  ScriptaFileStub,
+  createScriptaFile,
   ProcessedFileMetadata,
-  createNewStirlingFileStub,
+  createNewScriptaFileStub,
 } from "@app/types/fileContext";
 
 /**
- * Builds parallel inputFileIds and inputStirlingFileStubs arrays from the valid input files.
+ * Builds parallel inputFileIds and inputScriptaFileStubs arrays from the valid input files.
  * Falls back to a fresh stub when the file is not found in the current context state
  * (e.g. it was removed between operation start and this point).
  */
 export function buildInputTracking(
-  validFiles: StirlingFile[],
+  validFiles: ScriptaFile[],
   selectors: {
-    getStirlingFileStub: (id: FileId) => StirlingFileStub | undefined;
+    getScriptaFileStub: (id: FileId) => ScriptaFileStub | undefined;
   },
-): { inputFileIds: FileId[]; inputStirlingFileStubs: StirlingFileStub[] } {
+): { inputFileIds: FileId[]; inputScriptaFileStubs: ScriptaFileStub[] } {
   const inputFileIds: FileId[] = [];
-  const inputStirlingFileStubs: StirlingFileStub[] = [];
+  const inputScriptaFileStubs: ScriptaFileStub[] = [];
   for (const file of validFiles) {
     const fileId = file.fileId;
-    const record = selectors.getStirlingFileStub(fileId);
+    const record = selectors.getScriptaFileStub(fileId);
     if (record) {
       inputFileIds.push(fileId);
-      inputStirlingFileStubs.push(record);
+      inputScriptaFileStubs.push(record);
     } else {
       console.debug(`No file stub found for file: ${file.name}`);
       inputFileIds.push(fileId);
-      inputStirlingFileStubs.push(createNewStirlingFileStub(file, fileId));
+      inputScriptaFileStubs.push(createNewScriptaFileStub(file, fileId));
     }
   }
-  return { inputFileIds, inputStirlingFileStubs };
+  return { inputFileIds, inputScriptaFileStubs };
 }
 
 /**
- * Creates parallel outputStirlingFileStubs and outputStirlingFiles arrays from processed files.
+ * Creates parallel outputScriptaFileStubs and outputScriptaFiles arrays from processed files.
  * The stubFactory determines how each stub is constructed (child version vs fresh root).
  */
 export function buildOutputPairs(
@@ -48,16 +48,16 @@ export function buildOutputPairs(
     thumbnail: string,
     metadata: ProcessedFileMetadata | undefined,
     index: number,
-  ) => StirlingFileStub,
+  ) => ScriptaFileStub,
 ): {
-  outputStirlingFileStubs: StirlingFileStub[];
-  outputStirlingFiles: StirlingFile[];
+  outputScriptaFileStubs: ScriptaFileStub[];
+  outputScriptaFiles: ScriptaFile[];
 } {
-  const outputStirlingFileStubs = processedFiles.map((file, index) =>
+  const outputScriptaFileStubs = processedFiles.map((file, index) =>
     stubFactory(file, thumbnails[index], metadataArray[index], index),
   );
-  const outputStirlingFiles = processedFiles.map((file, index) =>
-    createStirlingFile(file, outputStirlingFileStubs[index].id),
+  const outputScriptaFiles = processedFiles.map((file, index) =>
+    createScriptaFile(file, outputScriptaFileStubs[index].id),
   );
-  return { outputStirlingFileStubs, outputStirlingFiles };
+  return { outputScriptaFileStubs, outputScriptaFiles };
 }

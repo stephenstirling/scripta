@@ -15,7 +15,7 @@ import { detectFileExtension } from "@app/utils/fileUtils";
 import FileEditorThumbnail from "@app/components/fileEditor/FileEditorThumbnail";
 import AddFileCard from "@app/components/fileEditor/AddFileCard";
 import FilePickerModal from "@app/components/shared/FilePickerModal";
-import { FileId, StirlingFile } from "@app/types/fileContext";
+import { FileId, ScriptaFile } from "@app/types/fileContext";
 import { alert } from "@app/components/toast";
 import { downloadFileWithPolicy as downloadFile } from "@app/services/exportWithPolicy";
 import { useToolWorkflow } from "@app/contexts/ToolWorkflowContext";
@@ -26,7 +26,7 @@ const EMPTY_POLICIES: FileItemPolicyRef[] = [];
 
 interface FileEditorProps {
   onOpenPageEditor?: () => void;
-  onMergeFiles?: (files: StirlingFile[]) => void;
+  onMergeFiles?: (files: ScriptaFile[]) => void;
   toolMode?: boolean;
   supportedExtensions?: string[];
 }
@@ -51,14 +51,14 @@ const FileEditor = ({
   const { actions: fileActions } = useFileActions();
   const { selectedFileIds, setSelectedFiles } = useFileSelection();
 
-  const activeStirlingFileStubs = useMemo(
-    () => selectors.getStirlingFileStubs(),
+  const activeScriptaFileStubs = useMemo(
+    () => selectors.getScriptaFileStubs(),
     [state.files.byId, state.files.ids],
   );
 
   // Stable callbacks read current stubs and selection without invalidating memoized thumbnails.
-  const stubsRef = useRef(activeStirlingFileStubs);
-  stubsRef.current = activeStirlingFileStubs;
+  const stubsRef = useRef(activeScriptaFileStubs);
+  stubsRef.current = activeScriptaFileStubs;
   const selectedFileIdsRef = useRef(selectedFileIds);
   selectedFileIdsRef.current = selectedFileIds;
 
@@ -109,7 +109,7 @@ const FileEditor = ({
         await addFiles(uploadedFiles, { selectFiles: true });
         if (Number.isFinite(maxAllowed)) {
           const nowSelectedIds = selectors
-            .getSelectedStirlingFileStubs()
+            .getSelectedScriptaFileStubs()
             .map((r) => r.id);
           if (nowSelectedIds.length > maxAllowed) {
             setSelectedFiles(nowSelectedIds.slice(-maxAllowed));
@@ -253,7 +253,7 @@ const FileEditor = ({
         });
         if (result.savedPath) {
           console.log("[FileEditor] Marking file as clean:", fileId);
-          fileActions.updateStirlingFileStub(fileId, {
+          fileActions.updateScriptaFileStub(fileId, {
             localFilePath: record.localFilePath ?? result.savedPath,
             isDirty: false,
           });
@@ -280,7 +280,7 @@ const FileEditor = ({
           );
 
           if (result.success && result.extractedStubs.length > 0) {
-            await fileActions.addStirlingFileStubs(result.extractedStubs);
+            await fileActions.addScriptaFileStubs(result.extractedStubs);
 
             removeFiles([fileId], false);
 
@@ -366,7 +366,7 @@ const FileEditor = ({
       <LoadingOverlay visible={state.ui.isProcessing} />
 
       <Box p="md">
-        {activeStirlingFileStubs.length === 0 ? (
+        {activeScriptaFileStubs.length === 0 ? (
           <Center h="60vh">
             <AddFileCard
               onFilesSelected={(files) => void handleFileUpload(files)}
@@ -382,20 +382,20 @@ const FileEditor = ({
               pointerEvents: "auto",
             }}
           >
-            {activeStirlingFileStubs.length > 0 && (
+            {activeScriptaFileStubs.length > 0 && (
               <AddFileCard
                 key="add-file-card"
                 onFilesSelected={(files) => void handleFileUpload(files)}
               />
             )}
 
-            {activeStirlingFileStubs.map((record, index) => {
+            {activeScriptaFileStubs.map((record, index) => {
               return (
                 <FileEditorThumbnail
                   key={record.id}
                   file={record}
                   index={index}
-                  totalFiles={activeStirlingFileStubs.length}
+                  totalFiles={activeScriptaFileStubs.length}
                   onCloseFile={handleCloseFile}
                   onViewFile={handleViewFile}
                   onReorderFiles={handleReorderFiles}

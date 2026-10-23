@@ -1,7 +1,7 @@
 import { NavKey } from "@app/components/shared/config/types";
 import { stripBasePath, withBasePath } from "@app/constants/app";
 
-const ORIGIN_KEY = "stirling.settingsOrigin";
+const ORIGIN_KEY = "scripta.settingsOrigin";
 
 /**
  * Record where the user is before they go to settings, so its Back control can

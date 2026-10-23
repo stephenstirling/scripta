@@ -36,20 +36,20 @@ export interface ProcessedFileMetadata {
 }
 
 /**
- * StirlingFileStub - Metadata record for files in the active workbench session
+ * ScriptaFileStub - Metadata record for files in the active workbench session
  *
  * Contains UI display data and processing state. Actual File objects stored
  * separately in refs for memory efficiency. Supports multi-tool workflows
  * where files persist across tool operations.
  */
 /**
- * StirlingFileStub - Runtime UI metadata for files in the active workbench session
+ * ScriptaFileStub - Runtime UI metadata for files in the active workbench session
  *
  * Contains UI display data and processing state. Actual File objects stored
  * separately in refs for memory efficiency. Supports multi-tool workflows
  * where files persist across tool operations.
  */
-export interface StirlingFileStub extends BaseFileMetadata {
+export interface ScriptaFileStub extends BaseFileMetadata {
   quickKey?: string; // Fast deduplication key: name|size|lastModified
   thumbnailUrl?: string; // Generated thumbnail blob URL for visual display
   blobUrl?: string; // File access blob URL for downloads/processing
@@ -106,7 +106,7 @@ export interface StirlingFileStub extends BaseFileMetadata {
 
 export interface FileContextNormalizedFiles {
   ids: FileId[];
-  byId: Record<FileId, StirlingFileStub>;
+  byId: Record<FileId, ScriptaFileStub>;
 }
 
 export function createFileId(): FileId {
@@ -120,13 +120,13 @@ export function createQuickKey(file: File): string {
 }
 
 // Scripta file with embedded UUID - replaces loose File + FileId parameter passing
-export interface StirlingFile extends File {
+export interface ScriptaFile extends File {
   readonly fileId: FileId;
   readonly quickKey: string; // Fast deduplication key: name|size|lastModified
 }
 
 // Type guard to check if a File object has an embedded fileId
-export function isStirlingFile(file: File | Blob): file is StirlingFile {
+export function isScriptaFile(file: File | Blob): file is ScriptaFile {
   const candidate = file as { fileId?: unknown; quickKey?: unknown };
   return (
     file instanceof File &&
@@ -149,8 +149,8 @@ export function getFormFillFileId(
 ): string | null {
   if (!file) return null;
 
-  if (isStirlingFile(file)) {
-    return `stirling-${file.fileId}-${file.quickKey}`;
+  if (isScriptaFile(file)) {
+    return `scripta-${file.fileId}-${file.quickKey}`;
   }
 
   if (file instanceof File) {
@@ -180,12 +180,12 @@ export function documentBytesReplaced(
   return previous.id === current.id && previous.key !== current.key;
 }
 
-// Create a StirlingFile from a regular File object
-export function createStirlingFile(file: File, id?: FileId): StirlingFile {
+// Create a ScriptaFile from a regular File object
+export function createScriptaFile(file: File, id?: FileId): ScriptaFile {
   // If the file already has Scripta metadata and we aren't trying to override it,
   // return as–is. When a new id is requested we clone the File so we can embed
   // the fresh identifier without mutating the original object.
-  if (isStirlingFile(file)) {
+  if (isScriptaFile(file)) {
     if (!id || file.fileId === id) {
       return file;
     }
@@ -215,21 +215,21 @@ export function createStirlingFile(file: File, id?: FileId): StirlingFile {
     configurable: false,
   });
 
-  return file as StirlingFile;
+  return file as ScriptaFile;
 }
 
-// Extract FileIds from StirlingFile array
-export function extractFileIds(files: StirlingFile[]): FileId[] {
+// Extract FileIds from ScriptaFile array
+export function extractFileIds(files: ScriptaFile[]): FileId[] {
   return files.map((file) => file.fileId);
 }
 
-// Extract regular File objects from StirlingFile array
-export function extractFiles(files: StirlingFile[]): File[] {
+// Extract regular File objects from ScriptaFile array
+export function extractFiles(files: ScriptaFile[]): File[] {
   return files;
 }
 
-// Check if an object is a File or StirlingFile (replaces instanceof File checks)
-export function isFileObject(obj: unknown): obj is File | StirlingFile {
+// Check if an object is a File or ScriptaFile (replaces instanceof File checks)
+export function isFileObject(obj: unknown): obj is File | ScriptaFile {
   const o = obj as {
     name?: unknown;
     size?: unknown;
@@ -247,12 +247,12 @@ export function isFileObject(obj: unknown): obj is File | StirlingFile {
   );
 }
 
-export function createNewStirlingFileStub(
+export function createNewScriptaFileStub(
   file: File,
   id?: FileId,
   thumbnail?: string,
   processedFileMetadata?: ProcessedFileMetadata,
-): StirlingFileStub {
+): ScriptaFileStub {
   const fileId = id || createFileId();
   return {
     id: fileId,
@@ -270,7 +270,7 @@ export function createNewStirlingFileStub(
   };
 }
 
-export function revokeFileResources(record: StirlingFileStub): void {
+export function revokeFileResources(record: ScriptaFileStub): void {
   // Only revoke blob: URLs to prevent errors on other schemes
   if (record.thumbnailUrl && record.thumbnailUrl.startsWith("blob:")) {
     try {
@@ -317,7 +317,7 @@ export interface FileContextState {
   // Core file management - lightweight file IDs only
   files: {
     ids: FileId[];
-    byId: Record<FileId, StirlingFileStub>;
+    byId: Record<FileId, ScriptaFileStub>;
   };
 
   // Pinned files - files that won't be consumed by tools
@@ -337,11 +337,11 @@ export interface FileContextState {
 // Action types for reducer pattern
 export type FileContextAction =
   // File management actions
-  | { type: "ADD_FILES"; payload: { stirlingFileStubs: StirlingFileStub[] } }
+  | { type: "ADD_FILES"; payload: { scriptaFileStubs: ScriptaFileStub[] } }
   | { type: "REMOVE_FILES"; payload: { fileIds: FileId[] } }
   | {
       type: "UPDATE_FILE_RECORD";
-      payload: { id: FileId; updates: Partial<StirlingFileStub> };
+      payload: { id: FileId; updates: Partial<ScriptaFileStub> };
     }
   | { type: "REORDER_FILES"; payload: { orderedFileIds: FileId[] } }
 
@@ -352,7 +352,7 @@ export type FileContextAction =
       type: "CONSUME_FILES";
       payload: {
         inputFileIds: FileId[];
-        outputStirlingFileStubs: StirlingFileStub[];
+        outputScriptaFileStubs: ScriptaFileStub[];
         /** Replace inputs in place without auto-selecting/reordering the outputs
          *  (background enforcement). Defaults to false — normal tool behaviour. */
         silent?: boolean;
@@ -361,7 +361,7 @@ export type FileContextAction =
   | {
       type: "UNDO_CONSUME_FILES";
       payload: {
-        inputStirlingFileStubs: StirlingFileStub[];
+        inputScriptaFileStubs: ScriptaFileStub[];
         outputFileIds: FileId[];
       };
     }
@@ -400,7 +400,7 @@ export interface FileContextActions {
        */
       derivedFromTool?: boolean;
     },
-  ) => Promise<StirlingFile[]>;
+  ) => Promise<ScriptaFile[]>;
   addFilesWithOptions: (
     files: File[],
     options?: {
@@ -416,18 +416,18 @@ export interface FileContextActions {
       allowDuplicates?: boolean;
       skipUploadTracking?: boolean;
     },
-  ) => Promise<StirlingFile[]>;
-  addStirlingFileStubs: (
-    stirlingFileStubs: StirlingFileStub[],
+  ) => Promise<ScriptaFile[]>;
+  addScriptaFileStubs: (
+    scriptaFileStubs: ScriptaFileStub[],
     options?: { insertAfterPageId?: string; selectFiles?: boolean },
-  ) => Promise<StirlingFile[]>;
+  ) => Promise<ScriptaFile[]>;
   removeFiles: (
     fileIds: FileId[],
     deleteFromStorage?: boolean,
   ) => Promise<void>;
-  updateStirlingFileStub: (
+  updateScriptaFileStub: (
     id: FileId,
-    updates: Partial<StirlingFileStub>,
+    updates: Partial<ScriptaFileStub>,
   ) => void;
   /** Something changed at these source locations; settle any open record
    *  that came from one of them. */
@@ -436,20 +436,20 @@ export interface FileContextActions {
   clearAllFiles: () => Promise<void>;
   clearAllData: () => Promise<void>;
 
-  // File pinning - accepts StirlingFile for safer type checking
-  pinFile: (file: StirlingFile) => void;
-  unpinFile: (file: StirlingFile) => void;
+  // File pinning - accepts ScriptaFile for safer type checking
+  pinFile: (file: ScriptaFile) => void;
+  unpinFile: (file: ScriptaFile) => void;
 
   // File consumption (replace unpinned files with outputs)
   consumeFiles: (
     inputFileIds: FileId[],
-    outputStirlingFiles: StirlingFile[],
-    outputStirlingFileStubs: StirlingFileStub[],
+    outputScriptaFiles: ScriptaFile[],
+    outputScriptaFileStubs: ScriptaFileStub[],
     options?: { silent?: boolean },
   ) => Promise<FileId[]>;
   undoConsumeFiles: (
     inputFiles: File[],
-    inputStirlingFileStubs: StirlingFileStub[],
+    inputScriptaFileStubs: ScriptaFileStub[],
     outputFileIds: FileId[],
   ) => Promise<void>;
   // Selection management
@@ -478,17 +478,17 @@ export interface FileContextActions {
 
 // File selectors (separate from actions to avoid re-renders)
 export interface FileContextSelectors {
-  getFile: (id: FileId) => StirlingFile | undefined;
-  getFiles: (ids?: FileId[]) => StirlingFile[];
-  getStirlingFileStub: (id: FileId) => StirlingFileStub | undefined;
-  getStirlingFileStubs: (ids?: FileId[]) => StirlingFileStub[];
+  getFile: (id: FileId) => ScriptaFile | undefined;
+  getFiles: (ids?: FileId[]) => ScriptaFile[];
+  getScriptaFileStub: (id: FileId) => ScriptaFileStub | undefined;
+  getScriptaFileStubs: (ids?: FileId[]) => ScriptaFileStub[];
   getAllFileIds: () => FileId[];
-  getSelectedFiles: () => StirlingFile[];
-  getSelectedStirlingFileStubs: () => StirlingFileStub[];
+  getSelectedFiles: () => ScriptaFile[];
+  getSelectedScriptaFileStubs: () => ScriptaFileStub[];
   getPinnedFileIds: () => FileId[];
-  getPinnedFiles: () => StirlingFile[];
-  getPinnedStirlingFileStubs: () => StirlingFileStub[];
-  isFilePinned: (file: StirlingFile) => boolean;
+  getPinnedFiles: () => ScriptaFile[];
+  getPinnedScriptaFileStubs: () => ScriptaFileStub[];
+  isFilePinned: (file: ScriptaFile) => boolean;
   getFilesSignature: () => string;
 }
 

@@ -111,7 +111,7 @@ function blobWithLostBackingStore(): Blob {
     );
   };
   return Object.assign(
-    new Blob(["%PDF-1.7 stirling"], { type: "application/pdf" }),
+    new Blob(["%PDF-1.7 scripta"], { type: "application/pdf" }),
     { slice: lost, arrayBuffer: lost, text: lost, stream: lost },
   );
 }
@@ -151,18 +151,18 @@ function loseBackingStoreOnRead(deadReads: number) {
  *  tests must not inherit it from each other. */
 async function freshFileStorage() {
   vi.resetModules();
-  const [{ fileStorage }, { createStirlingFile, createNewStirlingFileStub }] =
+  const [{ fileStorage }, { createScriptaFile, createNewScriptaFileStub }] =
     await Promise.all([
       import("@app/services/fileStorage"),
       import("@app/types/fileContext"),
     ]);
   const store = async (name: string) => {
-    const file = new File(["%PDF-1.7 stirling"], name, {
+    const file = new File(["%PDF-1.7 scripta"], name, {
       type: "application/pdf",
     });
-    const stub = createNewStirlingFileStub(file);
-    await fileStorage.storeStirlingFile(
-      createStirlingFile(file, stub.id),
+    const stub = createNewScriptaFileStub(file);
+    await fileStorage.storeScriptaFile(
+      createScriptaFile(file, stub.id),
       stub,
     );
     return stub.id;
@@ -223,11 +223,11 @@ describe("read-modify-write — a refused rewrite must not hang or vanish", () =
     await expect(
       fileStorage.markFileAsProcessed("nope" as never),
     ).resolves.toBe(false);
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe("rewrite.pdf");
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe("rewrite.pdf");
   });
 });
 
-describe("storeStirlingFile — blob-value fallback", () => {
+describe("storeScriptaFile — blob-value fallback", () => {
   test("stores the File by reference when the engine accepts blob values", async () => {
     const { fileStorage, store } = await freshFileStorage();
     instrumentAdd({ rejectBlobs: false });
@@ -235,7 +235,7 @@ describe("storeStirlingFile — blob-value fallback", () => {
     const id = await store("by-reference.pdf");
 
     expect(attempts).toEqual(["blob"]);
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe(
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe(
       "by-reference.pdf",
     );
   });
@@ -249,14 +249,14 @@ describe("storeStirlingFile — blob-value fallback", () => {
 
     expect(attempts).toEqual(["blob", "copy"]);
     // Readable back is what rehydration, thumbnails and backfill depend on.
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe("webkit.pdf");
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe("webkit.pdf");
   });
 
   test("falls back to a copy when a blob write never settles, without giving up on blobs", async () => {
     const { fileStorage, store } = await freshFileStorage();
     instrumentAdd({ rejectBlobs: false, stallBlobs: true });
     // Open the database on real timers; fake-indexeddb can't run under fake ones.
-    await fileStorage.getStirlingFile("warm-up" as never);
+    await fileStorage.getScriptaFile("warm-up" as never);
     vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
 
     const pending = store("stalled.pdf");
@@ -265,7 +265,7 @@ describe("storeStirlingFile — blob-value fallback", () => {
     const id = await pending;
 
     expect(attempts).toEqual(["blob", "copy"]);
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe("stalled.pdf");
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe("stalled.pdf");
     // A stall may only be queueing, so the next file still tries a blob.
     instrumentAdd({ rejectBlobs: false });
     attempts = [];
@@ -284,7 +284,7 @@ describe("storeStirlingFile — blob-value fallback", () => {
 
     // Straight to the copy path, and only the one warning expected above.
     expect(attempts).toEqual(["copy"]);
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe("second.pdf");
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe("second.pdf");
   });
 
   /** Committing is not evidence the bytes survived, and by the next reload the
@@ -301,7 +301,7 @@ describe("storeStirlingFile — blob-value fallback", () => {
     // Accepted as a blob, then rewritten from the file still in hand.
     expect(attempts).toEqual(["blob"]);
     expect(putAttempts).toEqual(["copy"]);
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe(
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe(
       "dead-on-arrival.pdf",
     );
     // Self-healed, so nothing to tell the user about.
@@ -334,7 +334,7 @@ describe("reads — a stored blob whose bytes are gone", () => {
     loseBackingStoreOnRead(5); // every read from here on
 
     // Not null, and not awaited on the probe: the caller is never blocked.
-    expect((await fileStorage.getStirlingFile(id))?.name).toBe("lost.pdf");
+    expect((await fileStorage.getScriptaFile(id))?.name).toBe("lost.pdf");
     await new Promise((resolve) => setTimeout(resolve));
 
     // Told once, not once per reader: every consumer of the file hits this record.
@@ -354,7 +354,7 @@ describe("reads — a stored blob whose bytes are gone", () => {
     instrumentAdd({ rejectBlobs: false });
     const id = await first.store("lost.pdf");
     loseBackingStoreOnRead(1);
-    expect(await first.fileStorage.getStirlingFile(id)).not.toBeNull();
+    expect(await first.fileStorage.getScriptaFile(id)).not.toBeNull();
     await new Promise((resolve) => setTimeout(resolve));
 
     // A new page load: a fresh service, same browser profile.
@@ -363,7 +363,7 @@ describe("reads — a stored blob whose bytes are gone", () => {
     const later = await next.store("after-reload.pdf");
 
     expect(attempts).toEqual(["copy"]);
-    expect((await next.fileStorage.getStirlingFile(later))?.name).toBe(
+    expect((await next.fileStorage.getScriptaFile(later))?.name).toBe(
       "after-reload.pdf",
     );
   });
@@ -376,7 +376,7 @@ describe("reads — a stored blob whose bytes are gone", () => {
     const first = await store("lost.pdf");
 
     loseBackingStoreOnRead(1);
-    expect(await fileStorage.getStirlingFile(first)).not.toBeNull();
+    expect(await fileStorage.getScriptaFile(first)).not.toBeNull();
     await new Promise((resolve) => setTimeout(resolve));
 
     // An engine that loses a blob it accepted can't be trusted with the next one,
@@ -384,7 +384,7 @@ describe("reads — a stored blob whose bytes are gone", () => {
     attempts = [];
     const second = await store("later.pdf");
     expect(attempts).toEqual(["copy"]);
-    expect((await fileStorage.getStirlingFile(second))?.name).toBe("later.pdf");
+    expect((await fileStorage.getScriptaFile(second))?.name).toBe("later.pdf");
   });
 });
 
@@ -392,19 +392,19 @@ describe("reads — a stored blob whose bytes are gone", () => {
  *  invisible (listings filter on isLeaf) and still holding their full bytes. */
 describe("orphanedAncestorIds", () => {
   const store = async (
-    fileStorage: { storeStirlingFile: (f: never, s: never) => Promise<void> },
+    fileStorage: { storeScriptaFile: (f: never, s: never) => Promise<void> },
     id: string,
     parentFileId: string | undefined,
     isLeaf: boolean,
   ) => {
-    const { createStirlingFile, createNewStirlingFileStub } =
+    const { createScriptaFile, createNewScriptaFileStub } =
       await import("@app/types/fileContext");
     const file = new File(["%PDF-1.7"], `${id}.pdf`, {
       type: "application/pdf",
     });
-    const base = createNewStirlingFileStub(file);
-    await fileStorage.storeStirlingFile(
-      createStirlingFile(file, id as never) as never,
+    const base = createNewScriptaFileStub(file);
+    await fileStorage.storeScriptaFile(
+      createScriptaFile(file, id as never) as never,
       { ...base, id, isLeaf, parentFileId, originalFileId: "v1" } as never,
     );
   };
@@ -458,13 +458,13 @@ describe("confirmed-unreadable records", () => {
 
     loseBackingStoreOnRead(5);
     // First read still hands the file over: the probe is out of band.
-    expect(await fileStorage.getStirlingFile(id)).not.toBeNull();
+    expect(await fileStorage.getScriptaFile(id)).not.toBeNull();
     await new Promise((resolve) => setTimeout(resolve));
 
     // The holder is told, so the workbench can drop it instead of spinning.
     expect(dropped).toEqual([id]);
     // And a second consumer never gets the same dead bytes.
-    expect(await fileStorage.getStirlingFile(id)).toBeNull();
+    expect(await fileStorage.getScriptaFile(id)).toBeNull();
 
     unsubscribe();
   });
@@ -492,7 +492,7 @@ function substituteHealthyBlobOnRead(reads: number) {
         remaining--;
         return {
           ...(value as object),
-          data: new Blob(["%PDF-1.7 stirling"], { type: "application/pdf" }),
+          data: new Blob(["%PDF-1.7 scripta"], { type: "application/pdf" }),
         };
       },
       set(target, prop, value) {
@@ -516,18 +516,18 @@ describe("stub listings — data-lost auditing", () => {
     loseBackingStoreOnRead(1);
     // First read schedules the out-of-band audit; unknown is not yet flagged.
     expect(
-      (await fileStorage.getStirlingFileStub(id))?.dataUnavailable,
+      (await fileStorage.getScriptaFileStub(id))?.dataUnavailable,
     ).toBeUndefined();
     await new Promise((resolve) => setTimeout(resolve));
 
-    expect((await fileStorage.getStirlingFileStub(id))?.dataUnavailable).toBe(
+    expect((await fileStorage.getScriptaFileStub(id))?.dataUnavailable).toBe(
       true,
     );
   });
 
   test("rescues a still-readable legacy blob to a copy on a no-blob browser", async () => {
     // The durable verdict says this browser loses blob values...
-    localStorage.setItem("stirling.indexeddb.blobValuesUnsupported", "true");
+    localStorage.setItem("scripta.indexeddb.blobValuesUnsupported", "true");
     const { fileStorage, store } = await freshFileStorage();
     instrumentAdd({ rejectBlobs: false });
     instrumentPut();
@@ -535,11 +535,11 @@ describe("stub listings — data-lost auditing", () => {
 
     // ...and a legacy record still holds a READABLE blob: save it while we can.
     substituteHealthyBlobOnRead(5);
-    await fileStorage.getStirlingFileStub(id);
+    await fileStorage.getScriptaFileStub(id);
     await vi.waitFor(() => expect(putAttempts).toContain("copy"));
     // Rescued, not condemned: the stub stays openable.
     expect(
-      (await fileStorage.getStirlingFileStub(id))?.dataUnavailable,
+      (await fileStorage.getScriptaFileStub(id))?.dataUnavailable,
     ).toBeUndefined();
   });
 });

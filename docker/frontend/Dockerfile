@@ -12,7 +12,7 @@ RUN npm ci
 COPY frontend .
 
 # Defaults match prior behaviour. Supabase values are client-publishable build args.
-ARG STIRLING_FLAVOR=core
+ARG SCRIPTA_FLAVOR=core
 ARG VITE_BUILD_MODE=production
 # Include the processor (admin portal) route/chunk; false drops /processor and
 # the processor's settings sections from the built app.
@@ -23,7 +23,7 @@ ARG VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=""
 
 # Build vite from editor/, output lands in editor/dist/.
 RUN set -eu; \
-    export STIRLING_FLAVOR="${STIRLING_FLAVOR}"; \
+    export SCRIPTA_FLAVOR="${SCRIPTA_FLAVOR}"; \
     if [ -n "${VITE_SUPABASE_URL}" ]; then export VITE_SUPABASE_URL="${VITE_SUPABASE_URL}"; fi; \
     if [ -n "${VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY}" ]; then export VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY="${VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY}"; fi; \
     npx vite build editor --mode "${VITE_BUILD_MODE}"

@@ -613,18 +613,18 @@ label = "Omejitev sej"
 description = "Najdaljši čas izvajanja"
 label = "Časovna omejitev (minute)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert je v različici beta. Omogoča boljše pretvorbe, hitreje in z manj pomnilnika kot LibreOffice."
-label = "Uporabi novo pretvorbo Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Scripta Office Convert je v različici beta. Omogoča boljše pretvorbe, hitreje in z manj pomnilnika kot LibreOffice."
+label = "Uporabi novo pretvorbo Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Konfigurirajte shranjevanje in vedenje čiščenja začasnih datotek"
 label = "Upravljanje začasnih datotek"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Osnovni imenik za začasne datoteke (pustite prazno za privzeto: java.io.tmpdir/stirling-pdf)"
+description = "Osnovni imenik za začasne datoteke (pustite prazno za privzeto: java.io.tmpdir/scripta)"
 label = "Osnovni imenik za začasne datoteke"
-placeholder = "Privzeto: java.io.tmpdir/stirling-pdf"
+placeholder = "Privzeto: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Kako pogosto se izvaja čiščenje (v minutah)"
@@ -683,8 +683,8 @@ permissionNotice = "Pot tessdata ni zapisljiva. Prenosi se bodo odprli v brskaln
 [admin.settings.ai]
 customProvider = "Po meri (združljivo z OpenAI)"
 description = "Povežite Scripta z mehanizmom Python AI, izberite njegove modele in nastavite varovalke, pod katerimi se izvaja."
-managedByCloud = "V tem načinu upravlja Stirling Cloud."
-managedByCloudShort = "Upravlja Stirling Cloud"
+managedByCloud = "V tem načinu upravlja Scripta Cloud."
+managedByCloudShort = "Upravlja Scripta Cloud"
 
 [admin.settings.ai.documents]
 description = "Konfigurirajte model za vdelave in nastavitve pridobivanja, ki se uporabljajo za odgovarjanje na vprašanja o dokumentih. Ob shranjevanju se uporabi za AI pogon."
@@ -735,16 +735,16 @@ description = "Vklopite ali izklopite posamezne AI funkcije. Onemogočene funkci
 title = "Zmožnosti"
 
 [admin.settings.ai.general.cloud]
-note = "Modele in ključe ponudnikov upravlja Stirling Cloud, zato te nastavitve v tem načinu ne veljajo."
+note = "Modele in ključe ponudnikov upravlja Scripta Cloud, zato te nastavitve v tem načinu ne veljajo."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Vsako orodje AI pošlje besedilo strani, ki ga potrebuje za odgovor. To določa, ali sme Stirling Cloud to besedilo tudi hraniti indeksirano, da lahko poznejša vprašanja iščejo po dokumentu."
+description = "Vsako orodje AI pošlje besedilo strani, ki ga potrebuje za odgovor. To določa, ali sme Scripta Cloud to besedilo tudi hraniti indeksirano, da lahko poznejša vprašanja iščejo po dokumentu."
 help = "Izklopljeno pomeni, da vprašanja o dokumentih niso na voljo. To ne prepreči pošiljanja besedila – samo shranjevanje."
-label = "Dovoli Stirling Cloud hranjenje indeksiranih dokumentov"
+label = "Dovoli Scripta Cloud hranjenje indeksiranih dokumentov"
 
 [admin.settings.ai.general.cloudNote]
-body = "Sklepanje se izvaja na infrastrukturi Scripta in se zaračuna računu, s katerim je ta strežnik povezan. Tukaj ni vsebnika za zagon in ni ključa ponudnika za hrambo. Vse, kar AI prebere, obdela Stirling Cloud in ne vaša lastna strojna oprema."
-title = "O Stirling Cloud AI"
+body = "Sklepanje se izvaja na infrastrukturi Scripta in se zaračuna računu, s katerim je ta strežnik povezan. Tukaj ni vsebnika za zagon in ni ključa ponudnika za hrambo. Vse, kar AI prebere, obdela Scripta Cloud in ne vaša lastna strojna oprema."
+title = "O Scripta Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Glavno stikalo. Ko je izklopljeno, niso na voljo nobena AI orodja, agenti ali klici pogona."
@@ -782,11 +782,11 @@ label = "Časovna omejitev dolgotrajnih opravil (sekunde)"
 label = "Kje se izvaja AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Brez vsebnika, brez ključa ponudnika, brez izbire modela – delo se izvaja v Stirling Cloud in se zaračuna računu, s katerim je ta strežnik povezan."
+description = "Brez vsebnika, brez ključa ponudnika, brez izbire modela – delo se izvaja v Scripta Cloud in se zaračuna računu, s katerim je ta strežnik povezan."
 linkCta = "Povežite ta strežnik z računom Scripta"
 notLinked = "Najprej povežite račun"
 ownerOnly = "Samo lastnik organizacije lahko poveže ta strežnik z računom Scripta."
-title = "Uporabi Stirling Cloud AI"
+title = "Uporabi Scripta Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Orodij AI ni nikjer v aplikaciji in nič ne zapusti tega strežnika."
@@ -818,7 +818,7 @@ description = "Časovna omejitev za standardne AI zahteve do pogona."
 label = "Časovna omejitev zahteve (sekunde)"
 
 [admin.settings.ai.general.url]
-description = "Interni URL Python AI pogona, npr. http://stirling-pdf-engine:5001."
+description = "Interni URL Python AI pogona, npr. http://scripta-engine:5001."
 label = "URL AI pogona"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "URL mehanizma"
 hostDown = "Nedosegljivo"
 hostLabel = "Stirling.com"
 hostUp = "Dosegljivo"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "Deljenje AI"
 sharingOff = "Onemogočeno"
 sharingOn = "Omogočeno"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud je odgovoril, vendar je zavrnil ta strežnik. Povezava računa je bila morda preklicana."
-title = "Stirling Cloud zavrača ta strežnik"
+body = "Scripta Cloud je odgovoril, vendar je zavrnil ta strežnik. Povezava računa je bila morda preklicana."
+title = "Scripta Cloud zavrača ta strežnik"
 
 [admin.settings.ai.status.cloud.down]
-body = "Ta strežnik ni mogel doseči Stirling Cloud. Preverite povezavo računa in ali lahko ta strežnik dostopa do interneta."
-title = "Stirling Cloud ni dosegljiv"
+body = "Ta strežnik ni mogel doseči Scripta Cloud. Preverite povezavo računa in ali lahko ta strežnik dostopa do interneta."
+title = "Scripta Cloud ni dosegljiv"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud je sprejel ta strežnik. Tukaj ni ničesar za zagon ali popravljanje."
-title = "Izvaja se v Stirling Cloud"
+body = "Scripta Cloud je sprejel ta strežnik. Tukaj ni ničesar za zagon ali popravljanje."
+title = "Izvaja se v Scripta Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Odgovoril je na preverjanje stanja, vendar je zavrnil pravi zahtevek. Obe strani uporabljata različni deljeni skrivnosti."
@@ -1425,7 +1425,7 @@ label = "Uporabniško ime SMTP"
 
 [admin.settings.mcp]
 apikeyNote = "Odjemalci pošljejo Scripta API ključ v glavi X-API-KEY (ali Authorization: Bearer <key>). Ključ se preslika na lastnika, uporabnika Scripta - dostop dobijo samo pripravljeni računi, dejanja pa se revidirajo kot ta uporabnik. Ključe upravljajte pod Račun > API ključi."
-description = "Izpostavite Stirlingova orodja PDF in agente AI odjemalcem MCP prek končne točke, zaščitene z OAuth."
+description = "Izpostavite Scriptaova orodja PDF in agente AI odjemalcem MCP prek končne točke, zaščitene z OAuth."
 title = "MCP strežnik"
 
 [admin.settings.mcp.acceptedAudiences]
@@ -1885,7 +1885,7 @@ wrapUp = "To je konec skrbniškega ogleda! Videli ste enterprise funkcije, zarad
 title = "Nastavitve uporabniškega nadzora"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabska"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Najprej izberite izvorni format"
 settings = "Nastavitve"
 single = "Posamezna"
 sourceFormatPlaceholder = "Izvorni format"
-stirlingOfficeConvert = "Uporabi Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Boljše in hitrejše pretvorbe z manj pomnilnika. Izklopite, da uporabite standardni pretvornik."
+scriptaOfficeConvert = "Uporabi Scripta Office Convert (beta)"
+scriptaOfficeConvertDescription = "Boljše in hitrejše pretvorbe z manj pomnilnika. Izklopite, da uporabite standardni pretvornik."
 strictMode = "Strogi način"
 strictModeDesc = "Napaka, če pretvorba ni popolna (uporablja preverjanje VeraPDF)"
 svgPdfOptions = "Možnosti SVG v PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Pregled načrta"
 [onboarding.processorIntro]
 body = "Scripta zdaj izvaja <strong>Pravila</strong> — avtomatizirana pravila, ki razvrstijo, zaščitijo in obdelajo vsak dokument ob prihodu. Nastavite jih in spremljajte izvajanja v <strong>Processor</strong>."
 cta = "Oglejte si Processor"
-title = "Oglejte si Stirling Processor"
+title = "Oglejte si Scripta Processor"
 
 [onboarding.securityCheck]
 message = "Aplikacija je nedavno doživela pomembne spremembe. Morda bo potrebna pozornost skrbnika strežnika. Za nadaljevanje potrdite svojo vlogo."
@@ -5359,9 +5359,9 @@ roleUser = "Uporabnik"
 title = "Varnostno preverjanje"
 
 [onboarding.serverLicense]
-freeBody = "Naša licenca <strong>Open-Core</strong> vključuje <strong>OAuth SSO</strong> in do <strong>{{freeTierLimit}}</strong> uporabnikov brezplačno. Za nemoteno rast priporočamo paket Stirling Team — <strong>100 uporabnikov</strong> za 99 USD/mesec."
+freeBody = "Naša licenca <strong>Open-Core</strong> vključuje <strong>OAuth SSO</strong> in do <strong>{{freeTierLimit}}</strong> uporabnikov brezplačno. Za nemoteno rast priporočamo paket Scripta Team — <strong>100 uporabnikov</strong> za 99 USD/mesec."
 freeTitle = "Paket Team"
-overLimitBody = "Naše licenciranje omogoča do <strong>{{freeTierLimit}}</strong> uporabnikov brezplačno. Imate <strong>{{overLimitUserCopy}}</strong> uporabnikov Scripta. Za nadaljevanje brez prekinitev nadgradite na paket Stirling Team - <strong>100 uporabnikov</strong>, urejanje besedila PDF in popoln skrbniški nadzor za $99/mesec."
+overLimitBody = "Naše licenciranje omogoča do <strong>{{freeTierLimit}}</strong> uporabnikov brezplačno. Imate <strong>{{overLimitUserCopy}}</strong> uporabnikov Scripta. Za nadaljevanje brez prekinitev nadgradite na paket Scripta Team - <strong>100 uporabnikov</strong>, urejanje besedila PDF in popoln skrbniški nadzor za $99/mesec."
 overLimitTitle = "Potreben je paket Team"
 seePlans = "Poglej načrte →"
 upgrade = "Nadgradi zdaj →"
@@ -6918,7 +6918,7 @@ label = "Glave"
 
 [portal.policies.operations.fields.index]
 label = "Indeks"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Ključ zadeve"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Uporabniško ime Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Obvesti prostor, da je pravilnik obdelal dokument."
@@ -7192,7 +7192,7 @@ secretNote = "Podpisna skrivnost je prikazana enkrat, ko je webhook ustvarjen. �
 copy = "Kopiraj"
 done = "Končano"
 secret = "Podpisna skrivnost"
-secretHelp = "Podpišite surovo telo vsake dostave s tem ključem (HMAC-SHA256) in ga pošljite kot glavo X-Stirling-Signature."
+secretHelp = "Podpišite surovo telo vsake dostave s tem ključem (HMAC-SHA256) in ga pošljite kot glavo X-Scripta-Signature."
 secretWarning = "Zdaj kopirajte podpisno skrivnost. Zaradi vaše varnosti je prikazana samo enkrat in je pozneje ni mogoče pridobiti."
 title = "Webhook ustvarjen"
 url = "URL za dostavo"
@@ -8047,7 +8047,7 @@ storageSharing = "Shramba datotek in skupna raba"
 systemSettings = "Sistemske nastavitve"
 
 [settings.connectedInstances]
-confirmBody = "S tem prekličete dostop instance do vaše ekipe v Stirling Cloud. To ne izbriše lokalnih datotek niti ne odstrani že zabeležene porabe. Za ponovno povezavo sledite prvotnim korakom povezave na instanci."
+confirmBody = "S tem prekličete dostop instance do vaše ekipe v Scripta Cloud. To ne izbriše lokalnih datotek niti ne odstrani že zabeležene porabe. Za ponovno povezavo sledite prvotnim korakom povezave na instanci."
 confirmTitle = "Odstraniti {{name}}?"
 connectedAt = "Povezano: {{date}}"
 connectedDate = "Povezano"
@@ -8091,7 +8091,7 @@ user = "Prijavljeni kot"
 
 [settings.connection.mode]
 local = "Samo lokalno"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Samogostovano"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Spremljanje"
 [settings.planBilling]
 currentPlan = "Trenutni načrt"
 loading = "Nalaganje podatkov o zaračunavanju ..."
-notAvailable = "Načrt in zaračunavanje sta na voljo le ob povezavi s Stirling Cloud (način SaaS)."
+notAvailable = "Načrt in zaračunavanje sta na voljo le ob povezavi s Scripta Cloud (način SaaS)."
 title = "Načrt in zaračunavanje"
 
 [settings.planBilling.billing]

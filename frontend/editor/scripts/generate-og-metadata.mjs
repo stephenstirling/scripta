@@ -206,7 +206,7 @@ const TOOL_SEO_TITLES = {
 // marketing landing routes prerendered so their links unfurl with bespoke art.
 const SAAS_DEFAULT = {
   image: "/og_images/saas/app.png",
-  title: "Stirling - Edit any PDF. Govern every PDF.",
+  title: "Scripta - Edit any PDF. Govern every PDF.",
   ogTitle: "Edit any PDF. Govern every PDF.",
   description:
     "The free, open-source PDF Editor, plus a Processor that governs every PDF your organization touches. 1¢ per PDF.",
@@ -214,7 +214,7 @@ const SAAS_DEFAULT = {
 const SAAS_ROUTE_OVERRIDES = {
   "/processor": {
     image: "/og_images/saas/app-processor.png",
-    title: "Stirling Processor - Govern every PDF your organization touches",
+    title: "Scripta Processor - Govern every PDF your organization touches",
     ogTitle: "Govern every PDF your organization touches",
     description:
       "Redaction, retention, and encryption policies enforced everywhere PDFs enter your org. Distribute the free Editor anywhere. 1¢ per PDF.",
@@ -223,7 +223,7 @@ const SAAS_ROUTE_OVERRIDES = {
   },
   "/editor": {
     image: "/og_images/saas/app-editor.png",
-    title: "Stirling - The world's most secure PDF editor",
+    title: "Scripta - The world's most secure PDF editor",
     ogTitle: "The world's most secure PDF editor",
     description:
       "Edit, sign, redact, and convert PDFs in your browser. Free forever, open source, and self-hostable.",

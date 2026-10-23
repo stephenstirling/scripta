@@ -18,7 +18,7 @@ const DOCS: SearchDoc[] = [
     id: "docker",
     title: "Docker Install",
     sectionLabel: "Installation",
-    text: "Run Stirling with docker compose up to start the container.",
+    text: "Run Scripta with docker compose up to start the container.",
   },
   {
     id: "ranky",

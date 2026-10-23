@@ -27,9 +27,9 @@ import {
   FileContextActionsValue,
   FileContextActions,
   FileId,
-  StirlingFileStub,
-  StirlingFile,
-  createStirlingFile,
+  ScriptaFileStub,
+  ScriptaFile,
+  createScriptaFile,
 } from "@app/types/fileContext";
 
 // Import modular components
@@ -41,7 +41,7 @@ import {
 import { createFileSelectors } from "@app/contexts/file/fileSelectors";
 import {
   addFiles,
-  addStirlingFileStubs,
+  addScriptaFileStubs,
   reconcileOpenFilesAt,
   consumeFiles,
   undoConsumeFiles,
@@ -274,9 +274,9 @@ function FileContextInner({
     dispatch({ type: "SET_UNSAVED_CHANGES", payload: { hasChanges } });
   }, []);
 
-  const selectFiles = (stirlingFiles: StirlingFile[]) => {
+  const selectFiles = (scriptaFiles: ScriptaFile[]) => {
     const currentSelection = stateRef.current.ui.selectedFileIds;
-    const newFileIds = stirlingFiles.map((stirlingFile) => stirlingFile.fileId);
+    const newFileIds = scriptaFiles.map((scriptaFile) => scriptaFile.fileId);
     dispatch({
       type: "SET_SELECTED_FILES",
       payload: { fileIds: [...currentSelection, ...newFileIds] },
@@ -300,15 +300,15 @@ function FileContextInner({
         /** Classification computed outside the policy system (see AddFileOptions). */
         presetClassification?: {
           labels: string[];
-          confidence: StirlingFileStub["classificationConfidence"];
+          confidence: ScriptaFileStub["classificationConfidence"];
         };
         /** Bytes and stub only, no thumbnail parse (see AddFileOptions). */
         skipMetadataHydration?: boolean;
         /** An editor owns the prompt; encrypted library bytes still hold policies. */
         skipAutomaticPasswordPrompt?: boolean;
       },
-    ): Promise<StirlingFile[]> => {
-      const stirlingFiles = await addFiles(
+    ): Promise<ScriptaFile[]> => {
+      const scriptaFiles = await addFiles(
         {
           files,
           ...options,
@@ -325,7 +325,7 @@ function FileContextInner({
             options?.skipAutomaticPasswordPrompt &&
             action.type === "ADD_FILES"
           ) {
-            const encrypted = action.payload.stirlingFileStubs.filter(
+            const encrypted = action.payload.scriptaFileStubs.filter(
               (stub) => stub.processedFile?.isEncrypted,
             );
             for (const stub of encrypted) {
@@ -341,14 +341,14 @@ function FileContextInner({
       );
 
       // Auto-select the newly added files if requested
-      if (options?.selectFiles && stirlingFiles.length > 0) {
-        selectFiles(stirlingFiles);
+      if (options?.selectFiles && scriptaFiles.length > 0) {
+        selectFiles(scriptaFiles);
       }
-      if (stirlingFiles.length > 0) {
+      if (scriptaFiles.length > 0) {
         indexedDB?.bumpRevision?.();
       }
 
-      return stirlingFiles;
+      return scriptaFiles;
     },
     [enablePersistence, requestConfirmation, indexedDB],
   );
@@ -369,8 +369,8 @@ function FileContextInner({
         allowDuplicates?: boolean;
         skipUploadTracking?: boolean;
       },
-    ): Promise<StirlingFile[]> => {
-      const stirlingFiles = await addFiles(
+    ): Promise<ScriptaFile[]> => {
+      const scriptaFiles = await addFiles(
         {
           files,
           ...options,
@@ -382,27 +382,27 @@ function FileContextInner({
         enablePersistence,
       );
 
-      if (options?.selectFiles && stirlingFiles.length > 0) {
-        selectFiles(stirlingFiles);
+      if (options?.selectFiles && scriptaFiles.length > 0) {
+        selectFiles(scriptaFiles);
       }
 
-      if (stirlingFiles.length > 0) {
+      if (scriptaFiles.length > 0) {
         indexedDB?.bumpRevision?.();
       }
 
-      return stirlingFiles;
+      return scriptaFiles;
     },
     [enablePersistence, indexedDB],
   );
 
-  const addStirlingFileStubsAction = useCallback(
+  const addScriptaFileStubsAction = useCallback(
     async (
-      stirlingFileStubs: StirlingFileStub[],
+      scriptaFileStubs: ScriptaFileStub[],
       options?: { insertAfterPageId?: string; selectFiles?: boolean },
-    ): Promise<StirlingFile[]> => {
-      // StirlingFileStubs preserve all metadata - perfect for FileManager use case!
-      const result = await addStirlingFileStubs(
-        stirlingFileStubs,
+    ): Promise<ScriptaFile[]> => {
+      // ScriptaFileStubs preserve all metadata - perfect for FileManager use case!
+      const result = await addScriptaFileStubs(
+        scriptaFileStubs,
         options,
         stateRef,
         filesRef,
@@ -433,14 +433,14 @@ function FileContextInner({
   const consumeFilesWrapper = useCallback(
     async (
       inputFileIds: FileId[],
-      outputStirlingFiles: StirlingFile[],
-      outputStirlingFileStubs: StirlingFileStub[],
+      outputScriptaFiles: ScriptaFile[],
+      outputScriptaFileStubs: ScriptaFileStub[],
       options?: { silent?: boolean },
     ): Promise<FileId[]> => {
       return consumeFiles(
         inputFileIds,
-        outputStirlingFiles,
-        outputStirlingFileStubs,
+        outputScriptaFiles,
+        outputScriptaFileStubs,
         filesRef,
         dispatch,
         options,
@@ -502,12 +502,12 @@ function FileContextInner({
         thumbnail,
         processedMetadata,
       );
-      const stirlingUnlockedFile = createStirlingFile(
+      const scriptaUnlockedFile = createScriptaFile(
         unlockedFile,
         childStub.id,
       );
 
-      await consumeFilesWrapper([fileId], [stirlingUnlockedFile], [childStub]);
+      await consumeFilesWrapper([fileId], [scriptaUnlockedFile], [childStub]);
 
       // The modal is the remove-password tool by another door, so it resolves the same.
       continueResolutions({
@@ -639,12 +639,12 @@ function FileContextInner({
   const undoConsumeFilesWrapper = useCallback(
     async (
       inputFiles: File[],
-      inputStirlingFileStubs: StirlingFileStub[],
+      inputScriptaFileStubs: ScriptaFileStub[],
       outputFileIds: FileId[],
     ): Promise<void> => {
       return undoConsumeFiles(
         inputFiles,
-        inputStirlingFileStubs,
+        inputScriptaFileStubs,
         outputFileIds,
         filesRef,
         dispatch,
@@ -654,16 +654,16 @@ function FileContextInner({
     [indexedDB],
   );
 
-  // File pinning functions - use StirlingFile directly
+  // File pinning functions - use ScriptaFile directly
   const pinFileWrapper = useCallback(
-    (file: StirlingFile) => {
+    (file: ScriptaFile) => {
       baseActions.pinFile(file.fileId);
     },
     [baseActions],
   );
 
   const unpinFileWrapper = useCallback(
-    (file: StirlingFile) => {
+    (file: ScriptaFile) => {
       baseActions.unpinFile(file.fileId);
     },
     [baseActions],
@@ -675,7 +675,7 @@ function FileContextInner({
       ...baseActions,
       addFiles: addRawFiles,
       addFilesWithOptions,
-      addStirlingFileStubs: addStirlingFileStubsAction,
+      addScriptaFileStubs: addScriptaFileStubsAction,
       reconcileOpenFiles: reconcileOpenFilesAction,
       removeFiles: async (fileIds: FileId[], deleteFromStorage?: boolean) => {
         // Remove from memory and cleanup resources
@@ -696,10 +696,10 @@ function FileContextInner({
           }
         }
       },
-      updateStirlingFileStub: (
+      updateScriptaFileStub: (
         fileId: FileId,
-        updates: Partial<StirlingFileStub>,
-      ) => lifecycleManager.updateStirlingFileStub(fileId, updates, stateRef),
+        updates: Partial<ScriptaFileStub>,
+      ) => lifecycleManager.updateScriptaFileStub(fileId, updates, stateRef),
       reorderFiles: (orderedFileIds: FileId[]) => {
         dispatch({ type: "REORDER_FILES", payload: { orderedFileIds } });
       },
@@ -742,7 +742,7 @@ function FileContextInner({
     [
       baseActions,
       addRawFiles,
-      addStirlingFileStubsAction,
+      addScriptaFileStubsAction,
       reconcileOpenFilesAction,
       lifecycleManager,
       setHasUnsavedChanges,
@@ -882,7 +882,7 @@ export {
   useFileSelection,
   useFileManagement,
   useFileUI,
-  useStirlingFileStub,
+  useScriptaFileStub,
   useAllFiles,
   useSelectedFiles,
   // Primary API hooks for tools

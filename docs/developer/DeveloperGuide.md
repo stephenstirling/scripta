@@ -2,13 +2,13 @@
 
 ## 1. Introduction
 
-Scripta is a robust, locally hosted, web-based PDF manipulation tool. **Stirling 2.0** represents a complete frontend rewrite with a modern React SPA (Single Page Application).
+Scripta is a robust, locally hosted, web-based PDF manipulation tool. **Scripta 2.0** represents a complete frontend rewrite with a modern React SPA (Single Page Application).
 
-This guide focuses on developing for Stirling 2.0, including both the React frontend and Spring Boot backend development workflows.
+This guide focuses on developing for Scripta 2.0, including both the React frontend and Spring Boot backend development workflows.
 
 ## 2. Project Overview
 
-**Stirling 2.0** is built using:
+**Scripta 2.0** is built using:
 
 **Backend:**
 - Spring Boot (requires JDK 25)
@@ -68,7 +68,7 @@ These are not required to run the app but enable specific features. The app dete
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Stirling-Tools/Stirling-PDF.git
+   git clone https://github.com/stephenstirling/scripta.git
    cd Scripta
    ```
 
@@ -92,14 +92,14 @@ Visit the [Lombok website](https://projectlombok.org/setup/) for installation in
 
 5. Add environment variable
 For local testing, you should generally be testing the full 'Security' version of Scripta. To do this, you must add the environment flag DISABLE_ADDITIONAL_FEATURES=false to your system and/or IDE build/run step.
-6. **Frontend Setup (Required for Stirling 2.0)**
+6. **Frontend Setup (Required for Scripta 2.0)**
    Navigate to the frontend directory and install dependencies using npm.
 
 ### Verify Setup
 
 Run `task install` to install all project dependencies (frontend npm packages, engine Python packages). Gradle manages its own dependencies automatically. Then run `task check` to verify everything builds and passes.
 
-## 4. Stirling 2.0 Development Workflow
+## 4. Scripta 2.0 Development Workflow
 
 ### Using Taskfile (Recommended)
 
@@ -121,7 +121,7 @@ The frontend is a React SPA that runs independently during development:
 3. **Development flow**: The Vite dev server automatically proxies API calls to the backend
 
 ### File Storage Architecture
-Stirling 2.0 uses client-side file storage:
+Scripta 2.0 uses client-side file storage:
 - **IndexedDB**: Stores files locally in the browser with automatic thumbnail generation
 - **PDF.js**: Handles client-side PDF rendering and processing
 - **URL Parameters**: Support for deep linking and tool state persistence
@@ -138,8 +138,8 @@ See [the frontend README](../../frontend/README.md#tauri) for detailed build ins
 ```bash
 Scripta/
 ├── .github/               # GitHub-specific files (workflows, issue templates)
-├── configs/               # Configuration files used by stirling at runtime (generated at runtime)
-├── frontend/              # Frontend workspace (Stirling 2.0)
+├── configs/               # Configuration files used by scripta at runtime (generated at runtime)
+├── frontend/              # Frontend workspace (Scripta 2.0)
 │   ├── editor/            # PDF editor app (the original React SPA)
 │   │   ├── src/
 │   │   │   ├── components/    # React components
@@ -168,7 +168,7 @@ Scripta/
 ├── src/                   # Source code
 │   ├── main/
 │   │   ├── java/
-│   │   │   └── stirling/
+│   │   │   └── scripta/
 │   │   │       └── software/
 │   │   │           └── SPDF/
 │   │   │               ├── config/
@@ -213,9 +213,9 @@ These files provide pre-configured setups for different scenarios. For example, 
 
 ```yaml
 services:
-  stirling-pdf:
+  scripta:
     container_name: Scripta-Security
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    image: docker.stirlingpdf.com/stirlingtools/scripta:latest
     deploy:
       resources:
         limits:
@@ -228,9 +228,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./stirling/latest/data:/usr/share/tessdata:rw
-      - ./stirling/latest/config:/configs:rw
-      - ./stirling/latest/logs:/logs:rw
+      - ./scripta/latest/data:/usr/share/tessdata:rw
+      - ./scripta/latest/config:/configs:rw
+      - ./scripta/latest/logs:/logs:rw
     environment:
       DISABLE_ADDITIONAL_FEATURES: "false"
       SECURITY_ENABLELOGIN: "true"
@@ -289,20 +289,20 @@ Scripta uses different Docker images for various configurations. The build proce
    For the latest version:
 
    ```bash
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/stirling-pdf:latest -f ./Dockerfile .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest -f ./Dockerfile .
    ```
 
    For the ultra-lite version:
 
    ```bash
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/stirling-pdf:latest-ultra-lite -f ./Dockerfile.ultra-lite .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest-ultra-lite -f ./Dockerfile.ultra-lite .
    ```
 
    For the fat version (with login and security features enabled):
 
    ```bash
    export DISABLE_ADDITIONAL_FEATURES=false
-   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/stirling-pdf:latest-fat -f ./Dockerfile.fat .
+   docker build --no-cache --pull --build-arg VERSION_TAG=alpha -t stirlingtools/scripta:latest-fat -f ./Dockerfile.fat .
    ```
 
 Note: The `--no-cache` and `--pull` flags ensure that the build process uses the latest base images and doesn't use cached layers, which is useful for testing and ensuring reproducible builds. However, to improve build times these can often be removed depending on your use case
@@ -342,7 +342,7 @@ Note: The `test.sh` script will run automatically when you raise a PR. However, 
 
 2. Access the application at `http://localhost:8080` and manually test all features developed.
 
-### Frontend Development Testing (Stirling 2.0)
+### Frontend Development Testing (Scripta 2.0)
 
 For React frontend development:
 
@@ -396,7 +396,7 @@ Important notes:
 
 6. Push your changes to your fork.
 7. Submit a pull request to the main repository.
-8. See additional [contributing guidelines](https://github.com/Stirling-Tools/Stirling-PDF/blob/main/.github/CONTRIBUTING.md).
+8. See additional [contributing guidelines](https://github.com/stephenstirling/scripta/blob/main/.github/CONTRIBUTING.md).
 
 When you raise a PR:
 
@@ -409,7 +409,7 @@ Address any issues that arise from these checks before finalizing your pull requ
 
 ## 9. API Documentation
 
-API documentation is available at `/swagger-ui/index.html` when running the application. You can also view the latest API documentation [here](https://app.swaggerhub.com/apis-docs/Stirling-Tools/Stirling-PDF/).
+API documentation is available at `/swagger-ui/index.html` when running the application. You can also view the latest API documentation [here](https://github.com/stephenstirling/scripta).
 
 ## 10. Customization
 
@@ -425,7 +425,7 @@ When using Docker, pass environment variables using the `-e` flag or in your `do
 Example:
 
 ```bash
-docker run -p 8080:8080 -e APP_NAME="My PDF Tool" stirling-pdf:full
+docker run -p 8080:8080 -e APP_NAME="My PDF Tool" scripta:full
 ```
 
 Refer to the main README for a full list of customization options.
@@ -450,9 +450,9 @@ Remember to test your changes thoroughly to ensure they don't break any existing
 
 ## Code examples
 
-### React Component Development (Stirling 2.0)
+### React Component Development (Scripta 2.0)
 
-For Stirling 2.0, new features are built as React components:
+For Scripta 2.0, new features are built as React components:
 
 #### Creating a New Tool Component
 
@@ -502,13 +502,13 @@ For Stirling 2.0, new features are built as React components:
 ### Adding a New Feature to the Backend (API)
 
 1. **Create a New Controller:**
-   - Create a new Java class in the `stirling-pdf/src/main/java/stirling/software/SPDF/controller/api` directory.
+   - Create a new Java class in the `scripta/src/main/java/scripta/software/core/controller/api` directory.
    - Annotate the class with `@RestController` and `@RequestMapping` to define the API endpoint.
    - Ensure to add API documentation annotations like `@Tag(name = "General", description = "General APIs")` and `@Operation(summary = "Crops a PDF document", description = "This operation takes an input PDF file and crops it according to the given coordinates.")`.
    - If the endpoint transforms a document, declare what it accepts and produces with `@ToolIO`, for example `@ToolIO(produces = ToolFormat.PDF)`. This is what lets a pipeline containing the step be checked before it runs, so a chain that cannot work is caught in the builder rather than part-way through a job. Endpoints under the tool namespaces are required to carry it - `ToolIODeclarationCoverageTest` fails the build otherwise. See [Declaring tool inputs and outputs](#declaring-tool-inputs-and-outputs).
 
    ```java
-   package stirling.software.SPDF.controller.api;
+   package scripta.software.core.controller.api;
 
    import org.springframework.web.bind.annotation.GetMapping;
    import org.springframework.web.bind.annotation.RequestMapping;
@@ -530,11 +530,11 @@ For Stirling 2.0, new features are built as React components:
    ```
 
 2. **Define the Service Layer:** (Not required but often useful)
-   - Create a new service class in the `stirling-pdf/src/main/java/stirling/software/SPDF/service` directory.
+   - Create a new service class in the `scripta/src/main/java/scripta/software/core/service` directory.
    - Implement the business logic for the new feature.
 
    ```java
-   package stirling.software.SPDF.service;
+   package scripta.software.core.service;
 
    import org.springframework.stereotype.Service;
 
@@ -553,13 +553,13 @@ For Stirling 2.0, new features are built as React components:
 - Autowire the service class in the controller and use it to handle the API request.
 
   ```java
-  package stirling.software.SPDF.controller.api;
+  package scripta.software.core.controller.api;
 
   import org.springframework.beans.factory.annotation.Autowired;
   import org.springframework.web.bind.annotation.GetMapping;
   import org.springframework.web.bind.annotation.RequestMapping;
   import org.springframework.web.bind.annotation.RestController;
-  import stirling.software.SPDF.service.NewFeatureService;
+  import scripta.software.core.service.NewFeatureService;
   import io.swagger.v3.oas.annotations.Operation;
   import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -581,7 +581,7 @@ For Stirling 2.0, new features are built as React components:
 
 ### Declaring tool inputs and outputs
 
-An endpoint that transforms a document declares what it accepts and produces with `@ToolIO`. This is the single source of truth: it is published into the OpenAPI spec as an `x-stirling-io` extension, and generated from there into the frontend (`toolIO.ts`) and the AI engine (`tool_io.py`). A pipeline can therefore be checked while it is being edited, instead of failing part-way through a job.
+An endpoint that transforms a document declares what it accepts and produces with `@ToolIO`. This is the single source of truth: it is published into the OpenAPI spec as an `x-scripta-io` extension, and generated from there into the frontend (`toolIO.ts`) and the AI engine (`tool_io.py`). A pipeline can therefore be checked while it is being edited, instead of failing part-way through a job.
 
 ```java
 @ToolIO(produces = ToolFormat.PDF)
@@ -617,7 +617,7 @@ When adding a new feature or modifying existing ones in Scripta, you'll need to 
 
 ### 1. Locate Existing Language Files
 
-Find the existing `messages.properties` files in the `stirling-pdf/src/main/resources` directory. You'll see files like:
+Find the existing `messages.properties` files in the `scripta/src/main/resources` directory. You'll see files like:
 
 - `messages.properties` (default, usually English)
 - `messages_en_US.properties`

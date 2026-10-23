@@ -6,7 +6,7 @@ import {
   createChildStub,
   generateProcessedFileMetadata,
 } from "@app/contexts/file/fileActions";
-import { createStirlingFile, StirlingFileStub } from "@app/types/fileContext";
+import { createScriptaFile, ScriptaFileStub } from "@app/types/fileContext";
 import { FileId } from "@app/types/file";
 import {
   PolicyBlockedError,
@@ -67,7 +67,7 @@ interface BuiltTrack {
   trackId: FileId;
   /** The file to version, or null for a split that becomes a brand-new file. */
   inputFileId: FileId | null;
-  parentStub: StirlingFileStub;
+  parentStub: ScriptaFileStub;
   file: File;
 }
 
@@ -107,7 +107,7 @@ export function useTrackSave(
       const policyIds = policyIdsForTracks(
         workspace,
         rebuilt,
-        selectors.getStirlingFileStub,
+        selectors.getScriptaFileStub,
       );
 
       try {
@@ -120,7 +120,7 @@ export function useTrackSave(
           const track = workspace.tracks[id];
           if (!track) continue;
           const output = await buildTrackFile(track, {
-            getStub: selectors.getStirlingFileStub,
+            getStub: selectors.getScriptaFileStub,
             getFile: selectors.getFile,
           });
           if (!output) continue;
@@ -151,7 +151,7 @@ export function useTrackSave(
           );
           await actions.consumeFiles(
             [entry.inputFileId],
-            [createStirlingFile(entry.file, outputStub.id)],
+            [createScriptaFile(entry.file, outputStub.id)],
             [outputStub],
             { silent: true },
           );

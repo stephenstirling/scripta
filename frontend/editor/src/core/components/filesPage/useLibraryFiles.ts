@@ -5,7 +5,7 @@ import type {
   FilesPageSortMode,
   FilesPageTab,
 } from "@app/contexts/FilesPageContext";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { FolderId, folderKind } from "@app/types/folder";
 import type { DiskFileEntry } from "@app/services/localFolderContents";
 import { libraryFileDate } from "@app/components/filesPage/libraryFileDate";
@@ -35,10 +35,10 @@ export function useLibraryFiles({
   diskEntries,
   stagedFiles,
 }: LibraryFilters & {
-  allFiles: StirlingFileStub[];
+  allFiles: ScriptaFileStub[];
   diskEntries?: DiskFileEntry[];
   /** Uncommitted imports follow library and Recents filters without belonging to a stored folder. */
-  stagedFiles?: StirlingFileStub[];
+  stagedFiles?: ScriptaFileStub[];
 }) {
   const { folders: folderRecords, foldersById } = useFolders();
   const subtreeFolderIds = useMemo(() => {

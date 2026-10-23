@@ -613,18 +613,18 @@ label = "Øktgrense"
 description = "Maksimal kjøretid"
 label = "Tidsavbrudd (minutter)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert er i beta. Den gir bedre konverteringer, raskere og med mindre minnebruk enn LibreOffice."
-label = "Bruk ny Stirling Office-konvertering"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Scripta Office Convert er i beta. Den gir bedre konverteringer, raskere og med mindre minnebruk enn LibreOffice."
+label = "Bruk ny Scripta Office-konvertering"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Konfigurer lagring og opprydding for midlertidige filer"
 label = "Håndtering av midlertidige filer"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Basekatalog for midlertidige filer (la stå tomt for standard: java.io.tmpdir/stirling-pdf)"
+description = "Basekatalog for midlertidige filer (la stå tomt for standard: java.io.tmpdir/scripta)"
 label = "Base temp-katalog"
-placeholder = "Standard: java.io.tmpdir/stirling-pdf"
+placeholder = "Standard: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Hvor ofte opprydding skal kjøres (i minutter)"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata-stien er ikke skrivbar. Nedlastinger åpnes i nettl
 [admin.settings.ai]
 customProvider = "Egendefinert (OpenAI-kompatibel)"
 description = "Koble Scripta til Python AI-motoren, velg modellene dens og angi sikkerhetsrammene den kjører under."
-managedByCloud = "Administreres av Stirling Cloud i denne modusen."
-managedByCloudShort = "Administreres av Stirling Cloud"
+managedByCloud = "Administreres av Scripta Cloud i denne modusen."
+managedByCloudShort = "Administreres av Scripta Cloud"
 
 [admin.settings.ai.documents]
 description = "Konfigurer embedding-modellen og innstillingene for henting som brukes til å svare på spørsmål om dokumenter. Brukes på AI-motoren når det lagres."
@@ -735,16 +735,16 @@ description = "Slå individuelle AI-funksjoner av eller på. Deaktiverte funksjo
 title = "Funksjoner"
 
 [admin.settings.ai.general.cloud]
-note = "Modeller og leverandørnøkler administreres av Stirling Cloud, så disse innstillingene gjelder ikke i denne modusen."
+note = "Modeller og leverandørnøkler administreres av Scripta Cloud, så disse innstillingene gjelder ikke i denne modusen."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Hvert KI-verktøy sender sideteksten det trenger for å svare. Dette bestemmer om Stirling Cloud også kan beholde teksten, indeksert, slik at senere spørsmål kan søke i dokumentet."
+description = "Hvert KI-verktøy sender sideteksten det trenger for å svare. Dette bestemmer om Scripta Cloud også kan beholde teksten, indeksert, slik at senere spørsmål kan søke i dokumentet."
 help = "Av betyr at dokumentspørsmål ikke er tilgjengelige. Det stopper ikke tekst fra å bli sendt – bare lagret."
-label = "La Stirling Cloud beholde indekserte dokumenter"
+label = "La Scripta Cloud beholde indekserte dokumenter"
 
 [admin.settings.ai.general.cloudNote]
-body = "Resonneringen kjører på Stirlings infrastruktur, fakturert til kontoen denne serveren er koblet til. Det er ingen container å kjøre og ingen leverandørnøkkel å oppbevare her. Det KI leser, behandles av Stirling Cloud i stedet for på din egen maskinvare."
-title = "Om Stirling Cloud KI"
+body = "Resonneringen kjører på Scriptas infrastruktur, fakturert til kontoen denne serveren er koblet til. Det er ingen container å kjøre og ingen leverandørnøkkel å oppbevare her. Det KI leser, behandles av Scripta Cloud i stedet for på din egen maskinvare."
+title = "Om Scripta Cloud KI"
 
 [admin.settings.ai.general.enabled]
 description = "Hovedbryter. Når den er av, er ingen AI-verktøy, agenter eller motorkall tilgjengelige."
@@ -782,11 +782,11 @@ label = "Tidsavbrudd for langvarige operasjoner (sekunder)"
 label = "Hvor KI kjører"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Ingen container, ingen leverandørnøkkel, ingen modellvalg – arbeidet kjører på Stirling Cloud og faktureres til kontoen denne serveren er koblet til."
+description = "Ingen container, ingen leverandørnøkkel, ingen modellvalg – arbeidet kjører på Scripta Cloud og faktureres til kontoen denne serveren er koblet til."
 linkCta = "Koble denne serveren til en Scripta-konto"
 notLinked = "Koble til en konto først"
 ownerOnly = "Bare organisasjonseieren kan koble denne serveren til en Scripta-konto."
-title = "Bruk Stirling Cloud KI"
+title = "Bruk Scripta Cloud KI"
 
 [admin.settings.ai.general.mode.off]
 description = "Ingen KI-verktøy noe sted i appen, og ingenting forlater denne serveren."
@@ -818,7 +818,7 @@ description = "Tidsavbrudd for standard AI-forespørsler til motoren."
 label = "Tidsavbrudd for forespørsel (sekunder)"
 
 [admin.settings.ai.general.url]
-description = "Intern URL til Python AI-motoren, f.eks. http://stirling-pdf-engine:5001."
+description = "Intern URL til Python AI-motoren, f.eks. http://scripta-engine:5001."
 label = "AI-motor-URL"
 
 [admin.settings.ai.limits]
@@ -902,22 +902,22 @@ url = "Motor-URL"
 hostDown = "Nede"
 hostLabel = "Stirling.com"
 hostUp = "Oppe"
-name = "Stirling Cloud"
+name = "Scripta Cloud"
 sharingLabel = "KI-deling"
 sharingOff = "Deaktivert"
 sharingOn = "Aktivert"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud svarte, men avviste denne serveren. Kontokoblingen kan ha blitt tilbakekalt."
-title = "Stirling Cloud avviser denne serveren"
+body = "Scripta Cloud svarte, men avviste denne serveren. Kontokoblingen kan ha blitt tilbakekalt."
+title = "Scripta Cloud avviser denne serveren"
 
 [admin.settings.ai.status.cloud.down]
-body = "Denne serveren kunne ikke nå Stirling Cloud. Kontroller kontokoblingen og at denne serveren kan nå internett."
-title = "Stirling Cloud er utilgjengelig"
+body = "Denne serveren kunne ikke nå Scripta Cloud. Kontroller kontokoblingen og at denne serveren kan nå internett."
+title = "Scripta Cloud er utilgjengelig"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud godtok denne serveren. Ingenting å kjøre eller oppdatere her."
-title = "Kjører på Stirling Cloud"
+body = "Scripta Cloud godtok denne serveren. Ingenting å kjøre eller oppdatere her."
+title = "Kjører på Scripta Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Den svarte på helsesjekken, men avviste en ekte forespørsel. De to sidene bruker forskjellige delte hemmeligheter."
@@ -1191,7 +1191,7 @@ label = "Sertifikatets gyldighet (dager)"
 
 [admin.settings.folderAccess]
 description = "Kataloger som mappekilder og mappeutdata har lov til å lese fra og skrive til. Dette er en sikkerhetsgrense: automatiseringer kan aldri pekes mot en serversti utenfor denne listen."
-securityNote = "La dette stå tomt for å deaktivere mappekilder og mappeutdata helt. Stirlings egen konfigurasjonskatalog er alltid forbudt."
+securityNote = "La dette stå tomt for å deaktivere mappekilder og mappeutdata helt. Scriptas egen konfigurasjonskatalog er alltid forbudt."
 title = "Mappetilgang"
 
 [admin.settings.folderAccess.implied]
@@ -1425,7 +1425,7 @@ label = "SMTP-brukernavn"
 
 [admin.settings.mcp]
 apikeyNote = "Klienter sender en Scripta API key i X-API-KEY-headeren (eller Authorization: Bearer <key>). Nøkkelen kobles til den tilhørende Scripta-brukeren – bare klargjorte kontoer får tilgang, og handlinger revideres som den brukeren. Administrer nøkler under Konto > API-nøkler."
-description = "Gjør Stirlings PDF-verktøy og AI-agenter tilgjengelige for MCP-klienter over et OAuth-beskyttet endepunkt."
+description = "Gjør Scriptas PDF-verktøy og AI-agenter tilgjengelige for MCP-klienter over et OAuth-beskyttet endepunkt."
 title = "MCP-server"
 
 [admin.settings.mcp.acceptedAudiences]
@@ -1885,7 +1885,7 @@ wrapUp = "Det var admin-omvisningen! Du har sett enterprise-funksjonene som gjø
 title = "Brukerkontroll Innstillinger"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabisk"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Velg et kildeformat først"
 settings = "Innstillinger"
 single = "Enkel"
 sourceFormatPlaceholder = "Kildeformat"
-stirlingOfficeConvert = "Bruk Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Bedre og raskere konverteringer med mindre minnebruk. Slå av for å bruke standardkonvertereren."
+scriptaOfficeConvert = "Bruk Scripta Office Convert (beta)"
+scriptaOfficeConvertDescription = "Bedre og raskere konverteringer med mindre minnebruk. Slå av for å bruke standardkonvertereren."
 strictMode = "Streng modus"
 strictModeDesc = "Feil hvis konverteringen ikke er perfekt (bruker VeraPDF-verifisering)"
 svgPdfOptions = "Alternativer for SVG til PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Planoversikt"
 [onboarding.processorIntro]
 body = "Scripta kjører nå <strong>policyer</strong> — automatiserte regler som klassifiserer, sikrer og behandler hvert dokument når det ankommer. Sett dem opp og overvåk kjøringer i <strong>Processor</strong>."
 cta = "Sjekk ut Processor"
-title = "Sjekk ut Stirling Processor"
+title = "Sjekk ut Scripta Processor"
 
 [onboarding.securityCheck]
 message = "Applikasjonen har nylig gjennomgått betydelige endringer. Serveradministratorens oppmerksomhet kan være nødvendig. Bekreft rollen din for å fortsette."
@@ -5359,9 +5359,9 @@ roleUser = "Bruker"
 title = "Sikkerhetssjekk"
 
 [onboarding.serverLicense]
-freeBody = "Vår <strong>Open-Core</strong>-lisens inkluderer <strong>OAuth SSO</strong> og opptil <strong>{{freeTierLimit}}</strong> brukere gratis. For å vokse uten avbrudd anbefaler vi Stirling Team-abonnementet — <strong>100 brukere</strong> for $99/mnd."
+freeBody = "Vår <strong>Open-Core</strong>-lisens inkluderer <strong>OAuth SSO</strong> og opptil <strong>{{freeTierLimit}}</strong> brukere gratis. For å vokse uten avbrudd anbefaler vi Scripta Team-abonnementet — <strong>100 brukere</strong> for $99/mnd."
 freeTitle = "Team-plan"
-overLimitBody = "Lisensen vår tillater opptil <strong>{{freeTierLimit}}</strong> brukere gratis. Du har <strong>{{overLimitUserCopy}}</strong> Scripta-brukere. For å fortsette uten avbrudd, oppgrader til Stirling Team-planen – <strong>100 brukere</strong>, PDF-tekstredigering og full administratorkontroll for $99/md."
+overLimitBody = "Lisensen vår tillater opptil <strong>{{freeTierLimit}}</strong> brukere gratis. Du har <strong>{{overLimitUserCopy}}</strong> Scripta-brukere. For å fortsette uten avbrudd, oppgrader til Scripta Team-planen – <strong>100 brukere</strong>, PDF-tekstredigering og full administratorkontroll for $99/md."
 overLimitTitle = "Team-plan nødvendig"
 seePlans = "Se planer →"
 upgrade = "Oppgrader nå →"
@@ -6918,7 +6918,7 @@ label = "Headere"
 
 [portal.policies.operations.fields.index]
 label = "Indeks"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Saksnøkkel"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud-brukernavn"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Forteller et område at retningslinjen håndterte et dokument."
@@ -7192,7 +7192,7 @@ secretNote = "Signeringshemmeligheten vises én gang, når webhooken opprettes. 
 copy = "Kopier"
 done = "Ferdig"
 secret = "Signeringshemmelighet"
-secretHelp = "Signer rå brødtekst for hver levering med denne nøkkelen (HMAC-SHA256) og send den som X-Stirling-Signature-headeren."
+secretHelp = "Signer rå brødtekst for hver levering med denne nøkkelen (HMAC-SHA256) og send den som X-Scripta-Signature-headeren."
 secretWarning = "Kopier signeringshemmeligheten nå. Av hensyn til sikkerheten din vises den bare én gang og kan ikke hentes senere."
 title = "Webhook opprettet"
 url = "Leverings-URL"
@@ -8047,7 +8047,7 @@ storageSharing = "Fil-lagring og deling"
 systemSettings = "Systeminnstillinger"
 
 [settings.connectedInstances]
-confirmBody = "Dette tilbakekaller instansens tilgang til teamet ditt i Stirling Cloud. Det sletter ikke lokale filer eller fjerner bruk som allerede er registrert. For å koble til igjen, følg de opprinnelige tilkoblingstrinnene på instansen."
+confirmBody = "Dette tilbakekaller instansens tilgang til teamet ditt i Scripta Cloud. Det sletter ikke lokale filer eller fjerner bruk som allerede er registrert. For å koble til igjen, følg de opprinnelige tilkoblingstrinnene på instansen."
 confirmTitle = "Fjerne {{name}}?"
 connectedAt = "Tilkoblet: {{date}}"
 connectedDate = "Tilkoblet"
@@ -8091,7 +8091,7 @@ user = "Logget inn som"
 
 [settings.connection.mode]
 local = "Kun lokalt"
-saas = "Stirling Cloud"
+saas = "Scripta Cloud"
 selfhosted = "Selvhostet"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Overvåking"
 [settings.planBilling]
 currentPlan = "Gjeldende plan"
 loading = "Laster faktureringsinformasjon..."
-notAvailable = "Plan og fakturering er bare tilgjengelig når du er koblet til Stirling Cloud (SaaS-modus)."
+notAvailable = "Plan og fakturering er bare tilgjengelig når du er koblet til Scripta Cloud (SaaS-modus)."
 title = "Plan og fakturering"
 
 [settings.planBilling.billing]
