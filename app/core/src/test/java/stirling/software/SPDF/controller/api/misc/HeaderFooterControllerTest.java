@@ -77,8 +77,7 @@ class HeaderFooterControllerTest {
         }
     }
 
-    private static String pageText(ResponseEntity<Resource> response, int page)
-            throws IOException {
+    private static String pageText(ResponseEntity<Resource> response, int page) throws IOException {
         try (InputStream in = response.getBody().getInputStream();
                 PDDocument doc = Loader.loadPDF(in.readAllBytes())) {
             PDFTextStripper stripper = new PDFTextStripper();
@@ -124,10 +123,10 @@ class HeaderFooterControllerTest {
     @DisplayName("{date} uses the pattern, and a bad pattern falls back to ISO")
     void dateToken() {
         LocalDate today = LocalDate.now();
-        assertThat(HeaderFooterController.formatToday("yyyy")).isEqualTo(
-                String.valueOf(today.getYear()));
-        assertThat(HeaderFooterController.formatToday("not a {pattern")).isEqualTo(
-                today.toString());
+        assertThat(HeaderFooterController.formatToday("yyyy"))
+                .isEqualTo(String.valueOf(today.getYear()));
+        assertThat(HeaderFooterController.formatToday("not a {pattern"))
+                .isEqualTo(today.toString());
         assertThat(HeaderFooterController.formatToday(null)).isEqualTo(today.toString());
     }
 

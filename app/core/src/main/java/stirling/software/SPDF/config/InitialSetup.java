@@ -10,8 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import io.micrometer.common.util.StringUtils;
-
 import jakarta.annotation.PostConstruct;
 
 import lombok.RequiredArgsConstructor;

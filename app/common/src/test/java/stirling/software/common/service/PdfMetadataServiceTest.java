@@ -47,8 +47,7 @@ class PdfMetadataServiceTest {
                         paid ? "Our organisation" : "Original",
                         pdf.getDocumentInformation().getAuthor());
                 assertEquals(
-                        paid ? "Our editor" : "Scripta",
-                        pdf.getDocumentInformation().getCreator());
+                        paid ? "Our editor" : "Scripta", pdf.getDocumentInformation().getCreator());
             }
         }
     }

@@ -109,8 +109,7 @@ public class BatesNumberingController {
                     document.save(out.getFile());
                 }
                 String name =
-                        uniqueName(
-                                outputName(request, input, digits, first, next - 1), usedNames);
+                        uniqueName(outputName(request, input, digits, first, next - 1), usedNames);
                 outputs.set(outputs.size() - 1, new StampedFile(out, name));
             }
 

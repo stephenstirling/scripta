@@ -234,9 +234,9 @@ public class ApplicationProperties {
          * Absolute directories that policy folder input sources and output sinks may read from or
          * write to. Empty (the default) disables folder access except to implicitly defined
          * folders, such as server storage folders (if enabled) and the pipeline watched folders.
-         * Scripta's own config directory is always off-limits, and folder access is always
-         * disabled in SaaS mode regardless of this list. Processing folders let every authenticated
-         * user, not only team leaders, read and replace files under these roots.
+         * Scripta's own config directory is always off-limits, and folder access is always disabled
+         * in SaaS mode regardless of this list. Processing folders let every authenticated user,
+         * not only team leaders, read and replace files under these roots.
          */
         private List<String> allowedFolderRoots = new java.util.ArrayList<>();
 
@@ -1370,8 +1370,7 @@ public class ApplicationProperties {
 
         @Data
         public static class ServerCertificate {
-            private boolean enabled =
-                    true; // Enable server-side "Sign with Scripta" certificate
+            private boolean enabled = true; // Enable server-side "Sign with Scripta" certificate
             private String organizationName = "Scripta";
             private int validity = 365; // Certificate validity in days
             private boolean regenerateOnStartup =
@@ -1884,9 +1883,7 @@ public class ApplicationProperties {
                 }
 
                 public String getProducer() {
-                    return producer == null || producer.trim().isEmpty()
-                            ? "Scripta"
-                            : producer;
+                    return producer == null || producer.trim().isEmpty() ? "Scripta" : producer;
                 }
             }
         }

@@ -155,8 +155,7 @@ class BatesNumberingControllerTest {
 
         Map<String, byte[]> entries = unzip(body(controller.addBatesNumbers(request)));
 
-        assertThat(entries.keySet())
-                .containsExactly("ACME000001-ACME000002.pdf", "ACME000003.pdf");
+        assertThat(entries.keySet()).containsExactly("ACME000001-ACME000002.pdf", "ACME000003.pdf");
     }
 
     @Test

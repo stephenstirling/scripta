@@ -19,10 +19,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Helpers for detecting and extracting ZIP-formatted responses returned from Scripta API
- * endpoints. Shared between {@code PipelineProcessor} and {@code AiWorkflowService} so both callers
- * unpack ZIPs consistently (hardened against zip-slip, depth-limited, backed by managed temp
- * files).
+ * Helpers for detecting and extracting ZIP-formatted responses returned from Scripta API endpoints.
+ * Shared between {@code PipelineProcessor} and {@code AiWorkflowService} so both callers unpack
+ * ZIPs consistently (hardened against zip-slip, depth-limited, backed by managed temp files).
  */
 @Slf4j
 @UtilityClass
