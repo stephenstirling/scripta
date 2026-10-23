@@ -16,7 +16,7 @@ local.properties
 *.local.json
 version.properties
 
-#### Stirling-PDF Files ###
+#### Scripta Files ###
 pipeline/
 !pipeline/.gitkeep
 # The rule above also matches these Java source packages; without these a new file there is

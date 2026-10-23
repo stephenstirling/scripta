@@ -10,7 +10,7 @@ test.describe("1. Authentication and Login", () => {
       await page.goto("/editor");
       await expect(page).toHaveURL(/\/login/);
 
-      // Step 2: Confirm the login page displays the Stirling PDF logo
+      // Step 2: Confirm the login page displays the Scripta logo
       await expect(
         page
           .locator(

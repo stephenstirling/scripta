@@ -1,5 +1,5 @@
 #!/bin/bash
-# aot-diagnostics.sh - Project Leyden AOT cache diagnostic tool for Stirling-PDF
+# aot-diagnostics.sh - Project Leyden AOT cache diagnostic tool for Scripta
 #
 # Diagnoses AOT cache generation failures, especially on ARM64 (aarch64).
 # Reports JVM feature support, memory limits, cache state, and fingerprint validity.

@@ -15,7 +15,7 @@ local.properties
 .project
 version.properties
 
-#### Stirling-PDF Files ###
+#### Scripta Files ###
 pipeline/watchedFolders/
 pipeline/finishedFolders/
 customFiles/

@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script initializes Stirling PDF without OCR features.
+# This script initializes Scripta without OCR features.
 set -euo pipefail
 
 log() {
@@ -1203,7 +1203,7 @@ case "${JAVA_TOOL_OPTIONS}" in
   *) export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true ${JAVA_TOOL_OPTIONS}" ;;
 esac
 log "running with JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}"
-log "Running Stirling PDF with DISABLE_ADDITIONAL_FEATURES=${DISABLE_ADDITIONAL_FEATURES:-} and VERSION_TAG=${VERSION_TAG:-<unset>}"
+log "Running Scripta with DISABLE_ADDITIONAL_FEATURES=${DISABLE_ADDITIONAL_FEATURES:-} and VERSION_TAG=${VERSION_TAG:-<unset>}"
 
 # ---------- UMASK ----------
 # Set default permissions mask.
@@ -1235,7 +1235,7 @@ log "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}"
 # ---------- Optional ----------
 # Disable advanced HTML operations if required.
 if [[ "${INSTALL_BOOK_AND_ADVANCED_HTML_OPS:-false}" == "true" && "${FAT_DOCKER:-true}" != "true" ]]; then
-  log "issue with calibre in current version, feature currently disabled on Stirling-PDF"
+  log "issue with calibre in current version, feature currently disabled on Scripta"
 fi
 
 # Download security JAR in non-fat builds.
@@ -1361,8 +1361,8 @@ else
 fi
 
 # ---------- Java ----------
-# Start Stirling PDF Java application immediately (parallel with unoserver startup).
-log "Starting Stirling PDF"
+# Start Scripta Java application immediately (parallel with unoserver startup).
+log "Starting Scripta"
 JAVA_CMD=(
   java
   -Dfile.encoding=UTF-8
@@ -1552,10 +1552,10 @@ if [ -n "$ENGINE_PID" ] && kill -0 "$ENGINE_PID" 2>/dev/null; then
   wait "$ENGINE_PID" 2>/dev/null || true
 fi
 case "$exit_code" in
-  0)   log "Stirling PDF exited normally." ;;
-  137) log "Stirling PDF was OOM-killed (exit 137). Check container memory limits." ;;
-  143) log "Stirling PDF terminated by SIGTERM (normal orchestrator shutdown)." ;;
-  *)   log "Stirling PDF exited with code ${exit_code}." ;;
+  0)   log "Scripta exited normally." ;;
+  137) log "Scripta was OOM-killed (exit 137). Check container memory limits." ;;
+  143) log "Scripta terminated by SIGTERM (normal orchestrator shutdown)." ;;
+  *)   log "Scripta exited with code ${exit_code}." ;;
 esac
 # Propagate exit code so orchestrators can detect crashes vs clean shutdowns
 exit "${exit_code}"

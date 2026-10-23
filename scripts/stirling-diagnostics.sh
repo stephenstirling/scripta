@@ -166,8 +166,8 @@ if ! [ -t 0 ]; then
   exit 1
 fi
 
-log "=== Stirling-PDF Diagnostics ==="
-log "This tool collects a diagnostic bundle for Stirling-PDF."
+log "=== Scripta Diagnostics ==="
+log "This tool collects a diagnostic bundle for Scripta."
 log "Auto mode includes: logs (last ${DEFAULT_DAYS} day(s)), configs, system info,"
 log "metrics/health endpoints, and directory trees for main folders."
 log "Custom mode lets you choose what to include and redaction options."

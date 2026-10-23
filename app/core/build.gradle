@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.eclipse.jetty:jetty-alpn-java-server'
     implementation ('org.telegram:telegrambots:6.9.7.1') {
         // Grizzly server + Jersey JAX-RS stack: only used for webhook mode;
-        // Stirling-PDF uses long-polling mode so these are dead weight (~3 MB)
+        // Scripta uses long-polling mode so these are dead weight (~3 MB)
         exclude group: 'org.glassfish.jersey.inject'
         exclude group: 'org.glassfish.jersey.media'
         exclude group: 'org.glassfish.jersey.containers'
@@ -67,7 +67,7 @@ dependencies {
     // CVE-2022-25647: Explicit gson to prevent unsafe deserialization (tabula would pull 2.8.7)
     implementation "com.google.code.gson:gson:${gsonVersion}"
     implementation 'org.apache.pdfbox:jbig2-imageio:3.0.5'
-    // OpenCSV: Stirling-PDF only uses CSVWriter, not the opencsv-bean module.
+    // OpenCSV: Scripta only uses CSVWriter, not the opencsv-bean module.
     // Exclude commons-beanutils + commons-collections.
     implementation('com.opencsv:opencsv:5.12.0') {
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
@@ -147,7 +147,7 @@ bootJar {
 
     manifest {
         attributes(
-            'Implementation-Title': 'Stirling-PDF',
+            'Implementation-Title': 'Scripta',
             'Implementation-Version': project.version,
             'Enable-Native-Access': 'ALL-UNNAMED'
         )
