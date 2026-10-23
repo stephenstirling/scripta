@@ -263,7 +263,7 @@ tasks.register('npmBuild', Exec) {
     group = 'frontend'
     description = 'Build editor frontend application'
     workingDir file('../..')
-    commandLine = ['task', frontendBuildTask]
+    commandLine = Os.isFamily(Os.FAMILY_WINDOWS) ? ['cmd', '/c', 'task', frontendBuildTask] : ['task', frontendBuildTask]
     inputs.dir(new File(frontendEditorDir, 'src'))
     inputs.dir(new File(frontendEditorDir, 'public'))
     inputs.file(new File(frontendDir, 'package.json'))
