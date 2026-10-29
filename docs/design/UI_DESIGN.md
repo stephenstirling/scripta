@@ -21,7 +21,7 @@ icon artwork, typeface or marketing copy. Specifically:
 
 ## Layout
 
-Light and dark are both first-class. The sizes below are shared tokens in `theme/dimensions.css`.
+Light and dark are both first-class. Sizes use the tokens named below in `theme/dimensions.css`; add any your branch lacks.
 
 | Region | Spec |
 | --- | --- |
@@ -57,7 +57,8 @@ Hues are used only for these icons. Do not use them for buttons, text, borders o
 ## Colour
 
 All values are tokens. Literal colours live only in `theme/primitives.css`; components use `--c-*`
-(see the theme README). Surfaces and text, already implemented:
+(see the theme README). Surfaces and text: use these tokens and values, and add any your branch lacks to
+`colors.css`, with the literal in `primitives.css`:
 
 | Role | Token | Dark | Light |
 | --- | --- | --- | --- |
@@ -73,8 +74,8 @@ All values are tokens. Literal colours live only in `theme/primitives.css`; comp
 | Accent (buttons, selection) | `--c-primary` | `#1473e6` | `#1473e6` |
 | Accent as text | `--c-accent-text` | `#4b9cf5` | `#0b5cbc` |
 
-Tool hues, **not yet implemented**: add them as `--c-tool-<hue>` in `colors.css`, mapped from new
-`--p-tool-<hue>` primitives (light values are deepened so each icon stays legible on white):
+Tool hues: define them as `--c-tool-<hue>` in `colors.css`, mapped from `--p-tool-<hue>` primitives
+(light values are deepened so each icon stays legible on white):
 
 | Hue | Dark | Light | Hue | Dark | Light |
 | --- | --- | --- | --- | --- | --- |
