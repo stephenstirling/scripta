@@ -217,7 +217,8 @@ export default function Workbench() {
       data-tour="workbench"
       style={{
         backgroundColor:
-          currentView === "viewer" || currentView === "pageEditor"
+          hasWorkbenchContent &&
+          (currentView === "viewer" || currentView === "pageEditor")
             ? "var(--c-canvas)"
             : "var(--c-bg)",
         minWidth: 0,

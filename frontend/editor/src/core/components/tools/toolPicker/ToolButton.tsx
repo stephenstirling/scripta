@@ -16,6 +16,7 @@ import {
   useToolWorkflowData,
 } from "@app/contexts/ToolWorkflowContext";
 import type { ToolId } from "@app/types/toolId";
+import { SCRIPTA_ADDED_TOOL_IDS, toolHueColor } from "@app/data/toolHues";
 import {
   getToolDisabledReason,
   resolveDisabledMessage,
@@ -37,6 +38,8 @@ interface ToolButtonProps {
   /** Called when an unavailable tool is clicked; if provided, overrides the default no-op */
   onUnavailableClick?: () => void;
   badgeCount?: number;
+  /** Taller row with a full-size icon, for the panel's resting list. */
+  roomy?: boolean;
 }
 
 const ToolButton: React.FC<ToolButtonProps> = ({
@@ -50,6 +53,7 @@ const ToolButton: React.FC<ToolButtonProps> = ({
   showDescription = false,
   onUnavailableClick,
   badgeCount,
+  roomy = false,
 }) => {
   const { t } = useTranslation();
   const { config } = useAppConfig();
@@ -145,8 +149,10 @@ const ToolButton: React.FC<ToolButtonProps> = ({
   const buttonIcon = (
     <ToolIcon
       icon={tool.icon}
-      color="var(--tool-button-fg)"
+      color={toolHueColor(id) ?? "var(--tool-button-fg)"}
       opacity={visuallyUnavailable ? 0.25 : 1}
+      scale={roomy ? 1 : undefined}
+      marginRight={roomy ? "1rem" : undefined}
     />
   );
   const buttonContent = (
@@ -178,6 +184,14 @@ const ToolButton: React.FC<ToolButtonProps> = ({
             opacity: visuallyUnavailable ? 0.25 : 1,
           }}
         />
+        {SCRIPTA_ADDED_TOOL_IDS.has(id) && (
+          <span
+            className="tool-button__new"
+            style={{ opacity: visuallyUnavailable ? 0.25 : 1 }}
+          >
+            {t("toolPanel.new", "New")}
+          </span>
+        )}
         {tool.versionStatus === "alpha" && (
           <Badge
             size="xs"
@@ -229,6 +243,8 @@ const ToolButton: React.FC<ToolButtonProps> = ({
     handleUnlessSpecialClick(e, () => handleClick(id));
   };
 
+  const buttonClass = roomy ? "tool-button tool-button--roomy" : "tool-button";
+
   const selectedBg = isSelected
     ? { backgroundColor: "var(--tool-button-selected-bg)" }
     : {};
@@ -245,7 +261,7 @@ const ToolButton: React.FC<ToolButtonProps> = ({
       p="none"
       fullWidth
       justify="start"
-      className="tool-button"
+      className={buttonClass}
       data-tour={`tool-button-${id}`}
       leftSection={buttonIcon}
       style={{
@@ -270,7 +286,7 @@ const ToolButton: React.FC<ToolButtonProps> = ({
       p="none"
       fullWidth
       justify="start"
-      className="tool-button"
+      className={buttonClass}
       data-tour={`tool-button-${id}`}
       leftSection={buttonIcon}
       style={{
@@ -291,7 +307,7 @@ const ToolButton: React.FC<ToolButtonProps> = ({
       p="none"
       fullWidth
       justify="start"
-      className="tool-button"
+      className={buttonClass}
       aria-disabled={isUnavailable}
       data-tour={`tool-button-${id}`}
       leftSection={buttonIcon}

@@ -96,6 +96,33 @@
   --p-acro-blue-500: #1473e6;
   --p-acro-blue-700: #0b5cbc;
 
+  /* Tool icon hues, one pair each: -on-dark for the dark panel, -on-light for the light one
+     (deeper, so the icon stays legible on white). Mapped to --c-tool-* in colors.css. */
+  --p-tool-teal-on-dark: #3fd0c9;
+  --p-tool-teal-on-light: #0f7f7a;
+  --p-tool-pink-on-dark: #f06bb0;
+  --p-tool-pink-on-light: #c42a7d;
+  --p-tool-red-on-dark: #ff6b6b;
+  --p-tool-red-on-light: #c92d2d;
+  --p-tool-cyan-on-dark: #4fc3f7;
+  --p-tool-cyan-on-light: #0b78a8;
+  --p-tool-lime-on-dark: #a4de4a;
+  --p-tool-lime-on-light: #4d7f0a;
+  --p-tool-amber-on-dark: #ffc43d;
+  --p-tool-amber-on-light: #9c6600;
+  --p-tool-violet-on-dark: #b28bff;
+  --p-tool-violet-on-light: #6d3fe6;
+  --p-tool-green-on-dark: #4cd48a;
+  --p-tool-green-on-light: #17803f;
+  --p-tool-indigo-on-dark: #8b95ff;
+  --p-tool-indigo-on-light: #4450c8;
+  --p-tool-rose-on-dark: #ff5c8a;
+  --p-tool-rose-on-light: #c0284f;
+  --p-tool-orange-on-dark: #ff8a4c;
+  --p-tool-orange-on-light: #c45a00;
+  --p-tool-purple-on-dark: #c77dff;
+  --p-tool-purple-on-light: #8a2fd0;
+
   /* Brand scale (Scripta ink indigo; the token names are inherited) + ai-accent scales, consumed by core/ui/accents.css. */
   --p-brand-red-200: #d2d0f5;
   --p-brand-red-300: #a9a5ec;

@@ -5,6 +5,8 @@ interface ToolIconProps {
   opacity?: number;
   color?: string;
   marginRight?: string;
+  /** The registry icons are drawn at 1.5rem; 0.8 fits them to the dense rows. */
+  scale?: number;
 }
 
 /**
@@ -16,6 +18,7 @@ export const ToolIcon: React.FC<ToolIconProps> = ({
   opacity = 1,
   color = "var(--c-text)",
   marginRight = "0.5rem",
+  scale = 0.8,
 }) => {
   return (
     <div
@@ -23,7 +26,7 @@ export const ToolIcon: React.FC<ToolIconProps> = ({
       style={{
         color,
         marginRight,
-        transform: "scale(0.8)",
+        transform: `scale(${scale})`,
         transformOrigin: "center",
         opacity,
       }}

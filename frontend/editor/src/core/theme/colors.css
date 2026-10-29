@@ -23,6 +23,20 @@ html[data-app-theme="light"] {
   --c-chrome: var(--p-acro-100);
   --c-chrome-border: var(--p-acro-300);
 
+  /* Per-tool icon hues; the interface blue is --c-accent-text. Icon strokes only. */
+  --c-tool-teal: var(--p-tool-teal-on-light);
+  --c-tool-pink: var(--p-tool-pink-on-light);
+  --c-tool-red: var(--p-tool-red-on-light);
+  --c-tool-cyan: var(--p-tool-cyan-on-light);
+  --c-tool-lime: var(--p-tool-lime-on-light);
+  --c-tool-amber: var(--p-tool-amber-on-light);
+  --c-tool-violet: var(--p-tool-violet-on-light);
+  --c-tool-green: var(--p-tool-green-on-light);
+  --c-tool-indigo: var(--p-tool-indigo-on-light);
+  --c-tool-rose: var(--p-tool-rose-on-light);
+  --c-tool-orange: var(--p-tool-orange-on-light);
+  --c-tool-purple: var(--p-tool-purple-on-light);
+
   --c-text: var(--p-ink);
   --c-text-muted: var(--p-gray-600);
   --c-text-subtle: var(--p-gray-550);
@@ -365,6 +379,19 @@ html[data-app-theme="custom"][data-mantine-color-scheme="dark"] {
   --c-canvas: var(--p-acro-d-250);
   --c-chrome: var(--p-acro-d-100);
   --c-chrome-border: var(--p-acro-d-450);
+
+  --c-tool-teal: var(--p-tool-teal-on-dark);
+  --c-tool-pink: var(--p-tool-pink-on-dark);
+  --c-tool-red: var(--p-tool-red-on-dark);
+  --c-tool-cyan: var(--p-tool-cyan-on-dark);
+  --c-tool-lime: var(--p-tool-lime-on-dark);
+  --c-tool-amber: var(--p-tool-amber-on-dark);
+  --c-tool-violet: var(--p-tool-violet-on-dark);
+  --c-tool-green: var(--p-tool-green-on-dark);
+  --c-tool-indigo: var(--p-tool-indigo-on-dark);
+  --c-tool-rose: var(--p-tool-rose-on-dark);
+  --c-tool-orange: var(--p-tool-orange-on-dark);
+  --c-tool-purple: var(--p-tool-purple-on-dark);
 
   /* Accent-tinted surfaces (dark base). Neutralised by the default override. */
   --c-bg: color-mix(in srgb, var(--c-primary) 8%, var(--p-c-141416));

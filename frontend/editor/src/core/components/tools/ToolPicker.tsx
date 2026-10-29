@@ -17,6 +17,7 @@ import { ToolId } from "@app/types/toolId";
 import { getSubcategoryLabel } from "@app/data/toolsTaxonomy";
 import { RecentToolChips } from "@app/components/tools/toolPicker/RecentToolChips";
 import { ToolPickerFooterExtensions } from "@app/components/tools/toolPicker/ToolPickerFooterExtensions";
+import { FEATURED_TOOLS } from "@app/data/toolHues";
 
 interface ToolPickerProps {
   selectedToolKey: string | null;
@@ -26,7 +27,7 @@ interface ToolPickerProps {
     matchedText?: string;
   }>;
   isSearching?: boolean;
-  /** Compact "resting" view: favourites + recommended only, with a button to expand. */
+  /** Compact "resting" view: favourites + the featured tools, with a button to expand. */
   compact?: boolean;
   /** Called when the user clicks "View all tools" in compact mode. */
   onShowAllTools?: () => void;
@@ -96,6 +97,15 @@ const ToolPicker = ({
     return items;
   }, [quickSection]);
 
+  const featuredItems = useMemo(
+    () =>
+      FEATURED_TOOLS.flatMap(({ id }) => {
+        const tool = toolRegistry[id];
+        return tool ? [{ id, tool }] : [];
+      }),
+    [toolRegistry],
+  );
+
   const allSection = useMemo(
     () => visibleSections.find((s) => s.key === "all"),
     [visibleSections],
@@ -144,16 +154,13 @@ const ToolPicker = ({
             )}
           </Stack>
         ) : compact ? (
-          /* Resting state: flat list of pinned + recommended only. */
+          /* Resting state: flat list of pinned + featured tools only. */
           <Box className="tool-picker__compact">
             <RecentToolChips
               selectedToolKey={selectedToolKey}
               onSelect={onSelect}
             />
-            <div style={HEADER_TEXT_STYLE}>
-              {t("toolPanel.toolsHeader", "PDF Tools")}
-            </div>
-            {favoriteToolItems.length === 0 && recommendedItems.length === 0 ? (
+            {favoriteToolItems.length === 0 && featuredItems.length === 0 ? (
               <NoToolsFound />
             ) : (
               <div className="tool-picker__compact-list">
@@ -165,22 +172,22 @@ const ToolPicker = ({
                     isSelected={selectedToolKey === id}
                     onSelect={onSelect}
                     hasStars
-                    showDescription
+                    roomy
                   />
                 ))}
-                {recommendedItems
+                {featuredItems
                   .filter(
                     ({ id }) => !favoriteToolItems.some((fav) => fav.id === id),
                   )
                   .map(({ id, tool }) => (
                     <ToolButton
-                      key={`rec-${id}`}
-                      id={id as ToolId}
+                      key={`feat-${id}`}
+                      id={id}
                       tool={tool}
                       isSelected={selectedToolKey === id}
                       onSelect={onSelect}
                       hasStars
-                      showDescription
+                      roomy
                     />
                   ))}
               </div>
@@ -190,6 +197,7 @@ const ToolPicker = ({
                 variant="tertiary"
                 size="sm"
                 fullWidth
+                justify="start"
                 onClick={onShowAllTools}
                 className="tool-picker__view-all"
                 aria-label={t("toolPanel.viewAllTools", "View all tools")}

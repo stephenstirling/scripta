@@ -167,7 +167,6 @@ export default function RightSidebar({
               allToolsView={allToolsView}
               onShowAllTools={handleShowAllTools}
               onToolSelect={handleToolSelectWithTransition}
-              compact={false}
               /* Mobile keeps the workbench bar - and with it the super search -
                  on the other slide, so the list needs its own filter. */
               showSearch={isMobile}

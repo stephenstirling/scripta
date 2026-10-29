@@ -35,24 +35,30 @@ Light and dark are both first-class. Sizes use the tokens named below in `theme/
 
 ## The tool list
 
-One flat list, no section headings. Each row:
+The panel's resting state is one flat list of the featured tools, with a "View more" link that opens
+the full categorised list (and a close button to come back). Pinned favourites come first. Each row:
 
-- Height 42px, side padding 24px, 16px between icon and label, label 14px.
-- Icon 24px, outlined (stroke 1.6, round caps and joins), drawn in the tool's hue. No filled tile or
+- Height 42px, 24px side padding, 16px between icon and label, label 14px in the main text colour.
+- Icon 24px, outlined, in the tool's hue (the registry's standard stroke). No filled tile or
   background behind it.
 - Tools Scripta added carry a small "New" tag in the interface blue.
 
+The featured tools, in order, by tool ID and the name the registry shows. They live in
+`data/toolHues.ts`, which is the one place to change them:
+
 | Tool | Hue | Tool | Hue |
 | --- | --- | --- | --- |
-| Convert files | teal | Scan & OCR | green |
-| PDF Text Editor | pink | Protect | indigo |
-| Create PDF | red | Redact | rose |
-| Merge files | cyan | Compress | orange |
-| Organize pages | lime | Forms | purple |
-| Annotate | amber | Header & Footer (new) | interface blue |
-| Sign | violet | Bates numbering (new) | interface blue |
+| Convert (`convert`) | teal | OCR / Cleanup scans (`ocr`) | green |
+| PDF Text Editor (`pdfTextEditor`) | pink | Add Password (`addPassword`) | indigo |
+| Split (`split`) | red | Redact (`redact`) | rose |
+| Merge (`merge`) | cyan | Compress (`compress`) | orange |
+| Reorganize Pages (`reorganizePages`) | lime | Form Editor (`formFill`) | purple |
+| Annotate (`annotate`) | amber | Header & Footer, new (`headerFooter`) | interface blue |
+| Sign (`sign`) | violet | Bates Numbering, new (`batesNumbering`) | interface blue |
 
-Hues are used only for these icons. Do not use them for buttons, text, borders or fills.
+Hues are used only for these icons, wherever the tool appears (resting list, full list, search
+results). Every other tool keeps the neutral icon colour. Do not use a hue for buttons, text,
+borders or fills.
 
 ## Colour
 
@@ -74,8 +80,8 @@ All values are tokens. Literal colours live only in `theme/primitives.css`; comp
 | Accent (buttons, selection) | `--c-primary` | `#1473e6` | `#1473e6` |
 | Accent as text | `--c-accent-text` | `#4b9cf5` | `#0b5cbc` |
 
-Tool hues: define them as `--c-tool-<hue>` in `colors.css`, mapped from `--p-tool-<hue>` primitives
-(light values are deepened so each icon stays legible on white):
+Tool hues are `--c-tool-<hue>` in `colors.css`, mapped from `--p-tool-<hue>-on-dark` and
+`--p-tool-<hue>-on-light` primitives (light values are deepened so each icon stays legible on white):
 
 | Hue | Dark | Light | Hue | Dark | Light |
 | --- | --- | --- | --- | --- | --- |
@@ -87,15 +93,15 @@ Tool hues: define them as `--c-tool-<hue>` in `colors.css`, mapped from `--p-too
 | amber | `#ffc43d` | `#9c6600` | interface blue | `#4b9cf5` | `#0b5cbc` |
 | violet | `#b28bff` | `#6d3fe6` | | | |
 
-Every hue measures at least 4.4:1 against its panel (`#252525` dark, `#ffffff` light). Keep it
-that way: the floor for an icon is 3:1, and `theme-lint` already enforces a legibility floor for
-status tones, so extend it to cover these.
+Every hue measures at least 4.4:1 against its panel (`#252525` dark, `#ffffff` light). The floor for
+an icon is 3:1, and `data/toolHues.test.ts` fails if a hue drops below it or loses a token in either
+theme.
 
 ## Building it
 
+- The row colours its icon through `toolHueColor(id)` in `ToolButton`; the roomy row is
+  `ToolButton`'s `roomy` prop. Icons still come from the registry in `icons/icons.ts`.
 - Colour the icon, not a wrapper: `ToolIcon` takes a `color` prop, and any `<Icon>` accepts
-  `style={{ color: "var(--c-tool-teal)" }}`. Icons still come from the registry in `icons/icons.ts`.
-- Keep the hue on the tool's registry entry, so the tool panel, search results and the home
-  screen all colour a tool the same way.
+  `style={{ color: "var(--c-tool-teal)" }}`.
 - New and changed strings go in `public/locales/en-US/translation.toml` only.
 - Run `task frontend:check` after changing frontend files.
