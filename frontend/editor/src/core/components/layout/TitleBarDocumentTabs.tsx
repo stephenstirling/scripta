@@ -12,18 +12,24 @@ import type { FileId } from "@app/types/file";
 /**
  * One tab per open document, portalled into the title-bar strip. It lives here
  * rather than in the strip because the file and viewer state exist only inside
- * the app providers; the strip sits above them. Renders nothing without a strip
- * or without files.
+ * the app providers; the strip sits above them. Renders nothing while the strip
+ * is off, and never calls those providers' hooks then, so a tree without them
+ * (a unit test, a phone) can still render AppLayout.
  */
 export function TitleBarDocumentTabs() {
-  const { t } = useTranslation();
   const strip = useTitleBarStrip();
+  if (!strip.enabled || !strip.tabsSlot) return null;
+  return <DocumentTabs slot={strip.tabsSlot} />;
+}
+
+function DocumentTabs({ slot }: { slot: HTMLElement }) {
+  const { t } = useTranslation();
   const { fileStubs } = useAllFiles();
   const { actions: fileActions } = useFileActions();
   const { activeFileId, setActiveFileId } = useViewer();
   const { actions } = useNavigationActions();
 
-  if (!strip.enabled || !strip.tabsSlot || fileStubs.length === 0) return null;
+  if (fileStubs.length === 0) return null;
 
   const currentId = activeFileId ?? fileStubs[0].id;
 
@@ -79,6 +85,6 @@ export function TitleBarDocumentTabs() {
         );
       })}
     </div>,
-    strip.tabsSlot,
+    slot,
   );
 }
