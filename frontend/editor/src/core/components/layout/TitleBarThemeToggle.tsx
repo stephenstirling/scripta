@@ -11,14 +11,19 @@ function prefersDark(): boolean {
 /**
  * The strip's light/dark toggle, portalled in from inside the app because the
  * theme lives in a provider below the strip. It always sets an explicit mode,
- * leaving System to the preferences page.
+ * leaving System to the preferences page. Renders nothing while the strip is off,
+ * without calling the theme hook, so a tree without the provider can still render
+ * AppLayout.
  */
 export function TitleBarThemeToggle() {
-  const { t } = useTranslation();
   const strip = useTitleBarStrip();
-  const { themeMode, setTheme } = useTheme();
-
   if (!strip.enabled || !strip.themeSlot) return null;
+  return <ThemeToggle slot={strip.themeSlot} />;
+}
+
+function ThemeToggle({ slot }: { slot: HTMLElement }) {
+  const { t } = useTranslation();
+  const { themeMode, setTheme } = useTheme();
 
   const isDark =
     themeMode === "dark" || (themeMode === "system" && prefersDark());
@@ -37,6 +42,6 @@ export function TitleBarThemeToggle() {
     >
       <Icon name={isDark ? "sun" : "moon"} size="1.125rem" />
     </button>,
-    strip.themeSlot,
+    slot,
   );
 }

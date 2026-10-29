@@ -14,15 +14,20 @@ interface ToolTab {
 /**
  * The strip's All tools / Edit / Convert / E-Sign tabs, portalled in from inside
  * the app because the tool workflow exists only below the strip. All tools returns
- * the left panel to the full tool list; the others open that tool.
+ * the left panel to the full tool list; the others open that tool. Renders nothing
+ * while the strip is off, without calling the workflow hooks, so a tree without
+ * the app providers can still render AppLayout.
  */
 export function TitleBarToolTabs() {
-  const { t } = useTranslation();
   const strip = useTitleBarStrip();
+  if (!strip.enabled || !strip.toolTabsSlot) return null;
+  return <ToolTabs slot={strip.toolTabsSlot} />;
+}
+
+function ToolTabs({ slot }: { slot: HTMLElement }) {
+  const { t } = useTranslation();
   const { handleToolSelect, handleBackToTools } = useToolWorkflow();
   const { selectedTool } = useNavigationState();
-
-  if (!strip.enabled || !strip.toolTabsSlot) return null;
 
   const tabs: ToolTab[] = [
     { id: "all", label: t("titleBar.allTools", "All tools"), toolId: null },
@@ -65,6 +70,6 @@ export function TitleBarToolTabs() {
         );
       })}
     </div>,
-    strip.toolTabsSlot,
+    slot,
   );
 }
