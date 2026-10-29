@@ -196,6 +196,8 @@ Before touching colours or theming (tokens, dark mode, accent colours), read @fr
 
 Before adding or styling an icon, read @frontend/editor/src/core/icons/README.md — `<Icon name="…" />` comes from `@app/ui/Icon`, icon sources live as `.svg` files in `core/icons/svg/`, and inline `<svg>` in TS/TSX is linted out.
 
+Before changing layout, spacing, the tool list or the look of any region (top strip, tool panel, canvas, home screen), read @docs/design/UI_DESIGN.md — the target design, with sizes, colour tokens and the per-tool icon colours.
+
 ```typescript
 // ✅ CORRECT - Use @app/* for all imports
 import { AppLayout } from "@app/components/AppLayout";

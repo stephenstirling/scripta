@@ -6,11 +6,16 @@ import { useTitleBarStrip } from "@app/contexts/TitleBarStripContext";
 /**
  * Portals the one Super Search instance into the title-bar strip. It is mounted
  * from AppLayout, not the workbench bar, so the search keeps its query across
- * views. Renders nothing while the strip is off.
+ * views. Renders nothing while the strip is off, without calling the search
+ * hooks, so a tree without the app providers can still render AppLayout.
  */
 export function TitleBarSearch() {
   const strip = useTitleBarStrip();
-  const scopes = useEditorSearchScopes();
   if (!strip.enabled || !strip.searchSlot) return null;
-  return createPortal(<SuperSearch scopes={scopes} />, strip.searchSlot);
+  return <SearchPortal slot={strip.searchSlot} />;
+}
+
+function SearchPortal({ slot }: { slot: HTMLElement }) {
+  const scopes = useEditorSearchScopes();
+  return createPortal(<SuperSearch scopes={scopes} />, slot);
 }

@@ -11,15 +11,19 @@ import { DOCS_PATH, HAS_DOCS } from "@app/routes/docsRoute";
 /**
  * The strip's Menu button. It is portalled into the strip from inside the app
  * because Mantine's Menu needs the UI provider, which sits below the strip.
+ * Renders nothing while the strip is off, without calling those hooks.
  */
 export function TitleBarMenu() {
-  const { t } = useTranslation();
   const strip = useTitleBarStrip();
+  if (!strip.enabled || !strip.menuSlot) return null;
+  return <MenuButton slot={strip.menuSlot} />;
+}
+
+function MenuButton({ slot }: { slot: HTMLElement }) {
+  const { t } = useTranslation();
   const { host, guarded, navigate, showLibrary, openSettings } =
     useTitleBarNavigation();
   const [scanOpen, setScanOpen] = useState(false);
-
-  if (!strip.enabled || !strip.menuSlot) return null;
 
   return createPortal(
     <>
@@ -73,6 +77,6 @@ export function TitleBarMenu() {
       </Menu>
       <ScanModal opened={scanOpen} onClose={() => setScanOpen(false)} />
     </>,
-    strip.menuSlot,
+    slot,
   );
 }
