@@ -17,17 +17,17 @@ import {
   createProcessedFile,
 } from "@app/contexts/file/fileActions";
 import {
-  createStirlingFile,
+  createScriptaFile,
   FileId,
-  StirlingFile,
-  StirlingFileStub,
+  ScriptaFile,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 import type { SignatureAPI } from "@app/components/viewer/viewerTypes";
 
 interface MinimalFileContextSelectors {
   getAllFileIds: () => FileId[];
-  getStirlingFileStub: (id: FileId) => StirlingFileStub | undefined;
-  getFile: (id: FileId) => StirlingFile | undefined;
+  getScriptaFileStub: (id: FileId) => ScriptaFileStub | undefined;
+  getFile: (id: FileId) => ScriptaFile | undefined;
 }
 
 /**
@@ -69,15 +69,15 @@ interface SignatureFlatteningOptions {
     saveAsCopy: () => Promise<ArrayBuffer | null>;
   };
   selectors: MinimalFileContextSelectors;
-  originalFile?: StirlingFile;
+  originalFile?: ScriptaFile;
   getScrollState: () => { currentPage: number; totalPages: number };
   activeFileIndex?: number;
 }
 
 export interface SignatureFlatteningResult {
   inputFileIds: FileId[];
-  outputStirlingFile: StirlingFile;
-  outputStub: StirlingFileStub;
+  outputScriptaFile: ScriptaFile;
+  outputStub: ScriptaFileStub;
 }
 
 export async function flattenSignatures(
@@ -152,10 +152,10 @@ export async function flattenSignatures(
             activeFileIndex !== undefined && activeFileIndex < allFileIds.length
               ? activeFileIndex
               : 0;
-          const fileStub = selectors.getStirlingFileStub(allFileIds[fileIndex]);
+          const fileStub = selectors.getScriptaFileStub(allFileIds[fileIndex]);
           const fileObject = selectors.getFile(allFileIds[fileIndex]);
           if (fileStub && fileObject) {
-            currentFile = createStirlingFile(fileObject, allFileIds[fileIndex]);
+            currentFile = createScriptaFile(fileObject, allFileIds[fileIndex]);
           }
         }
       }
@@ -188,7 +188,7 @@ export async function flattenSignatures(
 
       const inputFileIds: FileId[] = [currentFile.fileId];
 
-      const record = selectors.getStirlingFileStub(currentFile.fileId);
+      const record = selectors.getScriptaFileStub(currentFile.fileId);
       if (!record) {
         console.error("No file record found for:", currentFile.fileId);
         return null;
@@ -201,11 +201,11 @@ export async function flattenSignatures(
         thumbnailResult.thumbnail,
         processedFileMetadata,
       );
-      const outputStirlingFile = createStirlingFile(signedFile, outputStub.id);
+      const outputScriptaFile = createScriptaFile(signedFile, outputStub.id);
 
       return {
         inputFileIds,
-        outputStirlingFile,
+        outputScriptaFile,
         outputStub,
       };
     }

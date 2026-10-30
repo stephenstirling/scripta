@@ -1,4 +1,4 @@
-package stirling.software.Stirling.Stats;
+package scripta.software.Scripta.Stats;
 
 import java.nio.file.*;
 import java.nio.charset.MalformedInputException;
@@ -9,7 +9,7 @@ import java.util.*;
 public class PropSync {
 
     public static void main(String[] args) throws IOException {
-        File folder = new File("C:\\Users\\systo\\git\\Stirling-PDF\\app\\core\\src\\main\\resources");
+        File folder = new File("C:\\Users\\systo\\git\\Scripta\\app\\core\\src\\main\\resources");
         File[] files = folder.listFiles((dir, name) -> name.matches("messages_.*\\.properties"));
 
         List<String> enLines = Files.readAllLines(Path.of(folder + "\\messages_en_GB.properties"), StandardCharsets.UTF_8);

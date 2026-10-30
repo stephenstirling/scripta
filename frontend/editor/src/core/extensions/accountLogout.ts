@@ -20,7 +20,7 @@ export function useAccountLogout() {
     try {
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
-          "stirling_sso_auto_login_logged_out",
+          "scripta_sso_auto_login_logged_out",
           "1",
         );
       }

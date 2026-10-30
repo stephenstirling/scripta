@@ -228,7 +228,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
     page,
   }) => {
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     const before = await leafPtrs(page, 1, id);
     await caretEndInsert(page, id, " 日本語 🎉");
     await blur(page, id);
@@ -246,7 +246,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
     page,
   }) => {
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     await caretEndInsert(page, id, " 日本語");
     await blur(page, id);
     const g = await glyphs(page, 1, id);
@@ -261,7 +261,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
   }) => {
     test.setTimeout(120_000);
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     await caretEndInsert(page, id, " 🎉");
     await blur(page, id);
 
@@ -381,7 +381,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
     page,
   }) => {
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     const cur = await page.evaluate(
       (rid: string) =>
         (window as unknown as EditorTestWindow).__editor_store.doc
@@ -392,12 +392,12 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
     await replaceAll(
       page,
       id,
-      cur.replace(/Stirling\s+PDF/, "Stirling     PDF"),
+      cur.replace(/Scripta\s+PDF/, "Scripta     PDF"),
     );
     await blur(page, id);
     const g = await glyphs(page, 1, id);
     expect(
-      /Stirling {5}PDF/.test(g.text),
+      /Scripta {5}PDF/.test(g.text),
       "five consecutive injected spaces must survive into the model",
     ).toBe(true);
   });
@@ -408,7 +408,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
     page,
   }) => {
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     const get = (): Promise<string> =>
       page.evaluate((r: string) => {
         const x = (window as unknown as EditorTestWindow).__editor_store.doc
@@ -457,7 +457,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
   // several undo steps are needed to revert one logical edit.
   test("one undo reverts a single Enter+type action", async ({ page }) => {
     await open(page, SAMPLE, 1);
-    const id = await findId(page, 1, "Stirling\\s+PDF\\s+is\\s+a\\s+robust");
+    const id = await findId(page, 1, "Scripta\\s+PDF\\s+is\\s+a\\s+robust");
     const before = await page.evaluate(
       (rid: string) =>
         (window as unknown as EditorTestWindow).__editor_store.doc

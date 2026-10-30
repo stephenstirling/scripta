@@ -14,7 +14,7 @@ import {
   type ThumbnailRequest,
   planThumbnails,
 } from "@app/components/easterEgg/collectThumbnails";
-import type { StirlingFile } from "@app/types/fileContext";
+import type { ScriptaFile } from "@app/types/fileContext";
 
 // Its own chunk: nothing here is fetched unless somebody actually finds it.
 const BrickGame = lazy(
@@ -52,7 +52,7 @@ function decode(src: string): Promise<HTMLImageElement | null> {
  */
 async function renderPlan(
   plan: readonly ThumbnailRequest[],
-  files: readonly StirlingFile[],
+  files: readonly ScriptaFile[],
   onBatch: (images: HTMLImageElement[]) => void,
 ): Promise<void> {
   const sources = new Map<number, string>();
@@ -144,7 +144,7 @@ export function useBrandFlourish(): BrandFlourish {
       const run = ++runRef.current;
       const ids = fileStore.getState().files.ids;
       const plan = planThumbnails(
-        fileStore.selectors.getStirlingFileStubs(ids),
+        fileStore.selectors.getScriptaFileStubs(ids),
       );
       void renderPlan(plan, fileStore.selectors.getFiles(ids), (loaded) => {
         // A game closed and reopened mid-render must not be fed the old pages.

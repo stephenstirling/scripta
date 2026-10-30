@@ -17,8 +17,8 @@ import {
   validateMeasureScale,
   validateMeasurement,
 } from "@app/utils/measurementUtils";
-import type { StirlingFile } from "@app/types/fileContext";
-import { isStirlingFile, getFormFillFileId } from "@app/types/fileContext";
+import type { ScriptaFile } from "@app/types/fileContext";
+import { isScriptaFile, getFormFillFileId } from "@app/types/fileContext";
 import { extractPageMeasureScales } from "@app/utils/pdfMeasurementExtraction";
 import type { ScaleCalibrationMeasurement } from "@app/components/viewer/ScaleCalibrationDialog";
 
@@ -29,7 +29,7 @@ interface EffectiveFileLike {
   url: string | null;
 }
 
-type ViewerFile = StirlingFile | File | null | undefined;
+type ViewerFile = ScriptaFile | File | null | undefined;
 
 interface UseMeasurementManagerProps {
   currentFile: ViewerFile;
@@ -77,7 +77,7 @@ export function useMeasurementManager({
 
   const getStableFileKey = useCallback((file: ViewerFile): string | null => {
     if (!file) return null;
-    if (isStirlingFile(file)) {
+    if (isScriptaFile(file)) {
       return file.fileId;
     }
     return getFormFillFileId(file);
@@ -99,7 +99,7 @@ export function useMeasurementManager({
   }
 
   function readStoredScale(fileKey: string): MeasureScale | null | undefined {
-    const storedMap = loadSessionMap("stirling_scales");
+    const storedMap = loadSessionMap("scripta_scales");
     if (!(fileKey in storedMap)) {
       return undefined;
     }
@@ -109,7 +109,7 @@ export function useMeasurementManager({
   }
 
   function readStoredMeasurements(fileKey: string): Measurement[] | undefined {
-    const storedMap = loadSessionMap("stirling_measurements");
+    const storedMap = loadSessionMap("scripta_measurements");
     if (!(fileKey in storedMap)) {
       return undefined;
     }
@@ -125,12 +125,12 @@ export function useMeasurementManager({
   }
 
   function persistScale(fileKey: string, scale: MeasureScale | null) {
-    persistSessionValue("stirling_scales", fileKey, scale, "scale");
+    persistSessionValue("scripta_scales", fileKey, scale, "scale");
   }
 
   function persistMeasurements(fileKey: string, value: Measurement[]) {
     persistSessionValue(
-      "stirling_measurements",
+      "scripta_measurements",
       fileKey,
       value,
       "measurements",

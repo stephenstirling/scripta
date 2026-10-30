@@ -4,8 +4,8 @@ import { MantineProvider } from "@mantine/core";
 import { beforeEach, beforeAll, afterAll, expect, it, vi } from "vitest";
 import { SigningDocumentPicker } from "@app/components/shared/signing/SigningDocumentPicker";
 import {
-  createNewStirlingFileStub,
-  createStirlingFile,
+  createNewScriptaFileStub,
+  createScriptaFile,
 } from "@app/types/fileContext";
 
 const state = vi.hoisted(() => ({
@@ -83,12 +83,12 @@ function show(value: string | null = null) {
 }
 
 it("shows only PDFs and selects an open document without importing it", () => {
-  const first = createNewStirlingFileStub(new File(["one"], "First.pdf"));
-  const second = createNewStirlingFileStub(new File(["two"], "Second.pdf"));
+  const first = createNewScriptaFileStub(new File(["one"], "First.pdf"));
+  const second = createNewScriptaFileStub(new File(["two"], "Second.pdf"));
   state.stubs.mockReturnValue([
     first,
     second,
-    createNewStirlingFileStub(new File([], "Notes.txt")),
+    createNewScriptaFileStub(new File([], "Notes.txt")),
   ]);
   const { onChange } = show();
   expect(screen.getAllByRole("radio")).toHaveLength(2);
@@ -109,7 +109,7 @@ it("shows only PDFs and selects an open document without importing it", () => {
 });
 
 it("can deselect even when only one PDF is open", () => {
-  const file = createNewStirlingFileStub(new File(["one"], "Only.pdf"));
+  const file = createNewScriptaFileStub(new File(["one"], "Only.pdf"));
   state.stubs.mockReturnValue([file]);
   const { onChange } = show(file.id);
   expect(screen.getByRole("figure")).toHaveAccessibleName("Only.pdf");
@@ -122,7 +122,7 @@ it("can deselect even when only one PDF is open", () => {
 });
 
 it("uses the single-PDF library picker and reuses an already-open file", async () => {
-  const file = createStirlingFile(new File(["same"], "Open.pdf"));
+  const file = createScriptaFile(new File(["same"], "Open.pdf"));
   state.files.mockReturnValue([file]);
   const { onChange } = show();
   fireEvent.click(screen.getByRole("button", { name: "Choose a PDF" }));
@@ -138,7 +138,7 @@ it("uses the single-PDF library picker and reuses an already-open file", async (
 
 it("selects the imported PDF and releases loading state when ingestion fails", async () => {
   const source = new File(["new"], "New.pdf");
-  const added = createStirlingFile(source);
+  const added = createScriptaFile(source);
   state.add
     .mockResolvedValueOnce([added])
     .mockRejectedValueOnce(new Error("Storage unavailable"));

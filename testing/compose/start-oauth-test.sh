@@ -8,7 +8,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${BLUE}╔════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║  Stirling PDF + Keycloak OAuth Test Environment  ║${NC}"
+echo -e "${BLUE}║  Scripta + Keycloak OAuth Test Environment  ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -80,7 +80,7 @@ export KEYCLOAK_HOST
 
 # Preflight check: ensure host can resolve the issuer hostname (skippable + bounded timeouts)
 if [ "${SKIP_OAUTH_PREFLIGHT:-false}" != "true" ]; then
-    if ! curl -sf --connect-timeout 2 --max-time 3 "http://${KEYCLOAK_HOST}:9080/realms/stirling-oauth" >/dev/null 2>&1; then
+    if ! curl -sf --connect-timeout 2 --max-time 3 "http://${KEYCLOAK_HOST}:9080/realms/scripta-oauth" >/dev/null 2>&1; then
         echo -e "${YELLOW}⚠ Cannot reach http://${KEYCLOAK_HOST}:9080 from this machine.${NC}"
         echo -e "${YELLOW}  Add a hosts entry pointing ${KEYCLOAK_HOST} to 127.0.0.1, then retry.${NC}"
         echo ""
@@ -125,7 +125,7 @@ echo -e "${YELLOW}▶ Waiting for Keycloak (OAuth)...${NC}"
 MAX_WAIT=180
 WAITED=0
 while [ $WAITED -lt $MAX_WAIT ]; do
-    if curl -sf http://localhost:9080/realms/stirling-oauth > /dev/null 2>&1; then
+    if curl -sf http://localhost:9080/realms/scripta-oauth > /dev/null 2>&1; then
         echo -e "${GREEN}✓ Keycloak is ready${NC}"
         break
     fi
@@ -140,15 +140,15 @@ if [ $WAITED -ge $MAX_WAIT ]; then
 fi
 
 echo ""
-echo -e "${YELLOW}▶ Starting Stirling PDF...${NC}"
-docker-compose -f docker-compose-keycloak-oauth.yml up "${COMPOSE_UP_ARGS[@]}" stirling-pdf-oauth
+echo -e "${YELLOW}▶ Starting Scripta...${NC}"
+docker-compose -f docker-compose-keycloak-oauth.yml up "${COMPOSE_UP_ARGS[@]}" scripta-oauth
 
 echo ""
-echo -e "${YELLOW}▶ Waiting for Stirling PDF...${NC}"
+echo -e "${YELLOW}▶ Waiting for Scripta...${NC}"
 WAITED=0
 while [ $WAITED -lt $MAX_WAIT ]; do
     if curl -sf http://localhost:8080/api/v1/info/status 2>/dev/null | grep -q "UP"; then
-        echo -e "${GREEN}✓ Stirling PDF is ready${NC}"
+        echo -e "${GREEN}✓ Scripta is ready${NC}"
         break
     fi
     echo -n "."
@@ -157,7 +157,7 @@ while [ $WAITED -lt $MAX_WAIT ]; do
 done
 
 if [ $WAITED -ge $MAX_WAIT ]; then
-    echo -e "${RED}✗ Stirling PDF failed to start${NC}"
+    echo -e "${RED}✗ Scripta failed to start${NC}"
     exit 1
 fi
 
@@ -167,7 +167,7 @@ echo -e "${GREEN}║          OAuth Test Environment Ready! ✓          ║${NC
 echo -e "${GREEN}╚════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${BLUE}📍 Services:${NC}"
-echo -e "   Stirling PDF:   ${GREEN}http://localhost:8080${NC}"
+echo -e "   Scripta:   ${GREEN}http://localhost:8080${NC}"
 echo -e "   Keycloak Admin: ${GREEN}http://${KEYCLOAK_HOST}:9080/admin${NC}"
 echo ""
 echo -e "${BLUE}🔑 Keycloak Admin:${NC}"

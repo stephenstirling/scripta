@@ -429,7 +429,7 @@ def wrap_cff_as_otf(input_path, output_path, tounicode_path=None):
         name_strings = {
             1: font_name,  # Font Family
             2: "Regular",  # Subfamily
-            3: f"Stirling-PDF: {font_name}",  # Unique ID
+            3: f"Scripta: {font_name}",  # Unique ID
             4: font_name,  # Full Name
             5: "Version 1.0",  # Version
             6: font_name.replace(" ", "-"),  # PostScript Name

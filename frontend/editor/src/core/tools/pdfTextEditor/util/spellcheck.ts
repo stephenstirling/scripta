@@ -40,7 +40,7 @@ export const DEFAULT_SPELLCHECK_PREFERENCE: SpellcheckPreference =
     lang: SPELLCHECK_AUTO,
   });
 
-const STORAGE_KEY = "stirling.pdfTextEditor.spellcheck";
+const STORAGE_KEY = "scripta.pdfTextEditor.spellcheck";
 
 // Deliberately loose: enough to reject junk ("not a tag", "") without
 // re-implementing BCP-47, which the browser validates anyway.

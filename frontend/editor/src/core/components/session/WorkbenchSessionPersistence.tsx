@@ -31,16 +31,16 @@ import {
   writeWorkbenchSession,
 } from "@app/services/workbenchSession";
 import type { WorkbenchType } from "@app/types/workbench";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
 const WRITE_DEBOUNCE_MS = 300;
 
 // Current leaf per original id; a forked chain resolves to the highest version.
 function leafByOriginalId(
-  leaves: StirlingFileStub[],
-): Map<string, StirlingFileStub> {
-  const map = new Map<string, StirlingFileStub>();
+  leaves: ScriptaFileStub[],
+): Map<string, ScriptaFileStub> {
+  const map = new Map<string, ScriptaFileStub>();
   for (const leaf of leaves) {
     const key = originalIdOf(leaf);
     const current = map.get(key);
@@ -58,14 +58,14 @@ function leafByOriginalId(
  */
 async function currentLeaves(
   originalIds: string[],
-): Promise<Map<string, StirlingFileStub>> {
+): Promise<Map<string, ScriptaFileStub>> {
   const direct = await Promise.all(
-    originalIds.map((id) => fileStorage.getStirlingFileStub(id as FileId)),
+    originalIds.map((id) => fileStorage.getScriptaFileStub(id as FileId)),
   );
   if (direct.every((stub) => stub && stub.isLeaf !== false)) {
     return new Map(originalIds.map((id, i) => [id, direct[i]!]));
   }
-  return leafByOriginalId(await fileStorage.getLeafStirlingFileStubs());
+  return leafByOriginalId(await fileStorage.getLeafScriptaFileStubs());
 }
 
 /** How long to wait for the NEXT file to hydrate before giving up on holding the view. Restarted on
@@ -264,7 +264,7 @@ export function WorkbenchSessionPersistence() {
         const leaves = await currentLeaves(saved.fileIds);
         const stubs = saved.fileIds
           .map((id) => leaves.get(id))
-          .filter((stub): stub is StirlingFileStub => stub !== undefined);
+          .filter((stub): stub is ScriptaFileStub => stub !== undefined);
         const openOriginalIds = new Set(
           Object.values(store.getState().files.byId).map(originalIdOf),
         );
@@ -285,7 +285,7 @@ export function WorkbenchSessionPersistence() {
           if (view) held = beginRestoredView();
           // The same entry point My Files uses, so a restored file is governed by the same rules as
           // any other file entering the workbench - including whether a policy has already run on it.
-          await actions.addStirlingFileStubs(toRestore);
+          await actions.addScriptaFileStubs(toRestore);
           const restoredIds = new Set(toRestore.map((stub) => stub.id));
           // File intake can begin during either storage lookup or insertion. Keep its selection
           // and view, while still reopening the saved files alongside it.

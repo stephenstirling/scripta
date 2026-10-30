@@ -179,8 +179,8 @@ export async function applyFieldEdits(
 }
 
 /** Set by the backend when it could not apply every requested edit. */
-const SKIPPED_EDITS_HEADER = "x-stirling-skipped-field-edits";
-const SKIPPED_EDITS_TOTAL_HEADER = "x-stirling-skipped-field-edits-total";
+const SKIPPED_EDITS_HEADER = "x-scripta-skipped-field-edits";
+const SKIPPED_EDITS_TOTAL_HEADER = "x-scripta-skipped-field-edits-total";
 
 /** Base64 JSON, so a reason containing spaces or non-ASCII survives the header intact. */
 function parseSkippedEdits(raw: unknown): SkippedFieldEdit[] {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import {
   MAX_THUMBNAILS,
   planThumbnails,
@@ -10,7 +10,7 @@ function stub(options: {
   pages?: (string | undefined)[];
   totalPages?: number;
   thumbnailUrl?: string;
-}): StirlingFileStub {
+}): ScriptaFileStub {
   const hasProcessed =
     options.pages !== undefined || options.totalPages !== undefined;
   return {
@@ -21,7 +21,7 @@ function stub(options: {
           totalPages: options.totalPages,
         }
       : undefined,
-  } as StirlingFileStub;
+  } as ScriptaFileStub;
 }
 
 /** Compact "file:page" view of a plan, for readable expectations. */

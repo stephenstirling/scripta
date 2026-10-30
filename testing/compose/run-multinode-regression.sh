@@ -30,7 +30,7 @@ SEED_LOG="$(pwd)/multinode/seed.log"
 
 echo "==> Ensuring the multi-node stack is up (valkey=$VALKEY_TOPOLOGY)..."
 # Exact match: "unhealthy" contains "healthy", so a substring test reads a broken node as up.
-node_health=$(docker inspect -f '{{.State.Health.Status}}' multinode-stirling-1 2>/dev/null | tr -d '\r')
+node_health=$(docker inspect -f '{{.State.Health.Status}}' multinode-scripta-1 2>/dev/null | tr -d '\r')
 if [ "$node_health" != "healthy" ]; then
   ./start-multinode-test.sh --valkey "$VALKEY_TOPOLOGY" $([ "$SEED" = 0 ] && echo --no-seed) || exit 1
 elif [ "$SEED" = 1 ]; then
@@ -66,7 +66,7 @@ if [ "$RUN_FAILOVER" = 1 ]; then
     echo "    ERROR: could not restore the stack ('up -d' failed)"
     rc=1
   fi
-  for n in multinode-stirling-1 multinode-stirling-2; do
+  for n in multinode-scripta-1 multinode-scripta-2; do
     restored=0
     for i in $(seq 1 24); do
       [ "$(docker inspect -f '{{.State.Health.Status}}' "$n" 2>/dev/null | tr -d '\r')" = "healthy" ] \
@@ -89,6 +89,6 @@ echo " Regression run complete. Reports: $REPORT_DIR"
 echo " Valkey topology: $VALKEY_TOPOLOGY"
 echo " Exit $rc (non-zero = at least one scenario failed;"
 echo " @known_gap scenarios are expected to fail - see the report)."
-echo " Stack left running: http://localhost:8080  (admin / stirling)"
+echo " Stack left running: http://localhost:8080  (admin / scripta)"
 echo "============================================================"
 exit $rc

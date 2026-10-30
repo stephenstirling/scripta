@@ -15,7 +15,7 @@ on the left, the document on a grey canvas, floating tools beside it. The intera
 Layout, density and interaction patterns are fair game. Do not use another product's name, logo,
 icon artwork, typeface or marketing copy. Specifically:
 
-- Scripta's own tool names and its own icon drawings (Lucide plus `svg/stirling/`).
+- Scripta's own tool names and its own icon drawings (Lucide plus `svg/scripta/`).
 - The top-strip button is "Add files", not "Create": Scripta does not author PDFs from scratch.
 - No upgrade or promotional block at the foot of the tool panel.
 

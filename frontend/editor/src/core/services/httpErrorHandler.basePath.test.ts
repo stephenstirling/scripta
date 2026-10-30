@@ -58,7 +58,7 @@ describe("401 return path is router-relative", () => {
     const handle = await loadAt("/app/", "/app/compress");
     await handle(unauthorized);
 
-    expect(sessionStorage.getItem("stirling_post_login_path")).toBe(
+    expect(sessionStorage.getItem("scripta_post_login_path")).toBe(
       "/compress",
     );
     expect(hrefs[0]).toBe("/app/login?from=%2Fcompress");
@@ -68,7 +68,7 @@ describe("401 return path is router-relative", () => {
     const handle = await loadAt("/", "/compress");
     await handle(unauthorized);
 
-    expect(sessionStorage.getItem("stirling_post_login_path")).toBe(
+    expect(sessionStorage.getItem("scripta_post_login_path")).toBe(
       "/compress",
     );
     expect(hrefs[0]).toBe("/login?from=%2Fcompress");

@@ -80,7 +80,7 @@ test.describe("Auto Form Detection tool", () => {
     // Seed JWT so the auth-gated dashboard chrome renders for the admin user.
     await page.addInitScript(() => {
       localStorage.setItem(
-        "stirling_jwt",
+        "scripta_jwt",
         "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiJ9.signature",
       );
     });

@@ -6,7 +6,7 @@ import { ActionIcon } from "@app/ui/ActionIcon";
 import { Icon } from "@app/ui/Icon";
 import { FileId, ToolOperation } from "@app/types/file";
 import { toolOperationLabel } from "@app/utils/toolOperationLabel";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { formatFileSize, getFileDate } from "@app/utils/fileUtils";
 import { downloadFileFromStorage } from "@app/utils/downloadUtils";
 
@@ -48,8 +48,8 @@ export function DetailField({
 }
 
 function deltaToolFor(
-  version: StirlingFileStub,
-  prior: StirlingFileStub | null,
+  version: ScriptaFileStub,
+  prior: ScriptaFileStub | null,
 ): ToolOperation | null {
   if (!prior) return null;
   const priorLen = prior.toolHistory?.length ?? 0;
@@ -63,8 +63,8 @@ function ToolLabel({ operation }: { operation: ToolOperation }) {
 }
 
 export interface VersionTimelineProps {
-  onPickVersion?: (file: StirlingFileStub) => void;
-  chain: StirlingFileStub[];
+  onPickVersion?: (file: ScriptaFileStub) => void;
+  chain: ScriptaFileStub[];
   currentId: FileId;
   onAddToWorkspace?: (fileIds: FileId[]) => void;
   onRemove?: (fileIds: FileId[]) => void;
@@ -91,7 +91,7 @@ export function VersionTimeline({
   );
 
   const byVersionNumber = useMemo(() => {
-    const map = new Map<number, StirlingFileStub>();
+    const map = new Map<number, ScriptaFileStub>();
     for (const v of chain) {
       map.set(v.versionNumber ?? 1, v);
     }
@@ -101,7 +101,7 @@ export function VersionTimeline({
   const COLLAPSE_THRESHOLD = 6;
   const collapsible = ordered.length > COLLAPSE_THRESHOLD;
   type Row =
-    | { kind: "version"; version: StirlingFileStub }
+    | { kind: "version"; version: ScriptaFileStub }
     | {
         kind: "ellipsis";
         hidden: number;

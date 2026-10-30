@@ -2,7 +2,7 @@
 # MODE=BACKEND: Backend API only (no frontend)
 
 services:
-  stirling-pdf-backend-only:
+  scripta-backend-only:
     container_name: Scripta-Backend-Only
     build:
       context: ../..
@@ -10,11 +10,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./stirling/data:/usr/share/tessdata:rw
-      - ./stirling/config:/configs:rw
-      - ./stirling/logs:/logs:rw
-      - ./stirling/customFiles:/customFiles:rw
-      - ./stirling/pipeline:/pipeline:rw
+      - ./scripta/data:/usr/share/tessdata:rw
+      - ./scripta/config:/configs:rw
+      - ./scripta/logs:/logs:rw
+      - ./scripta/customFiles:/customFiles:rw
+      - ./scripta/pipeline:/pipeline:rw
     environment:
       # MODE parameter: BACKEND only
       MODE: BACKEND

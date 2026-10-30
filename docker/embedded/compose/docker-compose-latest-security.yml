@@ -1,5 +1,5 @@
 services:
-  stirling-pdf:
+  scripta:
     container_name: Scripta-Security
     image: ghcr.io/stephenstirling/scripta:latest
     build:
@@ -13,9 +13,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../../../stirling/latest/data:/usr/share/tessdata:rw
-      - ../../../stirling/latest/config:/configs:rw
-      - ../../../stirling/latest/logs:/logs:rw
+      - ../../../scripta/latest/data:/usr/share/tessdata:rw
+      - ../../../scripta/latest/config:/configs:rw
+      - ../../../scripta/latest/logs:/logs:rw
     environment:
       DISABLE_ADDITIONAL_FEATURES: "false"
       SECURITY_ENABLELOGIN: "false"

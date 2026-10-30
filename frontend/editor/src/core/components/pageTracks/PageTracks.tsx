@@ -801,7 +801,7 @@ export default function PageTracks() {
     WorkbenchExportFile[] | null
   > => {
     const lookup = {
-      getStub: fileSelectors.getStirlingFileStub,
+      getStub: fileSelectors.getScriptaFileStub,
       getFile: fileSelectors.getFile,
     };
     const trackIds = workspace.order.filter(
@@ -838,7 +838,7 @@ export default function PageTracks() {
   const downloadSelection = useCallback(
     async (layout: SelectedPagesLayout) => {
       const lookup = {
-        getStub: fileSelectors.getStirlingFileStub,
+        getStub: fileSelectors.getScriptaFileStub,
         getFile: fileSelectors.getFile,
       };
       setDownloadingSelection(true);
@@ -930,12 +930,12 @@ export default function PageTracks() {
   const renameTrack = useCallback(
     async (track: Track, name: string) => {
       if (!track.isNew) {
-        const stub = fileSelectors.getStirlingFileStub(track.fileId);
+        const stub = fileSelectors.getScriptaFileStub(track.fileId);
         const saved = stub
           ? await renameStoredFile(
               stub,
               name,
-              fileActions.updateStirlingFileStub,
+              fileActions.updateScriptaFileStub,
             )
           : false;
         if (!saved) {

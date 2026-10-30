@@ -3,12 +3,12 @@ import { withReducerIdentityGuard } from "@app/contexts/file/FileReducer";
 import type {
   FileContextState,
   FileContextAction,
-  StirlingFileStub,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
-const stub = (id: string): StirlingFileStub =>
-  ({ id: id as FileId, name: `${id}.pdf` }) as StirlingFileStub;
+const stub = (id: string): ScriptaFileStub =>
+  ({ id: id as FileId, name: `${id}.pdf` }) as ScriptaFileStub;
 
 function baseState(): FileContextState {
   return {

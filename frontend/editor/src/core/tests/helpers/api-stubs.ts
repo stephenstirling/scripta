@@ -1,7 +1,7 @@
 import type { Page, Route } from "@playwright/test";
 
 /**
- * Shared Playwright API stubs for Stirling-PDF E2E tests.
+ * Shared Playwright API stubs for Scripta E2E tests.
  *
  * Import `mockAppApis(page)` from this module in any spec that doesn't need
  * a real backend. The helper installs `page.route()` handlers for the
@@ -274,7 +274,7 @@ export async function mockAppApis(
       route.fulfill({
         json: {
           enabled: false,
-          url: "http://stirling-pdf-engine:5001",
+          url: "http://scripta-engine:5001",
           rag: { embeddingProvider: "voyageai", embeddingModel: "voyage-3" },
         },
       }),

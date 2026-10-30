@@ -613,18 +613,18 @@ label = "Ліміт сеансів"
 description = "Максимальний час виконання"
 label = "Тайм-аут (хвилини)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert у бета-версії. Він пропонує кращу й швидшу конвертацію з меншим використанням пам’яті, ніж LibreOffice."
-label = "Використовувати нову конвертацію Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert у бета-версії. Він пропонує кращу й швидшу конвертацію з меншим використанням пам’яті, ніж LibreOffice."
+label = "Використовувати нову конвертацію Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Налаштуйте зберігання тимчасових файлів та поведінку очищення"
 label = "Керування тимчасовими файлами"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Базовий каталог для тимчасових файлів (залиште порожнім для типового: java.io.tmpdir/stirling-pdf)"
+description = "Базовий каталог для тимчасових файлів (залиште порожнім для типового: java.io.tmpdir/scripta)"
 label = "Базовий тимчасовий каталог"
-placeholder = "Типово: java.io.tmpdir/stirling-pdf"
+placeholder = "Типово: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Як часто виконувати очищення (у хвилинах)"
@@ -683,8 +683,8 @@ permissionNotice = "Шлях до tessdata недоступний для зап�
 [admin.settings.ai]
 customProvider = "Користувацький (сумісний з OpenAI)"
 description = "Підключіть Scripta до Python AI-рушія, виберіть його моделі та задайте обмеження, в межах яких він працює."
-managedByCloud = "У цьому режимі керується Stirling Cloud."
-managedByCloudShort = "Керується Stirling Cloud"
+managedByCloud = "У цьому режимі керується Cloud."
+managedByCloudShort = "Керується Cloud"
 
 [admin.settings.ai.documents]
 description = "Налаштуйте модель ембедингів і параметри пошуку, що використовуються для відповідей на запитання щодо документів. Застосовується до AI engine після збереження."
@@ -735,16 +735,16 @@ description = "Увімкніть або вимкніть окремі функ�
 title = "Можливості"
 
 [admin.settings.ai.general.cloud]
-note = "Моделі та ключі постачальника керуються Stirling Cloud, тому ці налаштування не застосовуються в цьому режимі."
+note = "Моделі та ключі постачальника керуються Cloud, тому ці налаштування не застосовуються в цьому режимі."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Кожен інструмент ШІ надсилає текст сторінки, потрібний для відповіді. Це визначає, чи може Stirling Cloud також зберігати цей текст індексованим, щоб наступні запитання могли шукати в документі."
+description = "Кожен інструмент ШІ надсилає текст сторінки, потрібний для відповіді. Це визначає, чи може Cloud також зберігати цей текст індексованим, щоб наступні запитання могли шукати в документі."
 help = "Вимкнено означає, що запитання щодо документа недоступні. Це не зупиняє надсилання тексту — лише його зберігання."
-label = "Дозволити Stirling Cloud зберігати індексовані документи"
+label = "Дозволити Cloud зберігати індексовані документи"
 
 [admin.settings.ai.general.cloudNote]
-body = "Обґрунтування виконується в інфраструктурі Scripta, а оплата виставляється на обліковий запис, до якого прив’язано цей сервер. Тут не потрібно запускати контейнер і зберігати ключ постачальника. Усе, що читає ШІ, обробляється Stirling Cloud, а не на вашому обладнанні."
-title = "Про Stirling Cloud AI"
+body = "Обґрунтування виконується в інфраструктурі Scripta, а оплата виставляється на обліковий запис, до якого прив’язано цей сервер. Тут не потрібно запускати контейнер і зберігати ключ постачальника. Усе, що читає ШІ, обробляється Cloud, а не на вашому обладнанні."
+title = "Про Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Головний перемикач. Якщо вимкнено, інструменти AI, агенти або виклики engine недоступні."
@@ -782,11 +782,11 @@ label = "Тайм-аут тривалих операцій (секунди)"
 label = "Де працює ШІ"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Без контейнера, без ключа постачальника, без вибору моделі — робота виконується в Stirling Cloud, а оплата виставляється на обліковий запис, до якого прив’язано цей сервер."
+description = "Без контейнера, без ключа постачальника, без вибору моделі — робота виконується в Cloud, а оплата виставляється на обліковий запис, до якого прив’язано цей сервер."
 linkCta = "Підключити цей сервер до облікового запису Scripta"
 notLinked = "Спочатку прив’яжіть обліковий запис"
 ownerOnly = "Лише власник організації може прив’язати цей сервер до облікового запису Scripta."
-title = "Використовувати Stirling Cloud AI"
+title = "Використовувати Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Інструменти ШІ недоступні в усьому застосунку, і нічого не залишає цей сервер."
@@ -818,7 +818,7 @@ description = "Тайм-аут для стандартних AI-запитів �
 label = "Тайм-аут запиту (секунди)"
 
 [admin.settings.ai.general.url]
-description = "Внутрішній URL Python AI engine, напр. http://stirling-pdf-engine:5001."
+description = "Внутрішній URL Python AI engine, напр. http://scripta-engine:5001."
 label = "URL рушія AI"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "URL рушія"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Не працює"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Працює"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "Спільний доступ AI"
 sharingOff = "Вимкнено"
 sharingOn = "Увімкнено"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud відповів, але відхилив цей сервер. Можливо, прив’язку облікового запису було відкликано."
-title = "Stirling Cloud відхиляє цей сервер"
+body = "Cloud відповів, але відхилив цей сервер. Можливо, прив’язку облікового запису було відкликано."
+title = "Cloud відхиляє цей сервер"
 
 [admin.settings.ai.status.cloud.down]
-body = "Цей сервер не зміг зв’язатися зі Stirling Cloud. Перевірте прив’язку облікового запису та чи може цей сервер підключатися до інтернету."
-title = "Stirling Cloud недоступний"
+body = "Цей сервер не зміг зв’язатися зі Cloud. Перевірте прив’язку облікового запису та чи може цей сервер підключатися до інтернету."
+title = "Cloud недоступний"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud прийняв цей сервер. Тут нічого не потрібно запускати або виправляти."
-title = "Працює на Stirling Cloud"
+body = "Cloud прийняв цей сервер. Тут нічого не потрібно запускати або виправляти."
+title = "Працює на Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Він відповів на перевірку працездатності, але відхилив справжній запит. Дві сторони використовують різні спільні секрети."
@@ -1885,7 +1885,7 @@ wrapUp = "Це завершення туру адміністратора! Ви 
 title = "Налаштування контролю користувача"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Арабська"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Спочатку виберіть формат дже
 settings = "Налаштування"
 single = "Один"
 sourceFormatPlaceholder = "Вихідний формат"
-stirlingOfficeConvert = "Використовувати Stirling Office Convert (бета)"
-stirlingOfficeConvertDescription = "Краща й швидша конвертація з меншим використанням пам’яті. Вимкніть, щоб використовувати стандартний конвертер."
+scriptaOfficeConvert = "Використовувати Office Convert (бета)"
+scriptaOfficeConvertDescription = "Краща й швидша конвертація з меншим використанням пам’яті. Вимкніть, щоб використовувати стандартний конвертер."
 strictMode = "Суворий режим"
 strictModeDesc = "Помилка, якщо конвертація не ідеальна (використовує перевірку VeraPDF)"
 svgPdfOptions = "Параметри SVG у PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Огляд плану"
 [onboarding.processorIntro]
 body = "Scripta тепер запускає <strong>Політики</strong> — автоматизовані правила, які класифікують, захищають і обробляють кожен документ під час надходження. Налаштовуйте їх і відстежуйте запуски в <strong>Processor</strong>."
 cta = "Переглянути Processor"
-title = "Ознайомтеся зі Stirling Processor"
+title = "Ознайомтеся зі Processor"
 
 [onboarding.securityCheck]
 message = "Додаток нещодавно зазнав значних змін. Може знадобитися увага адміністратора сервера. Підтвердьте свою роль, щоб продовжити."
@@ -5359,9 +5359,9 @@ roleUser = "Користувач"
 title = "Перевірка безпеки"
 
 [onboarding.serverLicense]
-freeBody = "Наша ліцензія <strong>Open-Core</strong> включає <strong>OAuth SSO</strong> і до <strong>{{freeTierLimit}}</strong> користувачів безкоштовно. Для безперервного зростання рекомендуємо план Stirling Team — <strong>100 користувачів</strong> за 99 доларів на місяць."
+freeBody = "Наша ліцензія <strong>Open-Core</strong> включає <strong>OAuth SSO</strong> і до <strong>{{freeTierLimit}}</strong> користувачів безкоштовно. Для безперервного зростання рекомендуємо план Scripta Team — <strong>100 користувачів</strong> за 99 доларів на місяць."
 freeTitle = "План Team"
-overLimitBody = "Наша ліцензія дозволяє до <strong>{{freeTierLimit}}</strong> користувачів безкоштовно. У вас <strong>{{overLimitUserCopy}}</strong> користувачів Scripta. Щоб продовжити без перерв, перейдіть на план Stirling Team — <strong>100 користувачів</strong>, редагування тексту PDF і повний контроль адміністратора за $99/міс."
+overLimitBody = "Наша ліцензія дозволяє до <strong>{{freeTierLimit}}</strong> користувачів безкоштовно. У вас <strong>{{overLimitUserCopy}}</strong> користувачів Scripta. Щоб продовжити без перерв, перейдіть на план Scripta Team — <strong>100 користувачів</strong>, редагування тексту PDF і повний контроль адміністратора за $99/міс."
 overLimitTitle = "Потрібен план Team"
 seePlans = "Переглянути плани →"
 upgrade = "Оновити зараз →"
@@ -6918,7 +6918,7 @@ label = "Заголовки"
 
 [portal.policies.operations.fields.index]
 label = "Індекс"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Ключ задачі"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Ім'я користувача Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Повідомляє простір, що політика обробила документ."
@@ -7192,7 +7192,7 @@ secretNote = "Секрет підписання показується один 
 copy = "Копіювати"
 done = "Готово"
 secret = "Секрет підписання"
-secretHelp = "Підписуйте сире тіло кожної доставки цим ключем (HMAC-SHA256) і надсилайте його як заголовок X-Stirling-Signature."
+secretHelp = "Підписуйте сире тіло кожної доставки цим ключем (HMAC-SHA256) і надсилайте його як заголовок X-Scripta-Signature."
 secretWarning = "Скопіюйте секрет підписання зараз. З міркувань безпеки він показується лише один раз і не може бути отриманий пізніше."
 title = "Webhook створено"
 url = "URL доставки"
@@ -8047,7 +8047,7 @@ storageSharing = "Зберігання файлів і спільний дост
 systemSettings = "Системні налаштування"
 
 [settings.connectedInstances]
-confirmBody = "Це відкликає доступ інстансу до вашої команди в Stirling Cloud. Це не видаляє локальні файли й не прибирає вже записане використання. Щоб підключитися знову, виконайте початкові кроки підключення на інстансі."
+confirmBody = "Це відкликає доступ інстансу до вашої команди в Cloud. Це не видаляє локальні файли й не прибирає вже записане використання. Щоб підключитися знову, виконайте початкові кроки підключення на інстансі."
 confirmTitle = "Видалити {{name}}?"
 connectedAt = "Підключено: {{date}}"
 connectedDate = "Підключено"
@@ -8091,7 +8091,7 @@ user = "Увійшли як"
 
 [settings.connection.mode]
 local = "Лише локально"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "Самохостинг"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Моніторинг"
 [settings.planBilling]
 currentPlan = "Поточний план"
 loading = "Завантаження інформації про білінг..."
-notAvailable = "План і білінг доступні лише при підключенні до Stirling Cloud (режим SaaS)."
+notAvailable = "План і білінг доступні лише при підключенні до Cloud (режим SaaS)."
 title = "План і білінг"
 
 [settings.planBilling.billing]

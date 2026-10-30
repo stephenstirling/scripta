@@ -8,10 +8,10 @@ import {
   useFileContext,
   useFileSelection,
   useFileSelectors,
-  useStirlingFileStub,
+  useScriptaFileStub,
   useFileActions,
 } from "@app/contexts/file/fileHooks";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import type { FileContextAction } from "@app/types/fileContext";
 
@@ -21,14 +21,14 @@ import type { FileContextAction } from "@app/types/fileContext";
  * other files' consumers, and selection changes don't re-render list consumers.
  */
 
-const stub = (id: string): StirlingFileStub =>
+const stub = (id: string): ScriptaFileStub =>
   ({
     id: id as FileId,
     name: `${id}.pdf`,
     type: "application/pdf",
     size: 1,
     lastModified: 0,
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 
 const renders: Record<string, number> = {};
 let dispatchRef: React.Dispatch<FileContextAction> | null = null;
@@ -40,7 +40,7 @@ function Controller() {
 }
 
 function StubWatcher({ fileId }: { fileId: string }) {
-  useStirlingFileStub(fileId as FileId);
+  useScriptaFileStub(fileId as FileId);
   renders[`stub-${fileId}`] = (renders[`stub-${fileId}`] ?? 0) + 1;
   return null;
 }
@@ -74,7 +74,7 @@ function setup() {
   act(() => {
     dispatchRef!({
       type: "ADD_FILES",
-      payload: { stirlingFileStubs: [stub("a"), stub("b")] },
+      payload: { scriptaFileStubs: [stub("a"), stub("b")] },
     });
   });
   return { ...renders };
@@ -195,7 +195,7 @@ describe("useFileContext — render-phase misuse guard", () => {
 
   function FilesReadDuringRender() {
     const { selectors } = useFileContext();
-    selectors.getStirlingFileStubs(); // files slice IS subscribed — legitimate
+    selectors.getScriptaFileStubs(); // files slice IS subscribed — legitimate
     return null;
   }
 

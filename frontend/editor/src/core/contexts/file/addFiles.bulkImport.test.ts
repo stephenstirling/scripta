@@ -6,10 +6,10 @@ import type { FileId } from "@app/types/file";
 // parse every PDF a second time for a thumbnail, nor keep hundreds of Files in memory
 // for the rest of the session. skipMetadataHydration is the option that promises both.
 
-const storeStirlingFile = vi.hoisted(() => vi.fn());
+const storeScriptaFile = vi.hoisted(() => vi.fn());
 const generateThumbnailPairWithMetadata = vi.hoisted(() => vi.fn());
 vi.mock("@app/services/fileStorage", () => ({
-  fileStorage: { storeStirlingFile, updateThumbnail: vi.fn() },
+  fileStorage: { storeScriptaFile, updateThumbnail: vi.fn() },
 }));
 vi.mock("@app/utils/thumbnailUtils", () => ({
   generateThumbnailPairWithMetadata,
@@ -30,7 +30,7 @@ function harness() {
   const filesRef = { current: new Map<FileId, File>() };
   const dispatch = vi.fn();
   const lifecycleManager = {
-    updateStirlingFileStub: vi.fn(),
+    updateScriptaFileStub: vi.fn(),
     removeFiles: vi.fn(),
     trackBlobUrl: vi.fn(),
   };
@@ -41,7 +41,7 @@ const pdf = (name: string) =>
   new File(["%PDF-1.7"], name, { type: "application/pdf" });
 
 beforeEach(() => {
-  storeStirlingFile.mockReset().mockResolvedValue(undefined);
+  storeScriptaFile.mockReset().mockResolvedValue(undefined);
   generateThumbnailPairWithMetadata.mockReset();
 });
 
@@ -63,8 +63,8 @@ describe("addFiles with skipMetadataHydration", () => {
       true,
     );
 
-    expect(storeStirlingFile).toHaveBeenCalledTimes(2);
-    const [, stub] = storeStirlingFile.mock.calls[0];
+    expect(storeScriptaFile).toHaveBeenCalledTimes(2);
+    const [, stub] = storeScriptaFile.mock.calls[0];
     expect(stub).toMatchObject({
       classificationLabels: ["invoice"],
       classificationLocked: true,

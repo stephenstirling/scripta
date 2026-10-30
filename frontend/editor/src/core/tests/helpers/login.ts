@@ -35,12 +35,12 @@ export async function skipOnboarding(page: Page): Promise<void> {
 }
 
 /**
- * Shared login helper for Stirling-PDF E2E tests.
+ * Shared login helper for Scripta E2E tests.
  * Logs in with the given credentials and waits for the dashboard to load.
  *
  * Default credentials are `admin / adminadmin` — set by the live-setup
  * bootstrap spec, which performs the real first-login password change from
- * the backend's default `admin / stirling` (min 8 chars per
+ * the backend's default `admin / scripta` (min 8 chars per
  * FirstLoginSlide validation).
  */
 export const DEFAULT_TEST_USERNAME = "admin";

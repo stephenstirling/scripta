@@ -22,7 +22,7 @@ async function storedLinks(page: Page) {
   return page.evaluate(
     () =>
       new Promise<unknown[]>((resolve, reject) => {
-        const request = indexedDB.open("stirling-pdf-files");
+        const request = indexedDB.open("scripta-files");
         request.onsuccess = () => {
           const db = request.result;
           if (!db.objectStoreNames.contains("files")) {
@@ -129,7 +129,7 @@ for (const timing of ["reload", "running"] as const) {
         page.evaluate(
           () =>
             JSON.parse(
-              sessionStorage.getItem("stirling.workbench.session") ?? "{}",
+              sessionStorage.getItem("scripta.workbench.session") ?? "{}",
             ).fileIds?.length,
         ),
       )
@@ -168,7 +168,7 @@ for (const timing of ["reload", "running"] as const) {
         page.evaluate(
           () =>
             JSON.parse(
-              sessionStorage.getItem("stirling.workbench.session") ?? "{}",
+              sessionStorage.getItem("scripta.workbench.session") ?? "{}",
             ).fileIds?.length,
         ),
       )

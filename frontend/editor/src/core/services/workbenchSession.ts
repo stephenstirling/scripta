@@ -1,15 +1,15 @@
 // The tab's last editor session (open files, selection, view), so a processor switch or reload
 // does not cost the user their workbench. sessionStorage on purpose: per-tab, tabs never clobber.
 
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { stripBasePath } from "@app/constants/app";
 
-const SESSION_KEY = "stirling.workbench.session";
+const SESSION_KEY = "scripta.workbench.session";
 /** Bumped when the record's shape or meaning changes, so an old one is discarded rather than
  *  half-read. v2: `userId` became meaningful - v1 records were written without a real owner and
  *  would otherwise look like they belonged to an anonymous session forever. */
 const SESSION_VERSION = 2;
-const RETURN_PATH_KEY = "stirling.workbench.editorReturnPath";
+const RETURN_PATH_KEY = "scripta.workbench.editorReturnPath";
 
 // All ids are ORIGINAL file ids - a file's stable identity across versions.
 export interface WorkbenchSession {
@@ -24,7 +24,7 @@ export interface WorkbenchSession {
 }
 
 /** A file's stable identity across versions - what the session records. */
-export function originalIdOf(stub: StirlingFileStub): string {
+export function originalIdOf(stub: ScriptaFileStub): string {
   return stub.originalFileId || stub.id;
 }
 

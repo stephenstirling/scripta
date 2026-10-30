@@ -231,7 +231,7 @@ export async function seedFiles(page: Page, files: SeedFile[]) {
   await page.evaluate(async (seed: SeedFile[]) => {
     const open = () =>
       new Promise<IDBDatabase>((resolve, reject) => {
-        const req = indexedDB.open("stirling-pdf-files");
+        const req = indexedDB.open("scripta-files");
         req.onsuccess = () => resolve(req.result);
         req.onerror = () =>
           reject(req.error ?? new Error("indexedDB.open failed"));

@@ -38,7 +38,7 @@ import {
   OUTPUT_OPTIONS,
   FIT_OPTIONS,
 } from "@app/constants/convertConstants";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 
 interface ConvertSettingsProps {
   parameters: ConvertParameters;
@@ -49,7 +49,7 @@ interface ConvertSettingsProps {
   getAvailableToExtensions?: (
     fromExtension: string,
   ) => Array<{ value: string; label: string; group: string }>;
-  selectedFiles?: StirlingFile[];
+  selectedFiles?: ScriptaFile[];
   /**
    * Called with the newly chosen source format. The editor uses this to select the loaded files
    * that match; surfaces without loaded files (automation, pipeline builder) simply omit it. Keeping
@@ -527,7 +527,7 @@ const ConvertSettings = ({
           </>
         )}
 
-      {/* Stirling Office Convert or LibreOffice */}
+      {/* Office Convert or LibreOffice */}
       {usesOfficeEngine(parameters.fromExtension, parameters.toExtension) && (
         <>
           <Divider />

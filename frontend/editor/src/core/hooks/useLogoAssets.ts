@@ -11,9 +11,9 @@ export function useLogoAssets() {
       folderPath,
       getAssetPath: (name: string) => `${folderPath}/${name}`,
       wordmark: {
-        black: `${folderPath}/StirlingPDFLogoBlackText.svg`,
-        grey: `${folderPath}/StirlingPDFLogoGreyText.svg`,
-        white: `${folderPath}/StirlingPDFLogoWhiteText.svg`,
+        black: `${folderPath}/ScriptaLogoBlackText.svg`,
+        grey: `${folderPath}/ScriptaLogoGreyText.svg`,
+        white: `${folderPath}/ScriptaLogoWhiteText.svg`,
       },
       tooltipLogo: `${folderPath}/logo-tooltip.svg`,
       firstPage: `${folderPath}/Firstpage.png`,

@@ -12,7 +12,7 @@ import { Button } from "@app/ui/Button";
 import { ActionIcon } from "@app/ui/ActionIcon";
 import { useViewer } from "@app/contexts/ViewerContext";
 import { useAllFiles, useFileManagement } from "@app/contexts/FileContext";
-import { createQuickKey, isStirlingFile } from "@app/types/fileContext";
+import { createQuickKey, isScriptaFile } from "@app/types/fileContext";
 import { useToolWorkflow } from "@app/contexts/ToolWorkflowContext";
 import { PdfAttachmentObject } from "@embedpdf/models";
 import { useTranslation } from "react-i18next";
@@ -433,9 +433,9 @@ export const AttachmentSidebar = ({
     (file: File): string | null => {
       const quickKey = createQuickKey(file);
       const match = libraryFiles.find(
-        (f) => isStirlingFile(f) && f.quickKey === quickKey,
+        (f) => isScriptaFile(f) && f.quickKey === quickKey,
       );
-      return match && isStirlingFile(match) ? match.fileId : null;
+      return match && isScriptaFile(match) ? match.fileId : null;
     },
     [libraryFiles],
   );
@@ -445,7 +445,7 @@ export const AttachmentSidebar = ({
     (name: string): string | null => {
       const fileId = openedMembers.current.get(name);
       return fileId &&
-        libraryFiles.some((f) => isStirlingFile(f) && f.fileId === fileId)
+        libraryFiles.some((f) => isScriptaFile(f) && f.fileId === fileId)
         ? fileId
         : null;
     },

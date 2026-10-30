@@ -4,12 +4,12 @@ import type {
   FilesPageOriginFilter,
 } from "@app/contexts/FilesPageContext";
 import type { DiskFileEntry } from "@app/services/localFolderContents";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderId, FolderRecord } from "@app/types/folder";
 import { getFolderPath } from "@app/utils/folderPath";
 
 interface Options {
-  visibleFiles: StirlingFileStub[];
+  visibleFiles: ScriptaFileStub[];
   visibleFolders: FolderRecord[];
   currentFolderId: FolderId | null;
   foldersById: ReadonlyMap<FolderId, FolderRecord>;

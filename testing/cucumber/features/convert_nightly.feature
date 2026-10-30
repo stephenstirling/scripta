@@ -41,7 +41,7 @@ Feature: Heavy conversion endpoints
 
 
     @ebook @positive
-    Scenario: An EPUB produced by Stirling converts back to PDF
+    Scenario: An EPUB produced by Scripta converts back to PDF
         Given I generate a PDF file as "fileInput"
         And the pdf contains 3 pages with random text
         And the request data includes

@@ -43,7 +43,7 @@ services:
       timeout: 5s
       retries: 30
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   valkey-replica-2:
     <<: *valkey-replica
@@ -91,7 +91,7 @@ services:
       timeout: 5s
       retries: 40
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   sentinel-2:
     <<: *valkey-sentinel
@@ -103,14 +103,14 @@ services:
 
   # ---- App nodes: point the backplane at the sentinel set ------------------
   # Only the keys that differ from the base file - compose merges `environment` across -f files.
-  stirling-1:
+  scripta-1:
     depends_on: *sentinel-deps
     environment:
       CLUSTER_VALKEY_MODE: "sentinel"
       CLUSTER_VALKEY_SENTINEL_MASTER: "mymaster"
       CLUSTER_VALKEY_SENTINEL_NODES: "sentinel-1:26379,sentinel-2:26379,sentinel-3:26379"
 
-  stirling-2:
+  scripta-2:
     depends_on: *sentinel-deps
     environment:
       CLUSTER_VALKEY_MODE: "sentinel"

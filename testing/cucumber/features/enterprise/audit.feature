@@ -11,7 +11,7 @@ Feature: Audit Dashboard API
     Responses are therefore expected to be one of: 200 (enterprise enabled)
     or 403 (enterprise feature not available in this build).
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
 
     # =========================================================================
     # AUDIT DATA

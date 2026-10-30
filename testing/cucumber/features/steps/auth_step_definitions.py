@@ -20,7 +20,7 @@ from api_base import BASE_URL
 
 # Default test credentials (set in docker-compose-security-with-login.yml)
 ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "stirling"
+ADMIN_PASSWORD = "scripta"
 GLOBAL_API_KEY = "123456789"
 
 

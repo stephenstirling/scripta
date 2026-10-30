@@ -4,7 +4,7 @@ import { LibraryPickerModal } from "@app/components/filesPage/LibraryPickerModal
 import { LibraryFilePicker } from "@app/components/filesPage/LibraryFilePicker";
 import { useFilesPage } from "@app/contexts/FilesPageContext";
 import { alert, dismissToast } from "@app/components/toast";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderId } from "@app/types/folder";
 
 /** Uploads continue after dismissal, without changing the underlying library navigation. */
@@ -12,7 +12,7 @@ export function AddToLibraryModal({
   files,
   onClose,
 }: {
-  files: StirlingFileStub[];
+  files: ScriptaFileStub[];
   onClose: () => void;
 }) {
   const { t } = useTranslation();

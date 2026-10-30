@@ -2,8 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, waitFor, act } from "@testing-library/react";
 
 const mocks = vi.hoisted(() => ({
-  getLeafStirlingFileStubs: vi.fn(),
-  getStirlingFileStub: vi.fn(),
+  getLeafScriptaFileStubs: vi.fn(),
+  getScriptaFileStub: vi.fn(),
   alert: vi.fn(),
   setActiveFileId: vi.fn(),
   restoreWorkbench: vi.fn(),
@@ -17,8 +17,8 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("@app/services/fileStorage", () => ({
   fileStorage: {
-    getLeafStirlingFileStubs: mocks.getLeafStirlingFileStubs,
-    getStirlingFileStub: mocks.getStirlingFileStub,
+    getLeafScriptaFileStubs: mocks.getLeafScriptaFileStubs,
+    getScriptaFileStub: mocks.getScriptaFileStub,
   },
 }));
 vi.mock("@app/components/toast", () => ({ alert: mocks.alert }));
@@ -50,20 +50,20 @@ import {
   FileStoreContext,
   FileActionsContext,
 } from "@app/contexts/file/contexts";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
-const SESSION_KEY = "stirling.workbench.session";
+const SESSION_KEY = "scripta.workbench.session";
 
 function stub(
   id: string,
   originalFileId: string,
   versionNumber = 1,
-): StirlingFileStub {
+): ScriptaFileStub {
   return { id, originalFileId, versionNumber, name: `${id}.pdf` } as never;
 }
 
 // A minimal stand-in for the FileContext store: mutable state plus subscribers.
-function makeStore(open: StirlingFileStub[] = [], selected: string[] = []) {
+function makeStore(open: ScriptaFileStub[] = [], selected: string[] = []) {
   const listeners = new Set<() => void>();
   const state = {
     files: {
@@ -88,7 +88,7 @@ function makeStore(open: StirlingFileStub[] = [], selected: string[] = []) {
 }
 
 const actions = {
-  addStirlingFileStubs: vi.fn().mockResolvedValue([]),
+  addScriptaFileStubs: vi.fn().mockResolvedValue([]),
   setSelectedFiles: vi.fn(),
 };
 
@@ -126,9 +126,9 @@ beforeEach(() => {
   );
   sessionStorage.clear();
   vi.clearAllMocks();
-  actions.addStirlingFileStubs.mockResolvedValue([]);
-  mocks.getLeafStirlingFileStubs.mockResolvedValue([]);
-  mocks.getStirlingFileStub.mockResolvedValue(null);
+  actions.addScriptaFileStubs.mockResolvedValue([]);
+  mocks.getLeafScriptaFileStubs.mockResolvedValue([]);
+  mocks.getScriptaFileStub.mockResolvedValue(null);
   mocks.workbench = "viewer";
   mocks.authUser = null;
   mocks.authLoading = false;
@@ -149,7 +149,7 @@ describe("restore", () => {
       }),
     );
     // root-a forked while the user was away: v3 must win over the stale v1 leaf.
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("a-v1", "root-a", 1),
       stub("a-v3", "root-a", 3),
       stub("root-b", "root-b", 1),
@@ -158,10 +158,10 @@ describe("restore", () => {
     mount(makeStore());
 
     await waitFor(() =>
-      expect(actions.addStirlingFileStubs).toHaveBeenCalled(),
+      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
     );
-    const restored = actions.addStirlingFileStubs.mock.calls[0][0];
-    expect(restored.map((s: StirlingFileStub) => s.id)).toEqual([
+    const restored = actions.addScriptaFileStubs.mock.calls[0][0];
+    expect(restored.map((s: ScriptaFileStub) => s.id)).toEqual([
       "a-v3",
       "root-b",
     ]);
@@ -174,11 +174,11 @@ describe("restore", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getStirlingFileStub.mockResolvedValue(stub("root-a", "root-a"));
+    mocks.getScriptaFileStub.mockResolvedValue(stub("root-a", "root-a"));
     mount(makeStore([stub("already-open", "already-open")]));
 
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).toHaveBeenCalledWith([
+    expect(actions.addScriptaFileStubs).toHaveBeenCalledWith([
       stub("root-a", "root-a"),
     ]);
     expect(actions.setSelectedFiles).not.toHaveBeenCalled();
@@ -191,19 +191,19 @@ describe("restore", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getStirlingFileStub.mockResolvedValue(stub("root-a", "root-a"));
+    mocks.getScriptaFileStub.mockResolvedValue(stub("root-a", "root-a"));
 
     mount(makeStore());
 
     await waitFor(() =>
-      expect(actions.addStirlingFileStubs).toHaveBeenCalled(),
+      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
     );
     expect(
-      actions.addStirlingFileStubs.mock.calls[0][0].map(
-        (s: StirlingFileStub) => s.id,
+      actions.addScriptaFileStubs.mock.calls[0][0].map(
+        (s: ScriptaFileStub) => s.id,
       ),
     ).toEqual(["root-a"]);
-    expect(mocks.getLeafStirlingFileStubs).not.toHaveBeenCalled();
+    expect(mocks.getLeafScriptaFileStubs).not.toHaveBeenCalled();
   });
 
   it("scans for the current leaf once a recorded file has been versioned", async () => {
@@ -211,22 +211,22 @@ describe("restore", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getStirlingFileStub.mockResolvedValue({
+    mocks.getScriptaFileStub.mockResolvedValue({
       ...stub("root-a", "root-a"),
       isLeaf: false,
     });
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("a-v2", "root-a", 2),
     ]);
 
     mount(makeStore());
 
     await waitFor(() =>
-      expect(actions.addStirlingFileStubs).toHaveBeenCalled(),
+      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
     );
     expect(
-      actions.addStirlingFileStubs.mock.calls[0][0].map(
-        (s: StirlingFileStub) => s.id,
+      actions.addScriptaFileStubs.mock.calls[0][0].map(
+        (s: ScriptaFileStub) => s.id,
       ),
     ).toEqual(["a-v2"]);
   });
@@ -242,7 +242,7 @@ describe("restore", () => {
         workbench: "fileEditor",
       }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
     mocks.launchFilesPending = true;
@@ -250,7 +250,7 @@ describe("restore", () => {
     mount(makeStore());
 
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).toHaveBeenCalledWith([
+    expect(actions.addScriptaFileStubs).toHaveBeenCalledWith([
       stub("root-a", "root-a"),
     ]);
     expect(actions.setSelectedFiles).not.toHaveBeenCalled();
@@ -278,11 +278,11 @@ describe("restore", () => {
         store.state.ui.selectedFileIds = ["launched"];
         store.notify();
       };
-      mocks.getStirlingFileStub.mockImplementation(async () => {
+      mocks.getScriptaFileStub.mockImplementation(async () => {
         if (phase === "lookup") arrive();
         return stub("root-a", "root-a");
       });
-      actions.addStirlingFileStubs.mockImplementation(async () => {
+      actions.addScriptaFileStubs.mockImplementation(async () => {
         if (phase === "addition") arrive();
         return [];
       });
@@ -290,7 +290,7 @@ describe("restore", () => {
       mount(store);
       await act(async () => {});
 
-      expect(actions.addStirlingFileStubs).toHaveBeenCalledWith([
+      expect(actions.addScriptaFileStubs).toHaveBeenCalledWith([
         stub("root-a", "root-a"),
       ]);
       expect(actions.setSelectedFiles).not.toHaveBeenCalled();
@@ -305,17 +305,17 @@ describe("restore", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getStirlingFileStub.mockResolvedValue({
+    mocks.getScriptaFileStub.mockResolvedValue({
       ...stub("root-a", "root-a"),
       isLeaf: false,
     });
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("a-v3", "root-a", 3),
     ]);
     mount(makeStore([stub("a-v2", "root-a", 2)]));
 
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).not.toHaveBeenCalled();
+    expect(actions.addScriptaFileStubs).not.toHaveBeenCalled();
     expect(mocks.alert).not.toHaveBeenCalled();
   });
 
@@ -328,14 +328,14 @@ describe("restore", () => {
         selectedFileIds: [],
       }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
     mount(makeStore());
 
     await waitFor(() => expect(mocks.alert).toHaveBeenCalled());
-    expect(actions.addStirlingFileStubs.mock.calls[0][0]).toHaveLength(1);
+    expect(actions.addScriptaFileStubs.mock.calls[0][0]).toHaveLength(1);
     expect(mocks.alert.mock.calls[0][0].alertType).toBe("warning");
   });
 
@@ -348,7 +348,7 @@ describe("restore", () => {
         selectedFileIds: [],
       }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([]);
 
     mount(makeStore());
 
@@ -361,8 +361,8 @@ describe("restore", () => {
   it("does nothing when no session was recorded", async () => {
     mount(makeStore());
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).not.toHaveBeenCalled();
-    expect(mocks.getLeafStirlingFileStubs).not.toHaveBeenCalled();
+    expect(actions.addScriptaFileStubs).not.toHaveBeenCalled();
+    expect(mocks.getLeafScriptaFileStubs).not.toHaveBeenCalled();
   });
 
   it("reopens the document the user was viewing, at its current version", async () => {
@@ -376,7 +376,7 @@ describe("restore", () => {
         activeFileId: "root-a",
       }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("a-v2", "root-a", 2),
     ]);
 
@@ -397,14 +397,14 @@ describe("restore", () => {
         workbench: "myFiles",
       }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
     mount(makeStore());
 
     await waitFor(() =>
-      expect(actions.addStirlingFileStubs).toHaveBeenCalled(),
+      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
     );
     expect(mocks.restoreWorkbench).not.toHaveBeenCalled();
   });
@@ -426,14 +426,14 @@ describe("whose workbench it is", () => {
   it("does not open one user's workbench for the next person in the tab", async () => {
     await record("user-a");
     mocks.authUser = { id: "user-b" };
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
     mount(makeStore());
 
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).not.toHaveBeenCalled();
+    expect(actions.addScriptaFileStubs).not.toHaveBeenCalled();
     // The record is theirs now - the previous person's files are gone from it, so they cannot
     // resurface later in the session.
     const taken = JSON.parse(sessionStorage.getItem(SESSION_KEY)!);
@@ -444,14 +444,14 @@ describe("whose workbench it is", () => {
   it("reopens it for the user who left it", async () => {
     await record("user-a");
     mocks.authUser = { id: "user-a" };
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
     mount(makeStore());
 
     await waitFor(() =>
-      expect(actions.addStirlingFileStubs).toHaveBeenCalled(),
+      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
     );
   });
 
@@ -459,7 +459,7 @@ describe("whose workbench it is", () => {
     await record("user-a");
     mocks.authUser = null;
     mocks.authLoading = true;
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
@@ -467,7 +467,7 @@ describe("whose workbench it is", () => {
 
     await act(async () => {});
     // Neither restored nor discarded - who is signed in is not known yet.
-    expect(actions.addStirlingFileStubs).not.toHaveBeenCalled();
+    expect(actions.addScriptaFileStubs).not.toHaveBeenCalled();
     expect(sessionStorage.getItem(SESSION_KEY)).not.toBeNull();
   });
 });
@@ -532,14 +532,14 @@ describe("on the login screen", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getLeafStirlingFileStubs.mockResolvedValue([
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([
       stub("root-a", "root-a"),
     ]);
 
     const store = makeStore();
     const { unmount } = mount(store);
     await act(async () => {});
-    expect(actions.addStirlingFileStubs).not.toHaveBeenCalled();
+    expect(actions.addScriptaFileStubs).not.toHaveBeenCalled();
 
     // And the unmount flush must not write either.
     store.state.files.ids = ["f1" as never];
@@ -665,7 +665,7 @@ describe("writer", () => {
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
     // Restore is still awaiting storage, so this mount's empty state is not the truth.
-    mocks.getLeafStirlingFileStubs.mockReturnValue(new Promise(() => {}));
+    mocks.getLeafScriptaFileStubs.mockReturnValue(new Promise(() => {}));
 
     const store = makeStore();
     const { unmount } = mount(store);

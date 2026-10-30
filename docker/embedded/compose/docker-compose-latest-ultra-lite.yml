@@ -1,5 +1,5 @@
 services:
-  stirling-pdf:
+  scripta:
     container_name: Scripta-Ultra-Lite
     image: ghcr.io/stephenstirling/scripta:ultra-lite
     build:
@@ -17,8 +17,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ../../../stirling/latest/config:/configs:rw
-      - ../../../stirling/latest/logs:/logs:rw
+      - ../../../scripta/latest/config:/configs:rw
+      - ../../../scripta/latest/logs:/logs:rw
     environment:
       SECURITY_ENABLELOGIN: "false"
       # JAVA_BASE_OPTS: ""               # Full JVM flag override (default comes from the image _JVM_OPTS)

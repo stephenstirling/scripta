@@ -1,8 +1,8 @@
 {
-  "id": "stirling-saml",
-  "realm": "stirling-saml",
-  "displayName": "Stirling PDF SAML Test",
-  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Stirling PDF SAML</span></div>",
+  "id": "scripta-saml",
+  "realm": "scripta-saml",
+  "displayName": "Scripta SAML Test",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Scripta SAML</span></div>",
   "enabled": true,
   "sslRequired": "none",
   "registrationAllowed": true,
@@ -75,8 +75,8 @@
   "clients": [
     {
     "clientId": "http://localhost:8080/saml2/service-provider-metadata/keycloak",
-      "name": "Stirling PDF SAML Client",
-      "description": "SAML2 client for Stirling PDF testing",
+      "name": "Scripta SAML Client",
+      "description": "SAML2 client for Scripta testing",
       "rootUrl": "http://localhost:8080",
       "adminUrl": "http://localhost:8080",
       "baseUrl": "http://localhost:8080",

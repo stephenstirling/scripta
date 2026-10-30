@@ -5,7 +5,7 @@ Feature: User Management API
     password changes, and admin-level user CRUD (create, role change,
     enable/disable, delete, force password change).
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
     Global API key:  123456789
 
     Each admin CRUD scenario creates and then deletes the test user within
@@ -46,21 +46,21 @@ Feature: User Management API
     @positive
     Scenario: Admin can change their own password and revert it
         Given I am logged in as admin
-        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=stirling&newPassword=stirling_temp_bdd"
+        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=scripta&newPassword=scripta_temp_bdd"
         Then the response status code should be 200
         # Revert to original password so other tests are not broken
-        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=stirling_temp_bdd&newPassword=stirling"
+        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=scripta_temp_bdd&newPassword=scripta"
         Then the response status code should be 200
 
     @negative
     Scenario: Change password with wrong current password returns 401
         Given I am logged in as admin
-        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=completely_wrong_pass_xyz&newPassword=stirling2"
+        When I send a POST request to "/api/v1/user/change-password" with JWT authentication and params "currentPassword=completely_wrong_pass_xyz&newPassword=scripta2"
         Then the response status code should be one of "400, 401"
 
     @negative
     Scenario: Change password without authentication returns 401
-        When I send a POST request to "/api/v1/user/change-password" with no authentication and params "currentPassword=stirling&newPassword=stirling2"
+        When I send a POST request to "/api/v1/user/change-password" with no authentication and params "currentPassword=scripta&newPassword=scripta2"
         Then the response status code should be 401
 
     # =========================================================================

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import {
   persistedSourceFields,
@@ -12,7 +12,7 @@ import {
 // the workbench has to be able to rely on that: a stub that started answering
 // would put link fields on files that have no source.
 
-const stub = { id: "f1" as FileId, name: "a.pdf" } as StirlingFileStub;
+const stub = { id: "f1" as FileId, name: "a.pdf" } as ScriptaFileStub;
 
 describe("reconciling a record with no source", () => {
   it("serves the stored copy untouched", async () => {

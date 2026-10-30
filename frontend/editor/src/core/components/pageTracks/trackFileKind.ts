@@ -1,4 +1,4 @@
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { ToolFormatExtension } from "@app/types/toolIO";
 import { convertImageToPdf } from "@app/utils/imageToPdfUtils";
 import {
@@ -7,7 +7,7 @@ import {
   splitFileName,
 } from "@app/utils/fileUtils";
 
-type FileLike = Pick<StirlingFileStub, "name" | "type">;
+type FileLike = Pick<ScriptaFileStub, "name" | "type">;
 
 /**
  * The IMAGE formats the browser can decode, so a one-page track can draw and

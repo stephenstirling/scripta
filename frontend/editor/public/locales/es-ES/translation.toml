@@ -613,18 +613,18 @@ label = "Límite de sesión"
 description = "Tiempo máximo de ejecución"
 label = "Tiempo de espera (minutos)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert está en beta. Ofrece conversiones mejores y más rápidas, con menos memoria que LibreOffice."
-label = "Usar la nueva conversión de Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert está en beta. Ofrece conversiones mejores y más rápidas, con menos memoria que LibreOffice."
+label = "Usar la nueva conversión de Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Configura el almacenamiento de archivos temporales y el comportamiento de limpieza"
 label = "Gestión de archivos temporales"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Directorio base para archivos temporales (dejar vacío para el valor predeterminado: java.io.tmpdir/stirling-pdf)"
+description = "Directorio base para archivos temporales (dejar vacío para el valor predeterminado: java.io.tmpdir/scripta)"
 label = "Directorio temporal base"
-placeholder = "Predeterminado: java.io.tmpdir/stirling-pdf"
+placeholder = "Predeterminado: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Con qué frecuencia ejecutar la limpieza (en minutos)"
@@ -683,8 +683,8 @@ permissionNotice = "La ruta de tessdata no tiene permisos de escritura. Las desc
 [admin.settings.ai]
 customProvider = "Personalizado (compatible con OpenAI)"
 description = "Conecta Scripta al motor de IA de Python, elige sus modelos y establece las barreras de seguridad bajo las que se ejecuta."
-managedByCloud = "Gestionado por Stirling Cloud en este modo."
-managedByCloudShort = "Gestionado por Stirling Cloud"
+managedByCloud = "Gestionado por Cloud en este modo."
+managedByCloudShort = "Gestionado por Cloud"
 
 [admin.settings.ai.documents]
 description = "Configura el modelo de embedding y los ajustes de recuperación utilizados para responder preguntas sobre documentos. Se aplica al motor de AI al guardar."
@@ -735,16 +735,16 @@ description = "Activa o desactiva funciones individuales de AI. Las funciones de
 title = "Capacidades"
 
 [admin.settings.ai.general.cloud]
-note = "Los modelos y las claves del proveedor los gestiona Stirling Cloud, por lo que esos ajustes no se aplican en este modo."
+note = "Los modelos y las claves del proveedor los gestiona Cloud, por lo que esos ajustes no se aplican en este modo."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Cada herramienta de IA envía el texto de la página que necesita para responder. Esto decide si Stirling Cloud también puede conservar ese texto, indexado, para que las preguntas posteriores puedan buscar en el documento."
+description = "Cada herramienta de IA envía el texto de la página que necesita para responder. Esto decide si Cloud también puede conservar ese texto, indexado, para que las preguntas posteriores puedan buscar en el documento."
 help = "Desactivado significa que las preguntas sobre documentos no están disponibles. No impide que se envíe texto: solo que se almacene."
-label = "Permitir que Stirling Cloud conserve documentos indexados"
+label = "Permitir que Cloud conserve documentos indexados"
 
 [admin.settings.ai.general.cloudNote]
-body = "El razonamiento se ejecuta en la infraestructura de Scripta y se factura a la cuenta a la que está vinculado este servidor. No hay ningún contenedor que ejecutar ni clave de proveedor que guardar aquí. Todo lo que lee la IA lo procesa Stirling Cloud en lugar de tu propio hardware."
-title = "Acerca de Stirling Cloud AI"
+body = "El razonamiento se ejecuta en la infraestructura de Scripta y se factura a la cuenta a la que está vinculado este servidor. No hay ningún contenedor que ejecutar ni clave de proveedor que guardar aquí. Todo lo que lee la IA lo procesa Cloud en lugar de tu propio hardware."
+title = "Acerca de Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Interruptor principal. Cuando está desactivado, no hay herramientas, agentes ni llamadas al motor de AI disponibles."
@@ -782,11 +782,11 @@ label = "Tiempo de espera de larga duración (segundos)"
 label = "Dónde se ejecuta la IA"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Sin contenedor, sin clave de proveedor, sin elección de modelo: el trabajo se ejecuta en Stirling Cloud y se factura a la cuenta a la que está vinculado este servidor."
+description = "Sin contenedor, sin clave de proveedor, sin elección de modelo: el trabajo se ejecuta en Cloud y se factura a la cuenta a la que está vinculado este servidor."
 linkCta = "Conectar este servidor a una cuenta de Scripta"
 notLinked = "Vincula primero una cuenta"
 ownerOnly = "Solo el propietario de la organización puede vincular este servidor a una cuenta de Scripta."
-title = "Usar Stirling Cloud AI"
+title = "Usar Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "No hay herramientas de IA en ninguna parte de la aplicación y nada sale de este servidor."
@@ -818,7 +818,7 @@ description = "Tiempo de espera para solicitudes estándar de AI al motor."
 label = "Tiempo de espera de solicitud (segundos)"
 
 [admin.settings.ai.general.url]
-description = "URL interna del motor de AI de Python, p. ej. http://stirling-pdf-engine:5001."
+description = "URL interna del motor de AI de Python, p. ej. http://scripta-engine:5001."
 label = "URL del motor de AI"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "URL del motor"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Inactivo"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Activo"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "Uso compartido de IA"
 sharingOff = "Desactivado"
 sharingOn = "Activado"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud respondió, pero rechazó este servidor. Es posible que se haya revocado la vinculación de la cuenta."
-title = "Stirling Cloud está rechazando este servidor"
+body = "Cloud respondió, pero rechazó este servidor. Es posible que se haya revocado la vinculación de la cuenta."
+title = "Cloud está rechazando este servidor"
 
 [admin.settings.ai.status.cloud.down]
-body = "Este servidor no pudo acceder a Stirling Cloud. Comprueba la vinculación de la cuenta y que este servidor pueda acceder a Internet."
-title = "No se puede acceder a Stirling Cloud"
+body = "Este servidor no pudo acceder a Cloud. Comprueba la vinculación de la cuenta y que este servidor pueda acceder a Internet."
+title = "No se puede acceder a Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud aceptó este servidor. No hay nada que ejecutar ni actualizar aquí."
-title = "Ejecutándose en Stirling Cloud"
+body = "Cloud aceptó este servidor. No hay nada que ejecutar ni actualizar aquí."
+title = "Ejecutándose en Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Respondió a la comprobación de estado, pero rechazó una solicitud real. Los dos lados están usando secretos compartidos distintos."
@@ -1885,7 +1885,7 @@ wrapUp = "¡Ese ha sido el recorrido de administrador! Has visto las funciones e
 title = "Configuración de control de usuario"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Árabe"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Elige primero un formato de origen"
 settings = "Configuración"
 single = "Individual"
 sourceFormatPlaceholder = "Formato de origen"
-stirlingOfficeConvert = "Usar Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Conversiones mejores y más rápidas con menos memoria. Desactívalo para usar el conversor estándar."
+scriptaOfficeConvert = "Usar Office Convert (beta)"
+scriptaOfficeConvertDescription = "Conversiones mejores y más rápidas con menos memoria. Desactívalo para usar el conversor estándar."
 strictMode = "Modo Estricto"
 strictModeDesc = "Error si la conversión no es perfecta (usa verificación VeraPDF)"
 svgPdfOptions = "Opciones SVG a PDF"
@@ -5359,9 +5359,9 @@ roleUser = "Usuario"
 title = "Comprobación de seguridad"
 
 [onboarding.serverLicense]
-freeBody = "Nuestra licencia <strong>Open-Core</strong> incluye <strong>OAuth SSO</strong> y hasta <strong>{{freeTierLimit}}</strong> usuarios gratis. Para crecer sin interrupciones, recomendamos el plan Stirling Team: <strong>100 usuarios</strong> por 99 $/mes."
+freeBody = "Nuestra licencia <strong>Open-Core</strong> incluye <strong>OAuth SSO</strong> y hasta <strong>{{freeTierLimit}}</strong> usuarios gratis. Para crecer sin interrupciones, recomendamos el plan Scripta Team: <strong>100 usuarios</strong> por 99 $/mes."
 freeTitle = "Plan Team"
-overLimitBody = "Nuestra licencia permite hasta <strong>{{freeTierLimit}}</strong> usuarios gratis. Tienes <strong>{{overLimitUserCopy}}</strong> usuarios de Scripta. Para continuar sin interrupciones, actualiza al plan Stirling Team: <strong>100 usuarios</strong>, edición de texto PDF y control administrativo completo por 99 $/mes."
+overLimitBody = "Nuestra licencia permite hasta <strong>{{freeTierLimit}}</strong> usuarios gratis. Tienes <strong>{{overLimitUserCopy}}</strong> usuarios de Scripta. Para continuar sin interrupciones, actualiza al plan Scripta Team: <strong>100 usuarios</strong>, edición de texto PDF y control administrativo completo por 99 $/mes."
 overLimitTitle = "Se necesita el plan Team"
 seePlans = "Ver planes →"
 upgrade = "Actualizar ahora →"
@@ -6918,7 +6918,7 @@ label = "Encabezados"
 
 [portal.policies.operations.fields.index]
 label = "Índice"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Clave de incidencia"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nombre de usuario de Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Informa a un espacio de que la política ha gestionado un documento."
@@ -7192,7 +7192,7 @@ secretNote = "El secreto de firma se muestra una vez, al crear el webhook. Vuelv
 copy = "Copiar"
 done = "Hecho"
 secret = "Secreto de firma"
-secretHelp = "Firma el cuerpo sin procesar de cada entrega con esta clave (HMAC-SHA256) y envíalo como encabezado X-Stirling-Signature."
+secretHelp = "Firma el cuerpo sin procesar de cada entrega con esta clave (HMAC-SHA256) y envíalo como encabezado X-Scripta-Signature."
 secretWarning = "Copia ahora el secreto de firma. Por tu seguridad, se muestra solo una vez y no se puede recuperar más tarde."
 title = "Webhook creado"
 url = "URL de entrega"
@@ -8047,7 +8047,7 @@ storageSharing = "Almacenamiento y uso compartido de archivos"
 systemSettings = "Ajustes del sistema"
 
 [settings.connectedInstances]
-confirmBody = "Esto revoca el acceso de la instancia a tu equipo en Stirling Cloud. No elimina archivos locales ni quita el uso ya registrado. Para volver a conectar, sigue los pasos de conexión originales en la instancia."
+confirmBody = "Esto revoca el acceso de la instancia a tu equipo en Cloud. No elimina archivos locales ni quita el uso ya registrado. Para volver a conectar, sigue los pasos de conexión originales en la instancia."
 confirmTitle = "¿Eliminar {{name}}?"
 connectedAt = "Conectado: {{date}}"
 connectedDate = "Conectado"
@@ -8091,7 +8091,7 @@ user = "Conectado como"
 
 [settings.connection.mode]
 local = "Solo local"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "Autoalojado"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Supervisión"
 [settings.planBilling]
 currentPlan = "Plan actual"
 loading = "Cargando información de facturación..."
-notAvailable = "Plan y facturación solo están disponibles cuando estás conectado a Stirling Cloud (modo SaaS)."
+notAvailable = "Plan y facturación solo están disponibles cuando estás conectado a Cloud (modo SaaS)."
 title = "Plan y facturación"
 
 [settings.planBilling.billing]

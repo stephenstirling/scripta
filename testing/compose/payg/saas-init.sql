@@ -1,4 +1,4 @@
--- Bootstrap minimal stirling_pdf state for PAYG cucumber tests.
+-- Bootstrap minimal scripta state for PAYG cucumber tests.
 --
 -- Runs once when the postgres-saas container is first created (loaded via
 -- /docker-entrypoint-initdb.d on the official postgres image). Flyway then
@@ -8,7 +8,7 @@
 -- Idempotent — if the container is re-created, this whole file runs again
 -- but every INSERT is guarded against duplicates.
 
-CREATE SCHEMA IF NOT EXISTS stirling_pdf;
+CREATE SCHEMA IF NOT EXISTS scripta;
 
 -- Note: the actual seed of teams / users / payg_team_extensions / wallet_policy
 -- happens AFTER Flyway migrations have applied. We can't insert here because

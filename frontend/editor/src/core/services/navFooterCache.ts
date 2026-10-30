@@ -14,8 +14,8 @@
  * nothing is gated on it — the processor enforces its own access server-side,
  * and a stale credit figure is replaced within a second of the wallet landing.
  */
-const CREDITS_KEY = "stirling.navFooter.credits";
-const OTHER_APP_KEY = "stirling.navFooter.otherApp";
+const CREDITS_KEY = "scripta.navFooter.credits";
+const OTHER_APP_KEY = "scripta.navFooter.otherApp";
 
 /** Figures, or null for a team that sees no meter at all (a paying one). */
 export type CachedCredits = { remaining: number; total: number } | null;

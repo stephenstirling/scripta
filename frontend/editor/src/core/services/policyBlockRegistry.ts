@@ -1,8 +1,8 @@
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 /** Register documents retained outside the workspace until their owning tool releases them. */
 export function registerPolicyFileUsage(
-  _files: StirlingFileStub[],
+  _files: ScriptaFileStub[],
 ): () => void {
   return () => {};
 }
@@ -19,7 +19,7 @@ export function isEditorPolicyBlocked(): boolean {
 
 /** Includes consumed ancestors so an edit cannot bypass a failure on its input. */
 export function policySourceIds(
-  file: Pick<StirlingFileStub, "id" | "parentFileId" | "sourceFileIds">,
+  file: Pick<ScriptaFileStub, "id" | "parentFileId" | "sourceFileIds">,
 ): string[] {
   return [
     file.id,

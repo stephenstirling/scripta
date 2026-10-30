@@ -9,7 +9,7 @@ import { MantineProvider } from "@mantine/core";
 import { FileGrid } from "@app/components/filesPage/FileGrid";
 import { FileContextProvider } from "@app/contexts/FileContext";
 import type { FileId } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 /**
  * The grid's items are memoized so a selection click re-renders the cards whose
@@ -30,7 +30,7 @@ vi.mock("@app/components/shared/PolicyBadges", () => ({
     return null;
   },
 }));
-const buildStub = (id: string, name: string): StirlingFileStub => ({
+const buildStub = (id: string, name: string): ScriptaFileStub => ({
   id: id as FileId,
   name,
   type: "application/pdf",

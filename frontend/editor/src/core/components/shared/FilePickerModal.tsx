@@ -14,10 +14,10 @@ import { Button } from "@app/ui/Button";
 import { useTranslation } from "react-i18next";
 import DocumentThumbnail from "@app/components/shared/filePreview/DocumentThumbnail";
 import { FileId } from "@app/types/file";
-import type { StoredStirlingFileRecord } from "@app/services/fileStorage";
+import type { StoredScriptaFileRecord } from "@app/services/fileStorage";
 import { useFileActionTerminology } from "@app/hooks/useFileActionTerminology";
 
-type StoredFileItem = Partial<StoredStirlingFileRecord> & {
+type StoredFileItem = Partial<StoredScriptaFileRecord> & {
   id: FileId;
   file?: File;
   arrayBuffer?: () => Promise<ArrayBuffer>;

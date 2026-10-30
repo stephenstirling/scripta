@@ -13,7 +13,7 @@ import {
 } from "@app/types/signingSession";
 import { getSubmittedSignaturePreviews } from "@app/utils/signingPreviews";
 import { needsSignature } from "@app/utils/signingItems";
-import type { StirlingFile } from "@app/types/fileContext";
+import type { ScriptaFile } from "@app/types/fileContext";
 import { useFileActions } from "@app/contexts/FileContext";
 import { useSigningOverlay } from "@app/contexts/SigningOverlayContext";
 import { useViewScopedFiles } from "@app/hooks/tools/shared/useViewScopedFiles";
@@ -574,7 +574,7 @@ export function useSigningSessionController(
     signatureSettings: SignatureSettings,
     selectedUserIds: number[],
     dueDate: string,
-    document?: StirlingFile,
+    document?: ScriptaFile,
   ): Promise<boolean> => {
     const selectedFile =
       document ?? (selectedFiles.length === 1 ? selectedFiles[0] : null);
@@ -583,13 +583,13 @@ export function useSigningSessionController(
     }
     setCreating(true);
     try {
-      const stirlingFile = await fileStorage.getStirlingFile(
+      const scriptaFile = await fileStorage.getScriptaFile(
         selectedFile.fileId,
       );
-      if (!stirlingFile) throw new Error("File not found");
+      if (!scriptaFile) throw new Error("File not found");
 
       const formData = new FormData();
-      formData.append("file", stirlingFile, selectedFile.name);
+      formData.append("file", scriptaFile, selectedFile.name);
       formData.append("workflowType", "SIGNING");
       formData.append("documentName", selectedFile.name);
       selectedUserIds.forEach((userId, index) => {

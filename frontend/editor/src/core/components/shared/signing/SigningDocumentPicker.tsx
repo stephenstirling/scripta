@@ -9,7 +9,7 @@ import { useFileHandler } from "@app/hooks/useFileHandler";
 import { useFileThumbnail } from "@app/hooks/useFileThumbnail";
 import DocumentThumbnail from "@app/components/shared/filePreview/DocumentThumbnail";
 import { PrivateContent } from "@app/components/shared/PrivateContent";
-import { createQuickKey, type StirlingFileStub } from "@app/types/fileContext";
+import { createQuickKey, type ScriptaFileStub } from "@app/types/fileContext";
 import thumbnailStyles from "@app/components/fileEditor/FileEditorThumbnail.module.css";
 
 /** Picks one PDF without navigating away; library imports use the normal FileContext ingestion path. */
@@ -173,7 +173,7 @@ function SigningDocumentCard({
   file,
   onSelect,
 }: {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   onSelect: () => void;
 }) {
   return (
@@ -197,7 +197,7 @@ function SigningDocumentPreview({
   file,
   floating = false,
 }: {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   floating?: boolean;
 }) {
   const { thumbnail, isEncrypted, isGenerating } = useFileThumbnail(file);

@@ -11,12 +11,12 @@ import ConvertToPdfUaSettings from "@app/components/tools/convert/ConvertToPdfUa
 import type { ConvertParameters } from "@app/hooks/tools/convert/useConvertParameters";
 import type { ToolAutomationSettingsProps } from "@app/hooks/tools/shared/toolOperationTypes";
 import {
-  createNewStirlingFileStub,
-  createStirlingFile,
-  type StirlingFile,
-  type StirlingFileStub,
+  createNewScriptaFileStub,
+  createScriptaFile,
+  type ScriptaFile,
+  type ScriptaFileStub,
 } from "@app/types/fileContext";
-import { createTestStirlingFile } from "@app/tests/utils/testFileHelpers";
+import { createTestScriptaFile } from "@app/tests/utils/testFileHelpers";
 import {
   ToolFileEligibilityProvider,
   useToolEligibleFileIds,
@@ -27,13 +27,13 @@ import { useCompressOperation } from "@app/hooks/tools/compress/useCompressOpera
 import { defaultParameters as compressParameters } from "@app/hooks/tools/compress/useCompressParameters";
 
 const workspace = {
-  files: [] as StirlingFile[],
-  fileStubs: [] as StirlingFileStub[],
+  files: [] as ScriptaFile[],
+  fileStubs: [] as ScriptaFileStub[],
 };
 const viewer = { activeFileIndex: 0 };
 const navigation = { workbench: "fileEditor" };
 const selectors = {
-  getStirlingFileStub: (id: string) =>
+  getScriptaFileStub: (id: string) =>
     workspace.fileStubs.find((stub) => stub.id === id),
 };
 const loadRecentFiles = vi.fn().mockResolvedValue([]);
@@ -139,7 +139,7 @@ vi.mock("@app/components/tools/convert/ConvertSettings", () => ({
     onParameterChange,
     selectedFiles,
   }: ToolAutomationSettingsProps<ConvertParameters> & {
-    selectedFiles: StirlingFile[];
+    selectedFiles: ScriptaFile[];
   }) => (
     <>
       <span data-testid="settings-file-count">{selectedFiles.length}</span>
@@ -177,24 +177,24 @@ beforeEach(() => {
   viewer.activeFileIndex = 0;
   navigation.workbench = "fileEditor";
   workspace.files = [
-    createTestStirlingFile("report.pdf", "pdf", "application/pdf"),
-    createTestStirlingFile("photo.png", "png", "image/png"),
+    createTestScriptaFile("report.pdf", "pdf", "application/pdf"),
+    createTestScriptaFile("photo.png", "png", "image/png"),
   ];
   workspace.fileStubs = workspace.files.map((file) =>
-    createNewStirlingFileStub(file, file.fileId),
+    createNewScriptaFileStub(file, file.fileId),
   );
 });
 
 describe("tool file selection", () => {
   test("eligible selections keep their identity until file objects or order change", () => {
-    const secondPdf = createTestStirlingFile(
+    const secondPdf = createTestScriptaFile(
       "second.pdf",
       "pdf",
       "application/pdf",
     );
     workspace.files.push(secondPdf);
     workspace.fileStubs.push(
-      createNewStirlingFileStub(secondPdf, secondPdf.fileId),
+      createNewScriptaFileStub(secondPdf, secondPdf.fileId),
     );
     const { result, rerender } = renderHook(useCompressOperation);
     const first = result.current.getEligibleFiles?.(
@@ -243,7 +243,7 @@ describe("tool file selection", () => {
 
     const original = workspace.files[0];
     workspace.files = [
-      createStirlingFile(
+      createScriptaFile(
         new File(["updated pdf"], original.name, { type: original.type }),
         original.fileId,
       ),
@@ -285,12 +285,12 @@ describe("tool file selection", () => {
       screen.queryByRole("button", { name: "Sort" }),
     ).not.toBeInTheDocument();
 
-    const secondPdf = createTestStirlingFile(
+    const secondPdf = createTestScriptaFile(
       "second.pdf",
       "pdf",
       "application/pdf",
     );
-    const secondStub = createNewStirlingFileStub(secondPdf, secondPdf.fileId);
+    const secondStub = createNewScriptaFileStub(secondPdf, secondPdf.fileId);
     workspace.files.push(secondPdf);
     workspace.fileStubs.push(secondStub);
     view.rerender(renderMerge());
@@ -399,7 +399,7 @@ describe("tool file selection", () => {
 
   test("Compress shows only eligible files and follows protection and viewer changes", async () => {
     workspace.files.push(
-      createTestStirlingFile("empty.pdf", "", "application/pdf"),
+      createTestScriptaFile("empty.pdf", "", "application/pdf"),
     );
     const ui = (
       <MantineProvider>
@@ -445,7 +445,7 @@ describe("tool file selection", () => {
 
   test("Convert updates Files, settings and Run count as parameters change", async () => {
     workspace.files.push(
-      createTestStirlingFile("second.png", "png", "image/png"),
+      createTestScriptaFile("second.png", "png", "image/png"),
     );
     render(
       <MantineProvider>

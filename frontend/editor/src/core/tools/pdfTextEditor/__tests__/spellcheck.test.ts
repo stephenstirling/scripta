@@ -12,7 +12,7 @@ import {
   subscribeSpellcheck,
 } from "@app/tools/pdfTextEditor/util/spellcheck";
 
-const STORAGE_KEY = "stirling.pdfTextEditor.spellcheck";
+const STORAGE_KEY = "scripta.pdfTextEditor.spellcheck";
 
 const realStorage = window.localStorage;
 

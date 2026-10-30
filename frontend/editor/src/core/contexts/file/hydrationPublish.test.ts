@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import type {
   FileContextState,
-  StirlingFileStub,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
@@ -12,31 +12,31 @@ import type { FileId } from "@app/types/file";
  * state with the row showing as open, and clicks doing nothing.
  */
 
-const getStirlingFile = vi.hoisted(() => vi.fn());
+const getScriptaFile = vi.hoisted(() => vi.fn());
 vi.mock("@app/services/fileStorage", () => ({
-  fileStorage: { getStirlingFile },
+  fileStorage: { getScriptaFile },
 }));
 /** The stall under test: the page parse never settles. */
 vi.mock("@app/utils/thumbnailUtils", () => ({
   generateThumbnailPairWithMetadata: () => new Promise(() => {}),
 }));
 
-const stub = (id: string): StirlingFileStub =>
+const stub = (id: string): ScriptaFileStub =>
   ({
     id: id as FileId,
     name: `${id}.pdf`,
     type: "application/pdf",
     size: 10,
     lastModified: 0,
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 
 async function harness(ids: string[]) {
   vi.resetModules();
-  getStirlingFile.mockImplementation(
+  getScriptaFile.mockImplementation(
     async (id: FileId) =>
       new File(["%PDF-1.7"], `${id}.pdf`, { type: "application/pdf" }),
   );
-  const { addStirlingFileStubs } =
+  const { addScriptaFileStubs } =
     await import("@app/contexts/file/fileActions");
 
   const stubs = ids.map(stub);
@@ -49,12 +49,12 @@ async function harness(ids: string[]) {
   const filesRef = { current: new Map<FileId, File>() };
   const published: FileId[] = [];
   const lifecycleManager = {
-    updateStirlingFileStub: (fileId: FileId) => published.push(fileId),
+    updateScriptaFileStub: (fileId: FileId) => published.push(fileId),
     removeFiles: () => {},
     trackBlobUrl: () => {},
   };
 
-  await addStirlingFileStubs(
+  await addScriptaFileStubs(
     stubs,
     {},
     stateRef,

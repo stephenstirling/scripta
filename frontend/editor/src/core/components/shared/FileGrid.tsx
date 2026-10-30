@@ -4,15 +4,15 @@ import { Button } from "@app/ui/Button";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@app/ui/Icon";
 import FileCard from "@app/components/shared/FileCard";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { FileId } from "@app/types/file";
 
 interface FileGridProps {
-  files: Array<{ file: File; record?: StirlingFileStub }>;
+  files: Array<{ file: File; record?: ScriptaFileStub }>;
   onRemove?: (index: number) => void;
-  onDoubleClick?: (item: { file: File; record?: StirlingFileStub }) => void;
-  onView?: (item: { file: File; record?: StirlingFileStub }) => void;
-  onEdit?: (item: { file: File; record?: StirlingFileStub }) => void;
+  onDoubleClick?: (item: { file: File; record?: ScriptaFileStub }) => void;
+  onView?: (item: { file: File; record?: ScriptaFileStub }) => void;
+  onEdit?: (item: { file: File; record?: ScriptaFileStub }) => void;
   onSelect?: (fileId: FileId) => void;
   selectedFiles?: FileId[];
   showSearch?: boolean;
@@ -133,7 +133,7 @@ const FileGrid = ({
           .filter((item) => {
             if (!item.record?.id) {
               console.error(
-                "FileGrid: File missing StirlingFileStub with proper ID:",
+                "FileGrid: File missing ScriptaFileStub with proper ID:",
                 item.file.name,
               );
               return false;

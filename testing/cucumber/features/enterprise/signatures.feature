@@ -12,7 +12,7 @@ Feature: Signatures API
     POST is omitted here because it requires a multipart image upload; the
     format of SavedSignatureRequest is tested via integration rather than BDD.
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
 
     # =========================================================================
     # LIST SIGNATURES

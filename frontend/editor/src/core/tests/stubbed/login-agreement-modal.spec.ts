@@ -37,7 +37,7 @@ async function setUpLoggedIn(page: Page, disclaimer: DisclaimerStub = {}) {
   await skipOnboarding(page);
   await page.addInitScript(() => {
     localStorage.setItem(
-      "stirling_jwt",
+      "scripta_jwt",
       "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiJ9.signature",
     );
   });

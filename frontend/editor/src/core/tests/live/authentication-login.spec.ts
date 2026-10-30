@@ -10,11 +10,11 @@ test.describe("1. Authentication and Login", () => {
       await page.goto("/editor");
       await expect(page).toHaveURL(/\/login/);
 
-      // Step 2: Confirm the login page displays the Stirling PDF logo
+      // Step 2: Confirm the login page displays the Scripta logo
       await expect(
         page
           .locator(
-            'img[alt*="Stirling"], img[src*="stirling"], img[src*="logo"]',
+            'img[alt*="Scripta"], img[src*="scripta"], img[src*="logo"]',
           )
           .first(),
       ).toBeVisible();
@@ -118,8 +118,8 @@ test.describe("1. Authentication and Login", () => {
       // page after redirect.
       await page.context().clearCookies();
       await page.evaluate(() => {
-        localStorage.removeItem("stirling_jwt");
-        localStorage.removeItem("stirling_refresh_token");
+        localStorage.removeItem("scripta_jwt");
+        localStorage.removeItem("scripta_refresh_token");
       });
       await page.context().addCookies([
         {

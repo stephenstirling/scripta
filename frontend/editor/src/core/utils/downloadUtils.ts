@@ -1,4 +1,4 @@
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { fileStorage } from "@app/services/fileStorage";
 import { zipFileService } from "@app/services/zipFileService";
 import { downloadFile } from "@app/services/downloadService";
@@ -20,18 +20,18 @@ export function downloadBlob(blob: Blob, filename: string): void {
  * @throws Error if file cannot be retrieved from storage
  */
 export async function downloadFileFromStorage(
-  file: StirlingFileStub,
+  file: ScriptaFileStub,
 ): Promise<void> {
   const lookupKey = file.id;
-  const stirlingFile = await fileStorage.getStirlingFile(lookupKey);
+  const scriptaFile = await fileStorage.getScriptaFile(lookupKey);
 
-  if (!stirlingFile) {
+  if (!scriptaFile) {
     throw new Error(`File "${file.name}" not found in storage`);
   }
 
   await downloadFileWithPolicy({
-    data: stirlingFile,
-    filename: stirlingFile.name,
+    data: scriptaFile,
+    filename: scriptaFile.name,
     localPath: file.localFilePath,
     fileId: file.id,
   });
@@ -42,7 +42,7 @@ export async function downloadFileFromStorage(
  * @param files - Array of files to download
  */
 export async function downloadMultipleFiles(
-  files: StirlingFileStub[],
+  files: ScriptaFileStub[],
 ): Promise<void> {
   for (const file of files) {
     await downloadFileFromStorage(file);
@@ -55,7 +55,7 @@ export async function downloadMultipleFiles(
  * @param zipFilename - Optional custom ZIP filename (defaults to timestamped name)
  */
 export async function downloadFilesAsZip(
-  files: StirlingFileStub[],
+  files: ScriptaFileStub[],
   zipFilename?: string,
 ): Promise<void> {
   if (files.length === 0) {
@@ -67,9 +67,9 @@ export async function downloadFilesAsZip(
   const filesToZip: File[] = [];
   const fileIds: (string | undefined)[] = [];
   for (const fileWithUrl of files) {
-    const stirlingFile = await fileStorage.getStirlingFile(fileWithUrl.id);
-    if (stirlingFile) {
-      filesToZip.push(stirlingFile);
+    const scriptaFile = await fileStorage.getScriptaFile(fileWithUrl.id);
+    if (scriptaFile) {
+      filesToZip.push(scriptaFile);
       fileIds.push(fileWithUrl.id);
     }
   }
@@ -102,7 +102,7 @@ export async function downloadFilesAsZip(
  * @param options - Download options
  */
 export async function downloadFiles(
-  files: StirlingFileStub[],
+  files: ScriptaFileStub[],
   options: {
     forceZip?: boolean;
     zipFilename?: string;

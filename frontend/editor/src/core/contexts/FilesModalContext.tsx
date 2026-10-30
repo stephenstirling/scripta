@@ -13,7 +13,7 @@ import {
   useNavigationActions,
   useNavigationState,
 } from "@app/contexts/NavigationContext";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { fileStorage } from "@app/services/fileStorage";
 import apiClient from "@app/services/apiClient";
@@ -49,11 +49,11 @@ interface FilesModalContextType {
   onFileUpload: (files: File[]) => Promise<void>;
   /** Imports readable selections before rejecting with unavailable filenames; leaves modal state unchanged. */
   onRecentFileSelect: (
-    stirlingFileStubs: StirlingFileStub[],
+    scriptaFileStubs: ScriptaFileStub[],
     uploads?: File[],
   ) => Promise<void>;
   /** Reads inputs in selection order without changing the workspace; rejects if any file is unavailable. */
-  loadFiles: (stubs: StirlingFileStub[]) => Promise<File[]>;
+  loadFiles: (stubs: ScriptaFileStub[]) => Promise<File[]>;
   onModalClose?: () => void;
   setOnModalClose: (callback: () => void) => void;
 }
@@ -98,7 +98,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
       if (bundle) {
         const { manifest, rootOrder, sortedEntries, files } = bundle;
 
-        const stirlingFiles = await actions.addFilesWithOptions(files, {
+        const scriptaFiles = await actions.addFilesWithOptions(files, {
           selectFiles: false,
           autoUnzip: false,
           skipAutoUnzip: false,
@@ -106,8 +106,8 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         const idMap = new Map<string, FileId>();
-        for (let i = 0; i < stirlingFiles.length; i += 1) {
-          idMap.set(sortedEntries[i].logicalId, stirlingFiles[i].fileId);
+        for (let i = 0; i < scriptaFiles.length; i += 1) {
+          idMap.set(sortedEntries[i].logicalId, scriptaFiles[i].fileId);
         }
 
         const rootIdMap = new Map<string, FileId>();
@@ -142,7 +142,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
             remoteSharedViaLink,
             remoteShareToken,
           };
-          actions.updateStirlingFileStub(newId, updates);
+          actions.updateScriptaFileStub(newId, updates);
           await fileStorage.updateFileMetadata(newId, updates);
         }
 
@@ -167,13 +167,13 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
       const file = new File([blob], filename, {
         type: contentType || blob.type,
       });
-      const stirlingFiles = await actions.addFilesWithOptions([file], {
+      const scriptaFiles = await actions.addFilesWithOptions([file], {
         selectFiles: false,
         autoUnzip: false,
         skipAutoUnzip: false,
         allowDuplicates: true,
       });
-      const fileId = stirlingFiles[0]?.fileId as FileId | undefined;
+      const fileId = scriptaFiles[0]?.fileId as FileId | undefined;
       if (fileId && remoteStorageId) {
         const remoteUpdatedAt = remoteStorageUpdatedAt ?? Date.now();
         const updates = {
@@ -184,7 +184,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
           remoteSharedViaLink,
           remoteShareToken,
         };
-        actions.updateStirlingFileStub(fileId, updates);
+        actions.updateScriptaFileStub(fileId, updates);
         await fileStorage.updateFileMetadata(fileId, updates);
       }
       return fileId ? [fileId] : [];
@@ -192,7 +192,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
     [actions, fileStorage],
   );
 
-  const downloadRemoteFile = useCallback(async (stub: StirlingFileStub) => {
+  const downloadRemoteFile = useCallback(async (stub: ScriptaFileStub) => {
     const path = stub.remoteShareToken
       ? `/api/v1/storage/share-links/${stub.remoteShareToken}`
       : stub.remoteStorageId && stub.id.startsWith("server-")
@@ -231,9 +231,9 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [onModalClose]);
 
   const loadFiles = useCallback(
-    async (stirlingFileStubs: StirlingFileStub[]) => {
+    async (scriptaFileStubs: ScriptaFileStub[]) => {
       const loadedFiles: File[] = [];
-      for (const stub of stirlingFileStubs) {
+      for (const stub of scriptaFileStubs) {
         const remote = await downloadRemoteFile(stub);
         if (remote) {
           loadedFiles.push(
@@ -244,7 +244,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
             )),
           );
         } else {
-          const file = await fileStorage.getStirlingFile(stub.id);
+          const file = await fileStorage.getScriptaFile(stub.id);
           if (!file) throw new Error(`${stub.name} is no longer available.`);
           loadedFiles.push(file);
         }
@@ -255,7 +255,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   const handleRecentFileSelect = useCallback(
-    async (stirlingFileStubs: StirlingFileStub[], uploads: File[] = []) => {
+    async (scriptaFileStubs: ScriptaFileStub[], uploads: File[] = []) => {
       const failedNames: string[] = [];
       const reportUnavailable = () => {
         if (failedNames.length)
@@ -267,7 +267,7 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
       };
       if (customHandler) {
         const loadedFiles: File[] = [];
-        for (const stub of stirlingFileStubs) {
+        for (const stub of scriptaFileStubs) {
           try {
             loadedFiles.push(...(await loadFiles([stub])));
           } catch (cause) {
@@ -282,9 +282,9 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       if (uploads.length > 0) await addFiles(uploads);
 
-      const localStubs: StirlingFileStub[] = [];
+      const localStubs: ScriptaFileStub[] = [];
       const requestedIds: FileId[] = [];
-      for (const stub of stirlingFileStubs) {
+      for (const stub of scriptaFileStubs) {
         try {
           const remote = await downloadRemoteFile(stub);
           if (!remote) {
@@ -311,13 +311,13 @@ export const FilesModalProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       if (localStubs.length)
-        await actions.addStirlingFileStubs(localStubs, { selectFiles: false });
+        await actions.addScriptaFileStubs(localStubs, { selectFiles: false });
       // Adding an input must preserve a tool's existing selection.
       const uploadedIds = uploads
         .map((file) => fileCtx.findFileId(file))
         .filter((id): id is FileId => Boolean(id));
       const currentSelected = fileCtx.selectors
-        .getSelectedStirlingFileStubs()
+        .getSelectedScriptaFileStubs()
         .map((s) => s.id);
       actions.setSelectedFiles(
         Array.from(

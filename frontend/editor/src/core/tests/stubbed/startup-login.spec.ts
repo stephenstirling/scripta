@@ -69,7 +69,7 @@ for (const path of [
 
       if (reload) await page.reload({ waitUntil: "domcontentloaded" });
       await page.locator("#email").fill("admin");
-      await page.locator("#password").fill("stirling");
+      await page.locator("#password").fill("scripta");
       await page.getByRole("button", { name: "Login", exact: true }).click();
 
       if (path !== "/") {

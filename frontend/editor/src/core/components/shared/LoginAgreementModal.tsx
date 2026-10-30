@@ -29,7 +29,7 @@ interface DisclaimerResponse {
 
 function readJwt(): string | null {
   try {
-    return localStorage.getItem("stirling_jwt");
+    return localStorage.getItem("scripta_jwt");
   } catch {
     return null;
   }

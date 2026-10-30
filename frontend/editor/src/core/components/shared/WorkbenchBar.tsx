@@ -26,7 +26,7 @@ import {
   useFileSelection,
   useFileActions,
 } from "@app/contexts/FileContext";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 import { useFileActionTerminology } from "@app/hooks/useFileActionTerminology";
 import { useFileActionIcons } from "@app/hooks/useFileActionIcons";
 import { useToolWorkflow } from "@app/contexts/ToolWorkflowContext";
@@ -197,7 +197,7 @@ export default function WorkbenchBar({
         : []
       : selectedFileIds.length > 0
         ? selectedFileIds
-        : activeFiles.filter(isStirlingFile).map((f) => f.fileId);
+        : activeFiles.filter(isScriptaFile).map((f) => f.fileId);
   const enforcingFileId = exportTargetIds.find((id) =>
     (policyFileBadges.get(id) ?? []).some((p) => p.enforcing),
   );
@@ -268,8 +268,8 @@ export default function WorkbenchBar({
         const fileToExport =
           selectedFiles.length > 0 ? selectedFiles[0] : activeFiles[0];
         if (!fileToExport) return;
-        const stub = isStirlingFile(fileToExport)
-          ? selectors.getStirlingFileStub(fileToExport.fileId)
+        const stub = isScriptaFile(fileToExport)
+          ? selectors.getScriptaFileStub(fileToExport.fileId)
           : undefined;
         try {
           const result = await downloadFile({
@@ -280,7 +280,7 @@ export default function WorkbenchBar({
             fileId: stub?.id,
           });
           if (!forceNewFile && !result.cancelled && stub && result.savedPath) {
-            fileActions.updateStirlingFileStub(stub.id, {
+            fileActions.updateScriptaFileStub(stub.id, {
               localFilePath: stub.localFilePath ?? result.savedPath,
               isDirty: false,
             });
@@ -301,12 +301,12 @@ export default function WorkbenchBar({
       const stubs = viewExport
         ? viewExport.map((entry) =>
             entry.fileId
-              ? selectors.getStirlingFileStub(entry.fileId)
+              ? selectors.getScriptaFileStub(entry.fileId)
               : undefined,
           )
         : filesToExport.map((file) =>
-            isStirlingFile(file)
-              ? selectors.getStirlingFileStub(file.fileId)
+            isScriptaFile(file)
+              ? selectors.getScriptaFileStub(file.fileId)
               : undefined,
           );
 
@@ -340,7 +340,7 @@ export default function WorkbenchBar({
           });
           if (result.cancelled) continue;
           if (!forceNewFile && stub && result.savedPath) {
-            fileActions.updateStirlingFileStub(stub.id, {
+            fileActions.updateScriptaFileStub(stub.id, {
               localFilePath: stub.localFilePath ?? result.savedPath,
               isDirty: false,
             });
@@ -378,16 +378,16 @@ export default function WorkbenchBar({
       const file =
         (activeFileId
           ? activeFiles.find(
-              (f) => isStirlingFile(f) && f.fileId === activeFileId,
+              (f) => isScriptaFile(f) && f.fileId === activeFileId,
             )
           : null) ?? activeFiles[0];
       const countBeforeRemove = activeFiles.length;
-      if (file && isStirlingFile(file)) {
+      if (file && isScriptaFile(file)) {
         // Pick the next file to show before removing, so the sidebar stays in sync.
         const remaining = activeFiles.filter(
-          (f) => isStirlingFile(f) && f.fileId !== file.fileId,
+          (f) => isScriptaFile(f) && f.fileId !== file.fileId,
         );
-        const nextFile = remaining.find(isStirlingFile) ?? null;
+        const nextFile = remaining.find(isScriptaFile) ?? null;
         await fileActions.removeFiles([file.fileId], false);
         if (countBeforeRemove <= 1) {
           setCurrentView("fileEditor");

@@ -10,7 +10,7 @@
 
 declare global {
   interface Node {
-    __stirlingTranslatorPatched?: boolean;
+    __scriptaTranslatorPatched?: boolean;
   }
 }
 
@@ -24,9 +24,9 @@ function isGoogleTranslateActive(): boolean {
 function applyDomPatch(trigger: string): void {
   if (patchApplied) return;
   if (typeof Node === "undefined" || !Node.prototype) return;
-  if (Node.prototype.__stirlingTranslatorPatched) return;
+  if (Node.prototype.__scriptaTranslatorPatched) return;
   patchApplied = true;
-  Node.prototype.__stirlingTranslatorPatched = true;
+  Node.prototype.__scriptaTranslatorPatched = true;
 
   console.warn(
     `[dom-patch] Browser page translator detected (${trigger}). ` +

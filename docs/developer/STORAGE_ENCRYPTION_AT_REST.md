@@ -1,6 +1,6 @@
 # Storage Encryption at Rest
 
-Encrypts files stored by Stirling (My Files, workflow files) so the bytes on disk, in the database,
+Encrypts files stored by Scripta (My Files, workflow files) so the bytes on disk, in the database,
 or in S3 are unreadable without the master key. Requires a Pro or Enterprise licence to enable.
 
 > **Back up the master key.** Losing it makes every encrypted stored file permanently
@@ -50,8 +50,8 @@ storage:
 
 The master key is resolved in this order:
 
-1. `stirling.security.fileEncryptionKey` property
-2. `STIRLING_FILE_ENCRYPTION_KEY` environment variable
+1. `scripta.security.fileEncryptionKey` property
+2. `SCRIPTA_FILE_ENCRYPTION_KEY` environment variable
 3. an auto-generated `configs/file-encryption.key` (owner-only permissions)
 
 Generate a key with:
@@ -83,7 +83,7 @@ file unrecoverable — there is no recovery path, by design.
 Back it up when you enable encryption, not later:
 
 - **Key set in config or environment.** Store the base64 value in whatever holds your other
-  secrets. The value in `stirling.security.fileEncryptionKey` or `STIRLING_FILE_ENCRYPTION_KEY`
+  secrets. The value in `scripta.security.fileEncryptionKey` or `SCRIPTA_FILE_ENCRYPTION_KEY`
   *is* the backup.
 - **Auto-generated key.** The server wrote `configs/file-encryption.key` on first use and logged a
   warning. Copy that file somewhere durable and off the machine. Nothing else in the install holds
@@ -141,9 +141,9 @@ window.
 
 Rotation only re-wraps the small `file_encryption_keys` table — file contents are never rewritten.
 
-1. Set the new key as `stirling.security.fileEncryptionKey`.
-2. Keep the outgoing key in `stirling.security.fileEncryptionKeyPrevious`.
-3. Bump `stirling.security.fileEncryptionKeyVersion`.
+1. Set the new key as `scripta.security.fileEncryptionKey`.
+2. Keep the outgoing key in `scripta.security.fileEncryptionKeyPrevious`.
+3. Bump `scripta.security.fileEncryptionKeyVersion`.
 4. Restart. Startup warns about rows still wrapped by the previous key. On a cluster, wait until
    **every** node carries both keys — a node still holding only the outgoing key cannot read a
    re-wrapped row, so rotating mid-deploy makes the lagging nodes fail on those scopes until they

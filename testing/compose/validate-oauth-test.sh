@@ -12,7 +12,7 @@ echo ""
 # Check Keycloak health — Keycloak 24+ moved /health off the main listener,
 # so probe the realm directly which is the meaningful liveness check anyway.
 echo -n "Checking Keycloak health... "
-if curl -sf http://localhost:9080/realms/stirling-oauth > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-oauth > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ Keycloak is not ready${NC}"
@@ -21,7 +21,7 @@ fi
 
 # Check OAuth realm
 echo -n "Checking OAuth realm... "
-if curl -sf http://localhost:9080/realms/stirling-oauth > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-oauth > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ OAuth realm not found${NC}"
@@ -30,19 +30,19 @@ fi
 
 # Check OIDC configuration
 echo -n "Checking OIDC configuration endpoint... "
-if curl -sf http://localhost:9080/realms/stirling-oauth/.well-known/openid-configuration > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-oauth/.well-known/openid-configuration > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ OIDC configuration not available${NC}"
     exit 1
 fi
 
-# Check Stirling PDF
-echo -n "Checking Stirling PDF status... "
+# Check Scripta
+echo -n "Checking Scripta status... "
 if curl -sf http://localhost:8080/api/v1/info/status 2>/dev/null | grep -q "UP"; then
     echo -e "${GREEN}✓${NC}"
 else
-    echo -e "${RED}✗ Stirling PDF is not ready${NC}"
+    echo -e "${RED}✗ Scripta is not ready${NC}"
     exit 1
 fi
 

@@ -7,7 +7,7 @@ const SAMPLE_PDF = path.join(
   import.meta.dirname,
   "../test-fixtures/sample.pdf",
 );
-const STORAGE_KEY = "stirling:saved-signatures:v1";
+const STORAGE_KEY = "scripta:saved-signatures:v1";
 const PNG =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
@@ -36,7 +36,7 @@ async function seedBrowserSignature(
       localStorage.setItem(key, JSON.stringify([signature]));
       if (isDefault) {
         localStorage.setItem(
-          "stirling:sign:default-signature-id",
+          "scripta:sign:default-signature-id",
           signature.id,
         );
       }

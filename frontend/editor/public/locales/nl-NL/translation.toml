@@ -613,18 +613,18 @@ label = "Sessielimiet"
 description = "Maximale uitvoeringstijd"
 label = "Time-out (minuten)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert is in beta. Het voert betere conversies sneller en met minder geheugen uit dan LibreOffice."
-label = "Nieuwe Stirling Office-conversie gebruiken"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert is in beta. Het voert betere conversies sneller en met minder geheugen uit dan LibreOffice."
+label = "Nieuwe Scripta Office-conversie gebruiken"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Configureer opslag en opschoongedrag voor tijdelijke bestanden"
 label = "Beheer tijdelijke bestanden"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Basismap voor tijdelijke bestanden (laat leeg voor standaard: java.io.tmpdir/stirling-pdf)"
+description = "Basismap voor tijdelijke bestanden (laat leeg voor standaard: java.io.tmpdir/scripta)"
 label = "Basismap voor tijdelijke bestanden"
-placeholder = "Standaard: java.io.tmpdir/stirling-pdf"
+placeholder = "Standaard: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Hoe vaak opschonen wordt uitgevoerd (in minuten)"
@@ -683,8 +683,8 @@ permissionNotice = "Het tessdata-pad is niet schrijfbaar. Downloads worden in de
 [admin.settings.ai]
 customProvider = "Aangepast (OpenAI-compatibel)"
 description = "Verbind Scripta met de Python AI-engine, kies de modellen en stel de richtlijnen in waaronder deze draait."
-managedByCloud = "Beheerd door Stirling Cloud in deze modus."
-managedByCloudShort = "Beheerd door Stirling Cloud"
+managedByCloud = "Beheerd door Cloud in deze modus."
+managedByCloudShort = "Beheerd door Cloud"
 
 [admin.settings.ai.documents]
 description = "Configureer het embedding-model en de ophaalinstellingen die worden gebruikt om vragen over documenten te beantwoorden. Toegepast op de AI engine bij opslaan."
@@ -735,16 +735,16 @@ description = "Schakel afzonderlijke AI-functies in of uit. Uitgeschakelde funct
 title = "Mogelijkheden"
 
 [admin.settings.ai.general.cloud]
-note = "Modellen en providersleutels worden beheerd door Stirling Cloud, dus die instellingen zijn niet van toepassing in deze modus."
+note = "Modellen en providersleutels worden beheerd door Cloud, dus die instellingen zijn niet van toepassing in deze modus."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Elke AI-tool verzendt de paginatekst die nodig is om te antwoorden. Dit bepaalt of Stirling Cloud die tekst ook geïndexeerd mag bewaren, zodat latere vragen in het document kunnen zoeken."
+description = "Elke AI-tool verzendt de paginatekst die nodig is om te antwoorden. Dit bepaalt of Cloud die tekst ook geïndexeerd mag bewaren, zodat latere vragen in het document kunnen zoeken."
 help = "Uit betekent dat documentvragen niet beschikbaar zijn. Het voorkomt niet dat tekst wordt verzonden - alleen dat deze wordt opgeslagen."
-label = "Laat Stirling Cloud geïndexeerde documenten bewaren"
+label = "Laat Cloud geïndexeerde documenten bewaren"
 
 [admin.settings.ai.general.cloudNote]
-body = "Het redeneren draait op de infrastructuur van Scripta en wordt gefactureerd aan het account waaraan deze server is gekoppeld. Er is hier geen container om uit te voeren en geen providersleutel om te bewaren. Alles wat de AI leest, wordt verwerkt door Stirling Cloud in plaats van op uw eigen hardware."
-title = "Over Stirling Cloud AI"
+body = "Het redeneren draait op de infrastructuur van Scripta en wordt gefactureerd aan het account waaraan deze server is gekoppeld. Er is hier geen container om uit te voeren en geen providersleutel om te bewaren. Alles wat de AI leest, wordt verwerkt door Cloud in plaats van op uw eigen hardware."
+title = "Over Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Hoofdschakelaar. Wanneer uitgeschakeld, zijn er geen AI-tools, agents of engine-aanroepen beschikbaar."
@@ -782,11 +782,11 @@ label = "Time-out voor langlopende taken (seconden)"
 label = "Waar AI draait"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Geen container, geen providersleutel, geen modelkeuze - het werk draait op Stirling Cloud en wordt gefactureerd aan het account waaraan deze server is gekoppeld."
+description = "Geen container, geen providersleutel, geen modelkeuze - het werk draait op Cloud en wordt gefactureerd aan het account waaraan deze server is gekoppeld."
 linkCta = "Koppel deze server aan een Scripta-account"
 notLinked = "Koppel eerst een account"
 ownerOnly = "Alleen de organisatie-eigenaar kan deze server aan een Scripta-account koppelen."
-title = "Stirling Cloud AI gebruiken"
+title = "Cloud AI gebruiken"
 
 [admin.settings.ai.general.mode.off]
 description = "Geen AI-tools ergens in de app, en niets verlaat deze server."
@@ -818,7 +818,7 @@ description = "Time-out voor standaard AI-verzoeken aan de engine."
 label = "Verzoektime-out (seconden)"
 
 [admin.settings.ai.general.url]
-description = "Interne URL van de Python AI engine, bijv. http://stirling-pdf-engine:5001."
+description = "Interne URL van de Python AI engine, bijv. http://scripta-engine:5001."
 label = "AI-engine URL"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "Engine-URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Niet beschikbaar"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Beschikbaar"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "AI-delen"
 sharingOff = "Uitgeschakeld"
 sharingOn = "Ingeschakeld"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud heeft geantwoord, maar heeft deze server geweigerd. De accountkoppeling is mogelijk ingetrokken."
-title = "Stirling Cloud weigert deze server"
+body = "Cloud heeft geantwoord, maar heeft deze server geweigerd. De accountkoppeling is mogelijk ingetrokken."
+title = "Cloud weigert deze server"
 
 [admin.settings.ai.status.cloud.down]
-body = "Deze server kon Stirling Cloud niet bereiken. Controleer de accountkoppeling en of deze server internet kan bereiken."
-title = "Stirling Cloud onbereikbaar"
+body = "Deze server kon Cloud niet bereiken. Controleer de accountkoppeling en of deze server internet kan bereiken."
+title = "Cloud onbereikbaar"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud heeft deze server geaccepteerd. Hier hoeft niets te worden uitgevoerd of gepatcht."
-title = "Draait op Stirling Cloud"
+body = "Cloud heeft deze server geaccepteerd. Hier hoeft niets te worden uitgevoerd of gepatcht."
+title = "Draait op Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "De health check werd beantwoord, maar een echte aanvraag werd geweigerd. De twee kanten gebruiken verschillende gedeelde geheimen."
@@ -1885,7 +1885,7 @@ wrapUp = "Dat was de beheerdersrondleiding! Je hebt de enterprise-functies gezie
 title = "Gebruikersbeheer"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Arabisch"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Kies eerst een bronformaat"
 settings = "Instellingen"
 single = "Enkel"
 sourceFormatPlaceholder = "Brontype"
-stirlingOfficeConvert = "Stirling Office Convert gebruiken (beta)"
-stirlingOfficeConvertDescription = "Betere, snellere conversies met minder geheugen. Schakel uit om de standaardconverter te gebruiken."
+scriptaOfficeConvert = "Office Convert gebruiken (beta)"
+scriptaOfficeConvertDescription = "Betere, snellere conversies met minder geheugen. Schakel uit om de standaardconverter te gebruiken."
 strictMode = "Strikte modus"
 strictModeDesc = "Fout als de conversie niet perfect is (gebruikt VeraPDF-verificatie)"
 svgPdfOptions = "SVG naar PDF-opties"
@@ -5349,7 +5349,7 @@ userTitle = "Abonnementoverzicht"
 [onboarding.processorIntro]
 body = "Scripta voert nu <strong>Beleid</strong> uit — geautomatiseerde regels die elk document classificeren, beveiligen en verwerken zodra het binnenkomt. Stel ze in en bewaak uitvoeringen in de <strong>Processor</strong>."
 cta = "Bekijk de Processor"
-title = "Bekijk de Stirling Processor"
+title = "Bekijk de Processor"
 
 [onboarding.securityCheck]
 message = "De applicatie heeft recent belangrijke wijzigingen ondergaan. De aandacht van uw serveradmin kan nodig zijn. Bevestig uw rol om door te gaan."
@@ -5359,9 +5359,9 @@ roleUser = "Gebruiker"
 title = "Beveiligingscontrole"
 
 [onboarding.serverLicense]
-freeBody = "Onze <strong>Open-Core</strong>-licentie omvat <strong>OAuth SSO</strong> en maximaal <strong>{{freeTierLimit}}</strong> gebruikers gratis. Om zonder onderbrekingen te groeien, raden we het Stirling Team-abonnement aan — <strong>100 gebruikers</strong> voor $99/maand."
+freeBody = "Onze <strong>Open-Core</strong>-licentie omvat <strong>OAuth SSO</strong> en maximaal <strong>{{freeTierLimit}}</strong> gebruikers gratis. Om zonder onderbrekingen te groeien, raden we het Scripta Team-abonnement aan — <strong>100 gebruikers</strong> voor $99/maand."
 freeTitle = "Team-abonnement"
-overLimitBody = "Onze licentie staat maximaal <strong>{{freeTierLimit}}</strong> gebruikers gratis toe. Je hebt <strong>{{overLimitUserCopy}}</strong> Scripta-gebruikers. Upgrade naar het Stirling Team-abonnement om ononderbroken door te gaan - <strong>100 gebruikers</strong>, PDF-tekstbewerking en volledige beheerderscontrole voor $99/mnd."
+overLimitBody = "Onze licentie staat maximaal <strong>{{freeTierLimit}}</strong> gebruikers gratis toe. Je hebt <strong>{{overLimitUserCopy}}</strong> Scripta-gebruikers. Upgrade naar het Scripta Team-abonnement om ononderbroken door te gaan - <strong>100 gebruikers</strong>, PDF-tekstbewerking en volledige beheerderscontrole voor $99/mnd."
 overLimitTitle = "Team-abonnement nodig"
 seePlans = "Abonnementen bekijken →"
 upgrade = "Nu upgraden →"
@@ -6918,7 +6918,7 @@ label = "Headers"
 
 [portal.policies.operations.fields.index]
 label = "Index"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Issuesleutel"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud-gebruikersnaam"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Meldt aan een space dat het beleid een document heeft afgehandeld."
@@ -7192,7 +7192,7 @@ secretNote = "Het signing secret wordt één keer getoond, wanneer de webhook wo
 copy = "Kopiëren"
 done = "Gereed"
 secret = "Ondertekeningsgeheim"
-secretHelp = "Onderteken de ruwe body van elke levering met deze sleutel (HMAC-SHA256) en verzend deze als de X-Stirling-Signature-header."
+secretHelp = "Onderteken de ruwe body van elke levering met deze sleutel (HMAC-SHA256) en verzend deze als de X-Scripta-Signature-header."
 secretWarning = "Kopieer het signing secret nu. Voor je veiligheid wordt het slechts één keer getoond en kan het later niet worden opgehaald."
 title = "Webhook aangemaakt"
 url = "Aflever-URL"
@@ -8047,7 +8047,7 @@ storageSharing = "Bestandsopslag en delen"
 systemSettings = "Systeeminstellingen"
 
 [settings.connectedInstances]
-confirmBody = "Dit trekt de toegang van de instantie tot je team in Stirling Cloud in. Lokale bestanden worden niet verwijderd en al geregistreerd gebruik wordt niet verwijderd. Volg de oorspronkelijke koppelingsstappen op de instantie om opnieuw te koppelen."
+confirmBody = "Dit trekt de toegang van de instantie tot je team in Cloud in. Lokale bestanden worden niet verwijderd en al geregistreerd gebruik wordt niet verwijderd. Volg de oorspronkelijke koppelingsstappen op de instantie om opnieuw te koppelen."
 confirmTitle = "{{name}} verwijderen?"
 connectedAt = "Gekoppeld: {{date}}"
 connectedDate = "Gekoppeld"
@@ -8091,7 +8091,7 @@ user = "Ingelogd als"
 
 [settings.connection.mode]
 local = "Alleen lokaal"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "Self-hosted"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitoring"
 [settings.planBilling]
 currentPlan = "Huidig abonnement"
 loading = "Factureringsinformatie laden..."
-notAvailable = "Abonnement & facturering is alleen beschikbaar wanneer verbonden met Stirling Cloud (SaaS-modus)."
+notAvailable = "Abonnement & facturering is alleen beschikbaar wanneer verbonden met Cloud (SaaS-modus)."
 title = "Abonnement & facturering"
 
 [settings.planBilling.billing]

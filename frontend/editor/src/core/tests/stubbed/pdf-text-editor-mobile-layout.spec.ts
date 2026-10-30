@@ -15,7 +15,7 @@ test.use({
 
 async function openEditor(page: Page, fileName?: string): Promise<void> {
   await page.addInitScript(() => {
-    localStorage.setItem("stirling.mobileSwipeHintSeen", "true");
+    localStorage.setItem("scripta.mobileSwipeHintSeen", "true");
   });
   await page.goto("/pdf-text-editor", { waitUntil: "domcontentloaded" });
   await expect(page.getByTestId("pdf-editor-root")).toBeAttached({

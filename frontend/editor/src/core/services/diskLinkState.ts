@@ -1,4 +1,4 @@
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 
 /** How a file stands relative to the original it was opened from. Derived
  *  rather than stored so every surface gets the same answer instead of
@@ -16,7 +16,7 @@ export type DiskLinkState =
 
 export function diskLinkState(
   stub: Pick<
-    StirlingFileStub,
+    ScriptaFileStub,
     | "localFilePath"
     | "orphanedFilePath"
     | "diskConflictAt"

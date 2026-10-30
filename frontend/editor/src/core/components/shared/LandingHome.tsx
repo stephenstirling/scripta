@@ -167,7 +167,7 @@ export function LandingHome({
                 key={file.id}
                 type="button"
                 className="landing-home__file"
-                onClick={() => void fileActions.addStirlingFileStubs([file])}
+                onClick={() => void fileActions.addScriptaFileStubs([file])}
               >
                 <span className="landing-home__thumb">
                   {file.thumbnailUrl ? (

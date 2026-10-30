@@ -153,7 +153,7 @@ test.describe("PDF text editor - font size on a mixed-size selection", () => {
     page,
   }) => {
     test.setTimeout(180_000);
-    await open(page, FIX("stirling-marketing.pdf"));
+    await open(page, FIX("scripta-marketing.pdf"));
 
     const runs = await runsOnPage0(page);
     const first = runs[0];
