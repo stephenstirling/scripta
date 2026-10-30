@@ -8,30 +8,19 @@ import { useTranslation } from "react-i18next";
 import { useFileActionTerminology } from "@app/hooks/useFileActionTerminology";
 import { useFileActionIcons } from "@app/hooks/useFileActionIcons";
 import { Icon } from "@app/ui/Icon";
-import {
-  draggable,
-  dropTargetForElements,
-} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { ScriptaFileStub } from "@app/types/fileContext";
 import { policyCategoryIcon } from "@app/components/policies/policyCategoryIcon";
-import {
-  PolicyBadges,
-  type FileItemPolicyRef,
-} from "@app/components/shared/PolicyBadges";
+import { PolicyBadges, type FileItemPolicyRef } from "@app/components/shared/PolicyBadges";
 import { PolicyEnforcingOverlay } from "@app/components/shared/PolicyEnforcingOverlay";
 import { zipFileService } from "@app/services/zipFileService";
 
 import styles from "@app/components/fileEditor/FileEditorThumbnail.module.css";
 import { useFileContext } from "@app/contexts/FileContext";
-import {
-  useFileSelector,
-  useFileSelectors,
-} from "@app/contexts/file/fileHooks";
+import { useFileSelector, useFileSelectors } from "@app/contexts/file/fileHooks";
 import { FileId } from "@app/types/file";
 import ToolChain from "@app/components/shared/ToolChain";
-import HoverActionMenu, {
-  HoverAction,
-} from "@app/components/shared/HoverActionMenu";
+import HoverActionMenu, { HoverAction } from "@app/components/shared/HoverActionMenu";
 import { downloadFileWithPolicy as downloadFile } from "@app/services/exportWithPolicy";
 import { PrivateContent } from "@app/components/shared/PrivateContent";
 import { CloseFilesConfirmModal } from "@app/components/shared/CloseFilesConfirmModal";
@@ -45,6 +34,7 @@ import { LARGE_PDF_PARSE_LIMIT } from "@app/utils/thumbnailUtils";
 import { truncateCenter } from "@app/utils/textUtils";
 import { FileEditorStatusDot } from "@app/components/fileEditor/FileEditorStatusDot";
 import { useToolEligibleFileIds } from "@app/contexts/ToolFileEligibilityContext";
+import { useToolWorkflowActions } from "@app/contexts/ToolWorkflowContext";
 
 interface FileEditorThumbnailProps {
   file: ScriptaFileStub;
@@ -52,11 +42,7 @@ interface FileEditorThumbnailProps {
   totalFiles: number;
   onCloseFile: (fileId: FileId) => void;
   onViewFile: (fileId: FileId) => void;
-  onReorderFiles?: (
-    sourceFileId: FileId,
-    targetFileId: FileId,
-    selectedFileIds: FileId[],
-  ) => void;
+  onReorderFiles?: (sourceFileId: FileId, targetFileId: FileId, selectedFileIds: FileId[]) => void;
   onDownloadFile: (fileId: FileId) => void;
   onUnzipFile?: (fileId: FileId) => void;
   toolMode?: boolean;
@@ -76,40 +62,26 @@ const FileEditorThumbnail = ({
 }: FileEditorThumbnailProps) => {
   const { t } = useTranslation();
   const eligibleFileIds = useToolEligibleFileIds();
-  const isToolSkipped =
-    eligibleFileIds !== null && !eligibleFileIds.has(file.id);
-  const toolSkipReason = isToolSkipped
-    ? t("files.notIncludedInToolRun", "Not included in this tool run")
-    : undefined;
+  const isToolSkipped = eligibleFileIds !== null && !eligibleFileIds.has(file.id);
+  const toolSkipReason = isToolSkipped ? t("files.notIncludedInToolRun", "Not included in this tool run") : undefined;
   const { config } = useAppConfig();
   const terminology = useFileActionTerminology();
   const icons = useFileActionIcons();
-  const {
-    pinFile,
-    unpinFile,
-    isFilePinned,
-    activeFiles,
-    actions: fileActions,
-    openEncryptedUnlockPrompt,
-  } = useFileContext();
+  const { pinFile, unpinFile, isFilePinned, activeFiles, actions: fileActions, openEncryptedUnlockPrompt } = useFileContext();
   const selectors = useFileSelectors();
   const isMobile = useIsMobile();
+  const { handleToolSelect } = useToolWorkflowActions();
+  // Merge only makes sense from a card that is part of a multi-file selection.
+  const canMergeSelection = useFileSelector((s) => s.ui.selectedFileIds.length >= 2 && s.ui.selectedFileIds.includes(file.id));
 
-  const actualFile = useMemo(
-    () => activeFiles.find((f) => f.fileId === file.id),
-    [activeFiles, file.id],
-  );
+  const actualFile = useMemo(() => activeFiles.find((f) => f.fileId === file.id), [activeFiles, file.id]);
   const isPinned = actualFile ? isFilePinned(actualFile) : false;
 
   const isZipFile = zipFileService.isZipFileStub(file);
 
   const hasError = useFileSelector((s) => s.ui.errorFileIds.includes(file.id));
   const pageCount = file.processedFile?.totalPages || 0;
-  const {
-    isEncrypted,
-    thumbnail: displayThumbnail,
-    isGenerating: isThumbGenerating,
-  } = useFileThumbnail(file);
+  const { isEncrypted, thumbnail: displayThumbnail, isGenerating: isThumbGenerating } = useFileThumbnail(file);
 
   // Aspect ratio from page dimensions, falling back to letter size
   const firstPage = file.processedFile?.pages?.[0];
@@ -143,29 +115,18 @@ const FileEditorThumbnail = ({
   const isCBR = extLower === "cbr";
 
   const uploadEnabled = config?.storageEnabled === true;
-  const sharingEnabled =
-    uploadEnabled && config?.storageSharingEnabled === true;
-  const shareLinksEnabled =
-    sharingEnabled && config?.storageShareLinksEnabled === true;
+  const sharingEnabled = uploadEnabled && config?.storageSharingEnabled === true;
+  const shareLinksEnabled = sharingEnabled && config?.storageShareLinksEnabled === true;
   const isOwnedOrLocal = file.remoteOwnedByCurrentUser !== false;
-  const isSharedFile =
-    file.remoteOwnedByCurrentUser === false || file.remoteSharedViaLink;
+  const isSharedFile = file.remoteOwnedByCurrentUser === false || file.remoteSharedViaLink;
   const localUpdatedAt = file.createdAt ?? file.lastModified ?? 0;
   const remoteUpdatedAt = file.remoteStorageUpdatedAt ?? 0;
   const isUploaded = Boolean(file.remoteStorageId);
   const isUpToDate = isUploaded && remoteUpdatedAt >= localUpdatedAt;
-  const canUpload =
-    uploadEnabled &&
-    isOwnedOrLocal &&
-    file.isLeaf &&
-    (!isUploaded || !isUpToDate);
+  const canUpload = uploadEnabled && isOwnedOrLocal && file.isLeaf && (!isUploaded || !isUpToDate);
   const canShare = shareLinksEnabled && isOwnedOrLocal && file.isLeaf;
 
-  const pageLabel = useMemo(
-    () =>
-      pageCount > 0 ? `${pageCount} ${pageCount === 1 ? "Page" : "Pages"}` : "",
-    [pageCount],
-  );
+  const pageLabel = useMemo(() => (pageCount > 0 ? `${pageCount} ${pageCount === 1 ? "Page" : "Pages"}` : ""), [pageCount]);
 
   const dateLabel = useMemo(() => {
     const d = new Date(file.lastModified);
@@ -230,10 +191,7 @@ const FileEditorThumbnail = ({
     [file.id, file.name, onReorderFiles],
   );
 
-  const handleCloseWithConfirmation = useCallback(
-    () => setShowCloseModal(true),
-    [],
-  );
+  const handleCloseWithConfirmation = useCallback(() => setShowCloseModal(true), []);
   const handleCancelClose = useCallback(() => setShowCloseModal(false), []);
 
   const handleConfirmClose = useCallback(() => {
@@ -290,15 +248,7 @@ const FileEditorThumbnail = ({
       durationMs: 3500,
     });
     setShowCloseModal(false);
-  }, [
-    file.id,
-    file.name,
-    file.localFilePath,
-    onCloseFile,
-    selectors,
-    fileActions,
-    t,
-  ]);
+  }, [file.id, file.name, file.localFilePath, onCloseFile, selectors, fileActions, t]);
 
   const [showVersionHistory, setShowVersionHistory] = useState(false);
 
@@ -323,11 +273,7 @@ const FileEditorThumbnail = ({
         <Group gap={6} wrap="nowrap">
           <Icon name="shield" size={13} />
           <Text size="xs" fw={600}>
-            {t(
-              "policy.blockingAction",
-              "{{action}} blocked while enforcing policy, please wait...",
-              { action },
-            )}
+            {t("policy.blockingAction", "{{action}} blocked while enforcing policy, please wait...", { action })}
           </Text>
         </Group>
         <Loader size="xs" />
@@ -342,6 +288,16 @@ const FileEditorThumbnail = ({
           e.stopPropagation();
           onViewFile(file.id);
         },
+      },
+      {
+        id: "merge",
+        icon: <Icon name="copy-plus" size={20} />,
+        label: t("fileEditor.mergeSelected", "Merge selected files"),
+        onClick: (e) => {
+          e.stopPropagation();
+          handleToolSelect("merge");
+        },
+        hidden: !canMergeSelection,
       },
       {
         id: "pin",
@@ -382,9 +338,7 @@ const FileEditorThumbnail = ({
         icon: <Icon name={icons.download} size={20} />,
         label: terminology.download,
         disabled: policyEnforcing,
-        tooltip: policyEnforcing
-          ? enforcingTooltip(terminology.download)
-          : undefined,
+        tooltip: policyEnforcing ? enforcingTooltip(terminology.download) : undefined,
         onClick: (e) => {
           e.stopPropagation();
           onDownloadFile(file.id);
@@ -397,9 +351,7 @@ const FileEditorThumbnail = ({
               icon: <Icon name="cloud-upload" size={20} />,
               label: uploadLabel,
               disabled: policyEnforcing,
-              tooltip: policyEnforcing
-                ? enforcingTooltip(uploadLabel)
-                : undefined,
+              tooltip: policyEnforcing ? enforcingTooltip(uploadLabel) : undefined,
               onClick: (e: React.MouseEvent) => {
                 e.stopPropagation();
                 setShowUploadModal(true);
@@ -414,9 +366,7 @@ const FileEditorThumbnail = ({
               icon: <Icon name="link" size={20} />,
               label: t("fileManager.share", "Share"),
               disabled: policyEnforcing,
-              tooltip: policyEnforcing
-                ? enforcingTooltip(t("fileManager.share", "Share"))
-                : undefined,
+              tooltip: policyEnforcing ? enforcingTooltip(t("fileManager.share", "Share")) : undefined,
               onClick: (e: React.MouseEvent) => {
                 e.stopPropagation();
                 setShowShareModal(true);
@@ -468,6 +418,8 @@ const FileEditorThumbnail = ({
   }, [
     t,
     file.id,
+    canMergeSelection,
+    handleToolSelect,
     file.name,
     file.versionNumber,
     isZipFile,
@@ -508,9 +460,7 @@ const FileEditorThumbnail = ({
     onViewFile(file.id);
   };
 
-  const metaLine = [dateLabel, extUpper ? `${extUpper} file` : "", pageLabel]
-    .filter(Boolean)
-    .join(" - ");
+  const metaLine = [dateLabel, extUpper ? `${extUpper} file` : "", pageLabel].filter(Boolean).join(" - ");
 
   return (
     <div
@@ -555,9 +505,7 @@ const FileEditorThumbnail = ({
               {/* Error overlay */}
               {hasError && (
                 <div className={styles.errorOverlay}>
-                  <span className={styles.errorPill}>
-                    {t("error._value", "Error")}
-                  </span>
+                  <span className={styles.errorPill}>{t("error._value", "Error")}</span>
                 </div>
               )}
 
@@ -581,9 +529,7 @@ const FileEditorThumbnail = ({
                   // No thumbnail is ever produced at/above the parse limit, so
                   // without this the spinner has no terminal state.
                   file.size < LARGE_PDF_PARSE_LIMIT &&
-                  (isThumbGenerating ||
-                    file.type?.startsWith("application/pdf") ||
-                    file.type?.startsWith("image/"))
+                  (isThumbGenerating || file.type?.startsWith("application/pdf") || file.type?.startsWith("image/"))
                 }
                 iconSize="6rem"
                 imgClassName={styles.thumbImage}
@@ -600,10 +546,7 @@ const FileEditorThumbnail = ({
                   withArrow
                 >
                   <span className={styles.thumbBadgesRight}>
-                    <span
-                      className={styles.backgroundPolicyPill}
-                      style={{ color: backgroundPolicy.accentColor }}
-                    >
+                    <span className={styles.backgroundPolicyPill} style={{ color: backgroundPolicy.accentColor }}>
                       {policyCategoryIcon(backgroundPolicy.id, 14)}
                       <Loader size={10} color={backgroundPolicy.accentColor} />
                     </span>
@@ -613,10 +556,7 @@ const FileEditorThumbnail = ({
 
               {/* Badges — top-left: version, pin, ownership, encrypted */}
               <div className={styles.thumbBadges}>
-                <span
-                  className={styles.versionBadgeThumb}
-                  data-testid="file-version-badge"
-                >
+                <span className={styles.versionBadgeThumb} data-testid="file-version-badge">
                   v{file.versionNumber}
                 </span>
                 {isPinned && (
@@ -625,24 +565,14 @@ const FileEditorThumbnail = ({
                   </span>
                 )}
                 {isSharedFile && !isOwnedOrLocal && (
-                  <span className={styles.ownershipBadge}>
-                    {t("fileManager.sharedWithYou", "Shared")}
-                  </span>
+                  <span className={styles.ownershipBadge}>{t("fileManager.sharedWithYou", "Shared")}</span>
                 )}
                 {isEncrypted && (
-                  <Tooltip
-                    label={t(
-                      "encryptedPdfUnlock.unlockPrompt",
-                      "Unlock PDF to continue",
-                    )}
-                  >
+                  <Tooltip label={t("encryptedPdfUnlock.unlockPrompt", "Unlock PDF to continue")}>
                     <ActionIcon
                       size="sm"
                       accent="warning"
-                      aria-label={t(
-                        "encryptedPdfUnlock.unlockPrompt",
-                        "Unlock PDF to continue",
-                      )}
+                      aria-label={t("encryptedPdfUnlock.unlockPrompt", "Unlock PDF to continue")}
                       onClick={(e) => {
                         e.stopPropagation();
                         openEncryptedUnlockPrompt(file.id);
@@ -667,12 +597,7 @@ const FileEditorThumbnail = ({
         </div>
 
         {/* Hover action menu — visibility driven by CSS on desktop, always shown on mobile */}
-        <HoverActionMenu
-          show={isMobile}
-          actions={hoverActions}
-          position="outside"
-          visibility="cssHover"
-        />
+        <HoverActionMenu show={isMobile} actions={hoverActions} position="outside" visibility="cssHover" />
       </div>
 
       {/* File name + meta */}
@@ -691,10 +616,7 @@ const FileEditorThumbnail = ({
         message={
           file.isDirty && file.localFilePath
             ? t("confirmCloseUnsaved", "This file has unsaved changes.")
-            : t(
-                "confirmCloseMessage",
-                "Are you sure you want to close this file?",
-              )
+            : t("confirmCloseMessage", "Are you sure you want to close this file?")
         }
         files={[{ id: file.id, name: file.name }]}
         closeLabel={
@@ -704,9 +626,7 @@ const FileEditorThumbnail = ({
         }
         onClose={handleConfirmClose}
         onCancel={handleCancelClose}
-        onSave={
-          file.isDirty && file.localFilePath ? handleSaveAndClose : undefined
-        }
+        onSave={file.isDirty && file.localFilePath ? handleSaveAndClose : undefined}
       />
 
       {/* Shared edit notice modal */}
@@ -732,25 +652,9 @@ const FileEditorThumbnail = ({
         </Stack>
       </Modal>
 
-      {canUpload && (
-        <UploadToServerModal
-          opened={showUploadModal}
-          onClose={() => setShowUploadModal(false)}
-          file={file}
-        />
-      )}
-      {canShare && (
-        <ShareFileModal
-          opened={showShareModal}
-          onClose={() => setShowShareModal(false)}
-          file={file}
-        />
-      )}
-      <VersionHistoryModal
-        opened={showVersionHistory}
-        onClose={() => setShowVersionHistory(false)}
-        file={file}
-      />
+      {canUpload && <UploadToServerModal opened={showUploadModal} onClose={() => setShowUploadModal(false)} file={file} />}
+      {canShare && <ShareFileModal opened={showShareModal} onClose={() => setShowShareModal(false)} file={file} />}
+      <VersionHistoryModal opened={showVersionHistory} onClose={() => setShowVersionHistory(false)} file={file} />
     </div>
   );
 };
