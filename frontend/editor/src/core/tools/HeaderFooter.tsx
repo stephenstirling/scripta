@@ -45,7 +45,10 @@ const HeaderFooter = ({
     } catch (error) {
       onError?.(
         (error instanceof Error ? error.message : undefined) ||
-          t("headerFooter.error.failed", "An error occurred while adding headers and footers."),
+          t(
+            "headerFooter.error.failed",
+            "An error occurred while adding headers and footers.",
+          ),
       );
     }
   };

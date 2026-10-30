@@ -40,8 +40,7 @@ const useGoogleProvider = (): Provider => {
     icon: "google",
     type: "oauth2",
     scope: t("provider.oauth2.google.scope", "Sign-in authentication"),
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "clientId",
@@ -98,8 +97,7 @@ const useGitHubProvider = (): Provider => {
     icon: "github",
     type: "oauth2",
     scope: t("provider.oauth2.github.scope", "Sign-in authentication"),
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "clientId",
@@ -156,8 +154,7 @@ const useKeycloakProvider = (): Provider => {
     type: "oauth2",
     scope: t("provider.oauth2.keycloak.scope", "SSO"),
     businessTier: false,
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "issuer",
@@ -227,8 +224,7 @@ const useGenericOAuth2Provider = (): Provider => {
     type: "oauth2",
     scope: t("provider.oauth2.generic.scope", "SSO"),
     businessTier: false,
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -344,8 +340,7 @@ const useSMTPProvider = (): Provider => {
     icon: "mail",
     type: "oauth2",
     scope: t("provider.smtp.scope", "Email Notifications"),
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -673,8 +668,7 @@ const useSAML2Provider = (): Provider => {
     type: "saml2",
     scope: t("provider.saml2.scope", "SSO (SAML)"),
     businessTier: true,
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -820,8 +814,7 @@ const useGoogleDriveProvider = (): Provider => {
     icon: "googledrive",
     type: "googledrive",
     scope: t("provider.googledrive.scope", "File Import"),
-    documentationUrl:
-      "https://github.com/stephenstirling/scripta#readme",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",

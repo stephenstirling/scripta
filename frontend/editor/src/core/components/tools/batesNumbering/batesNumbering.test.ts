@@ -25,7 +25,10 @@ describe("Bates numbering parameters", () => {
   test("rejects negative starts and out-of-range digits", () => {
     expect(validateBatesNumberingParameters(defaultParameters)).toBe(true);
     expect(
-      validateBatesNumberingParameters({ ...defaultParameters, startNumber: -1 }),
+      validateBatesNumberingParameters({
+        ...defaultParameters,
+        startNumber: -1,
+      }),
     ).toBe(false);
     expect(
       validateBatesNumberingParameters({ ...defaultParameters, digits: 16 }),

@@ -19,10 +19,7 @@ export function useAccountLogout() {
   }: AccountLogoutDeps): Promise<void> => {
     try {
       if (typeof window !== "undefined") {
-        window.sessionStorage.setItem(
-          "scripta_sso_auto_login_logged_out",
-          "1",
-        );
+        window.sessionStorage.setItem("scripta_sso_auto_login_logged_out", "1");
       }
       // The tab outlives the session; the next person to sign in here must not
       // inherit this workbench. Suspends writing too - signing out unmounts the

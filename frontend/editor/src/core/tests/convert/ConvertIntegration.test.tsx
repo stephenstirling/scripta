@@ -43,10 +43,7 @@ import { createTestScriptaFile } from "@app/tests/utils/testFileHelpers";
 import { expectConsole } from "@app/tests/failOnConsole";
 import { fileStorage } from "@app/services/fileStorage";
 import * as thumbnailUtils from "@app/utils/thumbnailUtils";
-import {
-  ScriptaFile,
-  createNewScriptaFileStub,
-} from "@app/types/fileContext";
+import { ScriptaFile, createNewScriptaFileStub } from "@app/types/fileContext";
 import { MantineProvider } from "@mantine/core";
 
 // Mock axios (for static methods like CancelToken, isCancel)
@@ -236,11 +233,7 @@ describe("Convert Tool Integration Tests", () => {
       { wrapper: TestWrapper },
     );
     const pdf = createPDFFile();
-    const svg = createTestScriptaFile(
-      "drawing.svg",
-      "<svg/>",
-      "image/svg+xml",
-    );
+    const svg = createTestScriptaFile("drawing.svg", "<svg/>", "image/svg+xml");
     const image = createTestScriptaFile("photo.png", "image", "image/png");
     const locked = createTestScriptaFile(
       "locked.pdf",

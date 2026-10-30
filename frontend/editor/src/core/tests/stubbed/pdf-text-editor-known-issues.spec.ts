@@ -389,11 +389,7 @@ test.describe("PDF text editor - fixed-issue regressions", () => {
           .runs.find((x) => x.id === rid)!.text,
       id,
     );
-    await replaceAll(
-      page,
-      id,
-      cur.replace(/Scripta\s+PDF/, "Scripta     PDF"),
-    );
+    await replaceAll(page, id, cur.replace(/Scripta\s+PDF/, "Scripta     PDF"));
     await blur(page, id);
     const g = await glyphs(page, 1, id);
     expect(

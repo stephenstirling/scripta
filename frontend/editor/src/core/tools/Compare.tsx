@@ -203,8 +203,7 @@ const Compare = (props: BaseToolProps) => {
         result,
         baseFileId,
         comparisonFileId,
-        baseLocalFile:
-          baseSlot?.scriptaFile ?? previous?.baseLocalFile ?? null,
+        baseLocalFile: baseSlot?.scriptaFile ?? previous?.baseLocalFile ?? null,
         comparisonLocalFile:
           compSlot?.scriptaFile ?? previous?.comparisonLocalFile ?? null,
         isLoading: false,
@@ -219,8 +218,7 @@ const Compare = (props: BaseToolProps) => {
         result: null,
         baseFileId,
         comparisonFileId,
-        baseLocalFile:
-          baseSlot?.scriptaFile ?? previous?.baseLocalFile ?? null,
+        baseLocalFile: baseSlot?.scriptaFile ?? previous?.baseLocalFile ?? null,
         comparisonLocalFile:
           compSlot?.scriptaFile ?? previous?.comparisonLocalFile ?? null,
         isLoading: true,

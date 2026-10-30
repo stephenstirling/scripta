@@ -119,9 +119,9 @@ describe("ownership handover", () => {
     expect(adapter.selectCloud).toHaveBeenCalledWith({ cloudUserId: 42 });
     expect(screen.getByText("Server account")).toBeVisible();
     expect(screen.getAllByText("Jamie")[0]).toBeVisible();
-    expect(
-      screen.getByRole("combobox", { name: "Account" }),
-    ).toHaveValue("cloud@example.com");
+    expect(screen.getByRole("combobox", { name: "Account" })).toHaveValue(
+      "cloud@example.com",
+    );
     expect(adapter.transferCloud).not.toHaveBeenCalled();
     await confirm();
     expect(screen.getByText("Ownership transferred")).toBeVisible();
@@ -167,17 +167,15 @@ describe("ownership handover", () => {
     show();
     await screen.findByRole("combobox", { name: "Account" });
     expect(screen.queryByRole("alert")).toBeNull();
-    fireEvent.change(
-      screen.getByRole("combobox", { name: "Account" }),
-      { target: { value: "invalid" } },
-    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Account" }), {
+      target: { value: "invalid" },
+    });
     expect(
       screen.getByRole("button", { name: "Transfer ownership" }),
     ).toBeDisabled();
-    fireEvent.change(
-      screen.getByRole("combobox", { name: "Account" }),
-      { target: { value: "new@example.com" } },
-    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Account" }), {
+      target: { value: "new@example.com" },
+    });
     expect(adapter.invite).not.toHaveBeenCalled();
     await click(await screen.findByRole("button", { name: "Send invitation" }));
     expect(adapter.selectCloud).toHaveBeenCalledWith({
@@ -209,19 +207,16 @@ describe("ownership handover", () => {
       .mockResolvedValue(awaiting);
     vi.mocked(adapter.invite!).mockResolvedValue(awaiting);
     show();
-    fireEvent.focus(
-      await screen.findByRole("combobox", { name: "Account" }),
-    );
+    fireEvent.focus(await screen.findByRole("combobox", { name: "Account" }));
     await click(
       await screen.findByRole("option", { name: "cloud@example.com" }),
     );
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "Choose another cloud member",
     );
-    fireEvent.change(
-      screen.getByRole("combobox", { name: "Account" }),
-      { target: { value: "other@example.com" } },
-    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Account" }), {
+      target: { value: "other@example.com" },
+    });
     await click(await screen.findByRole("button", { name: "Send invitation" }));
     expect(adapter.selectCloud).toHaveBeenLastCalledWith({
       cloudEmail: "other@example.com",
@@ -346,14 +341,13 @@ describe("ownership handover", () => {
     show();
     await screen.findByRole("checkbox");
     vi.mocked(adapter.prepare).mockResolvedValue(choosing());
-    fireEvent.change(
-      screen.getByRole("combobox", { name: "Account" }),
-      { target: { value: "other@example.com" } },
-    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Account" }), {
+      target: { value: "other@example.com" },
+    });
     await waitFor(() => expect(adapter.cancel).toHaveBeenCalledOnce());
-    expect(
-      screen.getByRole("combobox", { name: "Account" }),
-    ).toHaveValue("other@example.com");
+    expect(screen.getByRole("combobox", { name: "Account" })).toHaveValue(
+      "other@example.com",
+    );
     expect(adapter.cancel).toHaveBeenCalledOnce();
     expect(adapter.transferCloud).not.toHaveBeenCalled();
   });
@@ -510,12 +504,9 @@ describe("ownership handover", () => {
       cloudEmail: "joined@example.com",
     });
     show();
-    fireEvent.change(
-      await screen.findByRole("combobox", { name: "Account" }),
-      {
-        target: { value: "joined@example.com" },
-      },
-    );
+    fireEvent.change(await screen.findByRole("combobox", { name: "Account" }), {
+      target: { value: "joined@example.com" },
+    });
     await click(screen.getByRole("button", { name: "Send invitation" }));
     expect(await screen.findByRole("checkbox")).not.toBeChecked();
     expect(adapter.invite).not.toHaveBeenCalled();

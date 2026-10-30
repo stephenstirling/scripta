@@ -616,9 +616,7 @@ class FileStorageService {
       const getRequest = store.get(fileId);
       getRequest.onerror = () => reject(getRequest.error);
       getRequest.onsuccess = () => {
-        const record = getRequest.result as
-          | StoredScriptaFileRecord
-          | undefined;
+        const record = getRequest.result as StoredScriptaFileRecord | undefined;
         // Nothing to write: let the empty transaction commit and report false.
         if (!record || mutate(record) === false) return;
         written = true;
@@ -740,9 +738,7 @@ class FileStorageService {
    * Get multiple ScriptaFiles - for batch loading
    */
   async getScriptaFiles(ids: FileId[]): Promise<ScriptaFile[]> {
-    const results = await Promise.all(
-      ids.map((id) => this.getScriptaFile(id)),
-    );
+    const results = await Promise.all(ids.map((id) => this.getScriptaFile(id)));
     return results.filter((file): file is ScriptaFile => file !== null);
   }
 
@@ -1319,13 +1315,12 @@ class FileStorageService {
 
     await Promise.all(
       outputScriptaFiles.map((file, i) =>
-        this.storeScriptaFile(file, outputScriptaFileStubs[i]).catch(
-          (error) =>
-            console.error(
-              "Failed to persist output file to storage:",
-              file.name,
-              error,
-            ),
+        this.storeScriptaFile(file, outputScriptaFileStubs[i]).catch((error) =>
+          console.error(
+            "Failed to persist output file to storage:",
+            file.name,
+            error,
+          ),
         ),
       ),
     );

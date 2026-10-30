@@ -28,7 +28,10 @@ const StampAppearanceFields = ({
   disabled = false,
 }: StampAppearanceFieldsProps) => {
   const { t } = useTranslation();
-  const comboboxProps = { withinPortal: true, zIndex: Z_INDEX_AUTOMATE_DROPDOWN };
+  const comboboxProps = {
+    withinPortal: true,
+    zIndex: Z_INDEX_AUTOMATE_DROPDOWN,
+  };
 
   return (
     <Stack gap="md">

@@ -253,8 +253,7 @@ export default function WorkbenchBar({
     () =>
       floatingViewerTools
         ? buttons.filter(
-            (btn) =>
-              VIEWER_PAGE_TOOL_IDS.has(btn.id) && (btn.visible ?? true),
+            (btn) => VIEWER_PAGE_TOOL_IDS.has(btn.id) && (btn.visible ?? true),
           )
         : [],
     [buttons, floatingViewerTools],

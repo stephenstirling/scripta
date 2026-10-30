@@ -143,9 +143,7 @@ export function useBrandFlourish(): BrandFlourish {
       // and they arrive while the fly-in is still running.
       const run = ++runRef.current;
       const ids = fileStore.getState().files.ids;
-      const plan = planThumbnails(
-        fileStore.selectors.getScriptaFileStubs(ids),
-      );
+      const plan = planThumbnails(fileStore.selectors.getScriptaFileStubs(ids));
       void renderPlan(plan, fileStore.selectors.getFiles(ids), (loaded) => {
         // A game closed and reopened mid-render must not be fed the old pages.
         if (runRef.current === run) setImages(loaded);

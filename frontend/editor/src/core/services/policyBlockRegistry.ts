@@ -1,9 +1,7 @@
 import type { ScriptaFileStub } from "@app/types/fileContext";
 
 /** Register documents retained outside the workspace until their owning tool releases them. */
-export function registerPolicyFileUsage(
-  _files: ScriptaFileStub[],
-): () => void {
+export function registerPolicyFileUsage(_files: ScriptaFileStub[]): () => void {
   return () => {};
 }
 

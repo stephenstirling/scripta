@@ -26,8 +26,6 @@ export function useFileSidebarGroups(
 }
 
 // Header control for customizing the grouping; core has none, an override renders a group picker.
-export function FileSidebarGroupControls(_props: {
-  stubs: ScriptaFileStub[];
-}) {
+export function FileSidebarGroupControls(_props: { stubs: ScriptaFileStub[] }) {
   return null;
 }

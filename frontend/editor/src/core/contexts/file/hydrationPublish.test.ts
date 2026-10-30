@@ -1,8 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import type {
-  FileContextState,
-  ScriptaFileStub,
-} from "@app/types/fileContext";
+import type { FileContextState, ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
 /**

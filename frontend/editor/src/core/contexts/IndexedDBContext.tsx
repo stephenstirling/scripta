@@ -200,9 +200,7 @@ export function IndexedDBProvider({ children }: IndexedDBProviderProps) {
     [bumpRevision],
   );
 
-  const loadLeafMetadata = useCallback(async (): Promise<
-    ScriptaFileStub[]
-  > => {
+  const loadLeafMetadata = useCallback(async (): Promise<ScriptaFileStub[]> => {
     const metadata = await fileStorage.getLeafScriptaFileStubs(); // Only get leaf files
 
     // All files are already ScriptaFileStub objects, no processing needed

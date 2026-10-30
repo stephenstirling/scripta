@@ -322,10 +322,7 @@ export function FileSelectorPicker({
               if (thumbnail) {
                 resolvedStub = { ...stub, thumbnailUrl: thumbnail };
                 // Persist so subsequent opens don't regenerate
-                void fileStorage.updateThumbnail(
-                  scriptaFile.fileId,
-                  thumbnail,
-                );
+                void fileStorage.updateThumbnail(scriptaFile.fileId, thumbnail);
               }
             } catch {
               // Non-fatal — thumbnail simply won't show

@@ -157,9 +157,7 @@ describe("restore", () => {
 
     mount(makeStore());
 
-    await waitFor(() =>
-      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
-    );
+    await waitFor(() => expect(actions.addScriptaFileStubs).toHaveBeenCalled());
     const restored = actions.addScriptaFileStubs.mock.calls[0][0];
     expect(restored.map((s: ScriptaFileStub) => s.id)).toEqual([
       "a-v3",
@@ -195,9 +193,7 @@ describe("restore", () => {
 
     mount(makeStore());
 
-    await waitFor(() =>
-      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
-    );
+    await waitFor(() => expect(actions.addScriptaFileStubs).toHaveBeenCalled());
     expect(
       actions.addScriptaFileStubs.mock.calls[0][0].map(
         (s: ScriptaFileStub) => s.id,
@@ -221,9 +217,7 @@ describe("restore", () => {
 
     mount(makeStore());
 
-    await waitFor(() =>
-      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
-    );
+    await waitFor(() => expect(actions.addScriptaFileStubs).toHaveBeenCalled());
     expect(
       actions.addScriptaFileStubs.mock.calls[0][0].map(
         (s: ScriptaFileStub) => s.id,
@@ -242,9 +236,7 @@ describe("restore", () => {
         workbench: "fileEditor",
       }),
     );
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
     mocks.launchFilesPending = true;
 
     mount(makeStore());
@@ -328,9 +320,7 @@ describe("restore", () => {
         selectedFileIds: [],
       }),
     );
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     mount(makeStore());
 
@@ -397,15 +387,11 @@ describe("restore", () => {
         workbench: "myFiles",
       }),
     );
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     mount(makeStore());
 
-    await waitFor(() =>
-      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
-    );
+    await waitFor(() => expect(actions.addScriptaFileStubs).toHaveBeenCalled());
     expect(mocks.restoreWorkbench).not.toHaveBeenCalled();
   });
 });
@@ -426,9 +412,7 @@ describe("whose workbench it is", () => {
   it("does not open one user's workbench for the next person in the tab", async () => {
     await record("user-a");
     mocks.authUser = { id: "user-b" };
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     mount(makeStore());
 
@@ -444,24 +428,18 @@ describe("whose workbench it is", () => {
   it("reopens it for the user who left it", async () => {
     await record("user-a");
     mocks.authUser = { id: "user-a" };
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     mount(makeStore());
 
-    await waitFor(() =>
-      expect(actions.addScriptaFileStubs).toHaveBeenCalled(),
-    );
+    await waitFor(() => expect(actions.addScriptaFileStubs).toHaveBeenCalled());
   });
 
   it("waits for the session before deciding", async () => {
     await record("user-a");
     mocks.authUser = null;
     mocks.authLoading = true;
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     mount(makeStore());
 
@@ -532,9 +510,7 @@ describe("on the login screen", () => {
       SESSION_KEY,
       JSON.stringify({ v: 2, fileIds: ["root-a"], selectedFileIds: [] }),
     );
-    mocks.getLeafScriptaFileStubs.mockResolvedValue([
-      stub("root-a", "root-a"),
-    ]);
+    mocks.getLeafScriptaFileStubs.mockResolvedValue([stub("root-a", "root-a")]);
 
     const store = makeStore();
     const { unmount } = mount(store);

@@ -147,7 +147,7 @@ test("accepts typing while the agent is thinking but holds the send", async ({
 test("is absent when the AI engine is off", async ({ page }) => {
   await page.goto("/editor", { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-sidebar="file-sidebar"]')).toBeVisible();
-  await expect(
-    page.getByRole("region", { name: "Scripta Agent" }),
-  ).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Scripta Agent" })).toHaveCount(
+    0,
+  );
 });

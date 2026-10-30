@@ -984,8 +984,7 @@ export default function FileManagerView() {
       selectedFiles
         .map((id) => fileMap.get(id))
         .filter(
-          (s): s is ScriptaFileStub =>
-            Boolean(s) && s!.remoteStorageId == null,
+          (s): s is ScriptaFileStub => Boolean(s) && s!.remoteStorageId == null,
         ),
     [selectedFiles, fileMap],
   );

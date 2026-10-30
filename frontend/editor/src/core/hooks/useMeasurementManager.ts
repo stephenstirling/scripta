@@ -129,12 +129,7 @@ export function useMeasurementManager({
   }
 
   function persistMeasurements(fileKey: string, value: Measurement[]) {
-    persistSessionValue(
-      "scripta_measurements",
-      fileKey,
-      value,
-      "measurements",
-    );
+    persistSessionValue("scripta_measurements", fileKey, value, "measurements");
   }
 
   const handleSetCustomScale = useCallback(

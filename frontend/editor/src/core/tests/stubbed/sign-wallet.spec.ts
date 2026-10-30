@@ -35,10 +35,7 @@ async function seedBrowserSignature(
       };
       localStorage.setItem(key, JSON.stringify([signature]));
       if (isDefault) {
-        localStorage.setItem(
-          "scripta:sign:default-signature-id",
-          signature.id,
-        );
+        localStorage.setItem("scripta:sign:default-signature-id", signature.id);
       }
     },
     { key: STORAGE_KEY, png: PNG, label, isDefault },

@@ -6,7 +6,10 @@ import { useTranslation } from "react-i18next";
 import { Icon } from "@app/ui/Icon";
 import type { FileId } from "@app/types/file";
 import { FileDocIcon } from "@app/components/shared/FileDocIcon";
-import { PolicyBadges, type FileItemPolicyRef } from "@app/components/shared/PolicyBadges";
+import {
+  PolicyBadges,
+  type FileItemPolicyRef,
+} from "@app/components/shared/PolicyBadges";
 import { getFileDocVariant } from "@app/components/shared/filePreview/getFileTypeIcon";
 import { useLazyThumbnail } from "@app/hooks/useLazyThumbnail";
 import { useFileActionIcons } from "@app/hooks/useFileActionIcons";
@@ -19,14 +22,27 @@ export function getFileExtension(name: string): string {
   return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : "";
 }
 
-export type DateGroup = "today" | "yesterday" | "thisWeek" | "thisMonth" | "older";
+export type DateGroup =
+  | "today"
+  | "yesterday"
+  | "thisWeek"
+  | "thisMonth"
+  | "older";
 
 export function getDateGroup(lastModified: number | undefined): DateGroup {
   if (!lastModified) return "older";
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+  ).getTime();
   const d = new Date(lastModified);
-  const fileDay = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const fileDay = new Date(
+    d.getFullYear(),
+    d.getMonth(),
+    d.getDate(),
+  ).getTime();
   const daysAgo = (today - fileDay) / 86400000;
   if (daysAgo < 1) return "today";
   if (daysAgo < 2) return "yesterday";
@@ -41,7 +57,11 @@ export function formatFileDate(lastModifiedTs: number): string {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
-  const fileDay = new Date(lastModified.getFullYear(), lastModified.getMonth(), lastModified.getDate());
+  const fileDay = new Date(
+    lastModified.getFullYear(),
+    lastModified.getMonth(),
+    lastModified.getDate(),
+  );
 
   if (fileDay.getTime() === today.getTime()) {
     return lastModified
@@ -66,8 +86,22 @@ export function formatFileDate(lastModifiedTs: number): string {
   });
 }
 
-function CheckIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return <Icon name="check" size={14} strokeWidth={3} className={className} style={style} />;
+function CheckIcon({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <Icon
+      name="check"
+      size={14}
+      strokeWidth={3}
+      className={className}
+      style={style}
+    />
+  );
 }
 
 function getSidebarFileIcon(ext: string): React.ReactElement {
@@ -134,7 +168,13 @@ function FileMenuItem({
   children: React.ReactNode;
 }) {
   return (
-    <Tooltip label={disabledReason} disabled={!disabledReason} position="left" offset={6} withArrow>
+    <Tooltip
+      label={disabledReason}
+      disabled={!disabledReason}
+      position="left"
+      offset={6}
+      withArrow
+    >
       {/* Disabled items swallow pointer events, so the tooltip needs a live wrapper. */}
       <div>
         <Menu.Item
@@ -183,13 +223,17 @@ export const FileItem = React.memo(function FileItem({
   hasVersionHistory = false,
 }: FileItemProps) {
   const { t } = useTranslation();
-  const toolSkipReason = isToolSkipped ? t("files.notIncludedInToolRun", "Not included in this tool run") : undefined;
+  const toolSkipReason = isToolSkipped
+    ? t("files.notIncludedInToolRun", "Not included in this tool run")
+    : undefined;
   const terminology = useFileActionTerminology();
   const downloadIcon = useFileActionIcons().download;
   const ext = getFileExtension(name);
   const dateLabel = lastModified ? formatFileDate(lastModified) : "";
   const typeLabel = ext ? ext.toUpperCase() : "File";
-  const metaLine = [typeLabel, size ? formatFileSize(size) : null, dateLabel].filter(Boolean).join(" · ");
+  const metaLine = [typeLabel, size ? formatFileSize(size) : null, dateLabel]
+    .filter(Boolean)
+    .join(" · ");
 
   const policyEnforcing = policies.some((p) => p.enforcing);
   const enforcingTooltip = (action: string): React.ReactNode => (
@@ -197,7 +241,11 @@ export const FileItem = React.memo(function FileItem({
       <Group gap={6} wrap="nowrap">
         <Icon name="shield" size={13} />
         <Text size="xs" fw={600}>
-          {t("policy.blockingAction", "{{action}} blocked while enforcing policy, please wait...", { action })}
+          {t(
+            "policy.blockingAction",
+            "{{action}} blocked while enforcing policy, please wait...",
+            { action },
+          )}
         </Text>
       </Group>
       <Loader size="xs" />
@@ -206,7 +254,10 @@ export const FileItem = React.memo(function FileItem({
 
   // Why an action can't run right now: a policy is rewriting the file, or its
   // bytes are gone. `needsBytes` actions are the ones that read the file.
-  const blockedReason = (action: string, needsBytes = true): React.ReactNode | null => {
+  const blockedReason = (
+    action: string,
+    needsBytes = true,
+  ): React.ReactNode | null => {
     if (policyEnforcing) return enforcingTooltip(action);
     if (needsBytes && dataUnavailable)
       return t(
@@ -222,7 +273,11 @@ export const FileItem = React.memo(function FileItem({
 
   // Only use raster thumbnails for PDFs and images — everything else uses scalable SVG icons
   const useRasterThumb = ext === "pdf" || IMAGE_EXTENSIONS.has(ext);
-  const resolvedThumbnail = useLazyThumbnail(fileId, size ?? 0, useRasterThumb ? thumbnailUrl : undefined);
+  const resolvedThumbnail = useLazyThumbnail(
+    fileId,
+    size ?? 0,
+    useRasterThumb ? thumbnailUrl : undefined,
+  );
 
   const itemRef = useRef<HTMLDivElement>(null);
   const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
@@ -272,7 +327,11 @@ export const FileItem = React.memo(function FileItem({
           )}
         </div>
         <div className="file-sidebar-file-info">
-          <span className={`file-sidebar-file-name${isSelected ? " selected" : ""}`}>{name}</span>
+          <span
+            className={`file-sidebar-file-name${isSelected ? " selected" : ""}`}
+          >
+            {name}
+          </span>
           <span className="file-sidebar-file-meta-row">
             <span className="file-sidebar-file-meta">
               {primaryLabel ? (
@@ -305,7 +364,14 @@ export const FileItem = React.memo(function FileItem({
               </Tooltip>
             )}
             {isUploadedToCloud && (
-              <Tooltip label={t("fileSidebar.fileItem.savedToServer", "Saved to server")} withArrow position="top">
+              <Tooltip
+                label={t(
+                  "fileSidebar.fileItem.savedToServer",
+                  "Saved to server",
+                )}
+                withArrow
+                position="top"
+              >
                 <span className="file-sidebar-cloud-badge" data-no-select>
                   <Icon name="cloud-check" size={"0.85rem"} />
                 </span>
@@ -326,10 +392,24 @@ export const FileItem = React.memo(function FileItem({
             tabIndex={-1}
             aria-label={viewerLabel}
           >
-            <Icon name="eye" size={"1.1rem"} className="file-sidebar-eye-open" />
-            <Icon name="eye-off" size={"1.1rem"} className="file-sidebar-eye-closed" />
+            <Icon
+              name="eye"
+              size={"1.1rem"}
+              className="file-sidebar-eye-open"
+            />
+            <Icon
+              name="eye-off"
+              size={"1.1rem"}
+              className="file-sidebar-eye-closed"
+            />
           </ActionIcon>
-          <Menu position="bottom-end" withinPortal shadow="md" width={220} onChange={setMenuOpened}>
+          <Menu
+            position="bottom-end"
+            withinPortal
+            shadow="md"
+            width={220}
+            onChange={setMenuOpened}
+          >
             <Menu.Target>
               <ActionIcon
                 variant="tertiary"
@@ -337,7 +417,10 @@ export const FileItem = React.memo(function FileItem({
                 className="file-sidebar-kebab-btn"
                 onClick={(e) => e.stopPropagation()}
                 tabIndex={-1}
-                aria-label={t("fileSidebar.fileItem.moreActions", "More actions")}
+                aria-label={t(
+                  "fileSidebar.fileItem.moreActions",
+                  "More actions",
+                )}
               >
                 <Icon name="ellipsis-vertical" size={"1.1rem"} />
               </ActionIcon>
@@ -347,12 +430,20 @@ export const FileItem = React.memo(function FileItem({
                   name (and the size the row has no space for) is readable. */}
               <Menu.Label className="file-sidebar-kebab-header">
                 <span className="file-sidebar-kebab-header-name">{name}</span>
-                <span className="file-sidebar-kebab-header-meta">{metaLine}</span>
+                <span className="file-sidebar-kebab-header-meta">
+                  {metaLine}
+                </span>
               </Menu.Label>
 
               <FileMenuItem
                 disabledReason={blockedReason(viewerLabel)}
-                icon={isViewedInViewer ? <Icon name="eye-off" size={16} /> : <Icon name="eye" size={16} />}
+                icon={
+                  isViewedInViewer ? (
+                    <Icon name="eye-off" size={16} />
+                  ) : (
+                    <Icon name="eye" size={16} />
+                  )
+                }
                 onClick={(e) => onEyeClick(fileId, e)}
               >
                 {viewerLabel}
@@ -360,7 +451,9 @@ export const FileItem = React.memo(function FileItem({
 
               {onOpenInNewWindow && (
                 <FileMenuItem
-                  disabledReason={blockedReason(t("openInNewWindow", "Open in new window"))}
+                  disabledReason={blockedReason(
+                    t("openInNewWindow", "Open in new window"),
+                  )}
                   icon={<Icon name="external-link" size={16} />}
                   onClick={() => onOpenInNewWindow(fileId)}
                 >
@@ -368,7 +461,9 @@ export const FileItem = React.memo(function FileItem({
                 </FileMenuItem>
               )}
 
-              {(onDownload || onRename || onDuplicate || onMergeSelected) && <Menu.Divider />}
+              {(onDownload || onRename || onDuplicate || onMergeSelected) && (
+                <Menu.Divider />
+              )}
 
               {onDownload && (
                 <FileMenuItem
@@ -382,7 +477,10 @@ export const FileItem = React.memo(function FileItem({
 
               {onRename && (
                 <FileMenuItem
-                  disabledReason={blockedReason(t("fileSidebar.fileItem.rename", "Rename"), false)}
+                  disabledReason={blockedReason(
+                    t("fileSidebar.fileItem.rename", "Rename"),
+                    false,
+                  )}
                   icon={<Icon name="file-pen" size={16} />}
                   onClick={() => onRename(fileId)}
                 >
@@ -392,7 +490,9 @@ export const FileItem = React.memo(function FileItem({
 
               {onDuplicate && (
                 <FileMenuItem
-                  disabledReason={blockedReason(t("fileSidebar.fileItem.duplicate", "Duplicate"))}
+                  disabledReason={blockedReason(
+                    t("fileSidebar.fileItem.duplicate", "Duplicate"),
+                  )}
                   icon={<Icon name="copy" size={16} />}
                   onClick={() => onDuplicate(fileId)}
                 >
@@ -402,7 +502,10 @@ export const FileItem = React.memo(function FileItem({
 
               {onMergeSelected && (
                 <FileMenuItem
-                  disabledReason={blockedReason(t("fileEditor.mergeSelected", "Merge selected files"), false)}
+                  disabledReason={blockedReason(
+                    t("fileEditor.mergeSelected", "Merge selected files"),
+                    false,
+                  )}
                   icon={<Icon name="copy-plus" size={16} />}
                   onClick={onMergeSelected}
                 >
@@ -410,14 +513,21 @@ export const FileItem = React.memo(function FileItem({
                 </FileMenuItem>
               )}
 
-              {((canSaveToCloud && onSaveToCloud) || (hasVersionHistory && onVersionHistory)) && <Menu.Divider />}
+              {((canSaveToCloud && onSaveToCloud) ||
+                (hasVersionHistory && onVersionHistory)) && <Menu.Divider />}
 
               {canSaveToCloud &&
                 onSaveToCloud &&
                 (() => {
                   const uploadLabel = isUploadedToCloud
-                    ? t("fileSidebar.fileItem.updateOnServer", "Update on server")
-                    : t("fileSidebar.fileItem.uploadToServer", "Upload to server");
+                    ? t(
+                        "fileSidebar.fileItem.updateOnServer",
+                        "Update on server",
+                      )
+                    : t(
+                        "fileSidebar.fileItem.uploadToServer",
+                        "Upload to server",
+                      );
                   return (
                     <FileMenuItem
                       disabledReason={blockedReason(uploadLabel)}
@@ -431,7 +541,10 @@ export const FileItem = React.memo(function FileItem({
 
               {hasVersionHistory && onVersionHistory && (
                 <FileMenuItem
-                  disabledReason={blockedReason(t("fileSidebar.fileItem.versionHistory", "Version history"), false)}
+                  disabledReason={blockedReason(
+                    t("fileSidebar.fileItem.versionHistory", "Version history"),
+                    false,
+                  )}
                   icon={<Icon name="rotate-ccw-clock" size={16} />}
                   onClick={() => onVersionHistory(fileId)}
                 >
@@ -443,7 +556,10 @@ export const FileItem = React.memo(function FileItem({
                 <>
                   <Menu.Divider />
                   <FileMenuItem
-                    disabledReason={blockedReason(t("fileSidebar.fileItem.delete", "Delete"), false)}
+                    disabledReason={blockedReason(
+                      t("fileSidebar.fileItem.delete", "Delete"),
+                      false,
+                    )}
                     color="red"
                     icon={<Icon name="trash" size={16} />}
                     onClick={() => onDelete(fileId)}
@@ -461,8 +577,15 @@ export const FileItem = React.memo(function FileItem({
         thumbPos &&
         resolvedThumbnail &&
         createPortal(
-          <div className="file-sidebar-thumb-tooltip" style={{ top: thumbPos.top, left: thumbPos.left }}>
-            <img src={resolvedThumbnail} alt="" className="file-sidebar-thumb-img" />
+          <div
+            className="file-sidebar-thumb-tooltip"
+            style={{ top: thumbPos.top, left: thumbPos.left }}
+          >
+            <img
+              src={resolvedThumbnail}
+              alt=""
+              className="file-sidebar-thumb-img"
+            />
           </div>,
           document.body,
         )}

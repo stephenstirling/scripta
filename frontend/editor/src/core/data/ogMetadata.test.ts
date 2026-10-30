@@ -863,9 +863,7 @@ describe("shipped OG manifests", () => {
       "A free, private PDF editor you can run on any infrastructure.",
     );
     const html = injectOg(TEMPLATE, manifest.default, { isHome: true });
-    expect(html).toContain(
-      '<meta name="twitter:title" content="Scripta" />',
-    );
+    expect(html).toContain('<meta name="twitter:title" content="Scripta" />');
     expect(html).toContain(
       '<meta name="twitter:description" content="A free, private ' +
         'PDF editor you can run on any infrastructure." />',

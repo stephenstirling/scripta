@@ -161,10 +161,7 @@ async function freshFileStorage() {
       type: "application/pdf",
     });
     const stub = createNewScriptaFileStub(file);
-    await fileStorage.storeScriptaFile(
-      createScriptaFile(file, stub.id),
-      stub,
-    );
+    await fileStorage.storeScriptaFile(createScriptaFile(file, stub.id), stub);
     return stub.id;
   };
   return { fileStorage, store };

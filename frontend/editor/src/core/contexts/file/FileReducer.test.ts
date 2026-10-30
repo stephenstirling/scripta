@@ -3,10 +3,7 @@ import {
   fileContextReducer,
   initialFileContextState,
 } from "@app/contexts/file/FileReducer";
-import type {
-  FileContextState,
-  ScriptaFileStub,
-} from "@app/types/fileContext";
+import type { FileContextState, ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
 function stub(

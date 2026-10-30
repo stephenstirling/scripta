@@ -28,10 +28,7 @@ const ConvertOfficeEngineSettings = ({
   return (
     <Switch
       data-testid="office-convert-switch"
-      label={t(
-        "convert.scriptaOfficeConvert",
-        "Use Office Convert (beta)",
-      )}
+      label={t("convert.scriptaOfficeConvert", "Use Office Convert (beta)")}
       description={t(
         "convert.scriptaOfficeConvertDescription",
         "Better, faster conversions with less memory. Turn off to use the standard converter.",

@@ -622,9 +622,7 @@ const EmbedPdfViewerContent = ({
       return previewFile;
     } else if (activeFiles.length > 0) {
       const byId = activeFileId
-        ? activeFiles.find(
-            (f) => isScriptaFile(f) && f.fileId === activeFileId,
-          )
+        ? activeFiles.find((f) => isScriptaFile(f) && f.fileId === activeFileId)
         : null;
       return byId || activeFiles[0];
     }
@@ -707,9 +705,7 @@ const EmbedPdfViewerContent = ({
     }
 
     return activeFiles
-      .map((file) =>
-        isScriptaFile(file) ? documentCacheKey(file) : undefined,
-      )
+      .map((file) => (isScriptaFile(file) ? documentCacheKey(file) : undefined))
       .filter(Boolean) as string[];
   }, [activeFiles, previewFile, bookmarkCacheKey]);
 

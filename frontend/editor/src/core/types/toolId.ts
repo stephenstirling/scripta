@@ -67,10 +67,7 @@ export const CORE_REGULAR_TOOL_IDS = [
 
 export const CORE_SUPER_TOOL_IDS = ["multiTool", "read", "automate"] as const;
 
-export const CORE_LINK_TOOL_IDS = [
-  "devApi",
-  "devFolderScanning",
-] as const;
+export const CORE_LINK_TOOL_IDS = ["devApi", "devFolderScanning"] as const;
 
 export const REGULAR_TOOL_IDS = [
   ...CORE_REGULAR_TOOL_IDS,

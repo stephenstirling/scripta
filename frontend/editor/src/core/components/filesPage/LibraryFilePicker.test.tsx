@@ -232,9 +232,7 @@ describe("library file picker", () => {
       ]);
       const user = userEvent.setup();
       show();
-      await user.click(
-        screen.getByRole("button", { name: "Scripta library" }),
-      );
+      await user.click(screen.getByRole("button", { name: "Scripta library" }));
       await user.click(screen.getByText("Processing"));
       await waitFor(() => expect(state.listProcessingFiles).toHaveBeenCalled());
       const queuedItem = screen
@@ -291,9 +289,7 @@ describe("library file picker", () => {
       await user.click(screen.getByRole("menuitem", { name: "Oldest first" }));
       expect(fileOrder()).toEqual(["Old.pdf", "New.pdf"]);
 
-      await user.click(
-        screen.getByRole("button", { name: "Scripta library" }),
-      );
+      await user.click(screen.getByRole("button", { name: "Scripta library" }));
       expect(fileOrder()).toEqual(["Old.pdf", "New.pdf"]);
       expect(
         screen.getByText(new Date(newlyAdded.lastModified).toLocaleString()),

@@ -13,9 +13,7 @@ test.describe("1. Authentication and Login", () => {
       // Step 2: Confirm the login page displays the Scripta logo
       await expect(
         page
-          .locator(
-            'img[alt*="Scripta"], img[src*="scripta"], img[src*="logo"]',
-          )
+          .locator('img[alt*="Scripta"], img[src*="scripta"], img[src*="logo"]')
           .first(),
       ).toBeVisible();
 

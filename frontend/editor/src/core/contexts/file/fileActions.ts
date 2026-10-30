@@ -1057,9 +1057,6 @@ export const createFileActions = (
   clearFileError: (fileId: FileId) =>
     dispatch({ type: "CLEAR_FILE_ERROR", payload: { fileId } }),
   clearAllFileErrors: () => dispatch({ type: "CLEAR_ALL_FILE_ERRORS" }),
-  updateScriptaFileStub: (
-    fileId: FileId,
-    updates: Partial<ScriptaFileStub>,
-  ) =>
+  updateScriptaFileStub: (fileId: FileId, updates: Partial<ScriptaFileStub>) =>
     dispatch({ type: "UPDATE_FILE_RECORD", payload: { id: fileId, updates } }),
 });

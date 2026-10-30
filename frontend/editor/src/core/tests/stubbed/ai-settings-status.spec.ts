@@ -236,9 +236,7 @@ test("cloud AI is not selectable until the server is linked", async ({
     false,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Cloud AI/i }),
-  ).toBeDisabled();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeDisabled();
   await expect(page.getByText(/Link an account first/i).first()).toBeVisible();
 });
 
@@ -252,9 +250,7 @@ test("cloud AI stays disabled while the link status is unknown", async ({
     null,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Cloud AI/i }),
-  ).toBeDisabled();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeDisabled();
   // Unknown is not unlinked, so there is nothing to prompt for yet.
   await expect(page.getByText(/Link an account first/i)).toHaveCount(0);
 });
@@ -285,9 +281,7 @@ test("a linked server can pick cloud AI, and ingestion is off until asked for", 
   // Click the visible label wrapper, not the hidden input - the house pattern for Mantine
   // switches, because force-clicking the input does not register in Firefox.
   await page
-    .locator(
-      'label:has(input[aria-label="Let Cloud keep indexed documents"])',
-    )
+    .locator('label:has(input[aria-label="Let Cloud keep indexed documents"])')
     .click();
   await expect(upload).toBeChecked();
 });
@@ -304,9 +298,7 @@ test("a server already in cloud mode opens on it", async ({ page }) => {
     true,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Cloud AI/i }),
-  ).toBeChecked();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeChecked();
   await expect(
     page.getByRole("switch", {
       name: /Let Cloud keep indexed documents/i,
@@ -373,16 +365,12 @@ test.describe("as an admin who is not the owner", () => {
       true,
     );
 
-    await expect(
-      page.getByRole("radio", { name: /Cloud AI/i }),
-    ).toBeEnabled();
+    await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeEnabled();
     await expect(page.getByText(/Link an account first/i)).toHaveCount(0);
   });
 });
 
-test("cloud mode reports on Cloud, not on a local engine", async ({
-  page,
-}) => {
+test("cloud mode reports on Cloud, not on a local engine", async ({ page }) => {
   await openAiSettings(
     page,
     {
@@ -431,9 +419,7 @@ test("cloud mode reports Cloud itself as its own status point", async ({
   );
 
   const statusCard = page.locator(".settings-card").first();
-  await expect(
-    statusCard.getByText("Cloud", { exact: true }),
-  ).toBeVisible();
+  await expect(statusCard.getByText("Cloud", { exact: true })).toBeVisible();
   await expect(statusCard.getByText("Up", { exact: true })).toBeVisible();
   await expect(
     statusCard.getByText("AI sharing", { exact: true }),
@@ -489,9 +475,7 @@ test("a Cloud outage shows the host down", async ({ page }) => {
   );
 });
 
-test("self-hosted mode shows no Cloud status points", async ({
-  page,
-}) => {
+test("self-hosted mode shows no Cloud status points", async ({ page }) => {
   await openAiSettings(
     page,
     { enabled: true, reachable: true, authenticated: true },
@@ -502,14 +486,10 @@ test("self-hosted mode shows no Cloud status points", async ({
   await expect(statusCard.getByText("AI sharing", { exact: true })).toHaveCount(
     0,
   );
-  await expect(
-    statusCard.getByText("Cloud", { exact: true }),
-  ).toHaveCount(0);
+  await expect(statusCard.getByText("Cloud", { exact: true })).toHaveCount(0);
 });
 
-test("cloud mode makes the settings Cloud owns read-only", async ({
-  page,
-}) => {
+test("cloud mode makes the settings Cloud owns read-only", async ({ page }) => {
   await openAiSettings(
     page,
     { enabled: true, reachable: true, authenticated: true },
@@ -550,9 +530,9 @@ test("switching cloud AI off hands the model settings back", async ({
   // Off keeps mode CLOUD so turning AI back on restores it; nothing is cloud-managed meanwhile.
   await page.getByRole("radio", { name: /^Off$/i }).click();
   await expect(smartModelInput(page)).toBeEnabled();
-  await expect(
-    page.getByText("Managed by Cloud", { exact: true }),
-  ).toHaveCount(0);
+  await expect(page.getByText("Managed by Cloud", { exact: true })).toHaveCount(
+    0,
+  );
 });
 
 test("self-hosted mode leaves the model settings editable", async ({
@@ -566,7 +546,7 @@ test("self-hosted mode leaves the model settings editable", async ({
   );
 
   await expect(smartModelInput(page)).toBeEnabled();
-  await expect(
-    page.getByText("Managed by Cloud", { exact: true }),
-  ).toHaveCount(0);
+  await expect(page.getByText("Managed by Cloud", { exact: true })).toHaveCount(
+    0,
+  );
 });

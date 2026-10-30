@@ -851,7 +851,9 @@ export default function HomePage() {
             {/* The reader's rail takes the slot the tool panel holds otherwise: the
                 panel's controls are the editor's, and reading wants the viewer's.
                 Both render together only while the panel is on its way out. */}
-            {!strip.enabled && wingsMounted && !hideToolPanel && <RightSidebar />}
+            {!strip.enabled && wingsMounted && !hideToolPanel && (
+              <RightSidebar />
+            )}
             {readerMode && <ReaderRail />}
             {readerMode && !strip.enabled && <ReaderSuperSearch />}
           </Group>

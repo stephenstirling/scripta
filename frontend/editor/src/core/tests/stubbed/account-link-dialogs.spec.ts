@@ -100,9 +100,7 @@ for (const path of ["/settings/account-link", "/settings/billing"]) {
     await expect(
       page.getByRole("button", { name: "Try again", exact: true }),
     ).toHaveCount(0);
-    await expect(
-      page.getByText("This server has no account"),
-    ).toHaveCount(0);
+    await expect(page.getByText("This server has no account")).toHaveCount(0);
   });
 }
 

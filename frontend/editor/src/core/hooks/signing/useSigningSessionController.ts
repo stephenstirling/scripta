@@ -583,9 +583,7 @@ export function useSigningSessionController(
     }
     setCreating(true);
     try {
-      const scriptaFile = await fileStorage.getScriptaFile(
-        selectedFile.fileId,
-      );
+      const scriptaFile = await fileStorage.getScriptaFile(selectedFile.fileId);
       if (!scriptaFile) throw new Error("File not found");
 
       const formData = new FormData();

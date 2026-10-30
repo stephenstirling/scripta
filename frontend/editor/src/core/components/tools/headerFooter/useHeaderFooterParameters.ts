@@ -16,9 +16,7 @@ export const HEADER_FOOTER_SLOTS = [
 export type HeaderFooterSlot = (typeof HEADER_FOOTER_SLOTS)[number];
 
 export interface HeaderFooterParameters
-  extends BaseParameters,
-    StampAppearance,
-    Record<HeaderFooterSlot, string> {
+  extends BaseParameters, StampAppearance, Record<HeaderFooterSlot, string> {
   pagesToApply: string;
   startingNumber: number;
   dateFormat: string;

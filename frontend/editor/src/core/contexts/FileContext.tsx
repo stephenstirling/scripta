@@ -502,10 +502,7 @@ function FileContextInner({
         thumbnail,
         processedMetadata,
       );
-      const scriptaUnlockedFile = createScriptaFile(
-        unlockedFile,
-        childStub.id,
-      );
+      const scriptaUnlockedFile = createScriptaFile(unlockedFile, childStub.id);
 
       await consumeFilesWrapper([fileId], [scriptaUnlockedFile], [childStub]);
 
