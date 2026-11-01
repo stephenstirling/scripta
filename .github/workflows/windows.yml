@@ -1,0 +1,183 @@
+name: Windows build
+
+# Builds Scripta for Windows on a Windows runner: the app jar, then a self-contained
+# program with its own Java runtime (jpackage) as a portable zip and a per-user
+# installer. The packaged program is launched and must answer on /api/v1/info/status
+# before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
+# release; the windows-exe branch and manual runs only produce downloadable artifacts.
+#
+# OCR, Office conversion and Ghostscript tools need Tesseract, LibreOffice and
+# Ghostscript installed on the machine; the package does not bundle them.
+on:
+  workflow_dispatch:
+  push:
+    branches: [windows-exe]
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SCRIPTA_FLAVOR: core
+  TASK_VERSION: "3.54.0"
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - name: Allow long paths
+        shell: pwsh
+        run: git config --system core.longpaths true
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      # The frontend build is driven through Task, which the Gradle build calls.
+      - name: Install Task
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP "task.zip"
+          $dir = Join-Path $env:RUNNER_TEMP "task"
+          Invoke-WebRequest "https://github.com/go-task/task/releases/download/v$env:TASK_VERSION/task_windows_amd64.zip" -OutFile $zip
+          Expand-Archive $zip -DestinationPath $dir
+          $dir | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Build the jar and the frontend
+        shell: pwsh
+        run: >
+          ./gradlew.bat clean build
+          -PbuildWithFrontend=true
+          -PjpdfiumPlatforms=windows-x64
+          -PbundleOnnxRuntime=true
+          -x spotlessApply -x spotlessCheck -x test -x sonarqube
+          --no-daemon
+
+      - name: Package the program
+        shell: pwsh
+        run: |
+          $jar = Get-ChildItem app/core/build/libs/*.jar | Where-Object { $_.Name -notmatch 'plain' } | Select-Object -First 1
+          if (-not $jar) { throw "No application jar found in app/core/build/libs" }
+          $version = (Select-String -Path build.gradle -Pattern "^\s*version = '([\d.]+)'" | Select-Object -First 1).Matches.Groups[1].Value
+          if (-not $version) { throw "Could not read the version from build.gradle" }
+          "APP_VERSION=$version" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
+
+          New-Item -ItemType Directory -Force -Path dist-input | Out-Null
+          Copy-Item $jar.FullName dist-input/scripta.jar
+          # The restart helper must sit beside the main jar (JarPathUtil looks there).
+          Copy-Item build/libs/restart-helper.jar dist-input/restart-helper.jar
+
+          # All platform modules: a Spring Boot fat jar hides its dependencies from jpackage's
+          # own module detection, and a missing module only shows up as a crash at runtime.
+          jlink --add-modules ALL-MODULE-PATH --strip-debug --no-header-files --no-man-pages --output runtime
+          if ($LASTEXITCODE -ne 0) { throw "jlink failed" }
+
+          # Config, logs and pipelines default to the current folder, so point them at a
+          # data folder beside the app, which is writable for the portable zip and for a
+          # per-user install.
+          jpackage --type app-image `
+            --name Scripta `
+            --app-version $version `
+            --vendor "Stephen Stirling" `
+            --description "Self-hosted PDF tools" `
+            --input dist-input `
+            --main-jar scripta.jar `
+            --main-class org.springframework.boot.loader.launch.JarLauncher `
+            --runtime-image runtime `
+            --java-options "-DBROWSER_OPEN=true" `
+            --java-options '-Dscripta.base-path=$APPDIR/../data/' `
+            --win-console `
+            --dest packaged
+          if ($LASTEXITCODE -ne 0) { throw "jpackage app-image failed" }
+
+      # The program must start and answer before it is worth uploading.
+      - name: Smoke test the packaged program
+        shell: pwsh
+        run: |
+          $exe = "packaged/Scripta/Scripta.exe"
+          if (-not (Test-Path $exe)) { throw "$exe was not produced" }
+          $proc = Start-Process -FilePath $exe -PassThru -RedirectStandardOutput smoke.out.log -RedirectStandardError smoke.err.log
+          $up = $false
+          for ($i = 0; $i -lt 90; $i++) {
+            Start-Sleep -Seconds 2
+            try {
+              $r = Invoke-WebRequest -Uri "http://localhost:8080/api/v1/info/status" -UseBasicParsing -TimeoutSec 3
+              if ($r.Content -match "UP") { $up = $true; break }
+            } catch { }
+            if ($proc.HasExited) { break }
+          }
+          Write-Host "--- stdout (tail)"; if (Test-Path smoke.out.log) { Get-Content smoke.out.log -Tail 40 }
+          Write-Host "--- stderr (tail)"; if (Test-Path smoke.err.log) { Get-Content smoke.err.log -Tail 40 }
+          Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
+          if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
+          Write-Host "Packaged program is UP"
+
+      - name: Make the portable zip
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release | Out-Null
+          # A fresh copy, so the smoke test's data folder is not shipped.
+          Remove-Item -Recurse -Force packaged/Scripta/data -ErrorAction SilentlyContinue
+          Compress-Archive -Path packaged/Scripta -DestinationPath "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip"
+
+      - name: Make the installer
+        shell: pwsh
+        run: |
+          # jpackage needs the WiX 3 toolset; the runner image normally has it.
+          if (-not (Get-Command candle.exe -ErrorAction SilentlyContinue)) {
+            $wix = Get-ChildItem "C:\Program Files (x86)\WiX Toolset*\bin" -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($wix) { $env:PATH = "$($wix.FullName);$env:PATH" } else { choco install wixtoolset -y --no-progress; $env:PATH = "C:\Program Files (x86)\WiX Toolset v3.14\bin;$env:PATH" }
+          }
+          jpackage --type exe `
+            --name Scripta `
+            --app-version $env:APP_VERSION `
+            --vendor "Stephen Stirling" `
+            --description "Self-hosted PDF tools" `
+            --app-image packaged/Scripta `
+            --win-per-user-install `
+            --win-menu `
+            --win-shortcut `
+            --dest release
+          if ($LASTEXITCODE -ne 0) { throw "jpackage installer failed" }
+          Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scripta-windows-x64
+          path: release/*
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: scripta-windows-x64
+          path: release
+      - name: Attach to the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$GITHUB_REF_NAME" release/* --generate-notes --title "Scripta $GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
+          fi
