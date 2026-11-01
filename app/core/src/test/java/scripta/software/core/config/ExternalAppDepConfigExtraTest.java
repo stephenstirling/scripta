@@ -55,6 +55,7 @@ class ExternalAppDepConfigExtraTest {
         when(runtimePathConfig.getCalibrePath()).thenReturn("/opt/calibre");
         when(runtimePathConfig.getOcrMyPdfPath()).thenReturn("/opt/ocrmypdf");
         when(runtimePathConfig.getSOfficePath()).thenReturn("/opt/soffice");
+        when(runtimePathConfig.getTesseractPath()).thenReturn("tesseract");
         lenient()
                 .when(endpointConfiguration.getEndpointsForGroup(anyString()))
                 .thenReturn(Set.of());

@@ -6,8 +6,9 @@ name: Windows build
 # before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
 # release; the windows-exe branch and manual runs only produce downloadable artifacts.
 #
-# OCR, Office conversion and Ghostscript tools need Tesseract, LibreOffice and
-# Ghostscript installed on the machine; the package does not bundle them.
+# Tesseract (with English, OSD and a few common languages) is bundled under tools/ for OCR
+# and auto-rotate. Office conversion and Ghostscript tools still need LibreOffice and
+# Ghostscript installed on the machine.
 on:
   workflow_dispatch:
   push:
@@ -100,9 +101,30 @@ jobs:
             --runtime-image runtime `
             --java-options "-DBROWSER_OPEN=true" `
             --java-options '-Dscripta.base-path=$APPDIR/../data/' `
+            --java-options '-Dscripta.tools-path=$APPDIR/../tools' `
             --win-console `
             --dest packaged
           if ($LASTEXITCODE -ne 0) { throw "jpackage app-image failed" }
+
+      # The launcher cannot extend PATH, so the app finds this copy through scripta.tools-path.
+      - name: Bundle Tesseract
+        shell: pwsh
+        run: |
+          choco install tesseract -y --no-progress
+          $src = "C:\Program Files\Tesseract-OCR"
+          if (-not (Test-Path "$src\tesseract.exe")) { throw "tesseract.exe not found in $src" }
+          $dest = "packaged/Scripta/tools/tesseract"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Copy-Item "$src\*" $dest -Recurse -Force -Exclude "unins*","*.url"
+          $tessdata = Join-Path $dest "tessdata"
+          New-Item -ItemType Directory -Force -Path $tessdata | Out-Null
+          foreach ($lang in "eng","osd","deu","fra","spa","ita","por","nld") {
+            Invoke-WebRequest "https://github.com/tesseract-ocr/tessdata_fast/raw/main/$lang.traineddata" -OutFile (Join-Path $tessdata "$lang.traineddata")
+          }
+          & "$dest/tesseract.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled tesseract does not run" }
+          & "$dest/tesseract.exe" --list-langs
+          Write-Host "Bundled Tesseract: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
       # The program must start and answer before it is worth uploading.
       - name: Smoke test the packaged program
@@ -123,6 +145,8 @@ jobs:
           Write-Host "--- stdout (tail)"; if (Test-Path smoke.out.log) { Get-Content smoke.out.log -Tail 40 }
           Write-Host "--- stderr (tail)"; if (Test-Path smoke.err.log) { Get-Content smoke.err.log -Tail 40 }
           Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
+          $log = (Get-Content smoke.out.log, smoke.err.log -ErrorAction SilentlyContinue) -join "`n"
+          if ($log -match "Missing dependency: .*tesseract") { throw "The packaged program did not find its bundled Tesseract" }
           if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
           Write-Host "Packaged program is UP"
 

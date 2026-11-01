@@ -38,6 +38,9 @@ public class RuntimePathConfig {
     private final String ocrMyPdfPath;
     private final String sOfficePath;
 
+    /** Bundled {@code tesseract.exe} when the package ships one, else the bare command name. */
+    private final String tesseractPath;
+
     // Tesseract data path
     private final String tessDataPath;
 
@@ -121,8 +124,16 @@ public class RuntimePathConfig {
                 resolvePath(
                         defaultSOfficePath, operations != null ? operations.getSoffice() : null);
 
+        Path bundledTesseractDir = bundledToolDir("tesseract");
+        Path bundledTesseractExe =
+                bundledTesseractDir == null ? null : bundledTesseractDir.resolve("tesseract.exe");
+        boolean hasBundledTesseract =
+                bundledTesseractExe != null && Files.isRegularFile(bundledTesseractExe);
+        this.tesseractPath =
+                hasBundledTesseract ? bundledTesseractExe.toString() : "tesseract";
+
         // Initialize Tesseract data path
-        // Priority: config setting > TESSDATA_PREFIX env var > default path
+        // Priority: config setting > TESSDATA_PREFIX env var > bundled tessdata > default path
         String tessPath = system.getTessdataDir();
         String tessdataPrefix = java.lang.System.getenv("TESSDATA_PREFIX");
         String defaultPath = "/usr/share/tesseract-ocr/5/tessdata";
@@ -131,6 +142,8 @@ public class RuntimePathConfig {
             this.tessDataPath = tessPath;
         } else if (tessdataPrefix != null && !tessdataPrefix.isEmpty()) {
             this.tessDataPath = tessdataPrefix;
+        } else if (hasBundledTesseract) {
+            this.tessDataPath = bundledTesseractDir.resolve("tessdata").toString();
         } else {
             this.tessDataPath = defaultPath;
         }
@@ -378,5 +391,23 @@ public class RuntimePathConfig {
             sanitized.add(endpoint);
         }
         return sanitized;
+    }
+
+    /**
+     * Folder of a tool shipped inside the Windows package, or null when the app is not running from
+     * one. The packaged launcher passes {@code -Dscripta.tools-path}; it cannot extend PATH, so
+     * bundled tools are called by absolute path instead.
+     */
+    private static Path bundledToolDir(String tool) {
+        String toolsPath = java.lang.System.getProperty("scripta.tools-path");
+        if (toolsPath == null || toolsPath.isBlank()) {
+            return null;
+        }
+        try {
+            Path dir = Path.of(toolsPath).resolve(tool).normalize();
+            return Files.isDirectory(dir) ? dir : null;
+        } catch (InvalidPathException e) {
+            return null;
+        }
     }
 }
