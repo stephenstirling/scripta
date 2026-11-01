@@ -84,8 +84,15 @@ jobs:
 
           # All platform modules: a Spring Boot fat jar hides its dependencies from jpackage's
           # own module detection, and a missing module only shows up as a crash at runtime.
-          jlink --module-path "$env:JAVA_HOME/jmods" --add-modules ALL-MODULE-PATH --strip-debug --no-header-files --no-man-pages --output runtime
-          if ($LASTEXITCODE -ne 0) { throw "jlink failed" }
+          # Temurin 25 ships no jmods, so jlink links from the runtime image itself; if that
+          # is unsupported, the whole JDK is used as the runtime, which is larger but complete.
+          $modules = ((java --list-modules) | ForEach-Object { ($_ -split '@')[0] }) -join ","
+          jlink --add-modules $modules --strip-debug --no-header-files --no-man-pages --output runtime
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "jlink failed; using the full JDK as the runtime"
+            Remove-Item -Recurse -Force runtime -ErrorAction SilentlyContinue
+            Copy-Item $env:JAVA_HOME runtime -Recurse
+          }
 
           # Config, logs and pipelines default to the current folder, so point them at a
           # data folder beside the app, which is writable for the portable zip and for a
