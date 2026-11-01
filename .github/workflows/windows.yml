@@ -84,7 +84,7 @@ jobs:
 
           # All platform modules: a Spring Boot fat jar hides its dependencies from jpackage's
           # own module detection, and a missing module only shows up as a crash at runtime.
-          jlink --add-modules ALL-MODULE-PATH --strip-debug --no-header-files --no-man-pages --output runtime
+          jlink --module-path "$env:JAVA_HOME/jmods" --add-modules ALL-MODULE-PATH --strip-debug --no-header-files --no-man-pages --output runtime
           if ($LASTEXITCODE -ne 0) { throw "jlink failed" }
 
           # Config, logs and pipelines default to the current folder, so point them at a
