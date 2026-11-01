@@ -678,6 +678,21 @@ export function useTranslatedToolCatalog(): TranslatedToolCatalog {
         operationConfig: asRegistryConfig(batesNumberingOperationConfig),
         synonyms: getSynonyms(t, "batesNumbering"),
       },
+      docuSign: {
+        icon: <Icon name="send" size="1.5rem" />,
+        name: t("home.docuSign.title", "Send with DocuSign"),
+        component: lazy(() => import("@app/tools/DocuSign")),
+        description: t(
+          "home.docuSign.desc",
+          "Send a PDF for signature through your own DocuSign account and bring the signed copy back",
+        ),
+        categoryId: ToolCategoryId.STANDARD_TOOLS,
+        subcategoryId: SubcategoryId.SIGNING,
+        maxFiles: 1,
+        supportsAutomate: false,
+        automationSettings: null,
+        synonyms: getSynonyms(t, "docuSign"),
+      },
       pageLayout: {
         icon: <Icon name="layout-dashboard" size="1.5rem" />,
         name: t("home.pageLayout.title", "Multi-Page Layout"),

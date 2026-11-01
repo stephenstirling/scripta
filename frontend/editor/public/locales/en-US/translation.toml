@@ -3508,6 +3508,56 @@ tags = "automation,folder,scanning,watch folder,hot folder,automatic processing,
 [devSsoGuide]
 tags = "SSO,single sign-on,authentication,SAML,OAuth,OIDC,login,enterprise,identity provider,IdP"
 
+[docuSign]
+defaultSubject = "Please sign: {{name}}"
+message = "Message to signers"
+noFile = "Open a PDF to send it for signature."
+placementHint = "Each signer gets a signature box and a date box at the bottom of that page."
+sentNotice = "Sent. DocuSign is emailing {{count}} signer(s)."
+sequential = "Signers sign one after another, in this order"
+signaturePage = "Signature page"
+signaturePageHint = "0 puts the signature boxes on the last page."
+subject = "Email subject"
+submit = "Send with DocuSign"
+
+[docuSign.connection]
+connect = "Connect DocuSign"
+connectedAs = "Connected as {{who}}"
+disconnect = "Disconnect"
+environment = "Account type"
+integrationKey = "Integration key"
+integrationKeyHint = "From DocuSign Settings → Apps and Keys. Set the app to use the authorization code grant with PKCE."
+loading = "Checking DocuSign…"
+otherDevice = "You are using Scripta from another device. DocuSign redirects to localhost, so sign-in only completes in a browser on the computer running Scripta."
+redirectHint = "Add this redirect URI to the integration key in DocuSign:"
+save = "Save"
+waiting = "Waiting for DocuSign…"
+
+[docuSign.environment]
+demo = "Developer sandbox"
+production = "Production"
+
+[docuSign.error]
+failed = "DocuSign could not send the document."
+
+[docuSign.sent]
+addSigned = "Add signed copy"
+check = "Check status"
+checkFailed = "Could not get the status from DocuSign."
+downloadFailed = "Could not download the signed copy."
+empty = "Nothing sent yet."
+
+[docuSign.signer]
+add = "Add signer"
+email = "Email"
+name = "Name"
+remove = "Remove signer"
+
+[docuSign.steps]
+connection = "DocuSign account"
+send = "Send for signature"
+sent = "Sent documents"
+
 [dropdownList]
 noItems = "No items available"
 noResults = "No results found"
@@ -4785,6 +4835,11 @@ title = "Automated Folder Scanning"
 [home.devSsoGuide]
 tags = "SSO,single sign-on,authentication,SAML,OAuth,OIDC,login,enterprise,identity provider,IdP"
 title = "SSO Guide"
+
+[home.docuSign]
+desc = "Send a PDF for signature through your own DocuSign account and bring the signed copy back"
+tags = "docusign,e-sign,esign,electronic signature,send for signature,envelope,sign,contract"
+title = "Send with DocuSign"
 
 [home.editTableOfContents]
 desc = "Add or edit bookmarks and table of contents in PDF documents"

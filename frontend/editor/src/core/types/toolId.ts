@@ -40,6 +40,7 @@ export const CORE_REGULAR_TOOL_IDS = [
   "addPageNumbers",
   "headerFooter",
   "batesNumbering",
+  "docuSign",
   "redact",
   "flatten",
   "removeCertSign",
