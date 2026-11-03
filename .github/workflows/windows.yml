@@ -6,9 +6,9 @@ name: Windows build
 # before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
 # release; the windows-exe branch and manual runs only produce downloadable artifacts.
 #
-# Tesseract (with English, OSD and a few common languages) is bundled under tools/ for OCR
-# and auto-rotate. Office conversion and Ghostscript tools still need LibreOffice and
-# Ghostscript installed on the machine.
+# Tesseract (English, OSD and a few common languages) and qpdf are bundled under tools/ for OCR,
+# auto-rotate, Compress and Repair. Office conversion and the Ghostscript tools still need
+# LibreOffice and Ghostscript installed on the machine.
 on:
   workflow_dispatch:
   push:
@@ -39,7 +39,8 @@ jobs:
 
       - uses: actions/setup-java@v5
         with:
-          distribution: temurin
+          # Zulu ships the jmods that jlink needs to build a trimmed runtime; Temurin 25 does not.
+          distribution: zulu
           java-version: "25"
 
       - uses: actions/setup-node@v5
@@ -82,17 +83,19 @@ jobs:
           # The restart helper must sit beside the main jar (JarPathUtil looks there).
           Copy-Item build/libs/restart-helper.jar dist-input/restart-helper.jar
 
-          # All platform modules: a Spring Boot fat jar hides its dependencies from jpackage's
-          # own module detection, and a missing module only shows up as a crash at runtime.
-          # Temurin 25 ships no jmods, so jlink links from the runtime image itself; if that
-          # is unsupported, the whole JDK is used as the runtime, which is larger but complete.
-          $modules = ((java --list-modules) | ForEach-Object { ($_ -split '@')[0] }) -join ","
-          jlink --add-modules $modules --strip-debug --no-header-files --no-man-pages --output runtime
+          # Every runtime module except the JDK's own developer tools. A Spring Boot fat jar
+          # hides its dependencies from jpackage's module detection, and a missing module only
+          # shows up as a crash at runtime, so this trims by exclusion rather than by guessing.
+          # If jlink fails, the whole JDK is used as the runtime: larger but complete.
+          $devTools = "jdk.jshell","jdk.jdeps","jdk.javadoc","jdk.compiler","jdk.jcmd","jdk.jconsole","jdk.jlink","jdk.jpackage","jdk.hotspot.agent","jdk.jartool","jdk.jdi","jdk.editpad"
+          $modules = ((java --list-modules) | ForEach-Object { ($_ -split '@')[0] } | Where-Object { $devTools -notcontains $_ }) -join ","
+          jlink --module-path "$env:JAVA_HOME/jmods" --add-modules $modules --strip-debug --no-header-files --no-man-pages --compress=zip-6 --output runtime
           if ($LASTEXITCODE -ne 0) {
             Write-Host "jlink failed; using the full JDK as the runtime"
             Remove-Item -Recurse -Force runtime -ErrorAction SilentlyContinue
             Copy-Item $env:JAVA_HOME runtime -Recurse
           }
+          Write-Host "Runtime: $([math]::Round((Get-ChildItem runtime -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
           # Config, logs and pipelines default to the current folder; scripta.user-data moves
           # them to %LOCALAPPDATA%\Scripta so settings and sign-in tokens survive updates that
@@ -133,6 +136,31 @@ jobs:
           & "$dest/tesseract.exe" --list-langs
           Write-Host "Bundled Tesseract: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
+      # qpdf (Apache-2.0) backs Compress, Repair and PDF/A conversion. Ghostscript is not bundled:
+      # it is AGPL, so shipping it brings source-offer duties this project has not taken on.
+      - name: Bundle qpdf
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $zipDir = Join-Path $env:RUNNER_TEMP "qpdf-download"
+          New-Item -ItemType Directory -Force -Path $zipDir | Out-Null
+          gh release download --repo qpdf/qpdf --pattern "qpdf-*-msvc64.zip" --dir $zipDir
+          if ($LASTEXITCODE -ne 0) { throw "could not download qpdf" }
+          $zip = Get-ChildItem $zipDir -Filter "*.zip" | Select-Object -First 1
+          $extract = Join-Path $env:RUNNER_TEMP "qpdf-extract"
+          Expand-Archive $zip.FullName -DestinationPath $extract
+          $bin = Get-ChildItem $extract -Recurse -Filter "qpdf.exe" | Select-Object -First 1
+          if (-not $bin) { throw "qpdf.exe not found in $($zip.Name)" }
+          $dest = "packaged/Scripta/tools/qpdf"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Copy-Item "$($bin.DirectoryName)\*" $dest -Recurse -Force
+          $root = $bin.Directory.Parent.FullName
+          Get-ChildItem $root -File | Where-Object { $_.Name -match "LICENSE|NOTICE|README" } | Copy-Item -Destination $dest
+          Write-Host "Bundled $($zip.Name)"
+          & "$dest/qpdf.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled qpdf does not run" }
+
       # The program must start and answer before it is worth uploading.
       - name: Smoke test the packaged program
         shell: pwsh
@@ -154,6 +182,7 @@ jobs:
           Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
           $log = (Get-Content smoke.out.log, smoke.err.log -ErrorAction SilentlyContinue) -join "`n"
           if ($log -match "Missing dependency: .*tesseract") { throw "The packaged program did not find its bundled Tesseract" }
+          if ($log -match "Missing dependency: .*qpdf") { throw "The packaged program did not find its bundled qpdf" }
           if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
           Write-Host "Packaged program is UP"
 
