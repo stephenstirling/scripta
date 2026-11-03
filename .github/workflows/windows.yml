@@ -239,8 +239,16 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cat > notes.md <<'NOTES'
+          ## Windows
+          Download the portable zip (unpack and run `Scripta.exe`) or the per-user installer. Both include Tesseract for OCR and qpdf. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta`. `SHA256SUMS.txt` lists the checksums. The installer is not code-signed, so Windows SmartScreen will warn before it runs.
+
+          ## Needs a separate install
+          Ghostscript is not bundled (it is AGPL-licensed). Without it Crop, Scanner Effect, Replace and Invert colour and the vector conversions are unavailable, and Repair and Compress run with fewer options. Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) to enable them. Office conversion needs LibreOffice.
+
+          NOTES
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" release/* --clobber --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$GITHUB_REF_NAME" release/* --generate-notes --title "Scripta $GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
+            gh release create "$GITHUB_REF_NAME" release/* --notes-file notes.md --generate-notes --title "Scripta $GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
           fi
