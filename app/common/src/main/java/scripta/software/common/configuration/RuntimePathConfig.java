@@ -100,11 +100,12 @@ public class RuntimePathConfig {
         boolean isDocker = isRunningInDocker();
 
         // Initialize Operation paths
-        String defaultWeasyPrintPath = isDocker ? "/opt/venv/bin/weasyprint" : "weasyprint";
+        String defaultWeasyPrintPath =
+                isDocker ? "/opt/venv/bin/weasyprint" : BundledTools.resolve("weasyprint");
         String defaultUnoConvertPath = isDocker ? "/usr/local/bin/unoconvert" : "unoconvert";
         String defaultCalibrePath = isDocker ? "/opt/calibre/ebook-convert" : "ebook-convert";
         String defaultOcrMyPdfPath = isDocker ? "/opt/venv/bin/ocrmypdf" : "ocrmypdf";
-        String defaultSOfficePath = isDocker ? "/usr/bin/soffice" : "soffice";
+        String defaultSOfficePath = isDocker ? "/usr/bin/soffice" : BundledTools.resolve("soffice");
 
         Operations operations = customPaths.getOperations();
         this.weasyPrintPath =

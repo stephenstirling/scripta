@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import scripta.software.common.util.BundledTools;
 import scripta.software.common.util.ProcessExecutor;
 import scripta.software.common.util.ProcessExecutor.ProcessExecutorResult;
 import scripta.software.common.util.TempFile;
@@ -330,10 +331,11 @@ public class PdfJsonFontService {
         }
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
+            String resolved = BundledTools.resolve(command);
             if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
-                processBuilder.command("where", command);
+                processBuilder.command("where", resolved);
             } else {
-                processBuilder.command("which", command);
+                processBuilder.command("which", resolved);
             }
             Process process = processBuilder.start();
             int exitCode = process.waitFor();

@@ -38,6 +38,18 @@ class BundledToolsTest {
     }
 
     @Test
+    void anExecutableUnderBinOrProgramIsFound() throws IOException {
+        Files.createDirectories(tools.resolve("gs").resolve("bin"));
+        Path gs = Files.createFile(tools.resolve("gs").resolve("bin").resolve("gs.exe"));
+        Files.createDirectories(tools.resolve("soffice").resolve("program"));
+        Path soffice = Files.createFile(tools.resolve("soffice").resolve("program").resolve("soffice.exe"));
+        System.setProperty(PROPERTY, tools.toString());
+
+        assertEquals(gs.toString(), BundledTools.resolve("gs"));
+        assertEquals(soffice.toString(), BundledTools.resolve("soffice"));
+    }
+
+    @Test
     void aCommandThatIsNotBundledFallsBackToThePath() throws IOException {
         Files.createDirectories(tools.resolve("qpdf"));
         System.setProperty(PROPERTY, tools.toString());

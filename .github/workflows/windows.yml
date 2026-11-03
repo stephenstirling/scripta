@@ -6,9 +6,9 @@ name: Windows build
 # before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
 # release; the windows-exe branch and manual runs only produce downloadable artifacts.
 #
-# Tesseract (English, OSD and a few common languages) and qpdf are bundled under tools/ for OCR,
-# auto-rotate, Compress and Repair. Office conversion and the Ghostscript tools still need
-# LibreOffice and Ghostscript installed on the machine.
+# Tesseract (English, OSD and a few common languages), qpdf, Ghostscript, LibreOffice, WeasyPrint,
+# ImageMagick and Poppler are bundled under tools/, each in its own folder (see BundledTools).
+# THIRD-PARTY.txt in that folder lists their licences and where to get the source.
 on:
   workflow_dispatch:
   push:
@@ -29,7 +29,7 @@ env:
 jobs:
   build:
     runs-on: windows-2022
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - name: Allow long paths
         shell: pwsh
@@ -136,8 +136,7 @@ jobs:
           & "$dest/tesseract.exe" --list-langs
           Write-Host "Bundled Tesseract: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
-      # qpdf (Apache-2.0) backs Compress, Repair and PDF/A conversion. Ghostscript is not bundled:
-      # it is AGPL, so shipping it brings source-offer duties this project has not taken on.
+      # qpdf (Apache-2.0) backs Compress, Repair and PDF/A conversion.
       - name: Bundle qpdf
         shell: pwsh
         env:
@@ -161,6 +160,119 @@ jobs:
           & "$dest/qpdf.exe" --version
           if ($LASTEXITCODE -ne 0) { throw "bundled qpdf does not run" }
 
+      # Each program is fetched on its own and reported at the end, so one broken download
+      # does not hide the others. Ghostscript (AGPL) and Poppler (GPL) are separate programs
+      # shipped as-is; THIRD-PARTY.txt names their licences and where the source is.
+      - name: Bundle Ghostscript, LibreOffice, WeasyPrint, ImageMagick and Poppler
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tools = (Resolve-Path "packaged/Scripta/tools").Path
+          $work = Join-Path $env:RUNNER_TEMP "bundle"
+          New-Item -ItemType Directory -Force -Path $work | Out-Null
+          $sevenZip = "C:\Program Files\7-Zip\7z.exe"
+          $results = [ordered]@{}
+          $notices = New-Object System.Collections.Generic.List[string]
+
+          function Invoke-Bundle([string]$name, [scriptblock]$body) {
+            try { & $body; $results[$name] = "ok" }
+            catch { $results[$name] = "FAILED: $($_.Exception.Message)"; Write-Host "::error::$name failed: $($_.Exception.Message)" }
+          }
+          function Get-GitHubAsset([string]$repo, [string]$pattern, [string]$dir) {
+            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            gh release download --repo $repo --pattern $pattern --dir $dir
+            if ($LASTEXITCODE -ne 0) { throw "could not download $pattern from $repo" }
+            $file = Get-ChildItem $dir -File | Select-Object -First 1
+            if (-not $file) { throw "no file matching $pattern in $repo" }
+            $file
+          }
+
+          Invoke-Bundle "Ghostscript" {
+            $installer = Get-GitHubAsset "ArtifexSoftware/ghostpdl-downloads" "gs*w64.exe" (Join-Path $work "gs")
+            $dest = Join-Path $tools "gs"
+            Start-Process $installer.FullName -ArgumentList "/S", "/D=$dest" -Wait
+            $console = Get-ChildItem $dest -Recurse -Filter "gswin64c.exe" | Select-Object -First 1
+            if (-not $console) { throw "gswin64c.exe not found after install" }
+            # The app calls plain "gs".
+            Copy-Item $console.FullName (Join-Path $console.DirectoryName "gs.exe")
+            & (Join-Path $console.DirectoryName "gs.exe") -version
+            if ($LASTEXITCODE -ne 0) { throw "bundled gs does not run" }
+            $notices.Add("Ghostscript ($($installer.Name)) - GNU AGPL v3 - source: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases and https://ghostscript.com/releases/")
+          }
+
+          Invoke-Bundle "ImageMagick" {
+            $index = (Invoke-WebRequest "https://imagemagick.org/archive/binaries/" -UseBasicParsing).Content
+            $best = [regex]::Matches($index, 'ImageMagick-(\d+\.\d+\.\d+)-(\d+)-portable-Q16-HDRI-x64\.7z') |
+              Sort-Object { [version]"$($_.Groups[1].Value).$($_.Groups[2].Value)" } -Descending | Select-Object -First 1
+            if (-not $best) { throw "no portable x64 build listed" }
+            $archive = Join-Path $work $best.Value
+            Invoke-WebRequest "https://imagemagick.org/archive/binaries/$($best.Value)" -OutFile $archive
+            $dest = Join-Path $tools "magick"
+            & $sevenZip x $archive "-o$dest" -y | Out-Null
+            if (-not (Test-Path (Join-Path $dest "magick.exe"))) { throw "magick.exe not found" }
+            & (Join-Path $dest "magick.exe") -version | Select-Object -First 1
+            $notices.Add("ImageMagick ($($best.Value)) - ImageMagick License (Apache-2.0 style) - source: https://imagemagick.org/script/download.php")
+          }
+
+          Invoke-Bundle "Poppler" {
+            $zip = Get-GitHubAsset "oschwartz10612/poppler-windows" "Release-*.zip" (Join-Path $work "poppler")
+            $extract = Join-Path $work "poppler-x"
+            Expand-Archive $zip.FullName -DestinationPath $extract
+            $exe = Get-ChildItem $extract -Recurse -Filter "pdftohtml.exe" | Select-Object -First 1
+            if (-not $exe) { throw "pdftohtml.exe not found" }
+            $dest = Join-Path $tools "pdftohtml"
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item "$($exe.DirectoryName)\*" $dest -Recurse -Force
+            $notices.Add("Poppler ($($zip.Name)) - GNU GPL v2/v3 - source: https://poppler.freedesktop.org/ and https://github.com/oschwartz10612/poppler-windows/releases")
+          }
+
+          Invoke-Bundle "WeasyPrint" {
+            $asset = Get-GitHubAsset "Kozea/WeasyPrint" "*windows*" (Join-Path $work "weasyprint")
+            $dest = Join-Path $tools "weasyprint"
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            if ($asset.Extension -eq ".zip") {
+              $extract = Join-Path $work "weasyprint-x"
+              Expand-Archive $asset.FullName -DestinationPath $extract
+              $exe = Get-ChildItem $extract -Recurse -Filter "weasyprint.exe" | Select-Object -First 1
+              if (-not $exe) { throw "weasyprint.exe not found in $($asset.Name)" }
+              Copy-Item "$($exe.DirectoryName)\*" $dest -Recurse -Force
+            } else {
+              Copy-Item $asset.FullName (Join-Path $dest "weasyprint.exe")
+            }
+            & (Join-Path $dest "weasyprint.exe") --version
+            if ($LASTEXITCODE -ne 0) { throw "bundled weasyprint does not run" }
+            $notices.Add("WeasyPrint ($($asset.Name)) - BSD 3-Clause, with LGPL libraries (GTK, Pango, Cairo) - source: https://github.com/Kozea/WeasyPrint")
+          }
+
+          Invoke-Bundle "LibreOffice" {
+            $listing = (Invoke-WebRequest "https://download.documentfoundation.org/libreoffice/stable/" -UseBasicParsing).Content
+            $version = [regex]::Matches($listing, 'href="(\d+\.\d+\.\d+)/"') |
+              ForEach-Object { $_.Groups[1].Value } | Sort-Object { [version]$_ } -Descending | Select-Object -First 1
+            if (-not $version) { throw "no stable version listed" }
+            $msi = Join-Path $work "LibreOffice.msi"
+            Invoke-WebRequest "https://download.documentfoundation.org/libreoffice/stable/$version/win/x86_64/LibreOffice_${version}_Win_x86-64.msi" -OutFile $msi
+            $admin = Join-Path $work "lo-admin"
+            Start-Process msiexec.exe -ArgumentList "/a", "`"$msi`"", "/qn", "TARGETDIR=`"$admin`"" -Wait
+            $soffice = Get-ChildItem $admin -Recurse -Filter "soffice.exe" | Select-Object -First 1
+            if (-not $soffice) { throw "soffice.exe not found in the unpacked installer" }
+            $dest = Join-Path $tools "soffice"
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item "$($soffice.Directory.Parent.FullName)\*" $dest -Recurse -Force
+            if (-not (Test-Path (Join-Path $dest "program/soffice.exe"))) { throw "unexpected LibreOffice layout" }
+            $notices.Add("LibreOffice $version - Mozilla Public License 2.0 and others - source: https://www.libreoffice.org/download/source-code/")
+          }
+
+          $notices.Insert(0, "Programs bundled under tools/ run as separate processes; each keeps its own licence.")
+          $notices.Insert(1, "qpdf - Apache-2.0 - https://github.com/qpdf/qpdf; Tesseract - Apache-2.0 - https://github.com/tesseract-ocr/tesseract")
+          $notices | Out-File -Encoding utf8 (Join-Path $tools "THIRD-PARTY.txt")
+
+          $results.GetEnumerator() | ForEach-Object { Write-Host "$($_.Key): $($_.Value)" }
+          Get-ChildItem $tools -Directory | ForEach-Object {
+            Write-Host "$($_.Name): $([math]::Round((Get-ChildItem $_.FullName -Recurse -File | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
+          }
+          if ($results.Values | Where-Object { $_ -ne "ok" }) { throw "Some programs could not be bundled" }
+
       # The program must start and answer before it is worth uploading.
       - name: Smoke test the packaged program
         shell: pwsh
@@ -182,7 +294,9 @@ jobs:
           Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
           $log = (Get-Content smoke.out.log, smoke.err.log -ErrorAction SilentlyContinue) -join "`n"
           if ($log -match "Missing dependency: .*tesseract") { throw "The packaged program did not find its bundled Tesseract" }
-          if ($log -match "Missing dependency: .*qpdf") { throw "The packaged program did not find its bundled qpdf" }
+          foreach ($tool in "qpdf", "gs", "magick", "pdftohtml", "weasyprint", "soffice") {
+            if ($log -match "Missing dependency: [^\r\n]*\b$tool") { throw "The packaged program did not find its bundled $tool" }
+          }
           if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
           Write-Host "Packaged program is UP"
 
@@ -190,7 +304,9 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path release | Out-Null
-          Compress-Archive -Path packaged/Scripta -DestinationPath "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip"
+          # 7-Zip: Compress-Archive is slow on a package this size.
+          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=5 "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip" packaged/Scripta | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw "7z failed" }
 
       - name: Make the installer
         shell: pwsh
@@ -241,10 +357,10 @@ jobs:
         run: |
           cat > notes.md <<'NOTES'
           ## Windows
-          Download the portable zip (unpack and run `Scripta.exe`) or the per-user installer. Both include Tesseract for OCR and qpdf. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta`. `SHA256SUMS.txt` lists the checksums. The installer is not code-signed, so Windows SmartScreen will warn before it runs.
+          Download the portable zip (unpack and run `Scripta.exe`) or the per-user installer. Both are self-contained: they include Tesseract for OCR and qpdf, Ghostscript, LibreOffice, WeasyPrint, ImageMagick and Poppler, so most tools work without installing anything else. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta`. `SHA256SUMS.txt` lists the checksums. The installer is not code-signed, so Windows SmartScreen will warn before it runs.
 
-          ## Needs a separate install
-          Ghostscript is not bundled (it is AGPL-licensed). Without it Crop, Scanner Effect, Replace and Invert colour and the vector conversions are unavailable, and Repair and Compress run with fewer options. Install [Ghostscript](https://ghostscript.com/releases/gsdnld.html) to enable them. Office conversion needs LibreOffice.
+          ## Bundled programs
+          They run as separate programs and keep their own licences, listed with source links in `tools\THIRD-PARTY.txt` inside the package. Ghostscript is AGPL-licensed and Poppler is GPL-licensed. Calibre (PDF to EPUB) and the `rar` tool (CBR output) are not included.
 
           NOTES
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then

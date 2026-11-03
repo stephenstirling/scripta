@@ -7,10 +7,14 @@ import java.nio.file.Path;
 /**
  * Programs shipped inside the Windows package, found through {@code -Dscripta.tools-path}. The
  * launcher cannot extend PATH, so a bundled program is called by absolute path instead. Each tool
- * sits in {@code <tools-path>/<name>/<name>.exe}. Outside the package the property is unset and
- * every lookup falls back to the bare command, which PATH resolves as usual.
+ * has its own folder, {@code <tools-path>/<name>/}, holding {@code <name>.exe} directly or under
+ * {@code bin/} or {@code program/} (Ghostscript and LibreOffice keep their libraries relative to
+ * those). Outside the package the property is unset and every lookup falls back to the bare
+ * command, which PATH resolves as usual.
  */
 public final class BundledTools {
+
+    private static final String[] EXE_LOCATIONS = {"", "bin", "program"};
 
     private BundledTools() {}
 
@@ -40,7 +44,12 @@ public final class BundledTools {
         if (dir == null) {
             return command;
         }
-        Path exe = dir.resolve(command + ".exe");
-        return Files.isRegularFile(exe) ? exe.toString() : command;
+        for (String location : EXE_LOCATIONS) {
+            Path exe = dir.resolve(location).resolve(command + ".exe");
+            if (Files.isRegularFile(exe)) {
+                return exe.toString();
+            }
+        }
+        return command;
     }
 }
