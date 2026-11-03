@@ -94,9 +94,9 @@ jobs:
             Copy-Item $env:JAVA_HOME runtime -Recurse
           }
 
-          # Config, logs and pipelines default to the current folder, so point them at a
-          # data folder beside the app, which is writable for the portable zip and for a
-          # per-user install.
+          # Config, logs and pipelines default to the current folder; scripta.user-data moves
+          # them to %LOCALAPPDATA%\Scripta so settings and sign-in tokens survive updates that
+          # unpack each version into its own folder.
           jpackage --type app-image `
             --name Scripta `
             --app-version $version `
@@ -107,7 +107,7 @@ jobs:
             --main-class org.springframework.boot.loader.launch.JarLauncher `
             --runtime-image runtime `
             --java-options "-DBROWSER_OPEN=true" `
-            --java-options '-Dscripta.base-path=$APPDIR/../data/' `
+            --java-options "-Dscripta.user-data=true" `
             --java-options '-Dscripta.tools-path=$APPDIR/../tools' `
             --win-console `
             --dest packaged
@@ -161,8 +161,6 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path release | Out-Null
-          # A fresh copy, so the smoke test's data folder is not shipped.
-          Remove-Item -Recurse -Force packaged/Scripta/data -ErrorAction SilentlyContinue
           Compress-Archive -Path packaged/Scripta -DestinationPath "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip"
 
       - name: Make the installer
@@ -184,6 +182,11 @@ jobs:
             --win-shortcut `
             --dest release
           if ($LASTEXITCODE -ne 0) { throw "jpackage installer failed" }
+          # "sha256  file" lines, the format Integra and sha256sum read.
+          Get-ChildItem release -File | Where-Object { $_.Name -ne "SHA256SUMS.txt" } | ForEach-Object {
+            "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $($_.Name)"
+          } | Out-File -Encoding ascii release/SHA256SUMS.txt
+          Get-Content release/SHA256SUMS.txt
           Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
 
       - uses: actions/upload-artifact@v4
