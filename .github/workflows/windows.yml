@@ -29,7 +29,7 @@ env:
 jobs:
   build:
     runs-on: windows-2022
-    timeout-minutes: 120
+    timeout-minutes: 90
     steps:
       - name: Allow long paths
         shell: pwsh
@@ -164,6 +164,7 @@ jobs:
       # does not hide the others. Ghostscript (AGPL) and Poppler (GPL) are separate programs
       # shipped as-is; THIRD-PARTY.txt names their licences and where the source is.
       - name: Bundle Ghostscript, LibreOffice, WeasyPrint, ImageMagick and Poppler
+        timeout-minutes: 40
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -190,13 +191,19 @@ jobs:
 
           Invoke-Bundle "Ghostscript" {
             $installer = Get-GitHubAsset "ArtifexSoftware/ghostpdl-downloads" "gs*w64.exe" (Join-Path $work "gs")
+            # Unpacked rather than run: the silent installer never exits on a CI runner.
+            $unpacked = Join-Path $work "gs-x"
+            & $sevenZip x $installer.FullName "-o$unpacked" -y | Out-Null
+            $console = Get-ChildItem $unpacked -Recurse -Filter "gswin64c.exe" | Select-Object -First 1
+            if (-not $console) { throw "gswin64c.exe not found in $($installer.Name)" }
+            $root = $console.Directory.Parent.FullName
+            if (-not (Test-Path (Join-Path $root "lib"))) { throw "unexpected Ghostscript layout: no lib folder beside bin" }
             $dest = Join-Path $tools "gs"
-            Start-Process $installer.FullName -ArgumentList "/S", "/D=$dest" -Wait
-            $console = Get-ChildItem $dest -Recurse -Filter "gswin64c.exe" | Select-Object -First 1
-            if (-not $console) { throw "gswin64c.exe not found after install" }
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item "$root\*" $dest -Recurse -Force
             # The app calls plain "gs".
-            Copy-Item $console.FullName (Join-Path $console.DirectoryName "gs.exe")
-            & (Join-Path $console.DirectoryName "gs.exe") -version
+            Copy-Item (Join-Path $dest "bin\gswin64c.exe") (Join-Path $dest "bin\gs.exe")
+            & (Join-Path $dest "bin\gs.exe") -version
             if ($LASTEXITCODE -ne 0) { throw "bundled gs does not run" }
             $notices.Add("Ghostscript ($($installer.Name)) - GNU AGPL v3 - source: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases and https://ghostscript.com/releases/")
           }
@@ -253,7 +260,8 @@ jobs:
             $msi = Join-Path $work "LibreOffice.msi"
             Invoke-WebRequest "https://download.documentfoundation.org/libreoffice/stable/$version/win/x86_64/LibreOffice_${version}_Win_x86-64.msi" -OutFile $msi
             $admin = Join-Path $work "lo-admin"
-            Start-Process msiexec.exe -ArgumentList "/a", "`"$msi`"", "/qn", "TARGETDIR=`"$admin`"" -Wait
+            $msiexec = Start-Process msiexec.exe -ArgumentList "/a", "`"$msi`"", "/qn", "TARGETDIR=`"$admin`"" -PassThru
+            if (-not $msiexec.WaitForExit(1200000)) { $msiexec.Kill($true); throw "unpacking the LibreOffice installer took longer than 20 minutes" }
             $soffice = Get-ChildItem $admin -Recurse -Filter "soffice.exe" | Select-Object -First 1
             if (-not $soffice) { throw "soffice.exe not found in the unpacked installer" }
             $dest = Join-Path $tools "soffice"
