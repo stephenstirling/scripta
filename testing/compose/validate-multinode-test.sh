@@ -5,8 +5,8 @@ set -uo pipefail
 cd "$(dirname "$0")"
 
 LB="http://localhost:8080"
-ADMIN_USER="admin"; ADMIN_PASS="stirling"
-NODES="multinode-stirling-1 multinode-stirling-2"
+ADMIN_USER="admin"; ADMIN_PASS="scripta"
+NODES="multinode-scripta-1 multinode-scripta-2"
 # An authed, admin-visible endpoint that returns 200 with a valid token, 401 without.
 PROBE="/api/v1/sources"
 pass=0; fail=0
@@ -29,15 +29,15 @@ detect_topology() {
 }
 TOPOLOGY=$(detect_topology)
 
-# Every stirling:* key in any topology: a cluster shards them so --cluster call fans out, plain KEYS is
+# Every scripta:* key in any topology: a cluster shards them so --cluster call fans out, plain KEYS is
 # the non-cluster fallback. Must be docker exec - `docker run --entrypoint /bin/sh` is mangled by MSYS.
 backplane_keys_raw() {
-  docker exec multinode-valkey valkey-cli --cluster call --cluster-only-masters 127.0.0.1:6379 keys 'stirling:*' 2>/dev/null \
-    || docker exec multinode-valkey valkey-cli keys 'stirling:*' 2>/dev/null
+  docker exec multinode-valkey valkey-cli --cluster call --cluster-only-masters 127.0.0.1:6379 keys 'scripta:*' 2>/dev/null \
+    || docker exec multinode-valkey valkey-cli keys 'scripta:*' 2>/dev/null
 }
 # Same, minus the "host:port: " prefix a cluster call prepends to every line.
 backplane_keys() {
-  backplane_keys_raw | tr -d '\r' | sed 's/^[A-Za-z0-9_.-]*:[0-9][0-9]*: //' | grep '^stirling:'
+  backplane_keys_raw | tr -d '\r' | sed 's/^[A-Za-z0-9_.-]*:[0-9][0-9]*: //' | grep '^scripta:'
 }
 
 # INFO field off the Valkey the app writes to (the primary in every topology).
@@ -88,8 +88,8 @@ count_of() { # $1=node -> number of sources that node reports
   docker exec "$1" curl -s -H "Authorization: Bearer $jwt" "http://localhost:8080$PROBE" 2>/dev/null \
     | grep -o '"id"' | grep -c .
 }
-a=$(count_of multinode-stirling-1); b=$(count_of multinode-stirling-2)
-echo "  stirling-1 sources: $a   stirling-2 sources: $b"
+a=$(count_of multinode-scripta-1); b=$(count_of multinode-scripta-2)
+echo "  scripta-1 sources: $a   scripta-2 sources: $b"
 if [ "$a" -gt 0 ] && [ "$a" = "$b" ]; then
   ok "both nodes report the same $a sources (shared DB)"
 else
@@ -97,9 +97,9 @@ else
 fi
 
 echo "== 4. Seeded org is in the shared DB =="
-users=$(docker exec multinode-postgres psql -U stirling -d stirling -tAc "select count(*) from users" 2>/dev/null | tr -d '[:space:]')
-teams=$(docker exec multinode-postgres psql -U stirling -d stirling -tAc "select count(*) from teams" 2>/dev/null | tr -d '[:space:]')
-conns=$(docker exec multinode-postgres psql -U stirling -d stirling -tAc "select count(*) from integration_configs" 2>/dev/null | tr -d '[:space:]')
+users=$(docker exec multinode-postgres psql -U scripta -d scripta -tAc "select count(*) from users" 2>/dev/null | tr -d '[:space:]')
+teams=$(docker exec multinode-postgres psql -U scripta -d scripta -tAc "select count(*) from teams" 2>/dev/null | tr -d '[:space:]')
+conns=$(docker exec multinode-postgres psql -U scripta -d scripta -tAc "select count(*) from integration_configs" 2>/dev/null | tr -d '[:space:]')
 echo "  users=$users teams=$teams integration_configs=$conns"
 # Not USER_COUNT: the licence caps seats, so the seed stops short of its target.
 [ "${users:-0}" -ge 10 ] && ok "$users users present" || bad "only ${users:-0} users (did the seed run?)"
@@ -124,7 +124,7 @@ for c in $VALKEY_NODES; do
   lettuce=$(( lettuce + $(printf '%s\n' "$clients" | grep -c 'lib-name=Lettuce') ))
   anon=$(( anon + $(printf '%s\n' "$clients" | grep -c 'name= ') ))
   all_names="$all_names
-$(printf '%s\n' "$clients" | grep -o 'name=stirling-[^ ]*')"
+$(printf '%s\n' "$clients" | grep -o 'name=scripta-[^ ]*')"
 done
 named=$(printf '%s\n' "$all_names" | grep . | sort -u)
 distinct=$(printf '%s\n' "$named" | grep -c .)
@@ -137,8 +137,8 @@ elif [ "${lettuce:-0}" -eq 0 ]; then
 else
   [ "${anon:-0}" -eq 0 ] && ok "no unnamed app connections across $sampled node(s) (all carry CLIENT SETNAME)" \
                           || bad "$anon Lettuce connection(s) have an empty name= - CLIENT SETNAME is not applied"
-  [ "${distinct:-0}" -ge 2 ] && ok "$distinct distinct stirling-* client names (load attributable per node)" \
-                              || bad "only ${distinct:-0} distinct stirling-* client name(s) (expected one per app node)"
+  [ "${distinct:-0}" -ge 2 ] && ok "$distinct distinct scripta-* client names (load attributable per node)" \
+                              || bad "only ${distinct:-0} distinct scripta-* client name(s) (expected one per app node)"
 fi
 
 echo "== 7. Backplane traffic multiplexes over one shared connection =="
@@ -183,9 +183,9 @@ else
 fi
 
 echo "== 8. Every app node registered a heartbeat in the backplane =="
-nodes_registered=$(backplane_keys | grep -c '^stirling:nodes:')
+nodes_registered=$(backplane_keys | grep -c '^scripta:nodes:')
 expected=$(printf '%s\n' $NODES | grep -c .)
-echo "  stirling:nodes:* heartbeats: ${nodes_registered:-0} (expected >= $expected)"
+echo "  scripta:nodes:* heartbeats: ${nodes_registered:-0} (expected >= $expected)"
 [ "${nodes_registered:-0}" -ge "$expected" ] && ok "all $expected app nodes registered in Valkey" \
                                              || bad "only ${nodes_registered:-0} of $expected app nodes registered"
 
@@ -216,7 +216,7 @@ case "$TOPOLOGY" in
     [ "${masters:-0}" -ge 3 ] && ok "$masters primaries sharding the keyspace (${known:-?} nodes known)" \
                                || bad "only ${masters:-0} primaries (expected 3)"
     # Keys must actually spread; everything on one shard would mean something pinned them to a slot.
-    shards=$(backplane_keys_raw | tr -d '\r' | grep -c '^[A-Za-z0-9_.-]*:[0-9][0-9]*: stirling:')
+    shards=$(backplane_keys_raw | tr -d '\r' | grep -c '^[A-Za-z0-9_.-]*:[0-9][0-9]*: scripta:')
     [ "${shards:-0}" -ge 1 ] && ok "backplane keys present on ${shards} shard(s)" \
                               || bad "no backplane keys found on any shard"
     ;;
@@ -229,6 +229,6 @@ echo
 echo "============================================================"
 echo " Multi-node validation: $pass passed, $fail failed."
 echo " Valkey topology: $TOPOLOGY"
-echo " Stack left running: $LB  (admin / stirling)"
+echo " Stack left running: $LB  (admin / scripta)"
 echo "============================================================"
 [ "$fail" -eq 0 ]

@@ -1,5 +1,5 @@
 services:
-  stirling-pdf:
+  scripta:
     container_name: Scripta-Security-Remote-UNO
     image: ghcr.io/stephenstirling/scripta:latest
     build:
@@ -13,10 +13,10 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../../../stirling/latest/data:/usr/share/tessdata:rw
-      - ../../../stirling/latest/config:/configs:rw
-      - ../../../stirling/latest/logs:/logs:rw
-      - stirling-tmp:/tmp/stirling-pdf:rw
+      - ../../../scripta/latest/data:/usr/share/tessdata:rw
+      - ../../../scripta/latest/config:/configs:rw
+      - ../../../scripta/latest/logs:/logs:rw
+      - scripta-tmp:/tmp/scripta:rw
     environment:
       DISABLE_ADDITIONAL_FEATURES: "false"
       SECURITY_ENABLELOGIN: "false"
@@ -52,7 +52,7 @@ services:
       unoserver2:
         condition: service_healthy
     networks:
-      - stirling-network
+      - scripta-network
     restart: on-failure:5
 
   unoserver1:
@@ -66,11 +66,11 @@ services:
       # Recycle hourly to bound LibreOffice memory; 0 disables, floor 60s.
       UNOSERVER_RECYCLE_INTERVAL_SECONDS: "3600"
     volumes:
-      - stirling-tmp:/tmp/stirling-pdf:rw
+      - scripta-tmp:/tmp/scripta:rw
     expose:
       - "2003"
     networks:
-      - stirling-network
+      - scripta-network
     restart: on-failure:5
 
   unoserver2:
@@ -82,16 +82,16 @@ services:
       UNOSERVER_CONVERSION_TIMEOUT: "1800"
       UNOSERVER_RECYCLE_INTERVAL_SECONDS: "3600"
     volumes:
-      - stirling-tmp:/tmp/stirling-pdf:rw
+      - scripta-tmp:/tmp/scripta:rw
     expose:
       - "2003"
     networks:
-      - stirling-network
+      - scripta-network
     restart: on-failure:5
 
 networks:
-  stirling-network:
+  scripta-network:
     driver: bridge
 
 volumes:
-  stirling-tmp:
+  scripta-tmp:

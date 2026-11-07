@@ -121,7 +121,7 @@ const AT: Record<string, string> = {
 };
 
 /** Scoped to the viewer the mocked response names, as the store writes it. */
-const READ_THROUGH_KEY = "stirling.notifications.readThroughAt.viewer-a";
+const READ_THROUGH_KEY = "scripta.notifications.readThroughAt.viewer-a";
 
 function markReadThrough(iso: string): void {
   window.localStorage.setItem(READ_THROUGH_KEY, String(Date.parse(iso)));

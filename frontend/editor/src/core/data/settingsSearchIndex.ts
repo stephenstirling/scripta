@@ -228,7 +228,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
     anchor: "adminFeatures",
     labelKey: "admin.settings.features.serverCertificate.label",
     labelFallback: "Certificate Signing",
-    keywords: ["certificate", "signing", "sign with stirling"],
+    keywords: ["certificate", "signing", "sign with scripta"],
   },
   {
     section: "adminConnections",

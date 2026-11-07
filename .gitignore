@@ -16,13 +16,13 @@ local.properties
 *.local.json
 version.properties
 
-#### Stirling-PDF Files ###
+#### Scripta Files ###
 pipeline/
 !pipeline/.gitkeep
 # The rule above also matches these Java source packages; without these a new file there is
 # refused by git add and never listed by git status, so it silently never reaches CI.
-!app/core/src/main/java/stirling/software/SPDF/controller/api/pipeline/
-!app/core/src/test/java/stirling/software/SPDF/controller/api/pipeline/
+!app/core/src/main/java/scripta/software/core/controller/api/pipeline/
+!app/core/src/test/java/scripta/software/core/controller/api/pipeline/
 customFiles/
 configs/
 watchedFolders/
@@ -35,8 +35,8 @@ policy-webhook-spool/
 !cucumber/
 !cucumber/exampleFiles/
 !cucumber/exampleFiles/example_html.zip
-exampleYmlFiles/stirling/
-/stirling/
+exampleYmlFiles/scripta/
+/scripta/
 /testing/file_snapshots
 /testing/cucumber/junit/
 /testing/cucumber/report.html
@@ -190,7 +190,7 @@ app/common/build
 app/proprietary/build
 common/build
 proprietary/build
-stirling-pdf/build
+scripta/build
 frontend/editor/src-tauri/provisioner/target
 
 # Byte-compiled / optimized / DLL files

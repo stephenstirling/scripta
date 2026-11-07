@@ -23,7 +23,7 @@ const OWNER = {
 
 const ENABLED_SETTINGS = {
   enabled: true,
-  url: "http://stirling-engine:5001",
+  url: "http://scripta-engine:5001",
   timeoutSeconds: 120,
   longRunningTimeoutSeconds: 600,
   streamTimeoutSeconds: 1800,
@@ -196,7 +196,7 @@ test("the mode chooser owns the engine fields, and cloud is not selectable", asy
 
   const self = page.getByRole("radio", { name: /Run your own engine/i });
   const off = page.getByRole("radio", { name: /^Off$/i });
-  const cloud = page.getByRole("radio", { name: /Stirling Cloud AI/i });
+  const cloud = page.getByRole("radio", { name: /Cloud AI/i });
 
   await expect(self).toBeChecked();
   await expect(cloud).toBeDisabled();
@@ -236,9 +236,7 @@ test("cloud AI is not selectable until the server is linked", async ({
     false,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Stirling Cloud AI/i }),
-  ).toBeDisabled();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeDisabled();
   await expect(page.getByText(/Link an account first/i).first()).toBeVisible();
 });
 
@@ -252,9 +250,7 @@ test("cloud AI stays disabled while the link status is unknown", async ({
     null,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Stirling Cloud AI/i }),
-  ).toBeDisabled();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeDisabled();
   // Unknown is not unlinked, so there is nothing to prompt for yet.
   await expect(page.getByText(/Link an account first/i)).toHaveCount(0);
 });
@@ -269,7 +265,7 @@ test("a linked server can pick cloud AI, and ingestion is off until asked for", 
     true,
   );
 
-  const cloud = page.getByRole("radio", { name: /Stirling Cloud AI/i });
+  const cloud = page.getByRole("radio", { name: /Cloud AI/i });
   await expect(cloud).toBeEnabled();
   await cloud.click();
   await expect(cloud).toBeChecked();
@@ -279,15 +275,13 @@ test("a linked server can pick cloud AI, and ingestion is off until asked for", 
 
   // The switch that decides whether whole documents leave the building, off by default.
   const upload = page.getByRole("switch", {
-    name: /Let Stirling Cloud keep indexed documents/i,
+    name: /Let Cloud keep indexed documents/i,
   });
   await expect(upload).not.toBeChecked();
   // Click the visible label wrapper, not the hidden input - the house pattern for Mantine
   // switches, because force-clicking the input does not register in Firefox.
   await page
-    .locator(
-      'label:has(input[aria-label="Let Stirling Cloud keep indexed documents"])',
-    )
+    .locator('label:has(input[aria-label="Let Cloud keep indexed documents"])')
     .click();
   await expect(upload).toBeChecked();
 });
@@ -304,12 +298,10 @@ test("a server already in cloud mode opens on it", async ({ page }) => {
     true,
   );
 
-  await expect(
-    page.getByRole("radio", { name: /Stirling Cloud AI/i }),
-  ).toBeChecked();
+  await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeChecked();
   await expect(
     page.getByRole("switch", {
-      name: /Let Stirling Cloud keep indexed documents/i,
+      name: /Let Cloud keep indexed documents/i,
     }),
   ).toBeChecked();
 });
@@ -328,7 +320,7 @@ test.describe("as the organization owner", () => {
     );
 
     const link = page.getByRole("link", {
-      name: /Connect this server to a Stirling account/i,
+      name: /Connect this server to a account/i,
     });
     await expect(link).toBeVisible();
     await expect(link).toHaveAttribute("href", "/settings/account-link");
@@ -360,7 +352,7 @@ test.describe("as an admin who is not the owner", () => {
     // The account-link page is not listed for them, so a link there would lead nowhere.
     await expect(
       page.getByRole("link", {
-        name: /Connect this server to a Stirling account/i,
+        name: /Connect this server to a account/i,
       }),
     ).toHaveCount(0);
   });
@@ -373,16 +365,12 @@ test.describe("as an admin who is not the owner", () => {
       true,
     );
 
-    await expect(
-      page.getByRole("radio", { name: /Stirling Cloud AI/i }),
-    ).toBeEnabled();
+    await expect(page.getByRole("radio", { name: /Cloud AI/i })).toBeEnabled();
     await expect(page.getByText(/Link an account first/i)).toHaveCount(0);
   });
 });
 
-test("cloud mode reports on Stirling Cloud, not on a local engine", async ({
-  page,
-}) => {
+test("cloud mode reports on Cloud, not on a local engine", async ({ page }) => {
   await openAiSettings(
     page,
     {
@@ -397,7 +385,7 @@ test("cloud mode reports on Stirling Cloud, not on a local engine", async ({
 
   const statusCard = page.locator(".settings-card").first();
   await expect(
-    statusCard.getByText("Running on Stirling Cloud", { exact: true }),
+    statusCard.getByText("Running on Cloud", { exact: true }),
   ).toBeVisible();
   await expect(
     statusCard.getByText("Running on", { exact: true }),
@@ -414,7 +402,7 @@ test("cloud mode reports on Stirling Cloud, not on a local engine", async ({
   ).toHaveCount(0);
 });
 
-test("cloud mode reports Stirling Cloud itself as its own status point", async ({
+test("cloud mode reports Cloud itself as its own status point", async ({
   page,
 }) => {
   await openAiSettings(
@@ -431,9 +419,7 @@ test("cloud mode reports Stirling Cloud itself as its own status point", async (
   );
 
   const statusCard = page.locator(".settings-card").first();
-  await expect(
-    statusCard.getByText("Stirling.com", { exact: true }),
-  ).toBeVisible();
+  await expect(statusCard.getByText("Cloud", { exact: true })).toBeVisible();
   await expect(statusCard.getByText("Up", { exact: true })).toBeVisible();
   await expect(
     statusCard.getByText("AI sharing", { exact: true }),
@@ -451,7 +437,7 @@ test("sharing switched off reads as switched off, not as an outage", async ({
       reachable: false,
       cloudUp: true,
       cloudSharingEnabled: false,
-      error: "Stirling Cloud AI sharing is switched off for linked servers.",
+      error: "Cloud AI sharing is switched off for linked servers.",
     },
     { ...ENABLED_SETTINGS, mode: "CLOUD" },
     true,
@@ -463,19 +449,19 @@ test("sharing switched off reads as switched off, not as an outage", async ({
   await expect(statusCard.getByText("Disabled", { exact: true })).toBeVisible();
   await expect(
     statusCard.getByText(
-      "Stirling Cloud AI sharing is switched off for linked servers.",
+      "Cloud AI sharing is switched off for linked servers.",
     ),
   ).toBeVisible();
 });
 
-test("a Stirling Cloud outage shows the host down", async ({ page }) => {
+test("a Cloud outage shows the host down", async ({ page }) => {
   await openAiSettings(
     page,
     {
       enabled: true,
       reachable: false,
       cloudUp: false,
-      error: "Stirling Cloud is not responding.",
+      error: "Cloud is not responding.",
     },
     { ...ENABLED_SETTINGS, mode: "CLOUD" },
     true,
@@ -489,9 +475,7 @@ test("a Stirling Cloud outage shows the host down", async ({ page }) => {
   );
 });
 
-test("self-hosted mode shows no Stirling Cloud status points", async ({
-  page,
-}) => {
+test("self-hosted mode shows no Cloud status points", async ({ page }) => {
   await openAiSettings(
     page,
     { enabled: true, reachable: true, authenticated: true },
@@ -502,14 +486,10 @@ test("self-hosted mode shows no Stirling Cloud status points", async ({
   await expect(statusCard.getByText("AI sharing", { exact: true })).toHaveCount(
     0,
   );
-  await expect(
-    statusCard.getByText("Stirling.com", { exact: true }),
-  ).toHaveCount(0);
+  await expect(statusCard.getByText("Cloud", { exact: true })).toHaveCount(0);
 });
 
-test("cloud mode makes the settings Stirling Cloud owns read-only", async ({
-  page,
-}) => {
+test("cloud mode makes the settings Cloud owns read-only", async ({ page }) => {
   await openAiSettings(
     page,
     { enabled: true, reachable: true, authenticated: true },
@@ -518,7 +498,7 @@ test("cloud mode makes the settings Stirling Cloud owns read-only", async ({
   );
 
   await expect(
-    page.getByText("Managed by Stirling Cloud", { exact: true }).first(),
+    page.getByText("Managed by Cloud", { exact: true }).first(),
   ).toBeVisible();
   // Provider and embedding model are the cloud's to choose in this mode.
   await expect(smartModelInput(page)).toBeDisabled();
@@ -550,9 +530,9 @@ test("switching cloud AI off hands the model settings back", async ({
   // Off keeps mode CLOUD so turning AI back on restores it; nothing is cloud-managed meanwhile.
   await page.getByRole("radio", { name: /^Off$/i }).click();
   await expect(smartModelInput(page)).toBeEnabled();
-  await expect(
-    page.getByText("Managed by Stirling Cloud", { exact: true }),
-  ).toHaveCount(0);
+  await expect(page.getByText("Managed by Cloud", { exact: true })).toHaveCount(
+    0,
+  );
 });
 
 test("self-hosted mode leaves the model settings editable", async ({
@@ -566,7 +546,7 @@ test("self-hosted mode leaves the model settings editable", async ({
   );
 
   await expect(smartModelInput(page)).toBeEnabled();
-  await expect(
-    page.getByText("Managed by Stirling Cloud", { exact: true }),
-  ).toHaveCount(0);
+  await expect(page.getByText("Managed by Cloud", { exact: true })).toHaveCount(
+    0,
+  );
 });

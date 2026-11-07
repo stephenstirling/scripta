@@ -35,7 +35,7 @@ vi.mock("@app/auth/UseSession", () => ({
 
 vi.mock("@app/services/fileStorage", () => ({
   fileStorage: {
-    getLeafStirlingFileStubs: vi.fn(),
+    getLeafScriptaFileStubs: vi.fn(),
   },
 }));
 

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# Stirling-PDF Dockerfile - Ultra-lite version with embedded frontend
+# Scripta Dockerfile - Ultra-lite version with embedded frontend
 # Single JAR contains both frontend and backend with minimal dependencies
 
 # Stage 1: Build application with embedded frontend
@@ -38,7 +38,7 @@ ENV JDK_JAVA_OPTIONS="--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNN
   --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
   --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED"
 
-RUN --mount=type=cache,id=stirling-pdf-gradle-cache,target=/home/gradle/.gradle,sharing=locked \
+RUN --mount=type=cache,id=scripta-gradle-cache,target=/home/gradle/.gradle,sharing=locked \
     ./gradlew dependencies --no-daemon || true
 
 # Copy entire project
@@ -49,8 +49,8 @@ COPY . .
 ARG BUILD_PORTAL=false
 # Bundle only the JPDFium native for this image's target arch.
 ARG TARGETARCH
-RUN --mount=type=cache,id=stirling-pdf-npm-cache,target=/root/.npm,sharing=locked \
-    --mount=type=cache,id=stirling-pdf-gradle-cache,target=/home/gradle/.gradle,sharing=locked \
+RUN --mount=type=cache,id=scripta-npm-cache,target=/root/.npm,sharing=locked \
+    --mount=type=cache,id=scripta-gradle-cache,target=/home/gradle/.gradle,sharing=locked \
     JPDFIUM_PLATFORM="$([ "$TARGETARCH" = arm64 ] && echo linux-arm64 || echo linux-x64)" && \
     DISABLE_ADDITIONAL_FEATURES=true \
     ./gradlew clean build \
@@ -72,7 +72,7 @@ ARG VERSION_TAG
 
 # Labels
 LABEL org.opencontainers.image.title="Scripta Ultra-Lite" \
-      org.opencontainers.image.description="Stirling-PDF with embedded frontend - Ultra-lite version with minimal dependencies" \
+      org.opencontainers.image.description="Scripta with embedded frontend - Ultra-lite version with minimal dependencies" \
       org.opencontainers.image.source="https://github.com/stephenstirling/scripta" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Stephen Stirling" \
@@ -87,21 +87,21 @@ LABEL org.opencontainers.image.title="Scripta Ultra-Lite" \
 # NOTE: Memory flags (InitialRAMPercentage, MaxRAMPercentage, MaxMetaspaceSize)
 # are computed dynamically by init-without-ocr.sh based on container memory limits.
 ENV VERSION_TAG=$VERSION_TAG \
-    STIRLING_AOT_ENABLE="false" \
+    SCRIPTA_AOT_ENABLE="false" \
     _JVM_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/configs/heap_dumps -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCMode=generational -XX:ShenandoahGCHeuristics=adaptive -XX:ShenandoahUncommitDelay=1000 -XX:ShenandoahGuaranteedYoungGCInterval=10000 -XX:ShenandoahGuaranteedOldGCInterval=30000 -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:+ExplicitGCInvokesConcurrent -XX:ReservedCodeCacheSize=96m -XX:CICompilerCount=2 -Dspring.threads.virtual.enabled=true -Djava.awt.headless=true" \
     JAVA_CUSTOM_OPTS="" \
-    HOME=/home/stirlingpdfuser \
+    HOME=/home/scriptauser \
     PUID=1000 \
     PGID=1000 \
     UMASK=022 \
-    STIRLING_TEMPFILES_DIRECTORY=/tmp/stirling-pdf \
-    TMPDIR=/tmp/stirling-pdf \
-    TEMP=/tmp/stirling-pdf \
-    TMP=/tmp/stirling-pdf \
+    SCRIPTA_TEMPFILES_DIRECTORY=/tmp/scripta \
+    TMPDIR=/tmp/scripta \
+    TEMP=/tmp/scripta \
+    TMP=/tmp/scripta \
     ENDPOINTS_GROUPS_TO_REMOVE=CLI
 
 # Install minimal dependencies
-RUN mkdir -p $HOME /configs /logs /customFiles /pipeline/watchedFolders /pipeline/finishedFolders /storage /tmp/stirling-pdf /tmp/stirling-pdf/heap_dumps && \
+RUN mkdir -p $HOME /configs /logs /customFiles /pipeline/watchedFolders /pipeline/finishedFolders /storage /tmp/scripta /tmp/scripta/heap_dumps && \
     mkdir -p /usr/share/fonts/opentype/noto && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -116,13 +116,13 @@ RUN mkdir -p $HOME /configs /logs /customFiles /pipeline/watchedFolders /pipelin
     # User permissions
     userdel -r ubuntu 2>/dev/null || true && \
     groupdel ubuntu 2>/dev/null || true && \
-    groupadd -g 1000 stirlingpdfgroup && useradd -u 1000 -d $HOME -s /bin/bash -g stirlingpdfgroup stirlingpdfuser && \
-    chown -R stirlingpdfuser:stirlingpdfgroup $HOME /configs /customFiles /pipeline /storage /tmp/stirling-pdf
+    groupadd -g 1000 scriptagroup && useradd -u 1000 -d $HOME -s /bin/bash -g scriptagroup scriptauser && \
+    chown -R scriptauser:scriptagroup $HOME /configs /customFiles /pipeline /storage /tmp/scripta
 
 # Copy scripts and built artifacts after OS package layer to maximize cache reuse.
 COPY --chown=1000:1000 scripts/init-without-ocr.sh /scripts/init-without-ocr.sh
 COPY --chown=1000:1000 scripts/installFonts.sh /scripts/installFonts.sh
-COPY --chown=1000:1000 scripts/stirling-diagnostics.sh /scripts/stirling-diagnostics.sh
+COPY --chown=1000:1000 scripts/scripta-diagnostics.sh /scripts/scripta-diagnostics.sh
 
 # Copy built JARs from build stage
 COPY --from=build --chown=1000:1000 \

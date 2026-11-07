@@ -3,7 +3,7 @@ import { fileContextReducer } from "@app/contexts/file/FileReducer";
 import type {
   FileContextAction,
   FileContextState,
-  StirlingFileStub,
+  ScriptaFileStub,
 } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 
@@ -22,16 +22,16 @@ import type { FileId } from "@app/types/file";
 
 const stub = (
   id: string,
-  extra: Partial<StirlingFileStub> = {},
-): StirlingFileStub =>
+  extra: Partial<ScriptaFileStub> = {},
+): ScriptaFileStub =>
   ({
     id: id as FileId,
     name: "doc.pdf",
     versionNumber: 1,
     ...extra,
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 
-function stateWith(...stubs: StirlingFileStub[]): FileContextState {
+function stateWith(...stubs: ScriptaFileStub[]): FileContextState {
   return {
     files: {
       ids: stubs.map((s) => s.id),
@@ -58,7 +58,7 @@ const toolRun = (inputId: string, outputId: string): FileContextAction => ({
   type: "CONSUME_FILES",
   payload: {
     inputFileIds: [inputId as FileId],
-    outputStirlingFileStubs: [stub(outputId, { versionNumber: 2 })],
+    outputScriptaFileStubs: [stub(outputId, { versionNumber: 2 })],
     silent: false,
   },
 });

@@ -270,7 +270,7 @@ export function SoftwareUpdatesCard({
           onClose={() => setUpdateModalOpened(false)}
           onRemindLater={() => {
             localStorage.setItem(
-              "stirling-pdf-updater:snoozedUntil",
+              "scripta-updater:snoozedUntil",
               String(Date.now() + 24 * 60 * 60 * 1000),
             );
           }}

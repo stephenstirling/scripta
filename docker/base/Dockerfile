@@ -630,31 +630,31 @@ ARG PUID=1000
 ARG PGID=1000
 
 RUN set -eux; \
-    if ! getent group stirlingpdfgroup >/dev/null 2>&1; then \
-      groupadd -g "${PGID}" stirlingpdfgroup 2>/dev/null \
-        || groupadd stirlingpdfgroup; \
+    if ! getent group scriptagroup >/dev/null 2>&1; then \
+      groupadd -g "${PGID}" scriptagroup 2>/dev/null \
+        || groupadd scriptagroup; \
     fi; \
-    if ! id -u stirlingpdfuser >/dev/null 2>&1; then \
-      useradd -m -u "${PUID}" -g stirlingpdfgroup \
-        -d /home/stirlingpdfuser -s /bin/bash stirlingpdfuser 2>/dev/null \
-        || useradd -m -g stirlingpdfgroup \
-          -d /home/stirlingpdfuser -s /bin/bash stirlingpdfuser; \
+    if ! id -u scriptauser >/dev/null 2>&1; then \
+      useradd -m -u "${PUID}" -g scriptagroup \
+        -d /home/scriptauser -s /bin/bash scriptauser 2>/dev/null \
+        || useradd -m -g scriptagroup \
+          -d /home/scriptauser -s /bin/bash scriptauser; \
     fi
 
 RUN set -eux; \
-    if ! getent group stirlingofficegroup >/dev/null 2>&1; then \
-      groupadd -g 1100 stirlingofficegroup 2>/dev/null \
-        || groupadd stirlingofficegroup; \
+    if ! getent group scriptaofficegroup >/dev/null 2>&1; then \
+      groupadd -g 1100 scriptaofficegroup 2>/dev/null \
+        || groupadd scriptaofficegroup; \
     fi; \
-    if ! id -u stirlingofficeuser >/dev/null 2>&1; then \
-      useradd -m -u 1100 -g stirlingofficegroup \
-        -d /home/stirlingofficeuser -s /usr/sbin/nologin stirlingofficeuser 2>/dev/null \
-        || useradd -m -g stirlingofficegroup \
-          -d /home/stirlingofficeuser -s /usr/sbin/nologin stirlingofficeuser; \
+    if ! id -u scriptaofficeuser >/dev/null 2>&1; then \
+      useradd -m -u 1100 -g scriptaofficegroup \
+        -d /home/scriptaofficeuser -s /usr/sbin/nologin scriptaofficeuser 2>/dev/null \
+        || useradd -m -g scriptaofficegroup \
+          -d /home/scriptaofficeuser -s /usr/sbin/nologin scriptaofficeuser; \
     fi; \
     mkdir -p /var/lib/libreoffice-sandbox; \
-    chown stirlingofficeuser:stirlingofficegroup \
-      /home/stirlingofficeuser /var/lib/libreoffice-sandbox; \
+    chown scriptaofficeuser:scriptaofficegroup \
+      /home/scriptaofficeuser /var/lib/libreoffice-sandbox; \
     chmod 700 /var/lib/libreoffice-sandbox
 
 # Application directories
@@ -662,12 +662,12 @@ RUN set -eux; \
     mkdir -p /configs /configs/cache /configs/heap_dumps /logs /customFiles \
              /pipeline/watchedFolders /pipeline/finishedFolders \
              /storage \
-             /tmp/stirling-pdf/heap_dumps; \
-    chown -R stirlingpdfuser:stirlingpdfgroup \
-      /home/stirlingpdfuser /configs /logs /customFiles /pipeline /storage \
-      /tmp/stirling-pdf; \
-    chmod 750 /tmp/stirling-pdf; \
-    chmod 750 /tmp/stirling-pdf/heap_dumps
+             /tmp/scripta/heap_dumps; \
+    chown -R scriptauser:scriptagroup \
+      /home/scriptauser /configs /logs /customFiles /pipeline /storage \
+      /tmp/scripta; \
+    chmod 750 /tmp/scripta; \
+    chmod 750 /tmp/scripta/heap_dumps
 
 # Tool symlinks
 RUN set -eux; \
@@ -679,24 +679,24 @@ RUN set -eux; \
     ln -sf /opt/venv/bin/unoping    /usr/local/bin/unoping; \
     fc-cache -f
 
-COPY --from=lo-sandbox-build /usr/local/bin/lo-sandbox /usr/local/lib/stirling/lo-sandbox
-COPY stirling-hardening.xcd /usr/lib/libreoffice/share/registry/stirling-hardening.xcd
-COPY unoserver-pipe-transport.py /usr/local/lib/stirling/unoserver-pipe-transport.py
+COPY --from=lo-sandbox-build /usr/local/bin/lo-sandbox /usr/local/lib/scripta/lo-sandbox
+COPY scripta-hardening.xcd /usr/lib/libreoffice/share/registry/scripta-hardening.xcd
+COPY unoserver-pipe-transport.py /usr/local/lib/scripta/unoserver-pipe-transport.py
 
 RUN set -eux; \
-    chown root:root /usr/local/lib/stirling/lo-sandbox \
-                    /usr/lib/libreoffice/share/registry/stirling-hardening.xcd; \
-    chmod 0755 /usr/local/lib/stirling/lo-sandbox; \
-    chmod 0644 /usr/lib/libreoffice/share/registry/stirling-hardening.xcd; \
+    chown root:root /usr/local/lib/scripta/lo-sandbox \
+                    /usr/lib/libreoffice/share/registry/scripta-hardening.xcd; \
+    chmod 0755 /usr/local/lib/scripta/lo-sandbox; \
+    chmod 0644 /usr/lib/libreoffice/share/registry/scripta-hardening.xcd; \
     for name in /usr/bin/soffice /usr/bin/libreoffice /usr/bin/ooffice; do \
       if [ -e "$name" ] || [ -L "$name" ]; then rm -f "$name"; fi; \
-      cp /usr/local/lib/stirling/lo-sandbox "$name"; \
+      cp /usr/local/lib/scripta/lo-sandbox "$name"; \
       chown root:root "$name"; \
       chmod 0755 "$name"; \
     done; \
-    /opt/venv/bin/python /usr/local/lib/stirling/unoserver-pipe-transport.py \
+    /opt/venv/bin/python /usr/local/lib/scripta/unoserver-pipe-transport.py \
       "$(/opt/venv/bin/python -c 'import unoserver, os; print(os.path.dirname(unoserver.__file__))')"; \
-    STIRLING_LO_SANDBOX=off /usr/bin/soffice --version
+    SCRIPTA_LO_SANDBOX=off /usr/bin/soffice --version
 
 # Metadata labels - base image
 LABEL org.opencontainers.image.title="Scripta Base" \

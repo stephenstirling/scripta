@@ -21,9 +21,9 @@ describe("useLogoAssets - Logo Asset Files", () => {
     "favicon.ico",
     "logo192.png",
     "logo512.png",
-    "StirlingPDFLogoWhiteText.svg",
-    "StirlingPDFLogoBlackText.svg",
-    "StirlingPDFLogoGreyText.svg",
+    "ScriptaLogoWhiteText.svg",
+    "ScriptaLogoBlackText.svg",
+    "ScriptaLogoGreyText.svg",
   ];
 
   test("logo folder should exist", () => {

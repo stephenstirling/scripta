@@ -11,7 +11,7 @@ import {
   meterAutomationRun,
   type AutomationMeterInput,
 } from "@app/services/automationMeter";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 
 export function useAutomateOperation() {
   const { allTools } = useToolRegistry();
@@ -61,8 +61,8 @@ export function useAutomateOperation() {
       // Best-effort and post-success - never blocks the returned result.
       try {
         const inputs: AutomationMeterInput[] = files.map((file) => ({
-          pages: isStirlingFile(file)
-            ? (selectors.getStirlingFileStub(file.fileId)?.processedFile
+          pages: isScriptaFile(file)
+            ? (selectors.getScriptaFileStub(file.fileId)?.processedFile
                 ?.totalPages ?? 0)
             : 0,
           bytes: file.size ?? 0,

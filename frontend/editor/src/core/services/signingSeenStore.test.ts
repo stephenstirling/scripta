@@ -218,7 +218,7 @@ it("keeps cross-tab subscriptions alive when an earlier subscriber unmounts", ()
   const stopSecond = subscribeSigningSeen(second);
   stopFirst();
   window.dispatchEvent(
-    new StorageEvent("storage", { key: "stirling.signing.seenActivity.test" }),
+    new StorageEvent("storage", { key: "scripta.signing.seenActivity.test" }),
   );
   expect(first).not.toHaveBeenCalled();
   expect(second).toHaveBeenCalledOnce();

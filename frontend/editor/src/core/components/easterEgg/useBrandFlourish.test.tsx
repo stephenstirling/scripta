@@ -41,7 +41,7 @@ const withConfigOnly = configWrapper(true);
 const withFileStore = (store: FileStateStore) => configWrapper(true, store);
 
 function emptyStore(): FileStateStore {
-  const getStirlingFileStubs = vi.fn(() => []);
+  const getScriptaFileStubs = vi.fn(() => []);
   const getFiles = vi.fn(() => []);
   return {
     // Only the `files` slice is read; the rest of the state is not touched.
@@ -49,7 +49,7 @@ function emptyStore(): FileStateStore {
       ({ files: { ids: [], byId: {} } }) as unknown as FileContextState,
     subscribe: () => () => {},
     selectors: {
-      getStirlingFileStubs,
+      getScriptaFileStubs,
       getFiles,
     } as unknown as FileStateStore["selectors"],
   };
@@ -99,7 +99,7 @@ describe("useBrandFlourish", () => {
 
     act(() => result.current.trigger?.(null));
     expect(result.current.overlay).not.toBeNull();
-    expect(store.selectors.getStirlingFileStubs).toHaveBeenCalled();
+    expect(store.selectors.getScriptaFileStubs).toHaveBeenCalled();
     expect(store.selectors.getFiles).toHaveBeenCalled();
   });
 });

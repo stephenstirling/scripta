@@ -13,7 +13,7 @@ import i18n from "i18next";
 import { useNavigate } from "react-router-dom";
 
 import { FileId } from "@app/types/file";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import {
   FolderId,
   FolderKind,
@@ -76,7 +76,7 @@ export interface MoveDialogState {
   initial: FolderId | null;
 }
 
-const VIEW_MODE_STORAGE_KEY = "stirling.filesPageViewMode";
+const VIEW_MODE_STORAGE_KEY = "scripta.filesPageViewMode";
 
 function readPersistedViewMode(): FilesPageViewMode {
   try {
@@ -90,8 +90,8 @@ function readPersistedViewMode(): FilesPageViewMode {
 
 interface FilesPageContextValue {
   /** Leaf versions only; includes local and server library entries. */
-  allFiles: StirlingFileStub[];
-  fileMap: Map<FileId, StirlingFileStub>;
+  allFiles: ScriptaFileStub[];
+  fileMap: Map<FileId, ScriptaFileStub>;
   fileCountsByFolder: Map<FolderId | null, number>;
   loading: boolean;
   refresh: () => Promise<void>;
@@ -187,7 +187,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
   const { openFileIdsRef, onOpenFilesDetached } = useDiskLinkReconcile();
 
   const localOnly = useLocalProcessingOnly();
-  const [storedFiles, setAllFiles] = useState<StirlingFileStub[]>([]);
+  const [storedFiles, setAllFiles] = useState<ScriptaFileStub[]>([]);
   const allFiles = useMemo(
     () =>
       localOnly
@@ -209,7 +209,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
     const gen = ++refreshGenRef.current;
     setLoading(true);
     try {
-      const localStubs = await fileStorage.getAllStirlingFileStubs();
+      const localStubs = await fileStorage.getAllScriptaFileStubs();
       if (gen !== refreshGenRef.current) return;
       // Reconcile disk deletions before displaying leaves; checking every version repeats the same IO.
       const localLeaf = await pruneMissingRecentFiles(
@@ -260,7 +260,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const fileMap = useMemo(() => {
-    const map = new Map<FileId, StirlingFileStub>();
+    const map = new Map<FileId, ScriptaFileStub>();
     for (const f of allFiles) map.set(f.id, f);
     return map;
   }, [allFiles]);
@@ -376,10 +376,10 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
       // Newly imported files may not be in the render snapshot yet; read them from storage.
       const fetched = await Promise.all(
         fileIds.map(
-          (id) => fileMap.get(id) ?? fileStorage.getStirlingFileStub(id),
+          (id) => fileMap.get(id) ?? fileStorage.getScriptaFileStub(id),
         ),
       );
-      const stubs = fetched.filter((s): s is StirlingFileStub => Boolean(s));
+      const stubs = fetched.filter((s): s is ScriptaFileStub => Boolean(s));
       const localOnly = stubs.filter((s) => s.remoteStorageId == null);
       const cloudFiles = stubs.filter((s) => s.remoteStorageId != null);
 
@@ -393,7 +393,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
           targetFolder?.directory,
           localOnly.map((stub) => ({
             name: stub.name,
-            bytes: () => fileStorage.getStirlingFile(stub.id),
+            bytes: () => fileStorage.getScriptaFile(stub.id),
           })),
         );
         const movedIds = localOnly
@@ -464,7 +464,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
             const { remoteId, updatedAt, chain } =
               await uploadHistoryChain(rootId);
             for (const chainStub of chain) {
-              fileActions.updateStirlingFileStub(chainStub.id, {
+              fileActions.updateScriptaFileStub(chainStub.id, {
                 remoteStorageId: remoteId,
                 remoteStorageUpdatedAt: updatedAt,
                 remoteOwnedByCurrentUser: true,
@@ -579,7 +579,7 @@ export function FilesPageProvider({ children }: { children: React.ReactNode }) {
     async (fileIds: FileId[], scope: DeleteScope) => {
       const stubs = fileIds
         .map((id) => fileMap.get(id))
-        .filter((s): s is StirlingFileStub => Boolean(s));
+        .filter((s): s is ScriptaFileStub => Boolean(s));
 
       // Cloud delete (owner-only). Dedup by remoteStorageId since a history
       // chain shares a single server file.

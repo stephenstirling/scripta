@@ -23,14 +23,14 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-rootProject.name = 'Stirling PDF'
+rootProject.name = 'Scripta'
 
 // This distribution contains only the MIT-licensed core. The upstream
 // proprietary/SaaS modules were removed, so the build is always "core".
 gradle.ext.disableAdditional = true
 gradle.ext.enableSaas = false
 
-include 'stirling-pdf', 'common'
+include 'scripta', 'common'
 
-project(':stirling-pdf').projectDir = file('app/core')
+project(':scripta').projectDir = file('app/core')
 project(':common'      ).projectDir = file('app/common')

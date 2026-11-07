@@ -1,11 +1,11 @@
-# Multi-node Stirling-PDF processor test stack: shared Postgres/Silo/Valkey behind an nginx LB fronting N app nodes, with enterprise features unlocked via a local test licence key.
+# Multi-node Scripta processor test stack: shared Postgres/Silo/Valkey behind an nginx LB fronting N app nodes, with enterprise features unlocked via a local test licence key.
 # Bring up: ./start-multinode-test.sh [--valkey sentinel|cluster] (standalone by default). Every topology keeps container 'multinode-valkey', so docker-exec steps still work.
 
-x-stirling-node: &stirling-node
+x-scripta-node: &scripta-node
   build:
     context: ../..
     dockerfile: docker/embedded/Dockerfile
-  image: stirling-pdf-multinode:local
+  image: scripta-multinode:local
   restart: unless-stopped
   depends_on:
     postgres:
@@ -24,7 +24,7 @@ x-stirling-node: &stirling-node
     timeout: 10s
     retries: 30
     start_period: 90s
-  environment: &stirling-env
+  environment: &scripta-env
     # --- Licensing: unlock pro/enterprise (custom DB + cluster mode) ---
     # Cluster mode is licence-gated - set PREMIUM_KEY (locally: export PREMIUM_KEY=...; CI: the PREMIUM_KEY_ENTERPRISE secret); the default below is a non-functional placeholder, never a real key.
     PREMIUM_ENABLED: "true"
@@ -35,7 +35,7 @@ x-stirling-node: &stirling-node
     DOCKER_ENABLE_SECURITY: "true"
     SECURITY_ENABLELOGIN: "true"
     SECURITY_INITIALLOGIN_USERNAME: "admin"
-    SECURITY_INITIALLOGIN_PASSWORD: "stirling"
+    SECURITY_INITIALLOGIN_PASSWORD: "scripta"
     # Global API key: lets the seed/validate scripts call admin APIs without a login flow.
     SECURITY_CUSTOMGLOBALAPIKEY: "multinode-test-key"
 
@@ -45,16 +45,16 @@ x-stirling-node: &stirling-node
     SYSTEM_DATASOURCE_TYPE: "postgresql"
     SYSTEM_DATASOURCE_HOSTNAME: "postgres"
     SYSTEM_DATASOURCE_PORT: "5432"
-    SYSTEM_DATASOURCE_NAME: "stirling"
-    SYSTEM_DATASOURCE_USERNAME: "stirling"
-    SYSTEM_DATASOURCE_PASSWORD: "stirling"
+    SYSTEM_DATASOURCE_NAME: "scripta"
+    SYSTEM_DATASOURCE_USERNAME: "scripta"
+    SYSTEM_DATASOURCE_PASSWORD: "scripta"
     # User.settings has no @Lob annotation - with one, Postgres treats it as a large object and every login 500s ("Large Objects may not be used in auto-commit mode").
 
     # --- Shared object storage (persistent user uploads + share/store feature) ---
     STORAGE_ENABLED: "true"
     STORAGE_PROVIDER: "s3"
     STORAGE_S3_ENDPOINT: "http://minio:9000"
-    STORAGE_S3_BUCKET: "stirling-storage"
+    STORAGE_S3_BUCKET: "scripta-storage"
     STORAGE_S3_REGION: "us-east-1"
     STORAGE_S3_ACCESSKEY: "minioadmin"
     STORAGE_S3_SECRETKEY: "minioadmin"
@@ -68,7 +68,7 @@ x-stirling-node: &stirling-node
     CLUSTER_ARTIFACTSTORE: "s3"
     CLUSTER_VALKEY_URL: "redis://valkey:6379"
     # Named connections so CLIENT LIST attributes load per node in any Valkey monitor; overridden per node below.
-    CLUSTER_VALKEY_CLIENTNAME: "stirling-node-base"
+    CLUSTER_VALKEY_CLIENTNAME: "scripta-node-base"
     # Pinned to the shipped settings.yml.template defaults so the test stack exercises what users run.
     CLUSTER_VALKEY_POOL_ENABLED: "true"
     CLUSTER_VALKEY_POOL_MAXACTIVE: "16"
@@ -79,7 +79,7 @@ x-stirling-node: &stirling-node
 
     # --- Shared credential-encryption key (REQUIRED in cluster mode) ---
     # Must match on every node or secrets encrypted on one cannot be read on another; boot fails if unset. Test-only value.
-    STIRLING_CREDENTIAL_ENCRYPTION_KEY: "dMobekyUEnEV7WHBah2FkbboP4Coqifd3JRXB00LiIY="
+    SCRIPTA_CREDENTIAL_ENCRYPTION_KEY: "dMobekyUEnEV7WHBah2FkbboP4Coqifd3JRXB00LiIY="
 
     # --- Shared AutomaticallyGenerated key/UUID (REQUIRED in cluster mode) ---
     # Left unset, each node mints its own, and workflow metadata encrypted on one cannot be decrypted on another.
@@ -97,10 +97,10 @@ x-stirling-node: &stirling-node
     METRICS_ENABLED: "true"
     SYSTEM_DEFAULTLOCALE: "en-US"
     SYSTEM_MAXFILESIZE: "100"
-    UI_APPNAME: "Stirling-PDF Multi-Node"
-    UI_APPNAMENAVBAR: "Stirling Multi-Node"
+    UI_APPNAME: "Scripta Multi-Node"
+    UI_APPNAMENAVBAR: "Scripta Multi-Node"
   networks:
-    - stirling-multinode
+    - scripta-multinode
 
 services:
   # ---- Shared Postgres: the single DB all nodes coordinate through ----------
@@ -108,20 +108,20 @@ services:
     image: postgres:17-alpine
     container_name: multinode-postgres
     environment:
-      POSTGRES_USER: stirling
-      POSTGRES_PASSWORD: stirling
-      POSTGRES_DB: stirling
+      POSTGRES_USER: scripta
+      POSTGRES_PASSWORD: scripta
+      POSTGRES_DB: scripta
     ports:
-      - "5434:5432" # host access for inspection (psql -h localhost -p 5434 -U stirling)
+      - "5434:5432" # host access for inspection (psql -h localhost -p 5434 -U scripta)
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stirling -d stirling"]
+      test: ["CMD-SHELL", "pg_isready -U scripta -d scripta"]
       interval: 3s
       timeout: 5s
       retries: 30
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # ---- Valkey: cluster backplane (shared job state / rate limiting) ---------
   valkey:
@@ -135,7 +135,7 @@ services:
       timeout: 5s
       retries: 30
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # ---- Silo: shared S3 (platform storage + policy connections + webhook staging) ----
   minio:
@@ -156,7 +156,7 @@ services:
       timeout: 5s
       retries: 30
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # ---- One-shot: create the buckets the stack needs -------------------------
   minio-init:
@@ -168,35 +168,35 @@ services:
     entrypoint: >
       /bin/sh -c "
       mc alias set local http://minio:9000 minioadmin minioadmin &&
-      mc mb --ignore-existing local/stirling-storage &&
+      mc mb --ignore-existing local/scripta-storage &&
       mc mb --ignore-existing local/policy-data &&
-      echo 'buckets ready: stirling-storage, policy-data'
+      echo 'buckets ready: scripta-storage, policy-data'
       "
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # ---- App node 1 -----------------------------------------------------------
-  stirling-1:
-    <<: *stirling-node
-    container_name: multinode-stirling-1
+  scripta-1:
+    <<: *scripta-node
+    container_name: multinode-scripta-1
     environment:
-      <<: *stirling-env
+      <<: *scripta-env
       SYSTEM_NODEID: "node-1"
       # Pinned instead of the per-boot UUID default so tests can assert on registered node ids.
       CLUSTER_NODE_ID: "multinode-1"
-      CLUSTER_VALKEY_CLIENTNAME: "stirling-node-1"
+      CLUSTER_VALKEY_CLIENTNAME: "scripta-node-1"
 
   # ---- App node 2 -----------------------------------------------------------
   # No ordering vs node-1 needed - each node mints its own signing key at boot and publishes the public half to the shared DB, so both verify each other's tokens.
-  stirling-2:
-    <<: *stirling-node
-    container_name: multinode-stirling-2
+  scripta-2:
+    <<: *scripta-node
+    container_name: multinode-scripta-2
     environment:
-      <<: *stirling-env
+      <<: *scripta-env
       SYSTEM_NODEID: "node-2"
       # Pinned instead of the per-boot UUID default so tests can assert on registered node ids.
       CLUSTER_NODE_ID: "multinode-2"
-      CLUSTER_VALKEY_CLIENTNAME: "stirling-node-2"
+      CLUSTER_VALKEY_CLIENTNAME: "scripta-node-2"
 
   # ---- One-shot seeder: teams, ~40 users, S3 connection, policies -----------
   # Profile-gated so plain `docker compose up` skips it; the start script runs it once, using postgres:alpine for psql with curl+jq added for the HTTP calls.
@@ -205,41 +205,41 @@ services:
     container_name: multinode-seed
     profiles: ["seed"]
     depends_on:
-      stirling-1:
+      scripta-1:
         condition: service_healthy
-      stirling-2:
+      scripta-2:
         condition: service_healthy
     environment:
       BASE_URL: "http://nginx:8080"
       PGHOST: "postgres"
-      PGUSER: "stirling"
-      PGPASSWORD: "stirling"
-      PGDATABASE: "stirling"
+      PGUSER: "scripta"
+      PGPASSWORD: "scripta"
+      PGDATABASE: "scripta"
       USER_COUNT: "40"
     volumes:
       - ./multinode/seed.sh:/seed.sh:ro
     entrypoint: ["/bin/sh", "-c", "apk add --no-cache curl jq >/dev/null && sh /seed.sh"]
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # ---- nginx load balancer: single entrypoint round-robining the nodes ------
   nginx:
     image: nginx:1.27-alpine
     container_name: multinode-nginx
     depends_on:
-      stirling-1:
+      scripta-1:
         condition: service_healthy
-      stirling-2:
+      scripta-2:
         condition: service_healthy
     ports:
       - "8080:8080"
     volumes:
       - ./multinode/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
 networks:
-  stirling-multinode:
+  scripta-multinode:
     driver: bridge
 
 volumes:

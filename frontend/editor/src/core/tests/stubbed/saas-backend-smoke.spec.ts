@@ -3,12 +3,12 @@
  * verifies the fixes landed in this branch.
  *
  * Skipped automatically if the backend isn't reachable — CI doesn't boot one. To run locally:
- *   STIRLING_FLAVOR=saas ./gradlew :stirling-pdf:bootRun --args="--server.port=18083 --spring.profiles.include=dev"
- *   STIRLING_SAAS_URL=http://localhost:18083 npx playwright test --project=stubbed saas-backend-smoke
+ *   SCRIPTA_FLAVOR=saas ./gradlew :scripta:bootRun --args="--server.port=18083 --spring.profiles.include=dev"
+ *   SCRIPTA_SAAS_URL=http://localhost:18083 npx playwright test --project=stubbed saas-backend-smoke
  */
 import { test, expect, request } from "@playwright/test";
 
-const SAAS_URL = process.env.STIRLING_SAAS_URL ?? "http://localhost:18083";
+const SAAS_URL = process.env.SCRIPTA_SAAS_URL ?? "http://localhost:18083";
 
 test.describe("SaaS backend smoke", () => {
   test.beforeAll(async () => {
@@ -77,7 +77,7 @@ test.describe("SaaS backend smoke", () => {
     const r = await ctx.fetch(`${SAAS_URL}/api/v1/credits`, {
       method: "OPTIONS",
       headers: {
-        Origin: "https://abandoned-tenant.ssl.stirlingpdf.cloud",
+        Origin: "https://abandoned-tenant.ssl.scripta.cloud",
         "Access-Control-Request-Method": "GET",
       },
     });
@@ -90,13 +90,13 @@ test.describe("SaaS backend smoke", () => {
     const r = await ctx.fetch(`${SAAS_URL}/api/v1/credits`, {
       method: "OPTIONS",
       headers: {
-        Origin: "https://app.stirling.com",
+        Origin: "https://app.scripta.example",
         "Access-Control-Request-Method": "GET",
       },
     });
     expect(r.status()).toBe(200);
     expect(r.headers()["access-control-allow-origin"]).toBe(
-      "https://app.stirling.com",
+      "https://app.scripta.example",
     );
     expect(r.headers()["access-control-allow-credentials"]).toBe("true");
   });

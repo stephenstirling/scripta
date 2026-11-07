@@ -1,7 +1,7 @@
 /**
  * Generates the committed frontend files derived from the Java OpenAPI spec:
  * toolApiTypes.ts (each tool's request shape) and toolIO.ts (what it accepts and
- * produces, from `@ToolIO` via the `x-stirling-io` extension).
+ * produces, from `@ToolIO` via the `x-scripta-io` extension).
  *
  * One pass over one spec, so the two cannot drift apart.
  */
@@ -46,8 +46,8 @@ const FILE_WRAPPER_COMPONENTS = new Set([
 
 const COMPONENT_REF_PREFIX = "#/components/schemas/";
 
-const IO_EXTENSION = "x-stirling-io";
-const IO_VOCABULARY_EXTENSION = "x-stirling-io-vocabulary";
+const IO_EXTENSION = "x-scripta-io";
+const IO_VOCABULARY_EXTENSION = "x-scripta-io-vocabulary";
 
 function fileHeader(...extra: string[]): string {
   return [
@@ -201,7 +201,7 @@ function computeRequired(schema: Json, properties: Json): string[] {
 }
 
 /**
- * The `x-stirling-io` declaration for every endpoint that carries one, path-sorted.
+ * The `x-scripta-io` declaration for every endpoint that carries one, path-sorted.
  *
  * Restricted to `endpoints`, the paths that become {@link ToolEndpoint}: the table is typed by
  * that union, so a declaration outside it would not type-check. `dropped` is reported rather

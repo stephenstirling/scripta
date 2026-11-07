@@ -613,18 +613,18 @@ label = "ขีดจำกัดเซสชัน"
 description = "เวลาในการทำงานสูงสุด"
 label = "ระยะหมดเวลา (นาที)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert อยู่ในเวอร์ชันเบต้า ให้การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยกว่า LibreOffice"
-label = "ใช้การแปลง Stirling Office แบบใหม่"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert อยู่ในเวอร์ชันเบต้า ให้การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยกว่า LibreOffice"
+label = "ใช้การแปลง Scripta Office แบบใหม่"
 
 [admin.settings.advanced.tempFileManagement]
 description = "กำหนดค่าการจัดเก็บไฟล์ชั่วคราวและพฤติกรรมการล้างไฟล์"
 label = "การจัดการไฟล์ชั่วคราว"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "ไดเรกทอรีหลักสำหรับไฟล์ชั่วคราว (ปล่อยว่างเพื่อค่าเริ่มต้น: java.io.tmpdir/stirling-pdf)"
+description = "ไดเรกทอรีหลักสำหรับไฟล์ชั่วคราว (ปล่อยว่างเพื่อค่าเริ่มต้น: java.io.tmpdir/scripta)"
 label = "ไดเรกทอรีชั่วคราวหลัก"
-placeholder = "ค่าเริ่มต้น: java.io.tmpdir/stirling-pdf"
+placeholder = "ค่าเริ่มต้น: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "ความถี่ในการรันการล้าง (เป็นนาที)"
@@ -683,8 +683,8 @@ permissionNotice = "เส้นทาง tessdata ไม่สามารถ�
 [admin.settings.ai]
 customProvider = "กำหนดเอง (เข้ากันได้กับ OpenAI)"
 description = "เชื่อมต่อ Scripta กับ Python AI engine เลือกโมเดล และตั้งค่า guardrails ที่ใช้ควบคุมการทำงาน"
-managedByCloud = "จัดการโดย Stirling Cloud ในโหมดนี้"
-managedByCloudShort = "จัดการโดย Stirling Cloud"
+managedByCloud = "จัดการโดย Cloud ในโหมดนี้"
+managedByCloudShort = "จัดการโดย Cloud"
 
 [admin.settings.ai.documents]
 description = "กำหนดค่าโมเดล embedding และการตั้งค่าการดึงข้อมูลที่ใช้ตอบคำถามเกี่ยวกับเอกสาร จะนำไปใช้กับ AI engine เมื่อบันทึก"
@@ -735,16 +735,16 @@ description = "เปิดหรือปิดฟีเจอร์ AI แต�
 title = "ความสามารถ"
 
 [admin.settings.ai.general.cloud]
-note = "โมเดลและคีย์ผู้ให้บริการจัดการโดย Stirling Cloud ดังนั้นการตั้งค่าเหล่านั้นจะไม่ใช้ในโหมดนี้"
+note = "โมเดลและคีย์ผู้ให้บริการจัดการโดย Cloud ดังนั้นการตั้งค่าเหล่านั้นจะไม่ใช้ในโหมดนี้"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "เครื่องมือ AI ทุกตัวจะส่งข้อความในหน้าที่จำเป็นต่อการตอบคำถาม การตั้งค่านี้กำหนดว่า Stirling Cloud อาจเก็บข้อความนั้นไว้แบบจัดทำดัชนี เพื่อให้คำถามภายหลังสามารถค้นหาทั่วทั้งเอกสารได้หรือไม่"
+description = "เครื่องมือ AI ทุกตัวจะส่งข้อความในหน้าที่จำเป็นต่อการตอบคำถาม การตั้งค่านี้กำหนดว่า Cloud อาจเก็บข้อความนั้นไว้แบบจัดทำดัชนี เพื่อให้คำถามภายหลังสามารถค้นหาทั่วทั้งเอกสารได้หรือไม่"
 help = "ปิด หมายถึงไม่สามารถใช้คำถามเกี่ยวกับเอกสารได้ การตั้งค่านี้ไม่ได้หยุดการส่งข้อความ แต่หยุดเฉพาะการจัดเก็บเท่านั้น"
-label = "อนุญาตให้ Stirling Cloud เก็บเอกสารที่จัดทำดัชนีไว้"
+label = "อนุญาตให้ Cloud เก็บเอกสารที่จัดทำดัชนีไว้"
 
 [admin.settings.ai.general.cloudNote]
-body = "การให้เหตุผลทำงานบนโครงสร้างพื้นฐานของ Scripta และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่ ไม่มีคอนเทนเนอร์ให้เรียกใช้ และไม่มีคีย์ผู้ให้บริการให้เก็บไว้ที่นี่ สิ่งใดก็ตามที่ AI อ่านจะถูกประมวลผลโดย Stirling Cloud แทนที่จะเป็นฮาร์ดแวร์ของคุณเอง"
-title = "เกี่ยวกับ Stirling Cloud AI"
+body = "การให้เหตุผลทำงานบนโครงสร้างพื้นฐานของ Scripta และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่ ไม่มีคอนเทนเนอร์ให้เรียกใช้ และไม่มีคีย์ผู้ให้บริการให้เก็บไว้ที่นี่ สิ่งใดก็ตามที่ AI อ่านจะถูกประมวลผลโดย Cloud แทนที่จะเป็นฮาร์ดแวร์ของคุณเอง"
+title = "เกี่ยวกับ Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "สวิตช์หลัก เมื่อปิด จะไม่มีเครื่องมือ AI, agents หรือการเรียก engine ให้ใช้งาน"
@@ -782,11 +782,11 @@ label = "หมดเวลาการทำงานนาน (วินาท
 label = "ตำแหน่งที่ AI ทำงาน"
 
 [admin.settings.ai.general.mode.cloud]
-description = "ไม่มีคอนเทนเนอร์ ไม่มีคีย์ผู้ให้บริการ ไม่มีตัวเลือกโมเดล งานจะทำงานบน Stirling Cloud และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่"
+description = "ไม่มีคอนเทนเนอร์ ไม่มีคีย์ผู้ให้บริการ ไม่มีตัวเลือกโมเดล งานจะทำงานบน Cloud และเรียกเก็บเงินกับบัญชีที่เซิร์ฟเวอร์นี้เชื่อมโยงอยู่"
 linkCta = "เชื่อมต่อเซิร์ฟเวอร์นี้กับบัญชี Scripta"
 notLinked = "เชื่อมโยงบัญชีก่อน"
 ownerOnly = "เฉพาะเจ้าขององค์กรเท่านั้นที่สามารถเชื่อมโยงเซิร์ฟเวอร์นี้กับบัญชี Scripta ได้"
-title = "ใช้ Stirling Cloud AI"
+title = "ใช้ Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "ไม่มีเครื่องมือ AI ใด ๆ ในแอป และไม่มีสิ่งใดออกจากเซิร์ฟเวอร์นี้"
@@ -818,7 +818,7 @@ description = "หมดเวลาสำหรับคำขอ AI มาต�
 label = "หมดเวลาคำขอ (วินาที)"
 
 [admin.settings.ai.general.url]
-description = "URL ภายในของ Python AI engine เช่น http://stirling-pdf-engine:5001"
+description = "URL ภายในของ Python AI engine เช่น http://scripta-engine:5001"
 label = "URL เอนจิน AI"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "URL เอนจิน"
 
 [admin.settings.ai.status.cloud]
 hostDown = "ล่ม"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "พร้อมใช้งาน"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "การแชร์ AI"
 sharingOff = "ปิดใช้งาน"
 sharingOn = "เปิดใช้งาน"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud ตอบกลับแต่ปฏิเสธเซิร์ฟเวอร์นี้ การเชื่อมโยงบัญชีอาจถูกเพิกถอนแล้ว"
-title = "Stirling Cloud กำลังปฏิเสธเซิร์ฟเวอร์นี้"
+body = "Cloud ตอบกลับแต่ปฏิเสธเซิร์ฟเวอร์นี้ การเชื่อมโยงบัญชีอาจถูกเพิกถอนแล้ว"
+title = "Cloud กำลังปฏิเสธเซิร์ฟเวอร์นี้"
 
 [admin.settings.ai.status.cloud.down]
-body = "เซิร์ฟเวอร์นี้ไม่สามารถเข้าถึง Stirling Cloud ได้ ตรวจสอบการเชื่อมโยงบัญชีและตรวจสอบว่าเซิร์ฟเวอร์นี้เข้าถึงอินเทอร์เน็ตได้"
-title = "ไม่สามารถเข้าถึง Stirling Cloud"
+body = "เซิร์ฟเวอร์นี้ไม่สามารถเข้าถึง Cloud ได้ ตรวจสอบการเชื่อมโยงบัญชีและตรวจสอบว่าเซิร์ฟเวอร์นี้เข้าถึงอินเทอร์เน็ตได้"
+title = "ไม่สามารถเข้าถึง Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud ยอมรับเซิร์ฟเวอร์นี้แล้ว ไม่มีสิ่งใดต้องเรียกใช้หรือแพตช์ที่นี่"
-title = "ทำงานบน Stirling Cloud"
+body = "Cloud ยอมรับเซิร์ฟเวอร์นี้แล้ว ไม่มีสิ่งใดต้องเรียกใช้หรือแพตช์ที่นี่"
+title = "ทำงานบน Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "เอนจินตอบการตรวจสอบสถานะ แต่ปฏิเสธคำขอจริง ทั้งสองฝั่งใช้ความลับที่ใช้ร่วมกันต่างกัน"
@@ -1885,7 +1885,7 @@ wrapUp = "นี่คือทัวร์ผู้ดูแลระบบ! �
 title = "การควบคุมผู้ใช้"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "อาหรับ"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "เลือก format ต้นทางก่อน
 settings = "การตั้งค่า"
 single = "เดี่ยว"
 sourceFormatPlaceholder = "รูปแบบต้นทาง"
-stirlingOfficeConvert = "ใช้ Stirling Office Convert (เบต้า)"
-stirlingOfficeConvertDescription = "การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยลง ปิดใช้งานเพื่อใช้ตัวแปลงมาตรฐาน"
+scriptaOfficeConvert = "ใช้ Office Convert (เบต้า)"
+scriptaOfficeConvertDescription = "การแปลงที่ดีกว่า เร็วกว่า และใช้หน่วยความจำน้อยลง ปิดใช้งานเพื่อใช้ตัวแปลงมาตรฐาน"
 strictMode = "โหมดเข้มงวด"
 strictModeDesc = "เกิดข้อผิดพลาดหากการแปลงไม่สมบูรณ์แบบ (ใช้การตรวจสอบ VeraPDF)"
 svgPdfOptions = "ตัวเลือก SVG to PDF"
@@ -5349,7 +5349,7 @@ userTitle = "ภาพรวมแพ็กเกจ"
 [onboarding.processorIntro]
 body = "ตอนนี้ Scripta เรียกใช้ <strong>Policies</strong> — กฎอัตโนมัติที่จัดหมวดหมู่ รักษาความปลอดภัย และประมวลผลเอกสารทุกฉบับเมื่อมาถึง ตั้งค่าและติดตามการทำงานใน <strong>Processor</strong>"
 cta = "ดู Processor"
-title = "ดู Stirling Processor"
+title = "ดู Processor"
 
 [onboarding.securityCheck]
 message = "แอปมีการเปลี่ยนแปลงครั้งใหญ่เมื่อไม่นานมานี้ อาจต้องการความใส่ใจจากผู้ดูแลเซิร์ฟเวอร์ โปรดยืนยันบทบาทของคุณเพื่อดำเนินการต่อ"
@@ -5359,9 +5359,9 @@ roleUser = "ผู้ใช้"
 title = "การตรวจสอบความปลอดภัย"
 
 [onboarding.serverLicense]
-freeBody = "ไลเซนส์ <strong>Open-Core</strong> ของเรารวม <strong>OAuth SSO</strong> และผู้ใช้สูงสุด <strong>{{freeTierLimit}}</strong> คนฟรี เพื่อขยายการใช้งานอย่างต่อเนื่อง เราแนะนำแพ็กเกจ Stirling Team — <strong>ผู้ใช้ 100 คน</strong> ในราคา $99/เดือน"
+freeBody = "ไลเซนส์ <strong>Open-Core</strong> ของเรารวม <strong>OAuth SSO</strong> และผู้ใช้สูงสุด <strong>{{freeTierLimit}}</strong> คนฟรี เพื่อขยายการใช้งานอย่างต่อเนื่อง เราแนะนำแพ็กเกจ Scripta Team — <strong>ผู้ใช้ 100 คน</strong> ในราคา $99/เดือน"
 freeTitle = "แผน Team"
-overLimitBody = "ใบอนุญาตของเราอนุญาตให้มีผู้ใช้ได้ฟรีสูงสุด <strong>{{freeTierLimit}}</strong> คน คุณมีผู้ใช้ Scripta <strong>{{overLimitUserCopy}}</strong> คน หากต้องการใช้งานต่อเนื่องโดยไม่สะดุด ให้อัปเกรดเป็นแผน Stirling Team - <strong>100 users</strong>, การแก้ไขข้อความ PDF และการควบคุมผู้ดูแลแบบเต็มในราคา $99/mo"
+overLimitBody = "ใบอนุญาตของเราอนุญาตให้มีผู้ใช้ได้ฟรีสูงสุด <strong>{{freeTierLimit}}</strong> คน คุณมีผู้ใช้ Scripta <strong>{{overLimitUserCopy}}</strong> คน หากต้องการใช้งานต่อเนื่องโดยไม่สะดุด ให้อัปเกรดเป็นแผน Scripta Team - <strong>100 users</strong>, การแก้ไขข้อความ PDF และการควบคุมผู้ดูแลแบบเต็มในราคา $99/mo"
 overLimitTitle = "ต้องใช้แผน Team"
 seePlans = "ดูแพ็กเกจ →"
 upgrade = "อัปเกรดเลย →"
@@ -6918,7 +6918,7 @@ label = "Headers"
 
 [portal.policies.operations.fields.index]
 label = "Index"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Issue key"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "ชื่อผู้ใช้ Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "แจ้ง space ว่า นโยบายได้จัดการเอกสารแล้ว"
@@ -7192,7 +7192,7 @@ secretNote = "Signing secret จะแสดงหนึ่งครั้งเ
 copy = "คัดลอก"
 done = "เสร็จสิ้น"
 secret = "Signing secret"
-secretHelp = "ลงนาม raw body ของแต่ละ delivery ด้วยคีย์นี้ (HMAC-SHA256) แล้วส่งเป็น X-Stirling-Signature header"
+secretHelp = "ลงนาม raw body ของแต่ละ delivery ด้วยคีย์นี้ (HMAC-SHA256) แล้วส่งเป็น X-Scripta-Signature header"
 secretWarning = "คัดลอก signing secret ตอนนี้ เพื่อความปลอดภัยของคุณ จะแสดงเพียงครั้งเดียวและไม่สามารถเรียกคืนได้ภายหลัง"
 title = "สร้าง Webhook แล้ว"
 url = "Delivery URL"
@@ -8047,7 +8047,7 @@ storageSharing = "การจัดเก็บไฟล์และการ�
 systemSettings = "การตั้งค่าระบบ"
 
 [settings.connectedInstances]
-confirmBody = "การดำเนินการนี้จะเพิกถอนการเข้าถึงทีมของคุณใน Stirling Cloud จากอินสแตนซ์นี้ แต่จะไม่ลบไฟล์ในเครื่องหรือลบการใช้งานที่บันทึกไว้แล้ว หากต้องการเชื่อมต่ออีกครั้ง ให้ทำตามขั้นตอนการเชื่อมต่อเดิมบนอินสแตนซ์"
+confirmBody = "การดำเนินการนี้จะเพิกถอนการเข้าถึงทีมของคุณใน Cloud จากอินสแตนซ์นี้ แต่จะไม่ลบไฟล์ในเครื่องหรือลบการใช้งานที่บันทึกไว้แล้ว หากต้องการเชื่อมต่ออีกครั้ง ให้ทำตามขั้นตอนการเชื่อมต่อเดิมบนอินสแตนซ์"
 confirmTitle = "ลบ {{name}} หรือไม่"
 connectedAt = "เชื่อมต่อแล้ว: {{date}}"
 connectedDate = "เชื่อมต่อแล้ว"
@@ -8091,7 +8091,7 @@ user = "เข้าสู่ระบบเป็น"
 
 [settings.connection.mode]
 local = "ภายในเครื่องเท่านั้น"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "โฮสต์เอง"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "การตรวจสอบ"
 [settings.planBilling]
 currentPlan = "แผนปัจจุบัน"
 loading = "กำลังโหลดข้อมูลการเรียกเก็บเงิน..."
-notAvailable = "แผนและการเรียกเก็บเงินใช้ได้เฉพาะเมื่อเชื่อมต่อกับ Stirling Cloud (โหมด SaaS)"
+notAvailable = "แผนและการเรียกเก็บเงินใช้ได้เฉพาะเมื่อเชื่อมต่อกับ Cloud (โหมด SaaS)"
 title = "แผนและการเรียกเก็บเงิน"
 
 [settings.planBilling.billing]

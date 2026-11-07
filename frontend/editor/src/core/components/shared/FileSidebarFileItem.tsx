@@ -134,6 +134,8 @@ export interface FileItemProps {
   onRename?: (fileId: FileId) => void;
   /** Save a second copy of the file into the library. */
   onDuplicate?: (fileId: FileId) => void;
+  /** Open the Merge tool for the current multi-file selection. Omit unless this file is one of 2+ selected. */
+  onMergeSelected?: () => void;
   /** Desktop only: open the file in its own window. Omit where unsupported. */
   onOpenInNewWindow?: (fileId: FileId) => void;
   /** Save to cloud from the kebab menu. */
@@ -212,6 +214,7 @@ export const FileItem = React.memo(function FileItem({
   onDownload,
   onRename,
   onDuplicate,
+  onMergeSelected,
   onOpenInNewWindow,
   onSaveToCloud,
   canSaveToCloud = false,
@@ -458,7 +461,9 @@ export const FileItem = React.memo(function FileItem({
                 </FileMenuItem>
               )}
 
-              {(onDownload || onRename || onDuplicate) && <Menu.Divider />}
+              {(onDownload || onRename || onDuplicate || onMergeSelected) && (
+                <Menu.Divider />
+              )}
 
               {onDownload && (
                 <FileMenuItem
@@ -492,6 +497,19 @@ export const FileItem = React.memo(function FileItem({
                   onClick={() => onDuplicate(fileId)}
                 >
                   {t("fileSidebar.fileItem.duplicate", "Duplicate")}
+                </FileMenuItem>
+              )}
+
+              {onMergeSelected && (
+                <FileMenuItem
+                  disabledReason={blockedReason(
+                    t("fileEditor.mergeSelected", "Merge selected files"),
+                    false,
+                  )}
+                  icon={<Icon name="copy-plus" size={16} />}
+                  onClick={onMergeSelected}
+                >
+                  {t("fileEditor.mergeSelected", "Merge selected files")}
                 </FileMenuItem>
               )}
 

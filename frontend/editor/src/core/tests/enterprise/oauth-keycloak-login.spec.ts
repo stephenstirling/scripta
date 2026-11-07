@@ -6,8 +6,8 @@ import { bypassOnboarding } from "@app/tests/helpers/api-stubs";
  * OAuth login round-trip via Keycloak.
  *
  * Requires the docker-compose-keycloak-oauth stack to be running:
- *   - Keycloak on http://localhost:9080 with realm `stirling-oauth`
- *   - Stirling-PDF on http://localhost:8080 with PREMIUM_KEY set
+ *   - Keycloak on http://localhost:9080 with realm `scripta-oauth`
+ *   - Scripta on http://localhost:8080 with PREMIUM_KEY set
  *
  * Validates:
  *   1. SSO redirect → IdP form → callback → dashboard rendering.
@@ -43,12 +43,12 @@ test.describe("Enterprise OAuth (Keycloak) — full SSO flow", () => {
     await expect(keycloakBtn).toBeVisible({ timeout: 10_000 });
     await keycloakBtn.click();
 
-    await page.waitForURL(/\/realms\/stirling-oauth\/protocol\/openid-connect/);
+    await page.waitForURL(/\/realms\/scripta-oauth\/protocol\/openid-connect/);
     await page.locator("#username").fill("oauthuser@example.com");
     await page.locator("#password").fill("oauthpassword");
     await page.locator('input[type="submit"], button[type="submit"]').click();
 
-    // Back on Stirling-PDF, authenticated dashboard renders
+    // Back on Scripta, authenticated dashboard renders
     await page.waitForURL((url) => !url.pathname.includes("/login"), {
       timeout: 30_000,
     });

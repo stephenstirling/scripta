@@ -5,11 +5,11 @@ import { Icon } from "@app/ui/Icon";
 import { useFilesModalContext } from "@app/contexts/FilesModalContext";
 import { useAllFiles } from "@app/contexts/FileContext";
 import { useFileManager } from "@app/hooks/useFileManager";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import { PrivateContent } from "@app/components/shared/PrivateContent";
 
 export interface FileStatusIndicatorProps {
-  selectedFiles?: StirlingFile[];
+  selectedFiles?: ScriptaFile[];
   minFiles?: number;
 }
 
@@ -19,7 +19,7 @@ const FileStatusIndicator = ({
 }: FileStatusIndicatorProps) => {
   const { t } = useTranslation();
   const { openFilesModal, onFileUpload } = useFilesModalContext();
-  const { files: stirlingFileStubs } = useAllFiles();
+  const { files: scriptaFileStubs } = useAllFiles();
   const { loadRecentFiles } = useFileManager();
   const [hasRecentFiles, setHasRecentFiles] = useState<boolean | null>(null);
 
@@ -69,7 +69,7 @@ const FileStatusIndicator = ({
   };
 
   // Check if there are no files in the workbench
-  if (stirlingFileStubs.length === 0) {
+  if (scriptaFileStubs.length === 0) {
     // If no recent files, show upload button
     if (!hasRecentFiles) {
       return (

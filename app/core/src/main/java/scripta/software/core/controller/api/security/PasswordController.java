@@ -1,0 +1,148 @@
+package scripta.software.core.controller.api.security;
+
+import java.io.IOException;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
+import org.apache.pdfbox.pdmodel.encryption.StandardProtectionPolicy;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import lombok.RequiredArgsConstructor;
+
+import scripta.software.common.annotations.AutoJobPostMapping;
+import scripta.software.common.annotations.api.SecurityApi;
+import scripta.software.common.enumeration.ResourceWeight;
+import scripta.software.common.model.tool.ToolArity;
+import scripta.software.common.model.tool.ToolFormat;
+import scripta.software.common.model.tool.ToolIO;
+import scripta.software.common.model.tool.ToolIOCase;
+import scripta.software.common.model.tool.ToolIOWhen;
+import scripta.software.common.service.CustomPDFDocumentFactory;
+import scripta.software.common.util.ExceptionUtils;
+import scripta.software.common.util.GeneralUtils;
+import scripta.software.common.util.TempFileManager;
+import scripta.software.common.util.WebResponseUtils;
+import scripta.software.core.config.swagger.StandardPdfResponse;
+import scripta.software.core.model.api.security.AddPasswordRequest;
+import scripta.software.core.model.api.security.PDFPasswordRequest;
+
+@SecurityApi
+@RequiredArgsConstructor
+public class PasswordController {
+
+    private final CustomPDFDocumentFactory pdfDocumentFactory;
+    private final TempFileManager tempFileManager;
+
+    @AutoJobPostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            value = "/remove-password",
+            resourceWeight = ResourceWeight.MEDIUM_WEIGHT)
+    @StandardPdfResponse
+    @ToolIO(
+            accepts = {ToolFormat.PDF, ToolFormat.PDF_ENCRYPTED},
+            produces = ToolFormat.PDF)
+    @Operation(
+            summary = "Remove password from a PDF file",
+            description =
+                    "This endpoint removes the password from a protected PDF file. Users need to"
+                            + " provide the existing password.")
+    public ResponseEntity<Resource> removePassword(@ModelAttribute PDFPasswordRequest request)
+            throws IOException {
+        MultipartFile fileInput = request.getFileInput();
+        String password = request.getPassword();
+
+        try (PDDocument document = pdfDocumentFactory.load(fileInput, password)) {
+            document.setAllSecurityToBeRemoved(true);
+            return WebResponseUtils.pdfDocToWebResponse(
+                    document,
+                    GeneralUtils.generateFilename(
+                            fileInput.getOriginalFilename(), "_password_removed.pdf"),
+                    tempFileManager);
+        } catch (IOException e) {
+            // Handle password errors specifically
+            if (ExceptionUtils.isPasswordError(e)) {
+                throw ExceptionUtils.createPdfPasswordException(e);
+            }
+            ExceptionUtils.logException("password removal", e);
+            throw ExceptionUtils.handlePdfException(e);
+        }
+    }
+
+    @AutoJobPostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            value = "/add-password",
+            resourceWeight = ResourceWeight.MEDIUM_WEIGHT)
+    @StandardPdfResponse
+    @ToolIO(
+            produces = ToolFormat.PDF_ENCRYPTED,
+            cases =
+                    @ToolIOCase(
+                            when = {
+                                @ToolIOWhen(param = "password", matches = ""),
+                                @ToolIOWhen(param = "ownerPassword", matches = "")
+                            },
+                            produces = ToolFormat.PDF,
+                            arity = ToolArity.SISO))
+    @Operation(
+            summary = "Add password to a PDF file",
+            description =
+                    "This endpoint adds password protection to a PDF file. Users can specify a set"
+                            + " of permissions that should be applied to the file.")
+    public ResponseEntity<Resource> addPassword(@ModelAttribute AddPasswordRequest request)
+            throws IOException {
+        MultipartFile fileInput = request.getFileInput();
+        String ownerPassword = request.getOwnerPassword();
+        String password = request.getPassword();
+        int keyLength = request.getKeyLength();
+        boolean preventAssembly = Boolean.TRUE.equals(request.getPreventAssembly());
+        boolean preventExtractContent = Boolean.TRUE.equals(request.getPreventExtractContent());
+        boolean preventExtractForAccessibility =
+                Boolean.TRUE.equals(request.getPreventExtractForAccessibility());
+        boolean preventFillInForm = Boolean.TRUE.equals(request.getPreventFillInForm());
+        boolean preventModify = Boolean.TRUE.equals(request.getPreventModify());
+        boolean preventModifyAnnotations =
+                Boolean.TRUE.equals(request.getPreventModifyAnnotations());
+        boolean preventPrinting = Boolean.TRUE.equals(request.getPreventPrinting());
+        boolean preventPrintingFaithful = Boolean.TRUE.equals(request.getPreventPrintingFaithful());
+
+        try (PDDocument document = pdfDocumentFactory.load(fileInput)) {
+            AccessPermission ap = new AccessPermission();
+            ap.setCanAssembleDocument(!preventAssembly);
+            ap.setCanExtractContent(!preventExtractContent);
+            ap.setCanExtractForAccessibility(!preventExtractForAccessibility);
+            ap.setCanFillInForm(!preventFillInForm);
+            ap.setCanModify(!preventModify);
+            ap.setCanModifyAnnotations(!preventModifyAnnotations);
+            ap.setCanPrint(!preventPrinting);
+            ap.setCanPrintFaithful(!preventPrintingFaithful);
+            StandardProtectionPolicy spp =
+                    new StandardProtectionPolicy(ownerPassword, password, ap);
+
+            if ((ownerPassword != null && !ownerPassword.isEmpty())
+                    || (password != null && !password.isEmpty())) {
+                spp.setEncryptionKeyLength(keyLength);
+            }
+            spp.setPermissions(ap);
+            document.protect(spp);
+
+            if ((ownerPassword == null || ownerPassword.isEmpty())
+                    && (password == null || password.isEmpty()))
+                return WebResponseUtils.pdfDocToWebResponse(
+                        document,
+                        GeneralUtils.generateFilename(
+                                fileInput.getOriginalFilename(), "_permissions.pdf"),
+                        tempFileManager);
+            return WebResponseUtils.pdfDocToWebResponse(
+                    document,
+                    GeneralUtils.generateFilename(
+                            fileInput.getOriginalFilename(), "_passworded.pdf"),
+                    tempFileManager);
+        }
+    }
+}

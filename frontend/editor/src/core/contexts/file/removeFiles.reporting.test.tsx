@@ -23,8 +23,8 @@ vi.mock("@app/services/fileStorage", () => ({
   onRecordUnreadable: () => () => {},
   fileStorage: {
     init: vi.fn().mockResolvedValue(undefined),
-    deleteMultipleStirlingFiles: vi.fn().mockResolvedValue(undefined),
-    getAllStirlingFileStubs: vi.fn().mockResolvedValue([]),
+    deleteMultipleScriptaFiles: vi.fn().mockResolvedValue(undefined),
+    getAllScriptaFileStubs: vi.fn().mockResolvedValue([]),
   },
 }));
 

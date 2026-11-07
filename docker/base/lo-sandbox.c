@@ -113,7 +113,7 @@ struct lo_ruleset_attr {
     uint64_t scoped;
 };
 
-/* Used when STIRLING_LO_ALLOW_RO/RW are unset, so soffice started outside the init
+/* Used when SCRIPTA_LO_ALLOW_RO/RW are unset, so soffice started outside the init
  * scripts is still confined instead of being denied every path. The read-only list is
  * what LibreOffice opens across Writer, Calc, Impress, PDF import and PDF/A conversions:
  * its own install and Ubuntu's /etc and /var links for it, shared libraries, locale,
@@ -138,7 +138,7 @@ struct lo_ruleset_attr {
 
 /* Applies the sandbox exactly as a launch would, reports what is active and exits instead of
  * starting LibreOffice, so the init script can check the running kernel. */
-#define SELF_CHECK_FLAG "--stirling-sandbox-check"
+#define SELF_CHECK_FLAG "--scripta-sandbox-check"
 
 /* First Landlock ABI that scopes abstract UNIX sockets and signals to the sandbox. */
 #define LANDLOCK_ABI_SCOPED 6
@@ -171,7 +171,7 @@ static const char *const ENV_ALLOW[] = {"HOME",
 
 static const char *const ENV_ALLOW_PREFIX[] = {"LC_",  "SAL_",        "OOO_",
                                                "UNO_", "URE_",        "OFFICE_",
-                                               "STIRLING_LO_", NULL};
+                                               "SCRIPTA_LO_", NULL};
 
 static int env_allowed(const char *entry) {
     const char *eq = strchr(entry, '=');
@@ -403,13 +403,13 @@ static int is_probe(int argc, char **argv) {
 }
 
 int main(int argc, char **argv, char **envp) {
-    const char *mode = getenv("STIRLING_LO_SANDBOX");
-    const char *ro = getenv("STIRLING_LO_ALLOW_RO");
-    const char *rw = getenv("STIRLING_LO_ALLOW_RW");
-    const char *ro_extra = getenv("STIRLING_LO_ALLOW_RO_EXTRA");
+    const char *mode = getenv("SCRIPTA_LO_SANDBOX");
+    const char *ro = getenv("SCRIPTA_LO_ALLOW_RO");
+    const char *rw = getenv("SCRIPTA_LO_ALLOW_RW");
+    const char *ro_extra = getenv("SCRIPTA_LO_ALLOW_RO_EXTRA");
     /* Socket-only dirs: LibreOffice hardcodes its single-instance IPC pipe to /tmp, so it
      * must bind there, but gets no read, write, list or delete right on /tmp itself. */
-    const char *sock = getenv("STIRLING_LO_ALLOW_SOCK");
+    const char *sock = getenv("SCRIPTA_LO_ALLOW_SOCK");
     int required;
     int check;
     int landlock_abi;

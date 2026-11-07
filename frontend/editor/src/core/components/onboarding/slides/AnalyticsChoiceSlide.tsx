@@ -40,7 +40,7 @@ export default function AnalyticsChoiceSlide({
             size="sm"
             onClick={() =>
               window.open(
-                "https://docs.stirlingpdf.com/analytics-telemetry/",
+                "https://github.com/stephenstirling/scripta#readme",
                 "_blank",
               )
             }

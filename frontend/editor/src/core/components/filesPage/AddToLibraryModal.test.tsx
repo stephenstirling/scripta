@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { MantineProvider } from "@mantine/core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AddToLibraryModal } from "@app/components/filesPage/AddToLibraryModal";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 const state = vi.hoisted(() => ({
   move: vi.fn(),
@@ -42,7 +42,7 @@ describe("library destination confirmation", () => {
     render(
       <MantineProvider>
         <AddToLibraryModal
-          files={[{ id: "one" } as StirlingFileStub]}
+          files={[{ id: "one" } as ScriptaFileStub]}
           onClose={close}
         />
       </MantineProvider>,
@@ -69,7 +69,7 @@ describe("library destination confirmation", () => {
     render(
       <MantineProvider>
         <AddToLibraryModal
-          files={[{ id: "one" } as StirlingFileStub]}
+          files={[{ id: "one" } as ScriptaFileStub]}
           onClose={close}
         />
       </MantineProvider>,

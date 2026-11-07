@@ -15,7 +15,7 @@ async function annotationCounts(
     .first()
     .click();
   const download = await downloadPromise;
-  const target = path.join("/tmp", `stirling-delete-${label}.pdf`);
+  const target = path.join("/tmp", `scripta-delete-${label}.pdf`);
   await download.saveAs(target);
   const { PDFDocument } = await import("@cantoo/pdf-lib");
   const exported = await PDFDocument.load(fs.readFileSync(target));

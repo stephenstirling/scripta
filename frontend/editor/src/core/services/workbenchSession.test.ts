@@ -10,9 +10,9 @@ import {
   suspendWorkbenchSession,
   resumeWorkbenchSession,
 } from "@app/services/workbenchSession";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
-const SESSION_KEY = "stirling.workbench.session";
+const SESSION_KEY = "scripta.workbench.session";
 
 beforeEach(() => {
   sessionStorage.clear();
@@ -69,10 +69,10 @@ describe("editor return path", () => {
 describe("originalIdOf", () => {
   it("prefers the original id and falls back to the file id", () => {
     expect(
-      originalIdOf({ id: "v3", originalFileId: "root" } as StirlingFileStub),
+      originalIdOf({ id: "v3", originalFileId: "root" } as ScriptaFileStub),
     ).toBe("root");
     expect(
-      originalIdOf({ id: "v1", originalFileId: "" } as StirlingFileStub),
+      originalIdOf({ id: "v1", originalFileId: "" } as ScriptaFileStub),
     ).toBe("v1");
   });
 });

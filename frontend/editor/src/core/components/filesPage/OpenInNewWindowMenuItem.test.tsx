@@ -3,7 +3,7 @@ import { MantineProvider, Menu } from "@mantine/core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { OpenInNewWindowMenuItem } from "@app/components/filesPage/OpenInNewWindowMenuItem";
 import type { FileId } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 const openInNewWindow = vi.fn();
 
@@ -23,7 +23,7 @@ const file = {
   isLeaf: true,
   originalFileId: "file-1",
   versionNumber: 1,
-} as StirlingFileStub;
+} as ScriptaFileStub;
 
 function renderItem(disabled: boolean) {
   render(

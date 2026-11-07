@@ -7,7 +7,7 @@ Feature: Admin Settings API
     All endpoints require ROLE_ADMIN. Non-admin / unauthenticated requests must
     receive 401 or 403.
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
 
     # =========================================================================
     # GET ALL SETTINGS

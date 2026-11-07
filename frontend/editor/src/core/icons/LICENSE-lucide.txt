@@ -7,7 +7,7 @@ Lucide icon geometry used in this project. Two places rely on this notice:
    the lucide-static package at build time and is not checked in; it disappears
    if that package is removed.
 
-2. The icons in src/core/icons/svg/stirling/ that reuse lucide geometry so they
+2. The icons in src/core/icons/svg/scripta/ that reuse lucide geometry so they
    sit in the same visual family. These are checked in and do NOT disappear
    with the package:
 

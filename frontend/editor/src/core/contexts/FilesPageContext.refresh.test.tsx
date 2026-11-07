@@ -5,13 +5,13 @@ import {
   FilesPageProvider,
   useFilesPage,
 } from "@app/contexts/FilesPageContext";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { FolderId, FolderRecord } from "@app/types/folder";
 import type { FileId } from "@app/types/file";
 
 const state = vi.hoisted(() => ({
   revision: 0,
-  read: vi.fn<() => Promise<StirlingFileStub[]>>(),
+  read: vi.fn<() => Promise<ScriptaFileStub[]>>(),
   folders: {
     folders: [] as FolderRecord[],
     foldersById: new Map<FolderId, FolderRecord>(),
@@ -21,7 +21,7 @@ const state = vi.hoisted(() => ({
 }));
 
 vi.mock("@app/services/fileStorage", () => ({
-  fileStorage: { getAllStirlingFileStubs: () => state.read() },
+  fileStorage: { getAllScriptaFileStubs: () => state.read() },
 }));
 vi.mock("@app/services/serverStorageUpload", () => ({
   uploadHistoryChain: vi.fn(),
@@ -30,10 +30,10 @@ vi.mock("@app/services/folderSyncService", () => ({
   folderSyncService: { bulkMoveFiles: vi.fn() },
 }));
 vi.mock("@app/services/fileSyncService", () => ({
-  reconcileServerFiles: async (files: StirlingFileStub[]) => files,
+  reconcileServerFiles: async (files: ScriptaFileStub[]) => files,
 }));
 vi.mock("@app/services/pruneMissingRecentFiles", () => ({
-  pruneMissingRecentFiles: async (files: StirlingFileStub[]) => files,
+  pruneMissingRecentFiles: async (files: ScriptaFileStub[]) => files,
 }));
 vi.mock("@app/contexts/IndexedDBContext", () => ({
   useIndexedDB: () => ({ moveFilesToFolder: vi.fn() }),
@@ -43,7 +43,7 @@ vi.mock("@app/contexts/FolderContext", () => ({
   useFolders: () => state.folders,
 }));
 vi.mock("@app/contexts/file/fileHooks", () => ({
-  useFileActions: () => ({ actions: { updateStirlingFileStub: vi.fn() } }),
+  useFileActions: () => ({ actions: { updateScriptaFileStub: vi.fn() } }),
 }));
 vi.mock("@app/hooks/useDiskLinkReconcile", () => ({
   useDiskLinkReconcile: () => ({
@@ -58,7 +58,7 @@ vi.mock("@app/auth/UseSession", () => ({
   useAuth: () => ({ isAnonymous: true }),
 }));
 
-const stub = (id: string): StirlingFileStub => ({
+const stub = (id: string): ScriptaFileStub => ({
   id: id as FileId,
   originalFileId: id,
   name: `${id}.pdf`,
@@ -99,7 +99,7 @@ describe("library refresh ordering", () => {
 
   it("does not publish a scan that a newer one superseded", async () => {
     let releaseSlow!: () => void;
-    const slow = new Promise<StirlingFileStub[]>((resolve) => {
+    const slow = new Promise<ScriptaFileStub[]>((resolve) => {
       releaseSlow = () => resolve([stub("stale")]);
     });
     state.read
@@ -129,10 +129,10 @@ describe("library refresh ordering", () => {
   it("keeps the spinner up while a newer scan is still in flight", async () => {
     let releaseSuperseded!: () => void;
     let releaseLatest!: () => void;
-    const superseded = new Promise<StirlingFileStub[]>((resolve) => {
+    const superseded = new Promise<ScriptaFileStub[]>((resolve) => {
       releaseSuperseded = () => resolve([stub("stale")]);
     });
-    const latest = new Promise<StirlingFileStub[]>((resolve) => {
+    const latest = new Promise<ScriptaFileStub[]>((resolve) => {
       releaseLatest = () => resolve([stub("fresh")]);
     });
     state.read
@@ -164,7 +164,7 @@ describe("library refresh ordering", () => {
 
   it("does not report an error from a scan that outlives unmount", async () => {
     let failScan!: (error: Error) => void;
-    const scan = new Promise<StirlingFileStub[]>((_resolve, reject) => {
+    const scan = new Promise<ScriptaFileStub[]>((_resolve, reject) => {
       failScan = reject;
     });
     state.read.mockImplementation(() => scan);

@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import type { ReactNode } from "react";
-import type { FileId, StirlingFile } from "@app/types/fileContext";
+import type { FileId, ScriptaFile } from "@app/types/fileContext";
 
 type EligibleFileIds = ReadonlySet<FileId> | null;
 
@@ -41,7 +41,7 @@ export function ToolFileEligibilityProvider({
 export function ToolFileEligibility({
   files,
 }: {
-  files: readonly StirlingFile[] | null;
+  files: readonly ScriptaFile[] | null;
 }) {
   const register = useContext(RegisterEligibilityContext);
   useEffect(

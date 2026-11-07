@@ -613,18 +613,18 @@ label = "会话上限"
 description = "最大执行时间"
 label = "超时（分钟）"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert 处于测试版。与 LibreOffice 相比，它提供更好的转换效果、更快的速度，并占用更少内存。"
-label = "使用新的 Stirling Office 转换"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert 处于测试版。与 LibreOffice 相比，它提供更好的转换效果、更快的速度，并占用更少内存。"
+label = "使用新的 Scripta Office 转换"
 
 [admin.settings.advanced.tempFileManagement]
 description = "配置临时文件存储与清理行为"
 label = "临时文件管理"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "临时文件的基础目录（留空为默认：java.io.tmpdir/stirling-pdf）"
+description = "临时文件的基础目录（留空为默认：java.io.tmpdir/scripta）"
 label = "基础临时目录"
-placeholder = "默认：java.io.tmpdir/stirling-pdf"
+placeholder = "默认：java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "运行清理的频率（分钟）"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata 路径不可写。下载将会在浏览器中打开
 [admin.settings.ai]
 customProvider = "自定义（OpenAI 兼容）"
 description = "将 Scripta 连接到 Python AI 引擎，选择其模型，并设置其运行时的防护规则。"
-managedByCloud = "在此模式下由 Stirling Cloud 管理。"
-managedByCloudShort = "由 Stirling Cloud 管理"
+managedByCloud = "在此模式下由 Cloud 管理。"
+managedByCloudShort = "由 Cloud 管理"
 
 [admin.settings.ai.documents]
 description = "配置用于回答文档问题的嵌入模型和检索设置。保存后应用到 AI 引擎。"
@@ -735,16 +735,16 @@ description = "开启或关闭单个 AI 功能。已禁用的功能会在应用�
 title = "能力"
 
 [admin.settings.ai.general.cloud]
-note = "模型和提供商密钥由 Stirling Cloud 管理，因此这些设置在此模式下不适用。"
+note = "模型和提供商密钥由 Cloud 管理，因此这些设置在此模式下不适用。"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "每个 AI 工具都会发送其回答所需的页面文本。此选项决定 Stirling Cloud 是否还可以保留该文本并建立索引，以便后续问题可以在整个文档中搜索。"
+description = "每个 AI 工具都会发送其回答所需的页面文本。此选项决定 Cloud 是否还可以保留该文本并建立索引，以便后续问题可以在整个文档中搜索。"
 help = "关闭表示文档问答不可用。它不会阻止文本被发送——只是不会存储。"
-label = "允许 Stirling Cloud 保留已索引文档"
+label = "允许 Cloud 保留已索引文档"
 
 [admin.settings.ai.general.cloudNote]
-body = "推理在 Scripta 的基础设施上运行，并计费到此服务器关联的账户。此处无需运行容器，也无需保存提供商密钥。AI 读取的任何内容都由 Stirling Cloud 处理，而不是在您自己的硬件上处理。"
-title = "关于 Stirling Cloud AI"
+body = "推理在 Scripta 的基础设施上运行，并计费到此服务器关联的账户。此处无需运行容器，也无需保存提供商密钥。AI 读取的任何内容都由 Cloud 处理，而不是在您自己的硬件上处理。"
+title = "关于 Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "总开关。关闭时，所有 AI 工具、代理或引擎调用都不可用。"
@@ -782,11 +782,11 @@ label = "长时间运行超时（秒）"
 label = "AI 运行位置"
 
 [admin.settings.ai.general.mode.cloud]
-description = "无需容器、无需提供商密钥、无需选择模型——工作在 Stirling Cloud 上运行，并计费到此服务器关联的账户。"
+description = "无需容器、无需提供商密钥、无需选择模型——工作在 Cloud 上运行，并计费到此服务器关联的账户。"
 linkCta = "将此服务器连接到 Scripta 账户"
 notLinked = "请先链接账户"
 ownerOnly = "只有组织所有者可以将此服务器链接到 Scripta 账户。"
-title = "使用 Stirling Cloud AI"
+title = "使用 Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "应用中任何位置都不会有 AI 工具，也不会有任何内容离开此服务器。"
@@ -818,7 +818,7 @@ description = "发送到引擎的标准 AI 请求超时时间。"
 label = "请求超时（秒）"
 
 [admin.settings.ai.general.url]
-description = "Python AI 引擎的内部 URL，例如 http://stirling-pdf-engine:5001。"
+description = "Python AI 引擎的内部 URL，例如 http://scripta-engine:5001。"
 label = "AI 引擎 URL"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "引擎 URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "不可用"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "可用"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "AI 共享"
 sharingOff = "已禁用"
 sharingOn = "已启用"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud 已响应，但拒绝了此服务器。账户链接可能已被撤销。"
-title = "Stirling Cloud 正在拒绝此服务器"
+body = "Cloud 已响应，但拒绝了此服务器。账户链接可能已被撤销。"
+title = "Cloud 正在拒绝此服务器"
 
 [admin.settings.ai.status.cloud.down]
-body = "此服务器无法连接到 Stirling Cloud。请检查账户链接，并确认此服务器可以访问互联网。"
-title = "无法访问 Stirling Cloud"
+body = "此服务器无法连接到 Cloud。请检查账户链接，并确认此服务器可以访问互联网。"
+title = "无法访问 Cloud"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud 已接受此服务器。此处无需运行或修补任何内容。"
-title = "正在 Stirling Cloud 上运行"
+body = "Cloud 已接受此服务器。此处无需运行或修补任何内容。"
+title = "正在 Cloud 上运行"
 
 [admin.settings.ai.status.degraded]
 body = "它通过了健康检查，但拒绝了真实请求。双方使用的共享密钥不同。"
@@ -1885,7 +1885,7 @@ wrapUp = "管理员导览到此结束！你已经了解了让 Scripta 成为面�
 title = "用户控制设置"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "阿拉伯语"
@@ -1898,7 +1898,7 @@ thai = "泰语"
 [analytics]
 learnMore = "了解更多关于我们的分析功能"
 paragraph1 = "Scripta 提供可选择加入的分析功能，以帮助我们改进产品。我们不会跟踪任何个人信息或文件内容。"
-paragraph2 = "请考虑启用分析来帮助Stirling-PDF的发展，并让我们更好地了解我们的用户。"
+paragraph2 = "请考虑启用分析来帮助Scripta的发展，并让我们更好地了解我们的用户。"
 title = "你愿意帮助 Scripta 变得更好吗？"
 
 [annotate]
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "请先选择源格式"
 settings = "设置"
 single = "单个"
 sourceFormatPlaceholder = "源格式"
-stirlingOfficeConvert = "使用 Stirling Office Convert（测试版）"
-stirlingOfficeConvertDescription = "以更少内存实现更好、更快的转换。关闭以使用标准转换器。"
+scriptaOfficeConvert = "使用 Office Convert（测试版）"
+scriptaOfficeConvertDescription = "以更少内存实现更好、更快的转换。关闭以使用标准转换器。"
 strictMode = "严格模式"
 strictModeDesc = "如果转换不完美则报错（使用 VeraPDF 验证）"
 svgPdfOptions = "SVG 转 PDF 选项"
@@ -5349,7 +5349,7 @@ userTitle = "方案概览"
 [onboarding.processorIntro]
 body = "Scripta 现在运行 <strong>策略</strong> — 自动规则会在每个文档到达时对其进行分类、保护和处理。在 <strong>Processor</strong> 中设置并监控运行。"
 cta = "查看 Processor"
-title = "查看 Stirling Processor"
+title = "查看 Processor"
 
 [onboarding.securityCheck]
 message = "应用近期发生重大变更。可能需要您的服务器管理员关注。请确认您的角色以继续。"
@@ -5359,9 +5359,9 @@ roleUser = "用户"
 title = "安全检查"
 
 [onboarding.serverLicense]
-freeBody = "我们的 <strong>Open-Core</strong> 许可免费提供 <strong>OAuth SSO</strong>，并支持最多 <strong>{{freeTierLimit}}</strong> 名用户。为无缝扩展，我们推荐 Stirling Team 方案 — 每月 99 美元，包含 <strong>100 名用户</strong>。"
+freeBody = "我们的 <strong>Open-Core</strong> 许可免费提供 <strong>OAuth SSO</strong>，并支持最多 <strong>{{freeTierLimit}}</strong> 名用户。为无缝扩展，我们推荐 Scripta Team 方案 — 每月 99 美元，包含 <strong>100 名用户</strong>。"
 freeTitle = "Team 计划"
-overLimitBody = "我们的许可允许最多 <strong>{{freeTierLimit}}</strong> 位用户免费使用。你有 <strong>{{overLimitUserCopy}}</strong> 位 Scripta 用户。要继续不间断使用，请升级到 Stirling Team 计划 - <strong>100 位用户</strong>、PDF 文本编辑和完整管理员控制，每月 $99。"
+overLimitBody = "我们的许可允许最多 <strong>{{freeTierLimit}}</strong> 位用户免费使用。你有 <strong>{{overLimitUserCopy}}</strong> 位 Scripta 用户。要继续不间断使用，请升级到 Scripta Team 计划 - <strong>100 位用户</strong>、PDF 文本编辑和完整管理员控制，每月 $99。"
 overLimitTitle = "需要 Team 计划"
 seePlans = "查看方案 →"
 upgrade = "立即升级 →"
@@ -6918,7 +6918,7 @@ label = "请求头"
 
 [portal.policies.operations.fields.index]
 label = "索引"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "问题键"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud 用户名"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "通知空间该策略已处理文档。"
@@ -7192,7 +7192,7 @@ secretNote = "签名密钥仅在创建 webhook 时显示一次。重新创建源
 copy = "复制"
 done = "完成"
 secret = "签名密钥"
-secretHelp = "使用此密钥（HMAC-SHA256）签署每次投递的原始正文，并将其作为 X-Stirling-Signature 标头发送。"
+secretHelp = "使用此密钥（HMAC-SHA256）签署每次投递的原始正文，并将其作为 X-Scripta-Signature 标头发送。"
 secretWarning = "立即复制签名密钥。为保障你的安全，它只显示一次，以后无法检索。"
 title = "Webhook 已创建"
 url = "投递 URL"
@@ -8047,7 +8047,7 @@ storageSharing = "文件存储与共享"
 systemSettings = "系统设置"
 
 [settings.connectedInstances]
-confirmBody = "这会撤销该实例对你在 Stirling Cloud 中团队的访问权限。它不会删除本地文件，也不会移除已记录的使用量。要重新连接，请在实例上按照原始连接步骤操作。"
+confirmBody = "这会撤销该实例对你在 Cloud 中团队的访问权限。它不会删除本地文件，也不会移除已记录的使用量。要重新连接，请在实例上按照原始连接步骤操作。"
 confirmTitle = "移除 {{name}}？"
 connectedAt = "已连接：{{date}}"
 connectedDate = "已连接"
@@ -8091,7 +8091,7 @@ user = "登录身份"
 
 [settings.connection.mode]
 local = "仅本地"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "自托管"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "监控"
 [settings.planBilling]
 currentPlan = "当前方案"
 loading = "正在加载账单信息..."
-notAvailable = "连接 Stirling Cloud（SaaS 模式）后才可使用“方案与账单”。"
+notAvailable = "连接 Cloud（SaaS 模式）后才可使用“方案与账单”。"
 title = "方案与账单"
 
 [settings.planBilling.billing]

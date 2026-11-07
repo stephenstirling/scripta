@@ -7,7 +7,7 @@ import {
 } from "@app/utils/toolResponseProcessor";
 import { isEmptyOutput } from "@app/services/errorUtils";
 import type { ProcessingProgress } from "@app/hooks/tools/shared/useToolState";
-import type { StirlingFile, FileId } from "@app/types/fileContext";
+import type { ScriptaFile, FileId } from "@app/types/fileContext";
 import { isSignupRequiredError } from "@app/utils/toolErrorHandler";
 
 /** An input that did not survive the batch, with the error it failed on. */
@@ -31,7 +31,7 @@ export const useToolApiCalls = <TParams = void>() => {
   const processFiles = useCallback(
     async (
       params: TParams,
-      validFiles: StirlingFile[],
+      validFiles: ScriptaFile[],
       config: ApiCallsConfig<TParams>,
       onProgress: (progress: ProcessingProgress) => void,
       onStatus: (status: string) => void,

@@ -26,7 +26,7 @@ import {
   useNavigationState,
 } from "@app/contexts/NavigationContext";
 import { useFileSelection } from "@app/contexts/FileContext";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 
 const extractBookmarks = async (file: File): Promise<BookmarkPayload[]> => {
   const formData = new FormData();
@@ -113,7 +113,7 @@ const EditTableOfContents = (props: BaseToolProps) => {
         const payload = await extractBookmarks(file);
         const bookmarks = hydrateBookmarkPayload(payload);
         setBookmarks(bookmarks);
-        setLastLoadedFileId(isStirlingFile(file) ? file.fileId : file.name);
+        setLastLoadedFileId(isScriptaFile(file) ? file.fileId : file.name);
 
         if (showToast) {
           alert({

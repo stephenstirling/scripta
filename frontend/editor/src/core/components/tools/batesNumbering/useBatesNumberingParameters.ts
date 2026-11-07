@@ -8,8 +8,7 @@ import type { StampAppearance } from "@app/components/tools/shared/StampAppearan
 export type BatesPosition = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export interface BatesNumberingParameters
-  extends BaseParameters,
-    StampAppearance {
+  extends BaseParameters, StampAppearance {
   prefix: string;
   suffix: string;
   startNumber: number;

@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { StirlingFile, StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFile, ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import type { FolderId } from "@app/types/folder";
 
-const getStirlingFile = vi.fn();
+const getScriptaFile = vi.fn();
 const updateFileMetadata = vi.fn();
 
 vi.mock("@app/services/fileStorage", () => ({
   fileStorage: {
-    getStirlingFile: (...args: unknown[]) => getStirlingFile(...args),
+    getScriptaFile: (...args: unknown[]) => getScriptaFile(...args),
     updateFileMetadata: (...args: unknown[]) => updateFileMetadata(...args),
   },
 }));
@@ -22,7 +22,7 @@ const { copyNameFor, duplicateStoredFile } =
  * is inherited rather than re-derived. These lock that contract.
  */
 
-const stub = (extra: Partial<StirlingFileStub> = {}): StirlingFileStub =>
+const stub = (extra: Partial<ScriptaFileStub> = {}): ScriptaFileStub =>
   ({
     id: "src-id" as FileId,
     name: "report.pdf",
@@ -30,9 +30,9 @@ const stub = (extra: Partial<StirlingFileStub> = {}): StirlingFileStub =>
     type: "application/pdf",
     lastModified: 1,
     ...extra,
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 
-const asStirlingFile = (name: string): StirlingFile =>
+const asScriptaFile = (name: string): ScriptaFile =>
   Object.assign(new File(["%PDF-1.7"], name, { type: "application/pdf" }), {
     fileId: "new-id" as FileId,
     quickKey: "k",
@@ -45,14 +45,14 @@ type AddFilesOptions = {
   skipUploadTracking?: boolean;
 };
 const addFiles = vi.fn<
-  (files: File[], options: AddFilesOptions) => Promise<StirlingFile[]>
->(async () => [asStirlingFile("report (copy).pdf")]);
+  (files: File[], options: AddFilesOptions) => Promise<ScriptaFile[]>
+>(async () => [asScriptaFile("report (copy).pdf")]);
 
 beforeEach(() => {
   vi.clearAllMocks();
-  getStirlingFile.mockResolvedValue(asStirlingFile("report.pdf"));
+  getScriptaFile.mockResolvedValue(asScriptaFile("report.pdf"));
   updateFileMetadata.mockResolvedValue(true);
-  addFiles.mockResolvedValue([asStirlingFile("report (copy).pdf")]);
+  addFiles.mockResolvedValue([asScriptaFile("report (copy).pdf")]);
 });
 
 describe("copyNameFor", () => {
@@ -122,7 +122,7 @@ describe("duplicateStoredFile", () => {
   });
 
   it("returns null when the source bytes are gone", async () => {
-    getStirlingFile.mockResolvedValue(null);
+    getScriptaFile.mockResolvedValue(null);
 
     expect(await duplicateStoredFile(stub(), [], addFiles)).toBeNull();
     expect(addFiles).not.toHaveBeenCalled();

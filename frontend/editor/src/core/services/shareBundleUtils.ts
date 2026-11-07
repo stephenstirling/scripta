@@ -2,7 +2,7 @@ import JSZip from "jszip";
 
 import type { ShareBundleManifest } from "@app/services/serverStorageBundle";
 
-const MANIFEST_FILENAME = "stirling-share.json";
+const MANIFEST_FILENAME = "scripta-share.json";
 
 type HeaderLike = {
   get?: (name: string) => unknown;

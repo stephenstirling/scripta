@@ -8,9 +8,9 @@ import { releaseDocumentBytes } from "@app/services/documentBytesCache";
 import {
   FileContextAction,
   FileContextState,
-  StirlingFileStub,
+  ScriptaFileStub,
   ProcessedFilePage,
-  createStirlingFile,
+  createScriptaFile,
 } from "@app/types/fileContext";
 import {
   forgetFile,
@@ -197,9 +197,9 @@ export class FileLifecycleManager {
   /**
    * Update file record with race condition guards
    */
-  updateStirlingFileStub = (
+  updateScriptaFileStub = (
     fileId: FileId,
-    updates: Partial<StirlingFileStub>,
+    updates: Partial<ScriptaFileStub>,
     stateRef?: React.RefObject<FileContextState>,
   ): void => {
     // Guard against updating removed files (race condition protection)
@@ -226,7 +226,7 @@ export class FileLifecycleManager {
         type: held.type,
         lastModified: held.lastModified,
       });
-      this.filesRef.current.set(fileId, createStirlingFile(renamed, fileId));
+      this.filesRef.current.set(fileId, createScriptaFile(renamed, fileId));
     }
 
     this.dispatch({

@@ -6,13 +6,13 @@ import OperationButton, {
   operationButtonVariantMap,
   operationButtonAccentMap,
 } from "@app/components/tools/shared/OperationButton";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import { useAllFiles } from "@app/contexts/FileContext";
 import { useViewer } from "@app/contexts/ViewerContext";
 import { useNavigationState } from "@app/contexts/NavigationContext";
 
 export interface ScopedOperationButtonProps extends OperationButtonProps {
-  selectedFiles: StirlingFile[];
+  selectedFiles: ScriptaFile[];
   disableScopeHints?: boolean;
 }
 

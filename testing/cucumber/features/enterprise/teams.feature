@@ -17,7 +17,7 @@ Feature: Teams API
     via ID-based lookup. Tests are limited to exercising each endpoint and
     checking the response is not a security bypass.
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
 
     # =========================================================================
     # CREATE TEAM

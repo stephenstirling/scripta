@@ -4,26 +4,26 @@ import { Alert, Group, Modal, Radio, Stack, Text } from "@mantine/core";
 import { Icon } from "@app/ui/Icon";
 import { Button } from "@app/ui/Button";
 
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { DeleteScope } from "@app/services/serverStorageDelete";
 
 interface DeleteFilesDialogProps {
   opened: boolean;
   /** Files targeted for deletion (resolved stubs). */
-  files: StirlingFileStub[];
+  files: ScriptaFileStub[];
   onClose: () => void;
   /** Perform the delete for the chosen scope; may throw to surface an error. */
   onConfirm: (scope: DeleteScope) => Promise<void>;
 }
 
 /** An ephemeral stub (server-/shared-) has no local IndexedDB row. */
-function hasLocalCopy(stub: StirlingFileStub): boolean {
+function hasLocalCopy(stub: ScriptaFileStub): boolean {
   const id = String(stub.id);
   return !id.startsWith("server-") && !id.startsWith("shared-");
 }
 
 /** Only the owner can delete a file from cloud storage (backend is owner-only). */
-function hasDeletableCloudCopy(stub: StirlingFileStub): boolean {
+function hasDeletableCloudCopy(stub: ScriptaFileStub): boolean {
   return (
     typeof stub.remoteStorageId === "number" &&
     stub.remoteOwnedByCurrentUser === true

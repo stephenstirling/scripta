@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { useAllFiles } from "@app/contexts/FileContext";
 import { useViewer } from "@app/contexts/ViewerContext";
 import { useNavigationState } from "@app/contexts/NavigationContext";
-import { StirlingFile, StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFile, ScriptaFileStub } from "@app/types/fileContext";
 
-export function useViewScopedFiles(ignoreViewerScope = false): StirlingFile[] {
+export function useViewScopedFiles(ignoreViewerScope = false): ScriptaFile[] {
   const { activeFileIndex } = useViewer();
   const { files: allFiles } = useAllFiles();
   const { workbench } = useNavigationState();
@@ -32,7 +32,7 @@ export function useViewScopedFiles(ignoreViewerScope = false): StirlingFile[] {
  */
 export function useViewScopedFileStubs(
   ignoreViewerScope = false,
-): StirlingFileStub[] {
+): ScriptaFileStub[] {
   const scopedFiles = useViewScopedFiles(ignoreViewerScope);
   const { fileStubs } = useAllFiles();
 
@@ -40,6 +40,6 @@ export function useViewScopedFileStubs(
     const stubsById = new Map(fileStubs.map((stub) => [stub.id, stub]));
     return scopedFiles
       .map((file) => stubsById.get(file.fileId))
-      .filter((stub): stub is StirlingFileStub => stub != null);
+      .filter((stub): stub is ScriptaFileStub => stub != null);
   }, [scopedFiles, fileStubs]);
 }

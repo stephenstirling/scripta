@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ActionIcon } from "@app/ui/ActionIcon";
 import { useAppConfig } from "@app/contexts/AppConfigContext";
 
-const BANNER_DISMISSED_KEY = "stirlingpdf_features_banner_dismissed";
+const BANNER_DISMISSED_KEY = "scripta_features_banner_dismissed";
 
 /**
  * Shown only when login is off: the two env vars that turn on accounts, teams
@@ -91,7 +91,7 @@ export function AdminSetupBanner() {
           )}
         </Text>
         <Anchor
-          href="https://docs.stirlingpdf.com/Configuration/System%20and%20Security/"
+          href="https://github.com/stephenstirling/scripta#readme"
           target="_blank"
           size="sm"
         >

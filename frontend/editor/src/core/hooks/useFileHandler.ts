@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useFileActions } from "@app/contexts/FileContext";
-import type { StirlingFile, StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFile, ScriptaFileStub } from "@app/types/fileContext";
 
 export const useFileHandler = () => {
   const { actions } = useFileActions();
@@ -22,12 +22,12 @@ export const useFileHandler = () => {
         /** Classification computed outside the policy system (see AddFileOptions). */
         presetClassification?: {
           labels: string[];
-          confidence: StirlingFileStub["classificationConfidence"];
+          confidence: ScriptaFileStub["classificationConfidence"];
         };
         /** Bytes and stub only, no thumbnail parse (see AddFileOptions). */
         skipMetadataHydration?: boolean;
       } = {},
-    ): Promise<StirlingFile[]> => {
+    ): Promise<ScriptaFile[]> => {
       // Merge default options with passed options - passed options take precedence
       const mergedOptions = { selectFiles: true, ...options };
       // Let FileContext handle deduplication with quickKey logic

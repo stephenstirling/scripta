@@ -430,7 +430,7 @@ test("a form apply keeps a fit-page zoom", async ({ page }) => {
   test.setTimeout(300_000);
   await page.addInitScript(() => {
     localStorage.setItem(
-      "stirlingpdf_preferences",
+      "scripta_preferences",
       JSON.stringify({ defaultViewerZoom: "fitPage" }),
     );
   });

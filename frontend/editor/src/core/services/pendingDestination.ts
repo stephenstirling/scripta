@@ -7,7 +7,7 @@ import { isSafePostLoginRedirect } from "@app/services/postLoginRedirect";
  * <p>localStorage, not sessionStorage: a confirmation email opens a new tab. Paths
  * are re-validated on read, since the guard may have tightened since the write.
  */
-const KEY = "stirling-pending-destination";
+const KEY = "scripta-pending-destination";
 
 /** Long enough for a confirmation email read the next morning. */
 const TTL_MS = 24 * 60 * 60 * 1000;

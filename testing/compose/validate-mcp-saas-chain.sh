@@ -3,7 +3,7 @@
 # Supabase security chain coexists with the MCP chain. Guards the regression
 # where /.well-known/oauth-protected-resource/<subpath> fell through to the
 # Supabase chain's default Spring Security metadata filter and was served
-# WITHOUT authorization_servers, sending MCP clients to Stirling for OAuth.
+# WITHOUT authorization_servers, sending MCP clients to Scripta for OAuth.
 #
 # Prereq: docker-compose -f docker-compose-saas.yml -f docker-compose-saas-mcp.override.yml up
 # Env:    MCP_AUTH_ISSUERURI must match the issuer the stack was started with.
@@ -30,9 +30,9 @@ echo ""
 
 echo -e "${YELLOW}[0] Liveness${NC}"
 if curl -sf "$BASE_URL/api/v1/info/status" 2>/dev/null | grep -q "UP"; then
-    pass "Stirling PDF (saas flavor) is UP"
+    pass "Scripta (saas flavor) is UP"
 else
-    fail "Stirling PDF is not UP at $BASE_URL"
+    fail "Scripta is not UP at $BASE_URL"
 fi
 echo ""
 

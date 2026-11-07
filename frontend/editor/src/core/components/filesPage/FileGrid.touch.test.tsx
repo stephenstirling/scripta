@@ -4,7 +4,7 @@ import { MantineProvider } from "@mantine/core";
 import { FileGrid } from "@app/components/filesPage/FileGrid";
 import { FileContextProvider } from "@app/contexts/FileContext";
 import type { FileId } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 vi.mock("@app/hooks/useIsMobile", () => ({
   useIsMobile: () => true,
@@ -18,7 +18,7 @@ vi.mock("@app/components/shared/PolicyBadges", () => ({
 const render = (ui: Parameters<typeof baseRender>[0]) =>
   baseRender(ui, { wrapper: MantineProvider });
 
-const stub = (id: string): StirlingFileStub => ({
+const stub = (id: string): ScriptaFileStub => ({
   id: id as FileId,
   name: `${id}.pdf`,
   type: "application/pdf",

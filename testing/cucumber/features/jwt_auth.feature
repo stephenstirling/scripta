@@ -5,7 +5,7 @@ Feature: JWT Authentication End-to-End
     token validation, token refresh, logout, role-based access control, and
     API key authentication.
 
-    Admin credentials: username=admin, password=stirling (see docker-compose-security-with-login.yml)
+    Admin credentials: username=admin, password=scripta (see docker-compose-security-with-login.yml)
     Global API key: 123456789
 
     # =========================================================================
@@ -14,7 +14,7 @@ Feature: JWT Authentication End-to-End
 
     @login @positive
     Scenario: Successful admin login returns JWT token
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the response content type should be "application/json"
         And the response should contain a JWT access token
@@ -24,19 +24,19 @@ Feature: JWT Authentication End-to-End
 
     @login @positive
     Scenario: Login response includes token expiry in seconds
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the response JSON session field "expires_in" should be positive
 
     @login @positive
     Scenario: JWT access token has valid three-part structure
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the JWT access token should have three dot-separated parts
 
     @login @positive
     Scenario: Login response user object contains required fields
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the response JSON user field "email" should not be empty
         And the response JSON user field "username" should not be empty
@@ -45,7 +45,7 @@ Feature: JWT Authentication End-to-End
 
     @login @positive
     Scenario: Login response user authentication type is WEB
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the response JSON user field "authenticationType" should equal "web"
 
@@ -72,7 +72,7 @@ Feature: JWT Authentication End-to-End
 
     @login @negative
     Scenario: Login with empty username returns 400
-        When I login with an empty username and password "stirling"
+        When I login with an empty username and password "scripta"
         Then the response status code should be 400
 
     @login @negative
@@ -82,7 +82,7 @@ Feature: JWT Authentication End-to-End
 
     @login @negative
     Scenario: Login with null-equivalent username returns 400
-        When I login with only password "stirling"
+        When I login with only password "scripta"
         Then the response status code should be 400
 
     @login @negative
@@ -103,7 +103,7 @@ Feature: JWT Authentication End-to-End
     Scenario: Successful login clears lockout after failed attempts
         When I login with username "admin" and password "wrongpass"
         Then the response status code should be 401
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And the response should contain a JWT access token
 
@@ -357,7 +357,7 @@ Feature: JWT Authentication End-to-End
 
     @token @positive
     Scenario: Login then immediately use the token verifies token is active
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And I store the JWT token from the login response
         When I send a GET request to "/api/v1/auth/me" with the stored JWT token
@@ -366,7 +366,7 @@ Feature: JWT Authentication End-to-End
 
     @token @positive
     Scenario: Full login, use, refresh, and re-use flow
-        When I login with username "admin" and password "stirling"
+        When I login with username "admin" and password "scripta"
         Then the response status code should be 200
         And I store the JWT token from the login response
         When I send a GET request to "/api/v1/auth/me" with the stored JWT token

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-  createStirlingFile,
+  createScriptaFile,
   getFormFillFileId,
   documentBytesReplaced,
 } from "@app/types/fileContext";
@@ -19,22 +19,22 @@ describe("getFormFillFileId", () => {
   it("turns over when a disk reload swaps the bytes under one id", () => {
     // The viewer keys its mount, its blob URL and its form state on this. An
     // id-only key left the previous document on screen under "Updated from disk".
-    const before = createStirlingFile(diskFile([1, 2, 3], 5000), ID);
-    const after = createStirlingFile(diskFile([1, 2, 3, 4], 9000), ID);
+    const before = createScriptaFile(diskFile([1, 2, 3], 5000), ID);
+    const after = createScriptaFile(diskFile([1, 2, 3, 4], 9000), ID);
 
     expect(after.fileId).toBe(before.fileId);
     expect(getFormFillFileId(after)).not.toBe(getFormFillFileId(before));
   });
 
   it("is stable while the same bytes are re-wrapped each render", () => {
-    const first = createStirlingFile(diskFile([1, 2, 3], 5000), ID);
-    const second = createStirlingFile(diskFile([1, 2, 3], 5000), ID);
+    const first = createScriptaFile(diskFile([1, 2, 3], 5000), ID);
+    const second = createScriptaFile(diskFile([1, 2, 3], 5000), ID);
     expect(getFormFillFileId(second)).toBe(getFormFillFileId(first));
   });
 
   it("still separates two files that share content", () => {
-    const mine = createStirlingFile(diskFile([1, 2, 3], 5000), ID);
-    const theirs = createStirlingFile(
+    const mine = createScriptaFile(diskFile([1, 2, 3], 5000), ID);
+    const theirs = createScriptaFile(
       diskFile([1, 2, 3], 5000),
       "file-2" as FileId,
     );

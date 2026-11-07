@@ -5,7 +5,7 @@ import apiClient from "@app/services/apiClient";
 import { Button } from "@app/ui/Button";
 import { ConvertParameters } from "@app/hooks/tools/convert/useConvertParameters";
 import { usePdfSignatureDetection } from "@app/hooks/usePdfSignatureDetection";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import { Z_INDEX_AUTOMATE_DROPDOWN } from "@app/styles/zIndex";
 
 interface ConvertToPdfUaSettingsProps {
@@ -14,7 +14,7 @@ interface ConvertToPdfUaSettingsProps {
     key: K,
     value: ConvertParameters[K],
   ) => void;
-  selectedFiles: StirlingFile[];
+  selectedFiles: ScriptaFile[];
   disabled?: boolean;
 }
 

@@ -613,18 +613,18 @@ label = "Όριο συνεδριών"
 description = "Μέγιστος χρόνος εκτέλεσης"
 label = "Χρονικό όριο (λεπτά)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Το Stirling Office Convert είναι σε beta. Προσφέρει καλύτερες μετατροπές, ταχύτερα και με λιγότερη μνήμη από το LibreOffice."
-label = "Χρήση της νέας μετατροπής Stirling Office"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Το Office Convert είναι σε beta. Προσφέρει καλύτερες μετατροπές, ταχύτερα και με λιγότερη μνήμη από το LibreOffice."
+label = "Χρήση της νέας μετατροπής Scripta Office"
 
 [admin.settings.advanced.tempFileManagement]
 description = "Ρυθμίστε την αποθήκευση και τον καθαρισμό προσωρινών αρχείων"
 label = "Διαχείριση προσωρινών αρχείων"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "Βασικός κατάλογος για προσωρινά αρχεία (αφήστε κενό για προεπιλογή: java.io.tmpdir/stirling-pdf)"
+description = "Βασικός κατάλογος για προσωρινά αρχεία (αφήστε κενό για προεπιλογή: java.io.tmpdir/scripta)"
 label = "Βασικός κατάλογος προσωρινών"
-placeholder = "Προεπιλογή: java.io.tmpdir/stirling-pdf"
+placeholder = "Προεπιλογή: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "Συχνότητα εκτέλεσης καθαρισμού (σε λεπτά)"
@@ -683,8 +683,8 @@ permissionNotice = "Η διαδρομή tessdata δεν είναι εγγράψ�
 [admin.settings.ai]
 customProvider = "Προσαρμοσμένο (συμβατό με OpenAI)"
 description = "Συνδέστε το Scripta με τη μηχανή Python AI, επιλέξτε τα μοντέλα της και ορίστε τα όρια ασφαλείας υπό τα οποία εκτελείται."
-managedByCloud = "Διαχειρίζεται από το Stirling Cloud σε αυτήν τη λειτουργία."
-managedByCloudShort = "Διαχειρίζεται από το Stirling Cloud"
+managedByCloud = "Διαχειρίζεται από το Cloud σε αυτήν τη λειτουργία."
+managedByCloudShort = "Διαχειρίζεται από το Cloud"
 
 [admin.settings.ai.documents]
 description = "Ρυθμίστε το μοντέλο embedding και τις ρυθμίσεις ανάκτησης που χρησιμοποιούνται για απαντήσεις σε ερωτήσεις πάνω σε έγγραφα. Εφαρμόζεται στη μηχανή AI όταν αποθηκευτεί."
@@ -735,16 +735,16 @@ description = "Ενεργοποιήστε ή απενεργοποιήστε με
 title = "Δυνατότητες"
 
 [admin.settings.ai.general.cloud]
-note = "Τα μοντέλα και τα κλειδιά παρόχων διαχειρίζονται από το Stirling Cloud, επομένως αυτές οι ρυθμίσεις δεν ισχύουν σε αυτήν τη λειτουργία."
+note = "Τα μοντέλα και τα κλειδιά παρόχων διαχειρίζονται από το Cloud, επομένως αυτές οι ρυθμίσεις δεν ισχύουν σε αυτήν τη λειτουργία."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "Κάθε εργαλείο AI στέλνει το κείμενο σελίδας που χρειάζεται για να απαντήσει. Αυτό καθορίζει αν το Stirling Cloud μπορεί επίσης να διατηρεί αυτό το κείμενο, ευρετηριασμένο, ώστε μεταγενέστερες ερωτήσεις να μπορούν να αναζητούν σε όλο το έγγραφο."
+description = "Κάθε εργαλείο AI στέλνει το κείμενο σελίδας που χρειάζεται για να απαντήσει. Αυτό καθορίζει αν το Cloud μπορεί επίσης να διατηρεί αυτό το κείμενο, ευρετηριασμένο, ώστε μεταγενέστερες ερωτήσεις να μπορούν να αναζητούν σε όλο το έγγραφο."
 help = "Απενεργοποιημένο σημαίνει ότι οι ερωτήσεις για έγγραφα δεν είναι διαθέσιμες. Δεν σταματά την αποστολή κειμένου - μόνο την αποθήκευσή του."
-label = "Να επιτρέπεται στο Stirling Cloud να διατηρεί ευρετηριασμένα έγγραφα"
+label = "Να επιτρέπεται στο Cloud να διατηρεί ευρετηριασμένα έγγραφα"
 
 [admin.settings.ai.general.cloudNote]
-body = "Η συλλογιστική εκτελείται στην υποδομή του Scripta, με χρέωση στον λογαριασμό με τον οποίο είναι συνδεδεμένος αυτός ο διακομιστής. Δεν υπάρχει container για εκτέλεση και κανένα κλειδί παρόχου για αποθήκευση εδώ. Ό,τι διαβάζει το AI επεξεργάζεται από το Stirling Cloud αντί για το δικό σας υλικό."
-title = "Σχετικά με το Stirling Cloud AI"
+body = "Η συλλογιστική εκτελείται στην υποδομή του Scripta, με χρέωση στον λογαριασμό με τον οποίο είναι συνδεδεμένος αυτός ο διακομιστής. Δεν υπάρχει container για εκτέλεση και κανένα κλειδί παρόχου για αποθήκευση εδώ. Ό,τι διαβάζει το AI επεξεργάζεται από το Cloud αντί για το δικό σας υλικό."
+title = "Σχετικά με το Cloud AI"
 
 [admin.settings.ai.general.enabled]
 description = "Κεντρικός διακόπτης. Όταν είναι απενεργοποιημένος, δεν είναι διαθέσιμα εργαλεία AI, agents ή κλήσεις μηχανής."
@@ -782,11 +782,11 @@ label = "Χρονικό όριο μακράς διάρκειας (δευτερό
 label = "Πού εκτελείται το AI"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Χωρίς container, χωρίς κλειδί παρόχου, χωρίς επιλογή μοντέλου - η εργασία εκτελείται στο Stirling Cloud και χρεώνεται στον λογαριασμό με τον οποίο είναι συνδεδεμένος αυτός ο διακομιστής."
+description = "Χωρίς container, χωρίς κλειδί παρόχου, χωρίς επιλογή μοντέλου - η εργασία εκτελείται στο Cloud και χρεώνεται στον λογαριασμό με τον οποίο είναι συνδεδεμένος αυτός ο διακομιστής."
 linkCta = "Συνδέστε αυτόν τον διακομιστή με έναν λογαριασμό Scripta"
 notLinked = "Συνδέστε πρώτα έναν λογαριασμό"
 ownerOnly = "Μόνο ο κάτοχος του οργανισμού μπορεί να συνδέσει αυτόν τον διακομιστή με έναν λογαριασμό Scripta."
-title = "Χρήση Stirling Cloud AI"
+title = "Χρήση Cloud AI"
 
 [admin.settings.ai.general.mode.off]
 description = "Κανένα εργαλείο AI οπουδήποτε στην εφαρμογή και τίποτα δεν φεύγει από αυτόν τον διακομιστή."
@@ -818,7 +818,7 @@ description = "Χρονικό όριο για τυπικά αιτήματα AI �
 label = "Χρονικό όριο αιτήματος (δευτερόλεπτα)"
 
 [admin.settings.ai.general.url]
-description = "Εσωτερικό URL της μηχανής Python AI, π.χ. http://stirling-pdf-engine:5001."
+description = "Εσωτερικό URL της μηχανής Python AI, π.χ. http://scripta-engine:5001."
 label = "URL μηχανής AI"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "URL μηχανής"
 
 [admin.settings.ai.status.cloud]
 hostDown = "Εκτός λειτουργίας"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "Σε λειτουργία"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "Κοινή χρήση AI"
 sharingOff = "Απενεργοποιημένη"
 sharingOn = "Ενεργοποιημένη"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Το Stirling Cloud απάντησε αλλά απέρριψε αυτόν τον διακομιστή. Η σύνδεση λογαριασμού ενδέχεται να έχει ανακληθεί."
-title = "Το Stirling Cloud απορρίπτει αυτόν τον διακομιστή"
+body = "Το Cloud απάντησε αλλά απέρριψε αυτόν τον διακομιστή. Η σύνδεση λογαριασμού ενδέχεται να έχει ανακληθεί."
+title = "Το Cloud απορρίπτει αυτόν τον διακομιστή"
 
 [admin.settings.ai.status.cloud.down]
-body = "Αυτός ο διακομιστής δεν μπόρεσε να φτάσει στο Stirling Cloud. Ελέγξτε τη σύνδεση λογαριασμού και ότι αυτός ο διακομιστής μπορεί να έχει πρόσβαση στο internet."
-title = "Το Stirling Cloud δεν είναι προσβάσιμο"
+body = "Αυτός ο διακομιστής δεν μπόρεσε να φτάσει στο Cloud. Ελέγξτε τη σύνδεση λογαριασμού και ότι αυτός ο διακομιστής μπορεί να έχει πρόσβαση στο internet."
+title = "Το Cloud δεν είναι προσβάσιμο"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Το Stirling Cloud αποδέχθηκε αυτόν τον διακομιστή. Δεν υπάρχει τίποτα για εκτέλεση ή ενημέρωση εδώ."
-title = "Εκτελείται στο Stirling Cloud"
+body = "Το Cloud αποδέχθηκε αυτόν τον διακομιστή. Δεν υπάρχει τίποτα για εκτέλεση ή ενημέρωση εδώ."
+title = "Εκτελείται στο Cloud"
 
 [admin.settings.ai.status.degraded]
 body = "Απάντησε στον έλεγχο υγείας, αλλά απέρριψε ένα πραγματικό αίτημα. Οι δύο πλευρές χρησιμοποιούν διαφορετικά κοινά μυστικά."
@@ -1885,7 +1885,7 @@ wrapUp = "Αυτή ήταν η περιήγηση διαχειριστή! Είδ
 title = "Ρυθμίσεις ελέγχου χρήστη"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "Αραβικά"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "Επιλέξτε πρώτα μορφή πηγής"
 settings = "Ρυθμίσεις"
 single = "Μονό"
 sourceFormatPlaceholder = "Μορφή προέλευσης"
-stirlingOfficeConvert = "Χρήση του Stirling Office Convert (beta)"
-stirlingOfficeConvertDescription = "Καλύτερες, ταχύτερες μετατροπές με λιγότερη μνήμη. Απενεργοποιήστε το για να χρησιμοποιήσετε τον τυπικό μετατροπέα."
+scriptaOfficeConvert = "Χρήση του Office Convert (beta)"
+scriptaOfficeConvertDescription = "Καλύτερες, ταχύτερες μετατροπές με λιγότερη μνήμη. Απενεργοποιήστε το για να χρησιμοποιήσετε τον τυπικό μετατροπέα."
 strictMode = "Αυστηρή λειτουργία"
 strictModeDesc = "Σφάλμα αν η μετατροπή δεν είναι τέλεια (χρησιμοποιεί επαλήθευση VeraPDF)"
 svgPdfOptions = "Επιλογές SVG σε PDF"
@@ -5349,7 +5349,7 @@ userTitle = "Επισκόπηση πλάνου"
 [onboarding.processorIntro]
 body = "Το Scripta εκτελεί πλέον <strong>Πολιτικές</strong> — αυτοματοποιημένους κανόνες που ταξινομούν, ασφαλίζουν και επεξεργάζονται κάθε έγγραφο όταν φτάνει. Ρυθμίστε τις και παρακολουθήστε τις εκτελέσεις στον <strong>Processor</strong>."
 cta = "Δείτε τον Processor"
-title = "Δείτε τον Stirling Processor"
+title = "Δείτε τον Processor"
 
 [onboarding.securityCheck]
 message = "Η εφαρμογή έχει υποστεί σημαντικές αλλαγές πρόσφατα. Ίσως απαιτείται η προσοχή του διαχειριστή του διακομιστή σας. Επιβεβαιώστε τον ρόλο σας για να συνεχίσετε."
@@ -5359,9 +5359,9 @@ roleUser = "Χρήστης"
 title = "Έλεγχος ασφαλείας"
 
 [onboarding.serverLicense]
-freeBody = "Η άδεια <strong>Open-Core</strong> περιλαμβάνει <strong>OAuth SSO</strong> και έως <strong>{{freeTierLimit}}</strong> χρήστες δωρεάν. Για ανάπτυξη χωρίς διακοπές, προτείνουμε το πλάνο Stirling Team — <strong>100 χρήστες</strong> με $99/μήνα."
+freeBody = "Η άδεια <strong>Open-Core</strong> περιλαμβάνει <strong>OAuth SSO</strong> και έως <strong>{{freeTierLimit}}</strong> χρήστες δωρεάν. Για ανάπτυξη χωρίς διακοπές, προτείνουμε το πλάνο Scripta Team — <strong>100 χρήστες</strong> με $99/μήνα."
 freeTitle = "Πρόγραμμα Team"
-overLimitBody = "Η άδειά μας επιτρέπει έως <strong>{{freeTierLimit}}</strong> χρήστες δωρεάν. Έχετε <strong>{{overLimitUserCopy}}</strong> χρήστες Scripta. Για να συνεχίσετε χωρίς διακοπή, αναβαθμίστε στο πρόγραμμα Stirling Team - <strong>100 χρήστες</strong>, επεξεργασία κειμένου PDF και πλήρης έλεγχος admin με $99/μήνα."
+overLimitBody = "Η άδειά μας επιτρέπει έως <strong>{{freeTierLimit}}</strong> χρήστες δωρεάν. Έχετε <strong>{{overLimitUserCopy}}</strong> χρήστες Scripta. Για να συνεχίσετε χωρίς διακοπή, αναβαθμίστε στο πρόγραμμα Scripta Team - <strong>100 χρήστες</strong>, επεξεργασία κειμένου PDF και πλήρης έλεγχος admin με $99/μήνα."
 overLimitTitle = "Απαιτείται πρόγραμμα Team"
 seePlans = "Δείτε τα πλάνα →"
 upgrade = "Αναβάθμιση τώρα →"
@@ -6918,7 +6918,7 @@ label = "Headers"
 
 [portal.policies.operations.fields.index]
 label = "Index"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Κλειδί ζητήματος"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Όνομα χρήστη Nextcloud"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "Ενημερώνει έναν χώρο ότι η πολιτική χειρίστηκε ένα έγγραφο."
@@ -7192,7 +7192,7 @@ secretNote = "Το signing secret εμφανίζεται μία φορά, ότα
 copy = "Αντιγραφή"
 done = "Τέλος"
 secret = "Μυστικό υπογραφής"
-secretHelp = "Υπογράψτε το raw body κάθε παράδοσης με αυτό το κλειδί (HMAC-SHA256) και στείλτε το ως X-Stirling-Signature header."
+secretHelp = "Υπογράψτε το raw body κάθε παράδοσης με αυτό το κλειδί (HMAC-SHA256) και στείλτε το ως X-Scripta-Signature header."
 secretWarning = "Αντιγράψτε τώρα το signing secret. Για την ασφάλειά σας εμφανίζεται μόνο μία φορά και δεν μπορεί να ανακτηθεί αργότερα."
 title = "Το webhook δημιουργήθηκε"
 url = "URL παράδοσης"
@@ -8047,7 +8047,7 @@ storageSharing = "Αποθήκευση Αρχείων & Κοινή Χρήση"
 systemSettings = "Ρυθμίσεις συστήματος"
 
 [settings.connectedInstances]
-confirmBody = "Αυτό ανακαλεί την πρόσβαση της εγκατάστασης στην ομάδα σας στο Stirling Cloud. Δεν διαγράφει τοπικά αρχεία ούτε αφαιρεί χρήση που έχει ήδη καταγραφεί. Για να συνδεθείτε ξανά, ακολουθήστε τα αρχικά βήματα σύνδεσης στην εγκατάσταση."
+confirmBody = "Αυτό ανακαλεί την πρόσβαση της εγκατάστασης στην ομάδα σας στο Cloud. Δεν διαγράφει τοπικά αρχεία ούτε αφαιρεί χρήση που έχει ήδη καταγραφεί. Για να συνδεθείτε ξανά, ακολουθήστε τα αρχικά βήματα σύνδεσης στην εγκατάσταση."
 confirmTitle = "Αφαίρεση {{name}};"
 connectedAt = "Συνδέθηκε: {{date}}"
 connectedDate = "Συνδέθηκε"
@@ -8091,7 +8091,7 @@ user = "Συνδεθήκατε ως"
 
 [settings.connection.mode]
 local = "Μόνο τοπικά"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "Self-Hosted"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Παρακολούθηση"
 [settings.planBilling]
 currentPlan = "Τρέχον πλάνο"
 loading = "Φόρτωση πληροφοριών χρέωσης..."
-notAvailable = "Το Plan & Billing είναι διαθέσιμο μόνο όταν υπάρχει σύνδεση με το Stirling Cloud (λειτουργία SaaS)."
+notAvailable = "Το Plan & Billing είναι διαθέσιμο μόνο όταν υπάρχει σύνδεση με το Cloud (λειτουργία SaaS)."
 title = "Πλάνο & Χρέωση"
 
 [settings.planBilling.billing]

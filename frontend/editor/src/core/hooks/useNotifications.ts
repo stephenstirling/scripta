@@ -16,7 +16,7 @@ import {
 
 // TODO: read state is per-browser. Move it server-side when notifications get their own table.
 const POLL_INTERVAL_MS = 30_000;
-const SEEN_STORAGE_KEY_PREFIX = "stirling.notifications.readThroughAt";
+const SEEN_STORAGE_KEY_PREFIX = "scripta.notifications.readThroughAt";
 
 /** Null while the viewer is unknown: an unscoped marker would pre-read the next user's rows. */
 function seenStorageKey(viewerKey: string | null): string | null {

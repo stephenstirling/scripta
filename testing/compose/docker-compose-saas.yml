@@ -1,6 +1,6 @@
 services:
   # ---------------------------------------------------------------------
-  # Postgres holding the stirling_pdf schema, built by Hibernate
+  # Postgres holding the scripta schema, built by Hibernate
   # ddl-auto=create-drop when the backend starts (see below). Exposed on
   # host port 5433 so the cucumber harness can connect via psycopg from
   # features/steps/payg_*.
@@ -14,7 +14,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      # Bootstrap stirling_pdf schema + seed test team / api key.
+      # Bootstrap scripta schema + seed test team / api key.
       # Runs once when the container is first created.
       - ./payg/saas-init.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
     healthcheck:
@@ -26,19 +26,19 @@ services:
       - payg-cucumber-network
 
   # ---------------------------------------------------------------------
-  # Stirling-PDF backend with STIRLING_FLAVOR=saas. Authenticates via
+  # Scripta backend with SCRIPTA_FLAVOR=saas. Authenticates via
   # API key (SECURITY_CUSTOMGLOBALAPIKEY) — Supabase JWT enforcement is
   # disabled for the test profile via SAAS_DB_PROJECT_REF=disabled so the
   # OAuth resource-server filter no-ops. The PaygChargeInterceptor's
   # resolveUser() ApiKey-token path is what the cucumber tests exercise.
   # ---------------------------------------------------------------------
-  stirling-pdf-saas:
+  scripta-saas:
     build:
       context: ../..
       dockerfile: docker/embedded/Dockerfile
       args:
-        STIRLING_FLAVOR: saas
-    container_name: payg-cucumber-stirling
+        SCRIPTA_FLAVOR: saas
+    container_name: payg-cucumber-scripta
     depends_on:
       postgres-saas:
         condition: service_healthy
@@ -60,7 +60,7 @@ services:
       # `app/saas/.../payg/test/PaygCucumberThrowController.java` — that bean is
       # @Profile("payg-cucumber") so it never registers in production.
       SPRING_PROFILES_ACTIVE: "saas,payg-cucumber"
-      STIRLING_FLAVOR: "saas"
+      SCRIPTA_FLAVOR: "saas"
       ENABLE_SAAS: "true"
       DISABLE_ADDITIONAL_FEATURES: "false"
 

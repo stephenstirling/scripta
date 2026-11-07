@@ -114,12 +114,12 @@ export const buildConvertFormData = (
   });
 
   if (
-    parameters.useStirlingOfficeConvert !== undefined &&
+    parameters.useScriptaOfficeConvert !== undefined &&
     usesOfficeEngine(fromExtension, toExtension)
   ) {
     formData.append(
-      "useStirlingOfficeConvert",
-      String(parameters.useStirlingOfficeConvert),
+      "useScriptaOfficeConvert",
+      String(parameters.useScriptaOfficeConvert),
     );
   }
 

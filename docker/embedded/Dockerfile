@@ -54,15 +54,15 @@ RUN gradle dependencies --no-daemon || true
 
 COPY . .
 
-ARG STIRLING_FLAVOR=core
-ENV STIRLING_FLAVOR=${STIRLING_FLAVOR}
+ARG SCRIPTA_FLAVOR=core
+ENV SCRIPTA_FLAVOR=${SCRIPTA_FLAVOR}
 # Include the processor (admin portal) in the bundled editor; false leaves it out.
 ARG BUILD_PORTAL=false
 
-# Which Stirling account the portal connects to. Build-time because Vite inlines VITE_* into the
+# Which account the portal connects to. Build-time because Vite inlines VITE_* into the
 # bundle; there is no runtime override. Empty keeps the committed frontend .env defaults, which are
-# production Stirling, so a stock image links with no build args. Overriding VITE_SAAS_API_URL
-# also means setting STIRLING_BILLING_ACCOUNT_LINK_SAAS_BASE_URL on the container, or the browser
+# production Scripta, so a stock image links with no build args. Overriding VITE_SAAS_API_URL
+# also means setting SCRIPTA_BILLING_ACCOUNT_LINK_SAAS_BASE_URL on the container, or the browser
 # and the server link against different SaaS. The publishable key is client-side by design, not a
 # secret. Pass the URL and the key from the same Supabase project or the browser accepts the pair
 # and Supabase rejects it, which surfaces later as "session expired".
@@ -78,7 +78,7 @@ RUN JPDFIUM_PLATFORM="$([ "$TARGETARCH" = arm64 ] && echo linux-arm64 || echo li
     if [ -z "${VITE_SUPABASE_URL}" ]; then unset VITE_SUPABASE_URL; fi; \
     if [ -z "${VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY}" ]; then unset VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY; fi; \
     if [ -z "${VITE_SAAS_API_URL}" ]; then unset VITE_SAAS_API_URL; fi; \
-    STIRLING_FLAVOR=${STIRLING_FLAVOR} \
+    SCRIPTA_FLAVOR=${SCRIPTA_FLAVOR} \
     gradle clean build \
       -PbuildWithFrontend=true \
       -PbuildWithPortal=${BUILD_PORTAL} \
@@ -119,7 +119,7 @@ COPY --link --from=app-build --chown=1000:1000 \
 COPY --link --chown=1000:1000 scripts/ /scripts/
 
 # Baked-in detection model; FormDetectionModelManager seeds it into /configs on startup.
-COPY --link --from=app-build --chown=1000:1000 /preinstalled-models/ /opt/stirling/preinstalled-models/
+COPY --link --from=app-build --chown=1000:1000 /preinstalled-models/ /opt/scripta/preinstalled-models/
 
 # Fonts go to system dir, root ownership is correct (world-readable)
 COPY app/core/src/main/resources/static/fonts/*.ttf /usr/share/fonts/truetype/
@@ -132,32 +132,52 @@ RUN set -eux; \
     ln -s /customFiles /app/customFiles; \
     ln -s /pipeline /app/pipeline; \
     ln -s /storage /app/storage; \
-    chown -h stirlingpdfuser:stirlingpdfgroup /app/logs /app/configs /app/customFiles /app/pipeline /app/storage; \
-    chown stirlingpdfuser:stirlingpdfgroup /app; \
-    chmod 750 /tmp/stirling-pdf; \
-    chmod 750 /tmp/stirling-pdf/heap_dumps; \
+    chown -h scriptauser:scriptagroup /app/logs /app/configs /app/customFiles /app/pipeline /app/storage; \
+    chown scriptauser:scriptagroup /app; \
+    chmod 750 /tmp/scripta; \
+    chmod 750 /tmp/scripta/heap_dumps; \
     fc-cache -f
 
+# Tesseract "best" models (Apache-2.0), selectable per OCR run as the Accuracy setting.
+# They live beside the bundled fast models, in tessdata_best, which RuntimePathConfig derives.
+# osd is needed for page rotation detection when OCR runs against this directory.
+ARG TESSDATA_BEST_COMMIT=e12c65a915945e4c28e237a9b52bc4a8f39a0cec
+RUN set -eux; \
+    dest=/usr/share/tesseract-ocr/5/tessdata_best; \
+    mkdir -p "$dest"; \
+    for model in \
+      8280aed0782fe27257a68ea10fe7ef324ca0f8d85bd2fd145d1c2b560bcb66ba:eng \
+      8407331d6aa0229dc927685c01a7938fc5a641d1a9524f74838cdac599f0d06e:deu \
+      907743d98915c91a3906dfbf6e48b97598346698fe53aaa797e1a064ffcac913:fra \
+      711de9dbb8052067bd42f16b9119967f30bada80d57e2ef24f65d09f531adb04:por \
+      4fef2d1306c8e87616d4d3e4c6c67faf5d44be3342290cf8f2f0f6e3aa7e735b:chi_sim \
+      9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff:osd; do \
+      sha="${model%%:*}"; lang="${model##*:}"; \
+      curl -fsSL "https://raw.githubusercontent.com/tesseract-ocr/tessdata_best/${TESSDATA_BEST_COMMIT}/${lang}.traineddata" -o "$dest/${lang}.traineddata"; \
+      echo "${sha}  $dest/${lang}.traineddata" | sha256sum -c -; \
+    done; \
+    chmod -R a+rX "$dest"
+
 # Write version to a file so it is readable by scripts without env-var inheritance.
-# init-without-ocr.sh reads /etc/stirling_version for the AOT cache fingerprint.
-RUN echo "${VERSION_TAG:-dev}" > /etc/stirling_version
+# init-without-ocr.sh reads /etc/scripta_version for the AOT cache fingerprint.
+RUN echo "${VERSION_TAG:-dev}" > /etc/scripta_version
 
 # Environment variables
 ENV VERSION_TAG=$VERSION_TAG \
-    FORMDETECTION_PREINSTALLEDMODELDIR="/opt/stirling/preinstalled-models" \
-    STIRLING_AOT_ENABLE="false" \
+    FORMDETECTION_PREINSTALLEDMODELDIR="/opt/scripta/preinstalled-models" \
+    SCRIPTA_AOT_ENABLE="false" \
     _JVM_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/configs/heap_dumps -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1PeriodicGCInterval=10000 -XX:G1PeriodicGCSystemLoadThreshold=0.0 -XX:+G1PeriodicGCInvokesConcurrent -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:+ExplicitGCInvokesConcurrent -XX:ReservedCodeCacheSize=96m -XX:CICompilerCount=2 -Dspring.threads.virtual.enabled=true -Djava.awt.headless=true" \
     JAVA_CUSTOM_OPTS="" \
-    HOME=/home/stirlingpdfuser \
+    HOME=/home/scriptauser \
     PUID=1000 \
     PGID=1000 \
     UMASK=022 \
-    STIRLING_TEMPFILES_DIRECTORY=/tmp/stirling-pdf \
-    TMPDIR=/tmp/stirling-pdf \
-    TEMP=/tmp/stirling-pdf \
-    TMP=/tmp/stirling-pdf \
+    SCRIPTA_TEMPFILES_DIRECTORY=/tmp/scripta \
+    TMPDIR=/tmp/scripta \
+    TEMP=/tmp/scripta \
+    TMP=/tmp/scripta \
     DBUS_SESSION_BUS_ADDRESS=/dev/null \
-    SAL_TMP=/tmp/stirling-pdf/libre
+    SAL_TMP=/tmp/scripta/libre
 
 # Metadata labels
 LABEL org.opencontainers.image.title="Scripta" \

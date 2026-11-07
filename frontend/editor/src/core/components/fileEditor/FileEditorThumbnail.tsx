@@ -12,7 +12,7 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { policyCategoryIcon } from "@app/components/policies/policyCategoryIcon";
 import {
   PolicyBadges,
@@ -45,9 +45,10 @@ import { LARGE_PDF_PARSE_LIMIT } from "@app/utils/thumbnailUtils";
 import { truncateCenter } from "@app/utils/textUtils";
 import { FileEditorStatusDot } from "@app/components/fileEditor/FileEditorStatusDot";
 import { useToolEligibleFileIds } from "@app/contexts/ToolFileEligibilityContext";
+import { useToolWorkflowActions } from "@app/contexts/ToolWorkflowContext";
 
 interface FileEditorThumbnailProps {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   index: number;
   totalFiles: number;
   onCloseFile: (fileId: FileId) => void;
@@ -94,6 +95,13 @@ const FileEditorThumbnail = ({
   } = useFileContext();
   const selectors = useFileSelectors();
   const isMobile = useIsMobile();
+  const { handleToolSelect } = useToolWorkflowActions();
+  // Merge only makes sense from a card that is part of a multi-file selection.
+  const canMergeSelection = useFileSelector(
+    (s) =>
+      s.ui.selectedFileIds.length >= 2 &&
+      s.ui.selectedFileIds.includes(file.id),
+  );
 
   const actualFile = useMemo(
     () => activeFiles.find((f) => f.fileId === file.id),
@@ -258,7 +266,7 @@ const FileEditorThumbnail = ({
           fileId: file.id,
         });
         if (!result.cancelled && result.savedPath) {
-          fileActions.updateStirlingFileStub(file.id, {
+          fileActions.updateScriptaFileStub(file.id, {
             localFilePath: file.localFilePath ?? result.savedPath,
             isDirty: false,
           });
@@ -342,6 +350,16 @@ const FileEditorThumbnail = ({
           e.stopPropagation();
           onViewFile(file.id);
         },
+      },
+      {
+        id: "merge",
+        icon: <Icon name="copy-plus" size={20} />,
+        label: t("fileEditor.mergeSelected", "Merge selected files"),
+        onClick: (e) => {
+          e.stopPropagation();
+          handleToolSelect("merge");
+        },
+        hidden: !canMergeSelection,
       },
       {
         id: "pin",
@@ -468,6 +486,8 @@ const FileEditorThumbnail = ({
   }, [
     t,
     file.id,
+    canMergeSelection,
+    handleToolSelect,
     file.name,
     file.versionNumber,
     isZipFile,

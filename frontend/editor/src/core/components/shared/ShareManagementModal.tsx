@@ -28,7 +28,7 @@ import { absoluteWithBasePath } from "@app/constants/app";
 import { alert } from "@app/components/toast";
 import { Z_INDEX_OVER_FILE_MANAGER_MODAL } from "@app/styles/zIndex";
 import { useAppConfig } from "@app/contexts/AppConfigContext";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import { fileStorage } from "@app/services/fileStorage";
 import { useFileActions } from "@app/contexts/FileContext";
 
@@ -63,7 +63,7 @@ const SHARE_ROLES: ShareRole[] = ["editor", "commenter", "viewer"];
 interface ShareManagementModalProps {
   opened: boolean;
   onClose: () => void;
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
 }
 
 function roleLabel(t: TFunction, role: string): string {
@@ -907,7 +907,7 @@ const ShareManagementModal: React.FC<ShareManagementModalProps> = ({
             createdAt: new Date().toISOString(),
           },
         ]);
-        actions.updateStirlingFileStub(file.id, { remoteHasShareLinks: true });
+        actions.updateScriptaFileStub(file.id, { remoteHasShareLinks: true });
         await fileStorage.updateFileMetadata(file.id, {
           remoteHasShareLinks: true,
         });
@@ -973,7 +973,7 @@ const ShareManagementModal: React.FC<ShareManagementModalProps> = ({
           return updated;
         });
         setSelectedActivityToken((prev) => (prev === token ? null : prev));
-        actions.updateStirlingFileStub(file.id, {
+        actions.updateScriptaFileStub(file.id, {
           remoteHasShareLinks: nextHasLinks,
         });
         await fileStorage.updateFileMetadata(file.id, {

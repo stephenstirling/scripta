@@ -3,22 +3,31 @@ import { Outlet } from "react-router-dom";
 import { LoadingFallback } from "@app/components/shared/LoadingFallback";
 import { QuickNavHostProvider } from "@app/contexts/QuickNavHostContext";
 import { QuickNavRailHost } from "@app/components/shared/quickNav/QuickNavRailHost";
+import { useTitleBarStrip } from "@app/contexts/TitleBarStripContext";
 import { TitleBarChrome } from "@app/components/layout/TitleBarChrome";
 import "@app/components/layout/AppFrame.css";
+
+/** The strip's Menu and tabs replace the rail, so it drops out while the strip shows. */
+function AppFrameBody() {
+  const strip = useTitleBarStrip();
+  return (
+    <div className="app-frame">
+      {!strip.enabled && <QuickNavRailHost />}
+      <div className="app-frame__content">
+        <Suspense fallback={<LoadingFallback />}>
+          <Outlet />
+        </Suspense>
+      </div>
+    </div>
+  );
+}
 
 /** The rail renders once outside both apps; Suspense sits inside it, not above. */
 export function AppFrame() {
   return (
     <QuickNavHostProvider>
       <TitleBarChrome>
-        <div className="app-frame">
-          <QuickNavRailHost />
-          <div className="app-frame__content">
-            <Suspense fallback={<LoadingFallback />}>
-              <Outlet />
-            </Suspense>
-          </div>
-        </div>
+        <AppFrameBody />
       </TitleBarChrome>
     </QuickNavHostProvider>
   );

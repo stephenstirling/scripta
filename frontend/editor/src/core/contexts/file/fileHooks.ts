@@ -14,8 +14,8 @@ import {
   FileContextActionsValue,
 } from "@app/contexts/file/contexts";
 import {
-  StirlingFileStub,
-  StirlingFile,
+  ScriptaFileStub,
+  ScriptaFile,
   FileContextState,
   FileContextSelectors,
 } from "@app/types/fileContext";
@@ -75,7 +75,7 @@ export function useFileSelector<T>(
  *  that slice must not let consumers call these during render. */
 const SELECTION_SELECTORS: ReadonlyArray<keyof FileContextSelectors> = [
   "getSelectedFiles",
-  "getSelectedStirlingFileStubs",
+  "getSelectedScriptaFileStubs",
 ];
 
 /** Wrap selectors so a call made during render logs loudly (dev/test only).
@@ -198,7 +198,7 @@ export function useFileActions(): FileContextActionsValue {
 /**
  * Hook for current/primary file (first in list)
  */
-export function useCurrentFile(): { file?: File; record?: StirlingFileStub } {
+export function useCurrentFile(): { file?: File; record?: ScriptaFileStub } {
   const { selectors } = useFileStore();
   const { primaryFileId, record } = useFileSelector(
     (s) => ({
@@ -268,7 +268,7 @@ export function useFileManagement() {
       addFiles: actions.addFiles,
       removeFiles: actions.removeFiles,
       clearAllFiles: actions.clearAllFiles,
-      updateStirlingFileStub: actions.updateStirlingFileStub,
+      updateScriptaFileStub: actions.updateScriptaFileStub,
       reorderFiles: actions.reorderFiles,
     }),
     [actions],
@@ -303,9 +303,9 @@ export function useFileUI() {
  * Hook for specific file by ID (optimized for individual file access):
  * re-renders only when THAT file's record changes.
  */
-export function useStirlingFileStub(fileId: FileId): {
+export function useScriptaFileStub(fileId: FileId): {
   file?: File;
-  record?: StirlingFileStub;
+  record?: ScriptaFileStub;
 } {
   const { selectors } = useFileStore();
   const record = useFileSelector((s) => s.files.byId[fileId]);
@@ -323,8 +323,8 @@ export function useStirlingFileStub(fileId: FileId): {
  * Hook for all files: re-renders on file-list changes only (not selection/UI).
  */
 export function useAllFiles(): {
-  files: StirlingFile[];
-  fileStubs: StirlingFileStub[];
+  files: ScriptaFile[];
+  fileStubs: ScriptaFileStub[];
   fileIds: FileId[];
 } {
   const { selectors } = useFileStore();
@@ -333,7 +333,7 @@ export function useAllFiles(): {
   return useMemo(
     () => ({
       files: selectors.getFiles(files.ids),
-      fileStubs: selectors.getStirlingFileStubs(files.ids),
+      fileStubs: selectors.getScriptaFileStubs(files.ids),
       fileIds: files.ids,
     }),
     [files, selectors],
@@ -344,8 +344,8 @@ export function useAllFiles(): {
  * Hook for selected files (optimized for selection-based UI)
  */
 export function useSelectedFiles(): {
-  selectedFiles: StirlingFile[];
-  selectedFileStubs: StirlingFileStub[];
+  selectedFiles: ScriptaFile[];
+  selectedFileStubs: ScriptaFileStub[];
   selectedFileIds: FileId[];
 } {
   const { selectors } = useFileStore();
@@ -359,7 +359,7 @@ export function useSelectedFiles(): {
   return useMemo(
     () => ({
       selectedFiles: selectors.getSelectedFiles(),
-      selectedFileStubs: selectors.getSelectedStirlingFileStubs(),
+      selectedFileStubs: selectors.getSelectedScriptaFileStubs(),
       selectedFileIds,
     }),
     [selectedFileIds, selectedStubs, selectors],

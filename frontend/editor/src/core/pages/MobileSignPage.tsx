@@ -24,7 +24,7 @@ import {
 } from "@app/components/mobileSign/MobileDrawCanvas";
 import apiClient from "@app/services/apiClient";
 
-// Use the configured API base (e.g. api.stirling.com), not the page origin.
+// Use the configured API base (e.g. your API host), not the page origin.
 const API_BASE = (apiClient.defaults.baseURL ?? "").replace(/\/+$/, "");
 
 type SignatureTab = "draw" | "type" | "photo";

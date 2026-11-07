@@ -64,7 +64,7 @@ async function waitForStoredFiles(page: Page, names: string[]): Promise<void> {
   await page.waitForFunction(
     (expected) =>
       new Promise<boolean>((resolve) => {
-        const open = indexedDB.open("stirling-pdf-files");
+        const open = indexedDB.open("scripta-files");
         open.onupgradeneeded = () => {
           open.transaction?.abort();
           resolve(false);

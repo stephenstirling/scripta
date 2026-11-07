@@ -699,7 +699,7 @@ function DocumentViewport({ documentId, pageOptions }: DocumentViewportProps) {
       <Viewport
         documentId={documentId}
         style={{
-          backgroundColor: "var(--c-bg)",
+          backgroundColor: "var(--c-canvas)",
           height: "100%",
           width: "100%",
           maxHeight: "100%",
