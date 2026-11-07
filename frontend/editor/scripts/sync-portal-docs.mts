@@ -1,5 +1,5 @@
 /**
- * Sync the portal Developer Docs from the Stirling docs repo.
+ * Sync the portal Developer Docs from the Scripta docs repo.
  *
  * Fetches the docs repo tarball, extracts `docs/**` in-process (no external tar
  * binary, no per-file GitHub rate limits), shapes it with the pure transforms in
@@ -23,7 +23,7 @@ import {
 const REPO = process.env.DOCS_REPO ?? "Stirling-Tools/Stirling-Tools.github.io";
 const REF = process.env.DOCS_REF ?? "main";
 const ROOT = process.env.DOCS_ROOT ?? "docs";
-const SITE = "https://docs.stirlingpdf.com";
+const SITE = "https://github.com/stephenstirling/scripta#readme";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, "../src/core/generated/docsManifest.json");
@@ -95,7 +95,7 @@ async function main(): Promise<void> {
   const res = await fetch(url, {
     headers: {
       Accept: "application/vnd.github+json",
-      "User-Agent": "stirling-portal-docs-sync",
+      "User-Agent": "scripta-portal-docs-sync",
       ...(process.env.GITHUB_TOKEN
         ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
         : {}),

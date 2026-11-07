@@ -81,7 +81,7 @@ const BRICK_FADE_MS = 300;
 /** How far a page slides down into place as it fades in. */
 const BRICK_DROP = 14;
 
-const BEST_SCORE_KEY = "stirling.easterEgg.best";
+const BEST_SCORE_KEY = "scripta.easterEgg.best";
 
 export type GamePhase = "intro" | "ready" | "playing" | "lost" | "won";
 

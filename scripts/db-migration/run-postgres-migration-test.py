@@ -77,7 +77,7 @@ def sql(container, statement):
         "-U",
         "migration",
         "-d",
-        "stirling",
+        "scripta",
         input=statement,
     )
 
@@ -209,7 +209,7 @@ def snapshot(container, *, audit_ids=None):
 def validate_fixture(result):
     users = {user["username"]: user for user in result["users"] or []}
     teams = {team["team_id"]: team["name"] for team in result["teams"] or []}
-    if not {"admin", "STIRLING-PDF-BACKEND-API-USER", *FIXTURE_USERS} <= users.keys():
+    if not {"admin", "SCRIPTA-BACKEND-API-USER", *FIXTURE_USERS} <= users.keys():
         raise RuntimeError("Missing users from the fixture")
     if not {"Default", "Internal", *FIXTURE_USERS.values()} <= set(teams.values()):
         raise RuntimeError("Missing default or custom teams")
@@ -256,10 +256,10 @@ def boot_and_check(jar, workdir, db_port, timeout, container, seed_version=None,
             "PREMIUM_ENTERPRISEFEATURES_AUDIT_RETENTIONDAYS": "0",
             "SECURITY_ENABLELOGIN": "true",
             "SECURITY_INITIALLOGIN_USERNAME": "admin",
-            "SECURITY_INITIALLOGIN_PASSWORD": "stirling",
+            "SECURITY_INITIALLOGIN_PASSWORD": "scripta",
             "SYSTEM_ENABLEANALYTICS": "false",
             "SYSTEM_DATASOURCE_ENABLECUSTOMDATABASE": "true",
-            "SYSTEM_DATASOURCE_CUSTOMDATABASEURL": f"jdbc:postgresql://127.0.0.1:{db_port}/stirling",
+            "SYSTEM_DATASOURCE_CUSTOMDATABASEURL": f"jdbc:postgresql://127.0.0.1:{db_port}/scripta",
             "SYSTEM_DATASOURCE_TYPE": "postgresql",
             "SYSTEM_DATASOURCE_USERNAME": "migration",
             "SYSTEM_DATASOURCE_PASSWORD": "migration-test-only",
@@ -279,7 +279,7 @@ def boot_and_check(jar, workdir, db_port, timeout, container, seed_version=None,
                     "--spring.jpa.hibernate.ddl-auto=update",
                     "--spring.jpa.show-sql=false",
                     "--logging.level.root=WARN",
-                    "--logging.level.stirling=INFO",
+                    "--logging.level.scripta=INFO",
                     "--logging.level.org.hibernate.tool.schema=INFO",
                 ],
                 cwd=workdir,
@@ -313,13 +313,13 @@ def boot_and_check(jar, workdir, db_port, timeout, container, seed_version=None,
                 int(
                     sql(
                         container,
-                        "SELECT count(*) FROM pg_stat_activity WHERE datname = 'stirling' AND backend_type = 'client backend' AND pid <> pg_backend_pid();",
+                        "SELECT count(*) FROM pg_stat_activity WHERE datname = 'scripta' AND backend_type = 'client backend' AND pid <> pg_backend_pid();",
                     )
                 )
                 < 1
             ):
                 raise RuntimeError("No app connection to the test PostgreSQL database")
-            admin_token = login(base_url, "admin", "stirling")
+            admin_token = login(base_url, "admin", "scripta")
             if seed_version is not None:
                 seed_data(base_url, container, admin_token)
             for username in FIXTURE_USERS:
@@ -345,10 +345,10 @@ def boot_and_check(jar, workdir, db_port, timeout, container, seed_version=None,
 
 def release_jar(version, directory):
     directory.mkdir(parents=True, exist_ok=True)
-    jar = directory / f"stirling-pdf-{version}.jar"
+    jar = directory / f"scripta-{version}.jar"
     if not jar.is_file():
         log(f"Downloading historical release {version}")
-        url = f"https://github.com/Stirling-Tools/Stirling-PDF/releases/download/{version}/Stirling-PDF-with-login.jar"
+        url = f"https://github.com/stephenstirling/scripta/releases/download/{version}/Scripta-with-login.jar"
         partial = jar.with_suffix(".jar.part")
         with (
             urllib.request.urlopen(url, timeout=120) as response,
@@ -376,7 +376,7 @@ def test_version(version, old_jar, current_jar, workdir, image, timeout):
             "--env",
             "POSTGRES_PASSWORD=migration-test-only",
             "--env",
-            "POSTGRES_DB=stirling",
+            "POSTGRES_DB=scripta",
             image,
         )
         db_port = int(run("docker", "port", container, "5432/tcp").rsplit(":", 1)[1])
@@ -404,13 +404,13 @@ def test_version(version, old_jar, current_jar, workdir, image, timeout):
             "-U",
             "migration",
             "-d",
-            "stirling",
+            "scripta",
             "--no-owner",
             "--no-privileges",
         )
         (workdir / "fixture.sql").write_text(dump + "\n", encoding="utf-8")
-        run("docker", "exec", container, "dropdb", "-U", "migration", "stirling")
-        run("docker", "exec", container, "createdb", "-U", "migration", "stirling")
+        run("docker", "exec", container, "dropdb", "-U", "migration", "scripta")
+        run("docker", "exec", container, "createdb", "-U", "migration", "scripta")
         sql(container, dump)
         audit_ids = [event["id"] for event in before["audit"]]
         if snapshot(container, audit_ids=audit_ids) != before:
@@ -438,8 +438,8 @@ def main():
     parser.add_argument(
         "--jar",
         type=Path,
-        default=os.environ.get("STIRLING_JAR"),
-        required=not os.environ.get("STIRLING_JAR"),
+        default=os.environ.get("SCRIPTA_JAR"),
+        required=not os.environ.get("SCRIPTA_JAR"),
     )
     parser.add_argument("--release-jar-dir", type=Path)
     parser.add_argument("--work-dir", type=Path)
@@ -452,7 +452,7 @@ def main():
     if not args.jar.is_file():
         parser.error(f"Current JAR does not exist: {args.jar}")
     versions = args.versions or sorted(
-        p.name.removeprefix("stirling-pdf-").removesuffix(".mv.db") for p in FIXTURES.glob("stirling-pdf-*.mv.db")
+        p.name.removeprefix("scripta-").removesuffix(".mv.db") for p in FIXTURES.glob("scripta-*.mv.db")
     )
     if not versions or any(not re.fullmatch(r"v\d+\.\d+\.\d+", version) for version in versions):
         parser.error("Expected fixture versions such as v2.5.0")
@@ -464,7 +464,7 @@ def main():
     )
     if not versions:
         parser.error("No PostgreSQL fixtures at or after v2.5.0 were found")
-    workdir = (args.work_dir or Path(tempfile.mkdtemp(prefix="stirling-mig-postgres-"))).resolve()
+    workdir = (args.work_dir or Path(tempfile.mkdtemp(prefix="scripta-mig-postgres-"))).resolve()
     release_dir = (args.release_jar_dir or workdir / "jars").resolve()
     log(f"Logs and pre-upgrade SQL fixtures: {workdir}")
     failed = []

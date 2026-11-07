@@ -32,7 +32,7 @@ describe("FileLifecycleManager", () => {
     const filesRef = { current: new Map<FileId, File>([[fileId, original]]) };
     const manager = new FileLifecycleManager(filesRef, vi.fn());
 
-    manager.updateStirlingFileStub(fileId, { name: "new.pdf" });
+    manager.updateScriptaFileStub(fileId, { name: "new.pdf" });
 
     const held = filesRef.current.get(fileId);
     expect(held?.name).toBe("new.pdf");
@@ -47,7 +47,7 @@ describe("FileLifecycleManager", () => {
     const filesRef = { current: new Map<FileId, File>([[fileId, original]]) };
     const manager = new FileLifecycleManager(filesRef, vi.fn());
 
-    manager.updateStirlingFileStub(fileId, { isDirty: true });
+    manager.updateScriptaFileStub(fileId, { isDirty: true });
 
     expect(filesRef.current.get(fileId)).toBe(original);
   });

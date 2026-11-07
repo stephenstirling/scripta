@@ -2,8 +2,10 @@
 /* The rail's column, then whichever app is mounted, so a switch changes only the app. */
 .app-frame {
   display: flex;
-  height: 100vh;
-  height: 100dvh; /* track mobile browser chrome */
+  height: var(
+    --titlebar-body-h,
+    100dvh
+  ); /* the strip's body, else the viewport */
   overflow: hidden;
   background-color: var(--c-bg);
 }

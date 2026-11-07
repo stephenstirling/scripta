@@ -14,7 +14,7 @@ for those artifacts.
 - `build.gradle` makes version 3.1.4 of the license report plugin available to the custom build
   logic. The root build applies that plugin without a second version declaration so both use the
   same classpath.
-- `src/main/groovy/stirling/software/gradle/ModuleLicenseOverrideFilter.groovy` implements the
+- `src/main/groovy/scripta/software/gradle/ModuleLicenseOverrideFilter.groovy` implements the
   plugin's `DependencyFilter` interface.
 - `../app/license-overrides.json` contains the actual module-specific fallback values.
 - `../app/allowed-licenses.json` defines which detected or supplied licenses are accepted by

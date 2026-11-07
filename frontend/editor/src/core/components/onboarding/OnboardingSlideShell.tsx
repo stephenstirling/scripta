@@ -5,7 +5,7 @@ import { ActionIcon } from "@app/ui/ActionIcon";
 import { Button, type ButtonAccent } from "@app/ui/Button";
 import { Icon } from "@app/ui/Icon";
 import { Z_INDEX_ONBOARDING_CARD } from "@app/styles/zIndex";
-import stirlingMark from "@app/assets/brand/modern-logo/logo512.png";
+import scriptaMark from "@app/assets/brand/modern-logo/logo512.png";
 import styles from "@app/components/onboarding/InitialOnboardingModal/InitialOnboardingModal.module.css";
 
 /** A footer button. `action` is an opaque string handled by the caller. */
@@ -60,7 +60,7 @@ export function ShellHero({
 }) {
   if (appIcon) {
     return (
-      <img src={stirlingMark} alt="Scripta" className={styles.heroAppIcon} />
+      <img src={scriptaMark} alt="Scripta" className={styles.heroAppIcon} />
     );
   }
   return <div className={styles.heroTile}>{children}</div>;
@@ -192,7 +192,7 @@ function ShellHeader({
     <header className={styles.header}>
       <div className={styles.brand}>
         <img
-          src={stirlingMark}
+          src={scriptaMark}
           alt=""
           aria-hidden="true"
           className={styles.brandLogo}

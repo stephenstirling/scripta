@@ -5,7 +5,7 @@ Read this before adding, changing or styling any icon.
 ## TL;DR rules
 
 1. **Render every icon with `<Icon name="…" />`** from `@app/ui/Icon`. There is one icon component and one icon set.
-2. **Never write an `<svg>` in a `.ts`/`.tsx` file.** Icons are `.svg` files under `svg/stirling/` or `svg/third-party/`. There are two exceptions, and each needs an `icon-lint-allow: <category> -- <reason>` comment above the `<svg`: `runtime-generated-svg` for geometry computed at runtime (rulers, rings, charts), and `storybook-fixture` for svg text that builds a story's fake image, allowed only in `.stories.tsx`. Nothing else can be silenced.
+2. **Never write an `<svg>` in a `.ts`/`.tsx` file.** Icons are `.svg` files under `svg/scripta/` or `svg/third-party/`. There are two exceptions, and each needs an `icon-lint-allow: <category> -- <reason>` comment above the `<svg`: `runtime-generated-svg` for geometry computed at runtime (rulers, rings, charts), and `storybook-fixture` for svg text that builds a story's fake image, allowed only in `.stories.tsx`. Nothing else can be silenced.
 3. **Size with the `size` prop, never `fontSize`.** The old icons were font glyphs; `<Icon>` sizes via `width`/`height`, so `style={{ fontSize }}` does nothing at all.
 4. **A name has to be in `icons.ts`.** Adding one is two lines: the `?react` import and the map entry. `IconName` comes from that map, so anything missing is a compile error.
 5. `task frontend:lint:icons` enforces 1–3 (see [Linter](#linter)).
@@ -37,7 +37,7 @@ The component lives with the other shared primitives, in `core/ui/Icon.tsx` — 
 | `icons.ts` | Name → component and where it came from (lucide, ours, a brand mark). Every icon the app can render, and the source of `IconName`. |
 | `icons.config.ts` | Stroke weight and default size. |
 | `colorless.ts` / `colorless.css` | The `colorless` class, which dims a brand mark for a disabled source. |
-| `svg/stirling/*.svg` | Our own drawings, for glyphs lucide has no equivalent for. |
+| `svg/scripta/*.svg` | Our own drawings, for glyphs lucide has no equivalent for. |
 | `svg/third-party/*.svg` | Brand marks (S3, Slack, Jira…), which keep their own colours. |
 
 `?react` compiles each svg into a component at build time, configured once in `editor/scripts/icons/svgrOptions.mts` so the app, Storybook and the tests transform them the same way. Lucide's own svgs are read from `lucide-static` in `node_modules`, so none of its artwork is checked in.
@@ -46,7 +46,7 @@ The component lives with the other shared primitives, in `core/ui/Icon.tsx` — 
 
 **It exists in lucide** — add two lines to `icons.ts`: an import from `lucide-static/icons/<name>.svg?react`, and an entry pointing at it. Check *Icons/Registry → In use* first, so the same idea does not end up drawn two ways.
 
-**It does not exist in lucide** — draw it. Put a kebab-case `.svg` in `svg/stirling/` using lucide's grammar (`viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, stroke width 1.75, round caps and joins), then add it to `icons.ts`. See `users-plus.svg` or `line-weight.svg`. Draw inside the 2..22 box lucide keeps its glyphs in: nothing rescales our drawings, because a glyph that is small on purpose (a dot, a chevron) would be inflated to fill the box.
+**It does not exist in lucide** — draw it. Put a kebab-case `.svg` in `svg/scripta/` using lucide's grammar (`viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, stroke width 1.75, round caps and joins), then add it to `icons.ts`. See `users-plus.svg` or `line-weight.svg`. Draw inside the 2..22 box lucide keeps its glyphs in: nothing rescales our drawings, because a glyph that is small on purpose (a dot, a chevron) would be inflated to fill the box.
 
 **It is a brand mark** — put it in `svg/third-party/`, named after the connector `type`/`kind` the API returns, so `<BrandMark id={type} />` resolves it, and add it to `icons.ts` with `kind: "brand"` so `<Icon>` leaves its colours alone. Brand art arrives on its owner's grid (Drive on 87.3x78, Dropbox on 16x16), so wrap the geometry in a `translate`/`scale` that fits its ink into the middle 20 units of a `0 0 24 24` frame, the way the committed marks do. Keep the owner's path data exactly as published.
 
@@ -60,7 +60,7 @@ For a prop that takes *either* a name or your own node, narrow with `isIconName(
 
 `editor/scripts/lint/icon-lint.mts`, run by `task frontend:lint:icons` (part of `task frontend:lint`). Blocking: no inline `<svg>`, no `.svg?react` import outside `icons.ts` (an icon goes through the registry; a picture is an `<img>`), no retired icon library, `.svg` only in the icon dirs or `assets/`, every `<Icon name="…">` literal must resolve, and every icon svg must be on the `0 0 24 24` frame.
 
-`task frontend:lint:unused-icons` reports svgs in `svg/stirling/` that nothing renders, each of which is a drawing to keep on style for no reason. It deliberately over-counts references, because a false "unused" gets a live icon deleted.
+`task frontend:lint:unused-icons` reports svgs in `svg/scripta/` that nothing renders, each of which is a drawing to keep on style for no reason. It deliberately over-counts references, because a false "unused" gets a live icon deleted.
 
 ## Gotchas
 

@@ -28,7 +28,7 @@ import {
   idToWords,
   FUZZY_MIN_SCORE,
 } from "@app/utils/fuzzySearch";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 import type { ToolId } from "@app/types/toolId";
 import { isComingSoonTool, type ToolRegistry } from "@app/data/toolsTaxonomy";
 import { SETTINGS_SEARCH_INDEX } from "@app/data/settingsSearchIndex";
@@ -206,10 +206,10 @@ export function useSearchScopeFilter(options?: SuperSearchQueryOptions): {
 
 /** Loads the My Files stubs whenever the search surface is open. */
 export function useMyFilesStubs(active: boolean): {
-  stubs: StirlingFileStub[];
+  stubs: ScriptaFileStub[];
   loadingFiles: boolean;
 } {
-  const [stubs, setStubs] = useState<StirlingFileStub[]>([]);
+  const [stubs, setStubs] = useState<ScriptaFileStub[]>([]);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const loadedOnceRef = useRef(false);
 
@@ -219,7 +219,7 @@ export function useMyFilesStubs(active: boolean): {
     let cancelled = false;
     if (!loadedOnceRef.current) setLoadingFiles(true);
     fileStorage
-      .getLeafStirlingFileStubs()
+      .getLeafScriptaFileStubs()
       .then((all) => {
         if (cancelled) return;
         setStubs(all);
@@ -240,9 +240,9 @@ export function useMyFilesStubs(active: boolean): {
 }
 
 export function rankFileResults(
-  stubs: StirlingFileStub[],
+  stubs: ScriptaFileStub[],
   trimmed: string,
-  openFile: (stub: StirlingFileStub) => void | Promise<void>,
+  openFile: (stub: ScriptaFileStub) => void | Promise<void>,
   limit = GROUP_RESULT_CEILING,
 ): SuperSearchResult[] {
   if (!trimmed) return [];
@@ -508,11 +508,11 @@ export function useSuperSearch(
 
   // --- Actions -----------------------------------------------------------
   const openFile = useCallback(
-    async (stub: StirlingFileStub) => {
+    async (stub: ScriptaFileStub) => {
       try {
         // The file already lives in storage — load it as a stub so its id and
         // metadata are preserved (addFiles would persist a duplicate record).
-        await fileActions.addStirlingFileStubs([stub], { selectFiles: true });
+        await fileActions.addScriptaFileStubs([stub], { selectFiles: true });
         // Leaving the library is the view changing; HomePage takes the path with it.
         navActions.setWorkbench("viewer");
         viewerRef.current?.setActiveFileId?.(stub.id);

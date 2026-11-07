@@ -1,12 +1,12 @@
-# Stirling-PDF with Remote UNO Servers
+# Scripta with Remote UNO Servers
 
-This docker-compose configuration demonstrates running Stirling-PDF with **separate UNO server containers** for LibreOffice document conversion, enabling horizontal scaling and better resource isolation.
+This docker-compose configuration demonstrates running Scripta with **separate UNO server containers** for LibreOffice document conversion, enabling horizontal scaling and better resource isolation.
 
 ## Architecture
 
 ```
 ┌─────────────────────┐
-│   Stirling-PDF      │
+│   Scripta      │
 │   (Main App)        │
 │                     │
 │ Uses BlockingQueue  │
@@ -69,7 +69,7 @@ docker compose -f docker-compose-latest-security-remote-uno.yml logs -f
 docker compose -f docker-compose-latest-security-remote-uno.yml logs -f unoserver1 unoserver2
 
 # Watch main app
-docker compose -f docker-compose-latest-security-remote-uno.yml logs -f stirling-pdf
+docker compose -f docker-compose-latest-security-remote-uno.yml logs -f scripta
 ```
 
 ### Health Check Status
@@ -80,7 +80,7 @@ docker compose -f docker-compose-latest-security-remote-uno.yml ps
 Should show all services healthy:
 ```
 NAME                           STATUS
-Stirling-PDF-Security-Remote-UNO   Up (healthy)
+Scripta-Security-Remote-UNO   Up (healthy)
 UNO-Server-1                       Up (healthy)
 UNO-Server-2                       Up (healthy)
 ```
@@ -101,7 +101,7 @@ To add a 3rd UNO server:
     # ... same config as unoserver1/2
 ```
 
-2. Add environment variables to stirling-pdf service:
+2. Add environment variables to scripta service:
 ```yaml
       PROCESS_EXECUTOR_UNO_SERVER_ENDPOINTS_2_HOST: "unoserver3"
       PROCESS_EXECUTOR_UNO_SERVER_ENDPOINTS_2_PORT: "2002"
@@ -148,7 +148,7 @@ Note: This requires removing `container_name` and hardcoded ports.
 ```yaml
 PROCESS_EXECUTOR_AUTO_UNO_SERVER: "true"
 PROCESS_EXECUTOR_SESSION_LIMIT_LIBRE_OFFICE_SESSION_LIMIT: "2"
-# Creates 2 servers on 127.0.0.1:2003, 127.0.0.1:2005 inside container (Stirling-PDF's own servers)
+# Creates 2 servers on 127.0.0.1:2003, 127.0.0.1:2005 inside container (Scripta's own servers)
 ```
 - ✅ Simpler configuration
 - ✅ Lower latency
@@ -171,7 +171,7 @@ PROCESS_EXECUTOR_AUTO_UNO_SERVER: "false"
 Remote UNO servers must keep `UNOSERVER_IDLE_TIMEOUT_SECONDS=0` (the image
 default). A positive value stops the server after that many idle seconds and
 only restarts it when something writes a fresh timestamp to
-`/tmp/uno-last-used`; the Stirling container writes that file only for its own
+`/tmp/uno-last-used`; the Scripta container writes that file only for its own
 local endpoints, so an idle-stopped remote server has no wake source.
 
 ## Advanced Configuration
@@ -196,7 +196,7 @@ PROCESS_EXECUTOR_UNOSERVERENDPOINTS_0_PROTOCOL: "https"
 To see detailed endpoint selection logs:
 ```yaml
 environment:
-  LOGGING_LEVEL_STIRLING_SOFTWARE_COMMON_UTIL_PROCESSEXECUTOR: DEBUG
+  LOGGING_LEVEL_SCRIPTA_SOFTWARE_COMMON_UTIL_PROCESSEXECUTOR: DEBUG
 ```
 
 ## What This Demonstrates

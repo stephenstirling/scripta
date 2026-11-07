@@ -1,8 +1,8 @@
 {
-  "id": "stirling-oauth",
-  "realm": "stirling-oauth",
-  "displayName": "Stirling PDF OAuth Test",
-  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Stirling PDF OAuth</span></div>",
+  "id": "scripta-oauth",
+  "realm": "scripta-oauth",
+  "displayName": "Scripta OAuth Test",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Scripta OAuth</span></div>",
   "enabled": true,
   "sslRequired": "none",
   "registrationAllowed": true,
@@ -79,9 +79,9 @@
   },
   "clients": [
     {
-      "clientId": "stirling-pdf-client",
-      "name": "Stirling PDF OAuth2 Client",
-      "description": "OAuth2/OIDC client for Stirling PDF testing",
+      "clientId": "scripta-client",
+      "name": "Scripta OAuth2 Client",
+      "description": "OAuth2/OIDC client for Scripta testing",
       "rootUrl": "http://localhost:8080",
       "adminUrl": "http://localhost:8080",
       "baseUrl": "http://localhost:8080",
@@ -91,12 +91,12 @@
       "redirectUris": [
         "http://localhost:8080/*",
         "http://localhost:8080/login/oauth2/code/keycloak",
-        "http://stirling-pdf-oauth:8080/*",
-        "http://stirling-pdf-oauth:8080/login/oauth2/code/keycloak"
+        "http://scripta-oauth:8080/*",
+        "http://scripta-oauth:8080/login/oauth2/code/keycloak"
       ],
       "webOrigins": [
         "http://localhost:8080",
-        "http://stirling-pdf-oauth:8080"
+        "http://scripta-oauth:8080"
       ],
       "bearerOnly": false,
       "consentRequired": false,

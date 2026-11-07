@@ -16,7 +16,7 @@ version: '3'
 #                  because modern Windows excludes cwd from cmd's search path.
 
 vars:
-  MAXW: '{{if .STIRLING_CHECK_JOBS}} --max-workers={{.STIRLING_CHECK_JOBS}}{{end}}'
+  MAXW: '{{if .SCRIPTA_CHECK_JOBS}} --max-workers={{.SCRIPTA_CHECK_JOBS}}{{end}}'
 
 tasks:
   dev:
@@ -49,9 +49,9 @@ tasks:
     env:
       SERVER_PORT: '{{.PORT}}'
     cmds:
-      - cmd: '{{if .AIENGINE_URL}}AIENGINE_URL={{.AIENGINE_URL}} AIENGINE_ENABLED={{.AIENGINE_ENABLED}} AIENGINE_TIMEOUTSECONDS={{.AIENGINE_TIMEOUTSECONDS}} {{end}}{{if .SECURITY_ENABLELOGIN}}SECURITY_ENABLELOGIN={{.SECURITY_ENABLELOGIN}} {{end}}{{if .ACCOUNT_LINK_SAAS_BASE_URL}}STIRLING_BILLING_ACCOUNT_LINK_ENABLED=true STIRLING_BILLING_ACCOUNT_LINK_SAAS_BASE_URL={{.ACCOUNT_LINK_SAAS_BASE_URL}} {{end}}cmd /c ".\gradlew.bat :stirling-pdf:bootRun"'
+      - cmd: '{{if .AIENGINE_URL}}AIENGINE_URL={{.AIENGINE_URL}} AIENGINE_ENABLED={{.AIENGINE_ENABLED}} AIENGINE_TIMEOUTSECONDS={{.AIENGINE_TIMEOUTSECONDS}} {{end}}{{if .SECURITY_ENABLELOGIN}}SECURITY_ENABLELOGIN={{.SECURITY_ENABLELOGIN}} {{end}}{{if .ACCOUNT_LINK_SAAS_BASE_URL}}SCRIPTA_BILLING_ACCOUNT_LINK_ENABLED=true SCRIPTA_BILLING_ACCOUNT_LINK_SAAS_BASE_URL={{.ACCOUNT_LINK_SAAS_BASE_URL}} {{end}}cmd /c ".\gradlew.bat :scripta:bootRun"'
         platforms: [windows]
-      - cmd: '{{if .AIENGINE_URL}}AIENGINE_URL={{.AIENGINE_URL}} AIENGINE_ENABLED={{.AIENGINE_ENABLED}} AIENGINE_TIMEOUTSECONDS={{.AIENGINE_TIMEOUTSECONDS}} {{end}}{{if .SECURITY_ENABLELOGIN}}SECURITY_ENABLELOGIN={{.SECURITY_ENABLELOGIN}} {{end}}{{if .ACCOUNT_LINK_SAAS_BASE_URL}}STIRLING_BILLING_ACCOUNT_LINK_ENABLED=true STIRLING_BILLING_ACCOUNT_LINK_SAAS_BASE_URL={{.ACCOUNT_LINK_SAAS_BASE_URL}} {{end}}./gradlew :stirling-pdf:bootRun'
+      - cmd: '{{if .AIENGINE_URL}}AIENGINE_URL={{.AIENGINE_URL}} AIENGINE_ENABLED={{.AIENGINE_ENABLED}} AIENGINE_TIMEOUTSECONDS={{.AIENGINE_TIMEOUTSECONDS}} {{end}}{{if .SECURITY_ENABLELOGIN}}SECURITY_ENABLELOGIN={{.SECURITY_ENABLELOGIN}} {{end}}{{if .ACCOUNT_LINK_SAAS_BASE_URL}}SCRIPTA_BILLING_ACCOUNT_LINK_ENABLED=true SCRIPTA_BILLING_ACCOUNT_LINK_SAAS_BASE_URL={{.ACCOUNT_LINK_SAAS_BASE_URL}} {{end}}./gradlew :scripta:bootRun'
         platforms: [linux, darwin]
 
   dev:bundled:
@@ -114,7 +114,7 @@ tasks:
       SAAS_BASE_URL: '{{.SAAS_BASE_URL | default "http://localhost:8081"}}'
     cmds:
       - 'echo ">> self-hosted :{{.PORT}} linking to SaaS at {{.SAAS_BASE_URL}}"'
-      # The two backends run different STIRLING_FLAVOURs, which are different Gradle
+      # The two backends run different SCRIPTA_FLAVOURs, which are different Gradle
       # project graphs sharing one build/ tree. Waiting avoids overlapping builds; it
       # does not make the sharing safe, so avoid rebuilding one while the other runs.
       - cmd: |
@@ -163,8 +163,8 @@ tasks:
       BASE_PATH: '{{.BASE_PATH | default ""}}'
     env:
       SERVER_PORT: '{{.PORT}}'
-      STIRLING_FLAVOR: saas
-      STIRLING_BASE_PATH: '{{.BASE_PATH}}'
+      SCRIPTA_FLAVOR: saas
+      SCRIPTA_BASE_PATH: '{{.BASE_PATH}}'
       AIENGINE_URL: '{{.AIENGINE_URL}}'
       AIENGINE_ENABLED: '{{.AIENGINE_ENABLED}}'
       AIENGINE_TIMEOUTSECONDS: '{{.AIENGINE_TIMEOUTSECONDS}}'
@@ -182,9 +182,9 @@ tasks:
     cmds:
       # PROFILE_ARGS is empty when PROFILES=none, i.e. the bare `saas` profile
       # against SAAS_DB_* (production).
-      - cmd: cmd /c ".\gradlew.bat :stirling-pdf:bootRun {{if .PROFILE_ARGS}}--args=\"{{.PROFILE_ARGS}}\"{{end}}"
+      - cmd: cmd /c ".\gradlew.bat :scripta:bootRun {{if .PROFILE_ARGS}}--args=\"{{.PROFILE_ARGS}}\"{{end}}"
         platforms: [windows]
-      - cmd: ./gradlew :stirling-pdf:bootRun {{if .PROFILE_ARGS}}--args='{{.PROFILE_ARGS}}'{{end}}
+      - cmd: ./gradlew :scripta:bootRun {{if .PROFILE_ARGS}}--args='{{.PROFILE_ARGS}}'{{end}}
         platforms: [linux, darwin]
 
   build:
@@ -253,9 +253,9 @@ tasks:
     desc: "Generate OpenAPI docs"
     run: once
     cmds:
-      - cmd: cmd /c ".\gradlew.bat :stirling-pdf:copySwaggerDoc"
+      - cmd: cmd /c ".\gradlew.bat :scripta:copySwaggerDoc"
         platforms: [windows]
-      - cmd: ./gradlew :stirling-pdf:copySwaggerDoc
+      - cmd: ./gradlew :scripta:copySwaggerDoc
         platforms: [linux, darwin]
     sources:
       - app/core/src/main/java/**/*.java
@@ -306,7 +306,7 @@ tasks:
   reset:
     desc: "Reset the local backend database and saved settings"
     cmds:
-      - cmd: rm -f app/core/configs/stirling-pdf-DB-*.db app/core/configs/settings.yml app/core/configs/custom_settings.yml app/core/configs/backup/db/backup_*.sql app/core/configs/db/backup/backup_*.sql
+      - cmd: rm -f app/core/configs/scripta-DB-*.db app/core/configs/settings.yml app/core/configs/custom_settings.yml app/core/configs/backup/db/backup_*.sql app/core/configs/db/backup/backup_*.sql
         platforms: [linux, darwin]
-      - cmd: powershell rm -Force -ErrorAction SilentlyContinue app/core/configs/stirling-pdf-DB-*.db, app/core/configs/settings.yml, app/core/configs/custom_settings.yml, app/core/configs/backup/db/backup_*.sql, app/core/configs/db/backup/backup_*.sql
+      - cmd: powershell rm -Force -ErrorAction SilentlyContinue app/core/configs/scripta-DB-*.db, app/core/configs/settings.yml, app/core/configs/custom_settings.yml, app/core/configs/backup/db/backup_*.sql, app/core/configs/db/backup/backup_*.sql
         platforms: [windows]

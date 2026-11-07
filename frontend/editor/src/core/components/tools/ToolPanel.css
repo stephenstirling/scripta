@@ -883,3 +883,8 @@
     column-width: 14rem;
   }
 }
+
+.tool-panel--floating[data-placement="start"] {
+  border-inline-start: 0;
+  border-inline-end: 1px solid var(--c-border-subtle);
+}

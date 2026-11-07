@@ -2,13 +2,13 @@ import { useTranslation } from "react-i18next";
 import { Icon } from "@app/ui/Icon";
 import { Tooltip } from "@mantine/core";
 
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { diskLinkState } from "@app/services/diskLinkState";
 
 /** Keeps a lost or diverged disk link on screen, where only a transient toast said so.
  *  Silent when healthy or never from disk, so it always means trouble. */
 interface DiskLinkBadgeProps {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   /** Icon-only, for dense rows. */
   compact?: boolean;
 }

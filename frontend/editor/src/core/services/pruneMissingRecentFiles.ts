@@ -1,4 +1,4 @@
-import { StirlingFileStub, FileId } from "@app/types/fileContext";
+import { ScriptaFileStub, FileId } from "@app/types/fileContext";
 
 // Seam for reconciling the file list against wherever its records came from.
 // Where IndexedDB is the only truth a stored record cannot have gone missing,
@@ -24,8 +24,8 @@ export interface PruneOptions {
 }
 
 export async function pruneMissingRecentFiles(
-  stubs: StirlingFileStub[],
+  stubs: ScriptaFileStub[],
   _options: PruneOptions = {},
-): Promise<StirlingFileStub[]> {
+): Promise<ScriptaFileStub[]> {
   return stubs;
 }

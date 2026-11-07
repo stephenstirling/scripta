@@ -1,5 +1,5 @@
 import { lazy, type ComponentType } from "react";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import type { ResponseHandler } from "@app/utils/toolResponseProcessor";
 import { ToolId } from "@app/types/toolId";
 import type { ProcessingProgress } from "@app/hooks/tools/shared/useToolState";
@@ -388,11 +388,11 @@ export interface ToolOperationHook<TParams = void> {
    * Operations with their own execution path can omit this to retain their own selection rules. */
   getEligibleFiles?: (
     params: TParams,
-    selectedFiles: StirlingFile[],
-  ) => StirlingFile[];
+    selectedFiles: ScriptaFile[],
+  ) => ScriptaFile[];
   executeOperation: (
     params: TParams,
-    selectedFiles: StirlingFile[],
+    selectedFiles: ScriptaFile[],
   ) => Promise<void>;
   resetResults: () => void;
   clearError: () => void;

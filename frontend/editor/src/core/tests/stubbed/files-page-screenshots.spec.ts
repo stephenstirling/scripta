@@ -35,7 +35,7 @@ async function seedFiles(page: Page, files: SeedFile[]): Promise<void> {
   );
   await page.addInitScript(
     ({ records, dbVersion }) => {
-      const open = window.indexedDB.open("stirling-pdf-files", dbVersion);
+      const open = window.indexedDB.open("scripta-files", dbVersion);
       open.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (!db.objectStoreNames.contains("files")) {
@@ -435,8 +435,8 @@ test.describe("Files page screenshots", () => {
   async function enableRtl(page: Page): Promise<void> {
     await page.addInitScript(() => {
       localStorage.setItem("i18nextLng", "ar-AR");
-      localStorage.setItem("stirling-language", "ar-AR");
-      localStorage.setItem("stirling-language-source", "user");
+      localStorage.setItem("scripta-language", "ar-AR");
+      localStorage.setItem("scripta-language-source", "user");
       // WebKit init scripts may run before documentElement exists; defer so the IDB seed still runs.
       const applyDir = () => {
         document.documentElement.setAttribute("dir", "rtl");

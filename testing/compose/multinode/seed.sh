@@ -5,14 +5,14 @@ set -u
 
 BASE_URL="${BASE_URL:-http://localhost:8080}"
 ADMIN_USER="${ADMIN_USER:-admin}"
-ADMIN_PASS="${ADMIN_PASS:-stirling}"
+ADMIN_PASS="${ADMIN_PASS:-scripta}"
 USER_COUNT="${USER_COUNT:-40}"
 USER_PASS="${USER_PASS:-Password123!}"
-RATELIMIT_USER="${RATELIMIT_USER:-ratelimit@stirling.test}"
+RATELIMIT_USER="${RATELIMIT_USER:-ratelimit@scripta.test}"
 PGHOST="${PGHOST:-postgres}"
-PGUSER="${PGUSER:-stirling}"
-PGPASSWORD="${PGPASSWORD:-stirling}"
-PGDATABASE="${PGDATABASE:-stirling}"
+PGUSER="${PGUSER:-scripta}"
+PGPASSWORD="${PGPASSWORD:-scripta}"
+PGDATABASE="${PGDATABASE:-scripta}"
 export PGPASSWORD
 
 TEAMS="Engineering Finance Legal Operations"
@@ -76,7 +76,7 @@ log "seedable team ids:$seed_team_ids (count=$team_count)"
 created=0; failed=0; capped=""
 n=1
 while [ "$n" -le "$USER_COUNT" ]; do
-  uname=$(printf "user%02d@stirling.test" "$n")
+  uname=$(printf "user%02d@scripta.test" "$n")
   role="ROLE_USER"; [ "$n" -le 2 ] && role="ROLE_ADMIN"
   team_id=""
   if [ "$team_count" -gt 0 ]; then
@@ -214,4 +214,4 @@ fi
 
 log "seed complete."
 log "  login: $ADMIN_USER / $ADMIN_PASS at $BASE_URL"
-log "  users: user01..$(printf '%02d' "$USER_COUNT")@stirling.test / $USER_PASS"
+log "  users: user01..$(printf '%02d' "$USER_COUNT")@scripta.test / $USER_PASS"

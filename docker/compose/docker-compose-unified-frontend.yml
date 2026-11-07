@@ -2,7 +2,7 @@
 # MODE=FRONTEND: Frontend only, connects to separate backend
 
 services:
-  stirling-pdf-backend:
+  scripta-backend:
     container_name: Scripta-Backend
     build:
       context: ../..
@@ -10,11 +10,11 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./stirling/data:/usr/share/tessdata:rw
-      - ./stirling/config:/configs:rw
-      - ./stirling/logs:/logs:rw
-      - ./stirling/customFiles:/customFiles:rw
-      - ./stirling/pipeline:/pipeline:rw
+      - ./scripta/data:/usr/share/tessdata:rw
+      - ./scripta/config:/configs:rw
+      - ./scripta/logs:/logs:rw
+      - ./scripta/customFiles:/customFiles:rw
+      - ./scripta/pipeline:/pipeline:rw
     environment:
       MODE: BACKEND
       DISABLE_ADDITIONAL_FEATURES: "false"
@@ -33,7 +33,7 @@ services:
         limits:
           memory: 4G
 
-  stirling-pdf-frontend:
+  scripta-frontend:
     container_name: Scripta-Frontend
     build:
       context: ../..
@@ -44,13 +44,13 @@ services:
       MODE: FRONTEND
 
       # Point to the backend service
-      VITE_API_BASE_URL: http://stirling-pdf-backend:8080
+      VITE_API_BASE_URL: http://scripta-backend:8080
 
       # Minimal config needed for frontend
       PUID: 1000
       PGID: 1000
     depends_on:
-      - stirling-pdf-backend
+      - scripta-backend
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]

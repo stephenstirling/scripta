@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { FileId, StirlingFileStub } from "@app/types/fileContext";
+import type { FileId, ScriptaFileStub } from "@app/types/fileContext";
 
 const updateFileMetadata = vi.fn().mockResolvedValue(true);
 const markFileAsLeaf = vi.fn().mockResolvedValue(true);
@@ -16,9 +16,9 @@ const stub = (id: string, localFilePath?: string) =>
     name: `${id}.pdf`,
     isLeaf: false,
     ...(localFilePath ? { localFilePath } : {}),
-  }) as StirlingFileStub;
+  }) as ScriptaFileStub;
 
-const runUndo = async (stubs: StirlingFileStub[]) => {
+const runUndo = async (stubs: ScriptaFileStub[]) => {
   const filesRef = { current: new Map<FileId, File>() };
   const files = stubs.map((s) => new File(["x"], s.name));
   await undoConsumeFiles(files, stubs, [], filesRef, vi.fn(), null);

@@ -9,9 +9,9 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FileContextProvider, useFileActions } from "@app/contexts/FileContext";
 import {
-  createStirlingFile,
+  createScriptaFile,
   type FileId,
-  type StirlingFileStub,
+  type ScriptaFileStub,
 } from "@app/types/fileContext";
 import {
   isAwaitingUnlock,
@@ -51,8 +51,8 @@ vi.mock("@app/contexts/file/fileActions", async (importOriginal) => {
       async (options, _stateRef, filesRef, dispatch) => {
         const source = options.files?.[0];
         if (!source) throw new Error("No test file supplied");
-        const file = createStirlingFile(source, id);
-        const stub: StirlingFileStub = {
+        const file = createScriptaFile(source, id);
+        const stub: ScriptaFileStub = {
           id,
           name: file.name,
           size: file.size,
@@ -64,7 +64,7 @@ vi.mock("@app/contexts/file/fileActions", async (importOriginal) => {
           processedFile: { pages: [], isEncrypted: true },
         };
         filesRef.current.set(id, file);
-        dispatch({ type: "ADD_FILES", payload: { stirlingFileStubs: [stub] } });
+        dispatch({ type: "ADD_FILES", payload: { scriptaFileStubs: [stub] } });
         observed.heldBeforeEffects = isAwaitingUnlock(id);
         return [file];
       },
@@ -125,7 +125,7 @@ describe("encrypted bytes opened by another editor", () => {
       expect(isAwaitingUnlock(id)).toBe(true);
       await act(async () => {
         if (action === "decrypt") {
-          result.current.actions.updateStirlingFileStub(id, {
+          result.current.actions.updateScriptaFileStub(id, {
             processedFile: { pages: [], isEncrypted: false },
           });
         } else {

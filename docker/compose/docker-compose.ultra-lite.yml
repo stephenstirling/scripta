@@ -1,9 +1,9 @@
 services:
-  stirling-pdf:
+  scripta:
     build:
       context: ../..
       dockerfile: docker/embedded/Dockerfile.ultra-lite
-    container_name: stirling-pdf-ultra-lite
+    container_name: scripta-ultra-lite
     restart: unless-stopped
     deploy:
       resources:
@@ -17,8 +17,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ../../stirling/latest/config:/configs:rw
-      - ../../stirling/latest/logs:/logs:rw
+      - ../../scripta/latest/config:/configs:rw
+      - ../../scripta/latest/logs:/logs:rw
     environment:
       DISABLE_ADDITIONAL_FEATURES: "true"
       SECURITY_ENABLELOGIN: "false"
@@ -30,8 +30,8 @@ services:
       UI_APPNAMENAVBAR: Scripta Ultra-lite
       SYSTEM_MAXFILESIZE: "50"
     networks:
-      - stirling-network
+      - scripta-network
 
 networks:
-  stirling-network:
+  scripta-network:
     driver: bridge

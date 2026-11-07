@@ -93,13 +93,13 @@ export function useWorkbenchFileDrop(enabled: boolean) {
     const dropped = await getDropzoneFiles(e);
     const files = dropped.filter((item) => item instanceof File);
     if (files.length === 0) return;
-    const openBefore = fileSelectors.getStirlingFileStubs().length;
+    const openBefore = fileSelectors.getScriptaFileStubs().length;
     try {
       await addFiles(files);
     } catch (cause) {
       // addFiles dispatches in chunks, so a mid-batch failure leaves the
       // earlier files open.
-      const added = fileSelectors.getStirlingFileStubs().length - openBefore;
+      const added = fileSelectors.getScriptaFileStubs().length - openBefore;
       reportFailure(cause, files.length, added);
     }
   };

@@ -38,7 +38,7 @@ x-valkey-cluster-node: &valkey-cluster-node
     timeout: 5s
     retries: 30
   networks:
-    - stirling-multinode
+    - scripta-multinode
 
 services:
   # Node 1 keeps the base container_name (multinode-valkey) and the 'valkey' DNS name so existing
@@ -108,11 +108,11 @@ services:
         done
         echo "FATAL: cluster did not reach cluster_state:ok with all 16384 slots served"; exit 1
     networks:
-      - stirling-multinode
+      - scripta-multinode
 
   # service_completed_successfully on the init is the real readiness gate; valkey's own healthcheck
   # only proves the process is alive.
-  stirling-1:
+  scripta-1:
     depends_on:
       valkey-cluster-init:
         condition: service_completed_successfully
@@ -122,7 +122,7 @@ services:
       CLUSTER_VALKEY_MAXREDIRECTS: "3"
       CLUSTER_VALKEY_TOPOLOGYREFRESHMS: "30000"
 
-  stirling-2:
+  scripta-2:
     depends_on:
       valkey-cluster-init:
         condition: service_completed_successfully

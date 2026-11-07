@@ -21,7 +21,7 @@ const recentSpecialByEndpoint: Record<string, number> = {};
 const SPECIAL_SUPPRESS_MS = 1500; // brief window to suppress generic duplicate after special toast
 
 // Mirrors the key in proprietary/auth/springAuthClient.ts; AuthCallback consumes it.
-const POST_LOGIN_REDIRECT_STORAGE_KEY = "stirling_post_login_path";
+const POST_LOGIN_REDIRECT_STORAGE_KEY = "scripta_post_login_path";
 
 function stashPostLoginRedirect(path: string): void {
   try {
@@ -34,7 +34,7 @@ function stashPostLoginRedirect(path: string): void {
 
 // Loop breaker: a second 401 redirect within this window means the login page
 // bounced us back with a live session — redirecting again would loop forever.
-const LOGIN_REDIRECT_THROTTLE_KEY = "stirling_last_401_redirect";
+const LOGIN_REDIRECT_THROTTLE_KEY = "scripta_last_401_redirect";
 const LOGIN_REDIRECT_THROTTLE_MS = 10_000;
 
 function loginRedirectRecentlyFired(): boolean {
@@ -136,7 +136,7 @@ export async function handleHttpError(error: unknown): Promise<boolean> {
       stashPostLoginRedirect(currentLocation);
       let hadStoredJwt = false;
       try {
-        hadStoredJwt = Boolean(localStorage.getItem("stirling_jwt"));
+        hadStoredJwt = Boolean(localStorage.getItem("scripta_jwt"));
       } catch {
         // ignore storage access failures
       }

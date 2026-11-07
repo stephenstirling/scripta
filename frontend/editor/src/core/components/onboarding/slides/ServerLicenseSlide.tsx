@@ -31,7 +31,7 @@ export default function ServerLicenseSlide({
       components={{
         strong: <strong />,
       }}
-      defaults="Our licensing permits up to <strong>{{freeTierLimit}}</strong> users for free. You have <strong>{{overLimitUserCopy}}</strong> Scripta users. To continue uninterrupted, upgrade to the Stirling Team plan - <strong>100 users</strong>, PDF text editing, and full admin control for $99/mo."
+      defaults="Our licensing permits up to <strong>{{freeTierLimit}}</strong> users for free. You have <strong>{{overLimitUserCopy}}</strong> Scripta users. To continue uninterrupted, upgrade to the Scripta Team plan - <strong>100 users</strong>, PDF text editing, and full admin control for $99/mo."
     />
   );
 
@@ -42,7 +42,7 @@ export default function ServerLicenseSlide({
       components={{
         strong: <strong />,
       }}
-      defaults="Our <strong>Open-Core</strong> licensing includes <strong>OAuth SSO</strong> and up to <strong>{{freeTierLimit}}</strong> users for free. To scale uninterrupted, we recommend the Stirling Team plan - <strong>100 users</strong> for $99/mo."
+      defaults="Our <strong>Open-Core</strong> licensing includes <strong>OAuth SSO</strong> and up to <strong>{{freeTierLimit}}</strong> users for free. To scale uninterrupted, we recommend the Scripta Team plan - <strong>100 users</strong> for $99/mo."
     />
   );
 

@@ -1,4 +1,4 @@
-# Stirling-PDF backend-only image — JAR built with -PbuildWithFrontend=false, UI ships separately.
+# Scripta backend-only image — JAR built with -PbuildWithFrontend=false, UI ships separately.
 
 ARG BASE_VERSION=latest
 ARG BASE_IMAGE=ghcr.io/stephenstirling/scripta-base:${BASE_VERSION}
@@ -37,14 +37,14 @@ RUN gradle dependencies --no-daemon || true
 
 COPY . .
 
-ARG STIRLING_FLAVOR=core
-ENV STIRLING_FLAVOR=${STIRLING_FLAVOR}
+ARG SCRIPTA_FLAVOR=core
+ENV SCRIPTA_FLAVOR=${SCRIPTA_FLAVOR}
 
 # buildWithFrontend=false → backend-only JAR with API landing page.
 # Bundle only the JPDFium native for this image's target arch.
 ARG TARGETARCH
 RUN JPDFIUM_PLATFORM="$([ "$TARGETARCH" = arm64 ] && echo linux-arm64 || echo linux-x64)" && \
-    STIRLING_FLAVOR=${STIRLING_FLAVOR} \
+    SCRIPTA_FLAVOR=${SCRIPTA_FLAVOR} \
     gradle clean build \
       -PbuildWithFrontend=false \
       -PjpdfiumPlatforms="$JPDFIUM_PLATFORM" \
@@ -82,7 +82,7 @@ COPY --link --from=app-build --chown=1000:1000 \
      /app/build/libs/restart-helper.jar /restart-helper.jar
 COPY --link --chown=1000:1000 scripts/ /scripts/
 
-COPY --link --from=app-build --chown=1000:1000 /preinstalled-models/ /opt/stirling/preinstalled-models/
+COPY --link --from=app-build --chown=1000:1000 /preinstalled-models/ /opt/scripta/preinstalled-models/
 
 # Fonts go to system dir, root ownership is correct (world-readable)
 COPY app/core/src/main/resources/static/fonts/*.ttf /usr/share/fonts/truetype/
@@ -95,31 +95,31 @@ RUN set -eux; \
     ln -s /customFiles /app/customFiles; \
     ln -s /pipeline /app/pipeline; \
     ln -s /storage /app/storage; \
-    chown -h stirlingpdfuser:stirlingpdfgroup /app/logs /app/configs /app/customFiles /app/pipeline /app/storage; \
-    chown stirlingpdfuser:stirlingpdfgroup /app; \
-    chmod 750 /tmp/stirling-pdf; \
-    chmod 750 /tmp/stirling-pdf/heap_dumps; \
+    chown -h scriptauser:scriptagroup /app/logs /app/configs /app/customFiles /app/pipeline /app/storage; \
+    chown scriptauser:scriptagroup /app; \
+    chmod 750 /tmp/scripta; \
+    chmod 750 /tmp/scripta/heap_dumps; \
     fc-cache -f
 
-# Version file for scripts (init-without-ocr.sh reads /etc/stirling_version).
-RUN echo "${VERSION_TAG:-dev}" > /etc/stirling_version
+# Version file for scripts (init-without-ocr.sh reads /etc/scripta_version).
+RUN echo "${VERSION_TAG:-dev}" > /etc/scripta_version
 
 # Environment variables
 ENV VERSION_TAG=$VERSION_TAG \
-    FORMDETECTION_PREINSTALLEDMODELDIR="/opt/stirling/preinstalled-models" \
-    STIRLING_AOT_ENABLE="false" \
+    FORMDETECTION_PREINSTALLEDMODELDIR="/opt/scripta/preinstalled-models" \
+    SCRIPTA_AOT_ENABLE="false" \
     _JVM_OPTS="-XX:+ExitOnOutOfMemoryError -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/configs/heap_dumps -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1PeriodicGCInterval=10000 -XX:G1PeriodicGCSystemLoadThreshold=0.0 -XX:+G1PeriodicGCInvokesConcurrent -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:+ExplicitGCInvokesConcurrent -XX:ReservedCodeCacheSize=96m -XX:CICompilerCount=2 -Dspring.threads.virtual.enabled=true -Djava.awt.headless=true" \
     JAVA_CUSTOM_OPTS="" \
-    HOME=/home/stirlingpdfuser \
+    HOME=/home/scriptauser \
     PUID=1000 \
     PGID=1000 \
     UMASK=022 \
-    STIRLING_TEMPFILES_DIRECTORY=/tmp/stirling-pdf \
-    TMPDIR=/tmp/stirling-pdf \
-    TEMP=/tmp/stirling-pdf \
-    TMP=/tmp/stirling-pdf \
+    SCRIPTA_TEMPFILES_DIRECTORY=/tmp/scripta \
+    TMPDIR=/tmp/scripta \
+    TEMP=/tmp/scripta \
+    TMP=/tmp/scripta \
     DBUS_SESSION_BUS_ADDRESS=/dev/null \
-    SAL_TMP=/tmp/stirling-pdf/libre
+    SAL_TMP=/tmp/scripta/libre
 
 # Metadata labels
 LABEL org.opencontainers.image.title="Scripta Backend" \

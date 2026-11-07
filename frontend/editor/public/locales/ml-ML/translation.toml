@@ -613,18 +613,18 @@ label = "സെഷൻ പരിധി"
 description = "പരമാവധി നിർവഹണ സമയം"
 label = "ടൈംഔട്ട് (മിനിറ്റ്)"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert ബീറ്റയിലാണ്. LibreOffice-നെക്കാൾ വേഗത്തിലും കുറഞ്ഞ മെമ്മറിയിലും മികച്ച പരിവർത്തനങ്ങൾ ഇത് നൽകുന്നു."
-label = "പുതിയ Stirling Office പരിവർത്തനം ഉപയോഗിക്കുക"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert ബീറ്റയിലാണ്. LibreOffice-നെക്കാൾ വേഗത്തിലും കുറഞ്ഞ മെമ്മറിയിലും മികച്ച പരിവർത്തനങ്ങൾ ഇത് നൽകുന്നു."
+label = "പുതിയ Scripta Office പരിവർത്തനം ഉപയോഗിക്കുക"
 
 [admin.settings.advanced.tempFileManagement]
 description = "താൽക്കാലിക ഫയൽ സംഭരണവും ക്ലീൻ‌അപ്പ് പെരുമാറ്റവും ക്രമീകരിക്കുക"
 label = "ടെംപ് ഫയൽ മാനേജ്മെന്റ്"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "താൽക്കാലിക ഫയലുകളുടെ അടിസ്ഥാന ഡയറക്ടറി (ഡീഫാൾട്ട് ഉപയോഗിക്കാൻ ശൂന്യം വിടുക: java.io.tmpdir/stirling-pdf)"
+description = "താൽക്കാലിക ഫയലുകളുടെ അടിസ്ഥാന ഡയറക്ടറി (ഡീഫാൾട്ട് ഉപയോഗിക്കാൻ ശൂന്യം വിടുക: java.io.tmpdir/scripta)"
 label = "ബേസ് ടെംപ് ഡയറക്ടറി"
-placeholder = "സ്വതേ: java.io.tmpdir/stirling-pdf"
+placeholder = "സ്വതേ: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "എത്ര ഇടവിട്ട് ക്ലീൻ‌അപ്പ് നടത്തണം (മിനിറ്റിൽ)"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata പാത എഴുതാനാവില്ല. ഡ
 [admin.settings.ai]
 customProvider = "ഇഷ്ടാനുസൃതം (OpenAI-compatible)"
 description = "Scripta-നെ Python AI engine-നോട് ബന്ധിപ്പിക്കുക, അതിന്റെ മോഡലുകൾ തിരഞ്ഞെടുക്കുക, അത് പ്രവർത്തിക്കുന്ന guardrails സജ്ജമാക്കുക."
-managedByCloud = "ഈ മോഡിൽ Stirling Cloud ആണ് നിയന്ത്രിക്കുന്നത്."
-managedByCloudShort = "Stirling Cloud നിയന്ത്രിക്കുന്നു"
+managedByCloud = "ഈ മോഡിൽ Cloud ആണ് നിയന്ത്രിക്കുന്നത്."
+managedByCloudShort = "Cloud നിയന്ത്രിക്കുന്നു"
 
 [admin.settings.ai.documents]
 description = "ഡോക്യുമെന്റുകളിലെ ചോദ്യങ്ങൾക്ക് ഉത്തരം നൽകാൻ ഉപയോഗിക്കുന്ന embedding മോഡലും retrieval ക്രമീകരണങ്ങളും കോൺഫിഗർ ചെയ്യുക. സേവ് ചെയ്യുമ്പോൾ AI engine-ന് ബാധകമാകും."
@@ -735,16 +735,16 @@ description = "ഓരോ AI സവിശേഷതയും ഓൺ അല്ല�
 title = "കഴിവുകൾ"
 
 [admin.settings.ai.general.cloud]
-note = "മോഡലുകളും provider keys ഉം Stirling Cloud ആണ് നിയന്ത്രിക്കുന്നത്, അതിനാൽ ഈ മോഡിൽ ആ ക്രമീകരണങ്ങൾ ബാധകമല്ല."
+note = "മോഡലുകളും provider keys ഉം Cloud ആണ് നിയന്ത്രിക്കുന്നത്, അതിനാൽ ഈ മോഡിൽ ആ ക്രമീകരണങ്ങൾ ബാധകമല്ല."
 
 [admin.settings.ai.general.cloud.indexing]
-description = "ഓരോ AI ടൂളും ഉത്തരം നൽകാൻ ആവശ്യമായ പേജ് ടെക്സ്റ്റ് അയയ്ക്കുന്നു. പിന്നീട് വരുന്ന ചോദ്യങ്ങൾക്ക് ഡോക്യുമെന്റിൽ മുഴുവൻ തിരയാൻ കഴിയുന്ന വിധത്തിൽ Stirling Cloud ആ ടെക്സ്റ്റ് സൂചികയാക്കി സൂക്ഷിക്കാമോ എന്ന് ഇത് തീരുമാനിക്കുന്നു."
+description = "ഓരോ AI ടൂളും ഉത്തരം നൽകാൻ ആവശ്യമായ പേജ് ടെക്സ്റ്റ് അയയ്ക്കുന്നു. പിന്നീട് വരുന്ന ചോദ്യങ്ങൾക്ക് ഡോക്യുമെന്റിൽ മുഴുവൻ തിരയാൻ കഴിയുന്ന വിധത്തിൽ Cloud ആ ടെക്സ്റ്റ് സൂചികയാക്കി സൂക്ഷിക്കാമോ എന്ന് ഇത് തീരുമാനിക്കുന്നു."
 help = "Off എന്നത് ഡോക്യുമെന്റ് ചോദ്യങ്ങൾ ലഭ്യമല്ല എന്നാണ്. ഇത് ടെക്സ്റ്റ് അയയ്ക്കുന്നത് നിർത്തില്ല - സംഭരിക്കുന്നത് മാത്രം നിർത്തും."
-label = "സൂചികയാക്കിയ ഡോക്യുമെന്റുകൾ Stirling Cloud സൂക്ഷിക്കാൻ അനുവദിക്കുക"
+label = "സൂചികയാക്കിയ ഡോക്യുമെന്റുകൾ Cloud സൂക്ഷിക്കാൻ അനുവദിക്കുക"
 
 [admin.settings.ai.general.cloudNote]
-body = "റീസണിംഗ് Scripta-ന്റെ ഇൻഫ്രാസ്ട്രക്ചറിൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്. ഇവിടെ പ്രവർത്തിപ്പിക്കേണ്ട container ഇല്ല, സൂക്ഷിക്കേണ്ട provider key ഇല്ല. AI വായിക്കുന്നതെല്ലാം നിങ്ങളുടെ സ്വന്തം hardware-ൽ അല്ല, Stirling Cloud ആണ് പ്രോസസ്സ് ചെയ്യുന്നത്."
-title = "Stirling Cloud AI കുറിച്ച്"
+body = "റീസണിംഗ് Scripta-ന്റെ ഇൻഫ്രാസ്ട്രക്ചറിൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്. ഇവിടെ പ്രവർത്തിപ്പിക്കേണ്ട container ഇല്ല, സൂക്ഷിക്കേണ്ട provider key ഇല്ല. AI വായിക്കുന്നതെല്ലാം നിങ്ങളുടെ സ്വന്തം hardware-ൽ അല്ല, Cloud ആണ് പ്രോസസ്സ് ചെയ്യുന്നത്."
+title = "Cloud AI കുറിച്ച്"
 
 [admin.settings.ai.general.enabled]
 description = "പ്രധാന switch. ഓഫ് ആയിരിക്കുമ്പോൾ AI tools, agents, അല്ലെങ്കിൽ engine calls ഒന്നും ലഭ്യമല്ല."
@@ -782,11 +782,11 @@ label = "ദൈർഘ്യമേറിയ timeout (seconds)"
 label = "AI എവിടെ പ്രവർത്തിക്കുന്നു"
 
 [admin.settings.ai.general.mode.cloud]
-description = "Container ഇല്ല, provider key ഇല്ല, model തിരഞ്ഞെടുക്കൽ ഇല്ല - ജോലി Stirling Cloud-ൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്."
+description = "Container ഇല്ല, provider key ഇല്ല, model തിരഞ്ഞെടുക്കൽ ഇല്ല - ജോലി Cloud-ൽ പ്രവർത്തിക്കുന്നു, ഈ server ലിങ്ക് ചെയ്തിരിക്കുന്ന അക്കൗണ്ടിലേക്കാണ് ബിൽ ചെയ്യുന്നത്."
 linkCta = "ഈ server ഒരു Scripta അക്കൗണ്ടുമായി ബന്ധിപ്പിക്കുക"
 notLinked = "ആദ്യം ഒരു അക്കൗണ്ട് ലിങ്ക് ചെയ്യുക"
 ownerOnly = "organization owner-ന് മാത്രമേ ഈ server ഒരു Scripta അക്കൗണ്ടുമായി ലിങ്ക് ചെയ്യാൻ കഴിയൂ."
-title = "Stirling Cloud AI ഉപയോഗിക്കുക"
+title = "Cloud AI ഉപയോഗിക്കുക"
 
 [admin.settings.ai.general.mode.off]
 description = "ആപ്പിൽ എവിടെയും AI ടൂളുകൾ ഇല്ല, ഈ server വിട്ട് ഒന്നും പുറത്തേക്ക് പോകുന്നില്ല."
@@ -818,7 +818,7 @@ description = "engine-ലേക്കുള്ള സാധാരണ AI requests
 label = "അഭ്യർത്ഥന ടൈംഔട്ട് (സെക്കൻഡ്)"
 
 [admin.settings.ai.general.url]
-description = "Python AI engine-ന്റെ internal URL, ഉദാ. http://stirling-pdf-engine:5001."
+description = "Python AI engine-ന്റെ internal URL, ഉദാ. http://scripta-engine:5001."
 label = "AI എഞ്ചിൻ URL"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "എഞ്ചിൻ URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "ഡൗൺ"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "അപ്പ്"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "AI പങ്കിടൽ"
 sharingOff = "പ്രവർത്തനരഹിതം"
 sharingOn = "പ്രവർത്തനക്ഷമം"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud മറുപടി നൽകി, പക്ഷേ ഈ server നിരസിച്ചു. അക്കൗണ്ട് ലിങ്ക് റദ്ദാക്കിയിരിക്കാം."
-title = "Stirling Cloud ഈ server നിരസിക്കുന്നു"
+body = "Cloud മറുപടി നൽകി, പക്ഷേ ഈ server നിരസിച്ചു. അക്കൗണ്ട് ലിങ്ക് റദ്ദാക്കിയിരിക്കാം."
+title = "Cloud ഈ server നിരസിക്കുന്നു"
 
 [admin.settings.ai.status.cloud.down]
-body = "ഈ server-ന് Stirling Cloud-ലേക്ക് എത്താനായില്ല. അക്കൗണ്ട് ലിങ്കും ഈ server-ന് internet എത്തുമോ എന്നും പരിശോധിക്കുക."
-title = "Stirling Cloud എത്തിച്ചേരാനാകുന്നില്ല"
+body = "ഈ server-ന് Cloud-ലേക്ക് എത്താനായില്ല. അക്കൗണ്ട് ലിങ്കും ഈ server-ന് internet എത്തുമോ എന്നും പരിശോധിക്കുക."
+title = "Cloud എത്തിച്ചേരാനാകുന്നില്ല"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud ഈ server സ്വീകരിച്ചു. ഇവിടെ പ്രവർത്തിപ്പിക്കാനോ patch ചെയ്യാനോ ഒന്നുമില്ല."
-title = "Stirling Cloud-ൽ പ്രവർത്തിക്കുന്നു"
+body = "Cloud ഈ server സ്വീകരിച്ചു. ഇവിടെ പ്രവർത്തിപ്പിക്കാനോ patch ചെയ്യാനോ ഒന്നുമില്ല."
+title = "Cloud-ൽ പ്രവർത്തിക്കുന്നു"
 
 [admin.settings.ai.status.degraded]
 body = "health check-ന് മറുപടി നൽകി, പക്ഷേ യഥാർത്ഥ request നിരസിച്ചു. രണ്ട് വശങ്ങളും വ്യത്യസ്ത shared secrets ഉപയോഗിക്കുന്നു."
@@ -1475,7 +1475,7 @@ oauth = "OAuth 2.1 (ബാഹ്യ IdP)"
 
 [admin.settings.mcp.requireAccount]
 description = "Subject ഒരു provisioned, enabled Scripta user-ുമായി map ചെയ്താൽ മാത്രം tokens അനുവദിക്കുക."
-label = "നിലവിലുള്ള Stirling account ആവശ്യമാണ്"
+label = "നിലവിലുള്ള account ആവശ്യമാണ്"
 
 [admin.settings.mcp.resourceId]
 description = "ഈ server-ന്റെ public /mcp URL. Tokens അവരുടെ audience-ൽ ഇത് list ചെയ്യണം (RFC 8707), അല്ലെങ്കിൽ അവ നിരസിക്കും."
@@ -1885,7 +1885,7 @@ wrapUp = "അഡ്മിൻ tour ഇതോടെ കഴിഞ്ഞു! Scripta
 title = "ഉപയോക്തൃ നിയന്ത്രണ ക്രമീകരണങ്ങൾ"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "അറബിക്"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "ആദ്യം source format തിരഞ്ഞെ�
 settings = "ക്രമീകരണങ്ങൾ"
 single = "ഒറ്റ"
 sourceFormatPlaceholder = "ഉറവിട ഫോർമാറ്റ്"
-stirlingOfficeConvert = "Stirling Office Convert (ബീറ്റ) ഉപയോഗിക്കുക"
-stirlingOfficeConvertDescription = "കുറഞ്ഞ മെമ്മറിയിൽ മികച്ചതും വേഗത്തിലുള്ളതുമായ പരിവർത്തനങ്ങൾ. സാധാരണ കൺവെർട്ടർ ഉപയോഗിക്കാൻ ഓഫാക്കുക."
+scriptaOfficeConvert = "Office Convert (ബീറ്റ) ഉപയോഗിക്കുക"
+scriptaOfficeConvertDescription = "കുറഞ്ഞ മെമ്മറിയിൽ മികച്ചതും വേഗത്തിലുള്ളതുമായ പരിവർത്തനങ്ങൾ. സാധാരണ കൺവെർട്ടർ ഉപയോഗിക്കാൻ ഓഫാക്കുക."
 strictMode = "കർശന മോഡ്"
 strictModeDesc = "Conversion perfect അല്ലെങ്കിൽ error (VeraPDF verification ഉപയോഗിക്കുന്നു)"
 svgPdfOptions = "SVG to PDF ഓപ്ഷനുകൾ"
@@ -3366,7 +3366,7 @@ subtitle = "കുക്കി ഉപയോഗം"
 title = "സമ്മത മുൻഗണനാ കേന്ദ്രം"
 
 [cookieBanner.preferencesModal.analytics]
-description = "ഞങ്ങളുടെ tools എങ്ങനെ ഉപയോഗിക്കപ്പെടുന്നു എന്ന് മനസ്സിലാക്കാൻ ഈ cookies സഹായിക്കുന്നു, അതുവഴി community ഏറ്റവും വിലമതിക്കുന്ന features നിർമ്മിക്കുന്നതിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കാം. ആശങ്ക വേണ്ട-Stirling PDF നിങ്ങൾ പ്രവർത്തിക്കുന്ന documents-ന്റെ content track ചെയ്യാനോ ഒരിക്കലും access ചെയ്യാനോ കഴിയില്ല."
+description = "ഞങ്ങളുടെ tools എങ്ങനെ ഉപയോഗിക്കപ്പെടുന്നു എന്ന് മനസ്സിലാക്കാൻ ഈ cookies സഹായിക്കുന്നു, അതുവഴി community ഏറ്റവും വിലമതിക്കുന്ന features നിർമ്മിക്കുന്നതിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കാം. ആശങ്ക വേണ്ട-Scripta നിങ്ങൾ പ്രവർത്തിക്കുന്ന documents-ന്റെ content track ചെയ്യാനോ ഒരിക്കലും access ചെയ്യാനോ കഴിയില്ല."
 title = "അനലിറ്റിക്സ്"
 
 [cookieBanner.preferencesModal.description]
@@ -3956,7 +3956,7 @@ recentFiles = "സമീപകാലത്"
 refresh = "പുതുക്കുക"
 refreshNeedsConnection = "സെർവറിൽ നിന്ന് പുതുക്കാൻ സൈൻ ഇൻ ചെയ്യുക."
 remove = "ഇല്ലാതാക്കുക"
-removeLocalFolder = "Stirlingൽ നിന്ന് അൺമൗണ്ട് ചെയ്യുക"
+removeLocalFolder = "Scriptaൽ നിന്ന് അൺമൗണ്ട് ചെയ്യുക"
 removeVersion = "ഈ വേർഷൻ നീക്കുക"
 rename = "പേര് മാറ്റുക"
 renamed = "പേരുമാറ്റി"
@@ -3977,7 +3977,7 @@ summary_other = "{{count}} ഇനങ്ങൾ"
 tree = "ഫോൾഡറുകൾ"
 unmount = "അൺമൗണ്ട്"
 unmountFolderBody = "\"{{name}}\" അൺമൗണ്ട് ചെയ്യണോ? ഫോൾഡറും അതിലെ ഫയലുകളും നിങ്ങളുടെ ഡിസ്കിൽ തുടരും."
-unmountFolderTitle = "Stirlingൽ നിന്ന് അൺമൗണ്ട് ചെയ്യണോ?"
+unmountFolderTitle = "Scriptaൽ നിന്ന് അൺമൗണ്ട് ചെയ്യണോ?"
 upload = "അപ്‌ലോഡ്"
 uploadFromMobile = "മൊബൈലിൽ നിന്ന് അപ്‌ലോഡ് ചെയ്യുക"
 versionActions = "വേർഷൻ പ്രവർത്തനങ്ങൾ"
@@ -4020,7 +4020,7 @@ orphaned = "ഡിസ്കിൽ ഇല്ല"
 orphanedHint = "{{path}}ലെ ഒറിജിനൽ പോയി. ഈ കോപ്പി ഇവിടെ മാത്രമാണ് - സേവ് ചെയ്യുന്നത് പുതിയ ലൊക്കേഷൻ ചോദിക്കും."
 unavailable = "ലഭ്യമല്ല"
 unavailableHintOffline = "ഈ ഫയൽ ഉള്ള ഡ്രൈവ് അല്ലെങ്കിൽ ഷെയർ കണക്റ്റ് ചെയ്തിട്ടില്ല. മാറ്റങ്ങൾ വീണ്ടും എടുക്കാൻ അത് വീണ്ടും കണക്റ്റ് ചെയ്യുക."
-unavailableHintPermission = "ഈ ലൊക്കേഷൻ വായിക്കാൻ Stirlingന് അനുമതിയില്ല. മാറ്റങ്ങൾ വീണ്ടും എടുക്കാൻ System Settingsൽ ആക്സസ് അനുവദിക്കുക."
+unavailableHintPermission = "ഈ ലൊക്കേഷൻ വായിക്കാൻ Scriptaന് അനുമതിയില്ല. മാറ്റങ്ങൾ വീണ്ടും എടുക്കാൻ System Settingsൽ ആക്സസ് അനുവദിക്കുക."
 unavailableHintUnknown = "ഈ ഫയലിലേക്ക് ഇപ്പോൾ എത്താനാകില്ല. ഇവിടെ ഉള്ള കോപ്പി മാറ്റമില്ലാതെ തുടരുന്നു."
 
 [filesPage.diskState]
@@ -5349,7 +5349,7 @@ userTitle = "പ്ലാൻ അവലോകനം"
 [onboarding.processorIntro]
 body = "Scripta ഇപ്പോൾ <strong>Policies</strong> പ്രവർത്തിപ്പിക്കുന്നു — ഓരോ document എത്തുമ്പോഴും classify, secure, process ചെയ്യുന്ന automated rules. അവ setup ചെയ്ത് runs <strong>Processor</strong>-ൽ monitor ചെയ്യുക."
 cta = "Processor പരിശോധിക്കുക"
-title = "Stirling Processor പരിശോധിക്കുക"
+title = "Processor പരിശോധിക്കുക"
 
 [onboarding.securityCheck]
 message = "ആപ്ലിക്കേഷൻ അടുത്തിടെ വലിയ മാറ്റങ്ങൾ കണ്ടിട്ടുണ്ട്. നിങ്ങളുടെ സെർവർ അഡ്മിന്റെ ശ്രദ്ധ ആവശ്യമായേക്കാം. തുടരാൻ നിങ്ങളുടെ റോൾ സ്ഥിരീകരിക്കുക."
@@ -5359,9 +5359,9 @@ roleUser = "ഉപയോക്താവ്"
 title = "സുരക്ഷാ പരിശോധന"
 
 [onboarding.serverLicense]
-freeBody = "ഞങ്ങളുടെ <strong>Open-Core</strong> ലൈസൻസിൽ <strong>OAuth SSO</strong>യും പരമാവധി <strong>{{freeTierLimit}}</strong> ഉപയോക്താക്കളും സൗജന്യമായി ഉൾപ്പെടുന്നു. തടസ്സമില്ലാതെ വിപുലീകരിക്കാൻ Stirling Team പ്ലാൻ ഞങ്ങൾ ശുപാർശ ചെയ്യുന്നു — പ്രതിമാസം $99-ന് <strong>100 ഉപയോക്താക്കൾ</strong>."
+freeBody = "ഞങ്ങളുടെ <strong>Open-Core</strong> ലൈസൻസിൽ <strong>OAuth SSO</strong>യും പരമാവധി <strong>{{freeTierLimit}}</strong> ഉപയോക്താക്കളും സൗജന്യമായി ഉൾപ്പെടുന്നു. തടസ്സമില്ലാതെ വിപുലീകരിക്കാൻ Scripta Team പ്ലാൻ ഞങ്ങൾ ശുപാർശ ചെയ്യുന്നു — പ്രതിമാസം $99-ന് <strong>100 ഉപയോക്താക്കൾ</strong>."
 freeTitle = "Team പ്ലാൻ"
-overLimitBody = "ഞങ്ങളുടെ licensing <strong>{{freeTierLimit}}</strong> വരെ users-നെ സൗജന്യമായി അനുവദിക്കുന്നു. നിങ്ങൾക്ക് <strong>{{overLimitUserCopy}}</strong> Scripta users ഉണ്ട്. തടസ്സമില്ലാതെ തുടരാൻ Stirling Team plan-ലേക്ക് upgrade ചെയ്യുക - <strong>100 users</strong>, PDF text editing, കൂടാതെ $99/mo-ക്ക് full admin control."
+overLimitBody = "ഞങ്ങളുടെ licensing <strong>{{freeTierLimit}}</strong> വരെ users-നെ സൗജന്യമായി അനുവദിക്കുന്നു. നിങ്ങൾക്ക് <strong>{{overLimitUserCopy}}</strong> Scripta users ഉണ്ട്. തടസ്സമില്ലാതെ തുടരാൻ Scripta Team plan-ലേക്ക് upgrade ചെയ്യുക - <strong>100 users</strong>, PDF text editing, കൂടാതെ $99/mo-ക്ക് full admin control."
 overLimitTitle = "Team plan ആവശ്യമാണ്"
 seePlans = "പ്ലാനുകൾ കാണുക →"
 upgrade = "ഇപ്പോൾ അപ്‌ഗ്രേഡ് ചെയ്യുക →"
@@ -6918,7 +6918,7 @@ label = "ഹെഡറുകൾ"
 
 [portal.policies.operations.fields.index]
 label = "ഇൻഡെക്സ്"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "ഇഷ്യൂ കീ"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud ഉപയോക്തൃനാമം"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "policy ഒരു ഡോക്യുമെന്റ് കൈകാര്യം ചെയ്തതായി space-നെ അറിയിക്കുന്നു."
@@ -7192,7 +7192,7 @@ secretNote = "webhook സൃഷ്ടിക്കുമ്പോൾ signing secr
 copy = "പകർത്തുക"
 done = "പൂർത്തിയായി"
 secret = "സൈനിംഗ് സീക്രട്ട്"
-secretHelp = "ഈ key (HMAC-SHA256) ഉപയോഗിച്ച് ഓരോ delivery-യുടെയും raw body sign ചെയ്ത് X-Stirling-Signature header ആയി അയയ്ക്കുക."
+secretHelp = "ഈ key (HMAC-SHA256) ഉപയോഗിച്ച് ഓരോ delivery-യുടെയും raw body sign ചെയ്ത് X-Scripta-Signature header ആയി അയയ്ക്കുക."
 secretWarning = "signing secret ഇപ്പോൾ copy ചെയ്യുക. നിങ്ങളുടെ സുരക്ഷയ്ക്കായി ഇത് ഒരിക്കൽ മാത്രം കാണിക്കും, പിന്നീട് retrieve ചെയ്യാൻ കഴിയില്ല."
 title = "Webhook സൃഷ്ടിച്ചു"
 url = "ഡെലിവറി URL"
@@ -8047,7 +8047,7 @@ storageSharing = "ഫയൽ സംഭരണവും പങ്കിടലും
 systemSettings = "സിസ്റ്റം ക്രമീകരണങ്ങൾ"
 
 [settings.connectedInstances]
-confirmBody = "ഇത് Stirling Cloud-ൽ നിങ്ങളുടെ team-ിലേക്കുള്ള instance-ന്റെ access പിൻവലിക്കുന്നു. ഇത് local files ഇല്ലാതാക്കുകയോ ഇതിനകം രേഖപ്പെടുത്തിയ usage നീക്കംചെയ്യുകയോ ചെയ്യുന്നില്ല. വീണ്ടും ബന്ധിപ്പിക്കാൻ, instance-ൽ യഥാർത്ഥ connection steps പിന്തുടരുക."
+confirmBody = "ഇത് Cloud-ൽ നിങ്ങളുടെ team-ിലേക്കുള്ള instance-ന്റെ access പിൻവലിക്കുന്നു. ഇത് local files ഇല്ലാതാക്കുകയോ ഇതിനകം രേഖപ്പെടുത്തിയ usage നീക്കംചെയ്യുകയോ ചെയ്യുന്നില്ല. വീണ്ടും ബന്ധിപ്പിക്കാൻ, instance-ൽ യഥാർത്ഥ connection steps പിന്തുടരുക."
 confirmTitle = "{{name}} നീക്കംചെയ്യണോ?"
 connectedAt = "ബന്ധിപ്പിച്ചത്: {{date}}"
 connectedDate = "ബന്ധിപ്പിച്ചു"
@@ -8091,7 +8091,7 @@ user = "ലോഗിൻ ചെയ്തത്"
 
 [settings.connection.mode]
 local = "ലോക്കൽ മാത്രം"
-saas = "Stirling Cloud"
+saas = "Cloud"
 selfhosted = "സെൽഫ്-ഹോസ്റ്റഡ്"
 
 [settings.developer]
@@ -8267,7 +8267,7 @@ title = "Monitoring"
 [settings.planBilling]
 currentPlan = "നിലവിലെ പ്ലാൻ"
 loading = "ബില്ലിംഗ് വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു..."
-notAvailable = "Plan & Billing, Stirling Cloud-ലേക്ക് (SaaS mode) കണക്റ്റ് ചെയ്തിരിക്കുന്നപ്പോൾ മാത്രമാണ് ലഭ്യമാകുന്നത്."
+notAvailable = "Plan & Billing, Cloud-ലേക്ക് (SaaS mode) കണക്റ്റ് ചെയ്തിരിക്കുന്നപ്പോൾ മാത്രമാണ് ലഭ്യമാകുന്നത്."
 title = "പ്ലാനും Billing-ഉം"
 
 [settings.planBilling.billing]

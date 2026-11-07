@@ -43,7 +43,7 @@ cleanup() {
   echo "=== Cleanup ==="
   [ -n "$APP_PID" ] && kill "$APP_PID" 2>/dev/null || true
   [ -n "$SERVER_PID" ] && kill "$SERVER_PID" 2>/dev/null || true
-  pkill -f "stirling-pdf" 2>/dev/null || true
+  pkill -f "scripta" 2>/dev/null || true
   echo "  Done"
 }
 trap cleanup EXIT
@@ -105,7 +105,7 @@ esac
 
 # ── Step 1: Build JRE + JAR ──────────────────────────────────────────────────
 JRE_JAVA="$TAURI_DIR/runtime/jre/bin/java"
-JAR_GLOB="$TAURI_DIR/libs/stirling-pdf-*.jar"
+JAR_GLOB="$TAURI_DIR/libs/scripta-*.jar"
 
 if [ "$SKIP_BUILD" = false ] || ! ls $JAR_GLOB >/dev/null 2>&1 || [ ! -f "$JRE_JAVA" ]; then
   echo ""
@@ -113,7 +113,7 @@ if [ "$SKIP_BUILD" = false ] || ! ls $JAR_GLOB >/dev/null 2>&1 || [ ! -f "$JRE_J
   cd "$REPO_ROOT"
   DISABLE_ADDITIONAL_FEATURES=true ./gradlew bootJar -x test --no-daemon 2>&1 | tail -3
 
-  BUILT_JAR=$(ls -t app/core/build/libs/stirling-pdf-*.jar 2>/dev/null | head -1 || true)
+  BUILT_JAR=$(ls -t app/core/build/libs/scripta-*.jar 2>/dev/null | head -1 || true)
   if [ -z "$BUILT_JAR" ]; then echo "Error: JAR not found"; exit 1; fi
 
   mkdir -p "$TAURI_DIR/libs"

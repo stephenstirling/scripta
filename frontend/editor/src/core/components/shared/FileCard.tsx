@@ -4,7 +4,7 @@ import { Button } from "@app/ui/Button";
 import { ActionIcon } from "@app/ui/ActionIcon";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@app/ui/Icon";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { getFileSize, getFileDate } from "@app/utils/fileUtils";
 import { useFileThumbnail } from "@app/hooks/useFileThumbnail";
 import DocumentThumbnail from "@app/components/shared/filePreview/DocumentThumbnail";
@@ -12,7 +12,7 @@ import { LARGE_PDF_PARSE_LIMIT } from "@app/utils/thumbnailUtils";
 
 interface FileCardProps {
   file: File;
-  fileStub?: StirlingFileStub;
+  fileStub?: ScriptaFileStub;
   onRemove: () => void;
   onDoubleClick?: () => void;
   onView?: () => void;

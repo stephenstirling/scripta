@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const STORAGE_KEY = "stirling:sign:default-signature-id";
+const STORAGE_KEY = "scripta:sign:default-signature-id";
 
 function read(): string | null {
   try {

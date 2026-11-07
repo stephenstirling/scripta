@@ -613,18 +613,18 @@ label = "ཚོགས་འདུའི་ཚད་གཞི།"
 description = "ཆེས་མང་བའི་ལག་བསྟར་དུས་ཚོད།"
 label = "དུས་ཚོད་ཕྱིར་ཐོན་(སྐར་མ་)།"
 
-[admin.settings.advanced.stirlingOfficeConversion]
-description = "Stirling Office Convert ནི beta ཚོད་ལྟའི་གནས་སྐབས་སུ་ཡོད། དེས LibreOffice ལས་སྒྱུར་སྤོར་ལེགས་པ། མགྱོགས་པ། དྲན་གསོག་ཉུང་བ་སྤྱོད་པ་མཁོ་འདོན་བྱེད།"
-label = "Stirling Office སྒྱུར་སྤོར་གསར་པ་སྤྱོད།"
+[admin.settings.advanced.scriptaOfficeConversion]
+description = "Office Convert ནི beta ཚོད་ལྟའི་གནས་སྐབས་སུ་ཡོད། དེས LibreOffice ལས་སྒྱུར་སྤོར་ལེགས་པ། མགྱོགས་པ། དྲན་གསོག་ཉུང་བ་སྤྱོད་པ་མཁོ་འདོན་བྱེད།"
+label = "Scripta Office སྒྱུར་སྤོར་གསར་པ་སྤྱོད།"
 
 [admin.settings.advanced.tempFileManagement]
 description = "གནས་སྐབས་ཀྱི་ཡིག་ཆ་གསོག་འཇོག་དང་གཙང་སྦྲ་བྱེད་པའི་སྤྱོད་ཚུལ་བཀོད་སྒྲིག་བྱེད་པ།"
 label = "ཊེམ་པི་ཡིག་ཆ་དོ་དམ།"
 
 [admin.settings.advanced.tempFileManagement.baseTmpDir]
-description = "གནས་སྐབས་ཡིག་ཆའི་གཞི་རྩའི་སྣོད་ཐོ། (སྔོན་སྒྲིག་ཆེད་དུ་སྟོང་པར་བཞག་པ་: java.io.tmpdir/stirling-pdf)"
+description = "གནས་སྐབས་ཡིག་ཆའི་གཞི་རྩའི་སྣོད་ཐོ། (སྔོན་སྒྲིག་ཆེད་དུ་སྟོང་པར་བཞག་པ་: java.io.tmpdir/scripta)"
 label = "གཞི་རྟེན་ཊེམ་པི་སྣོད་ཐོ།"
-placeholder = "སོར་བཞག: java.io.tmpdir/stirling-pdf"
+placeholder = "སོར་བཞག: java.io.tmpdir/scripta"
 
 [admin.settings.advanced.tempFileManagement.cleanupIntervalMinutes]
 description = "གཙང་སྦྲ་བྱེད་ཐེངས་མང་དག་ཐེངས་མང་།(སྐར་མ་ཁ་ཤས་ནང་)"
@@ -683,8 +683,8 @@ permissionNotice = "tessdata འགྲུལ་ལམ་འུར་བྱེད
 [admin.settings.ai]
 customProvider = "སྲོལ་སྒྲིག (OpenAI-compatible)"
 description = "Scripta དེ Python AI engine ལ་མཐུད། model འདེམས། དེ་འགྲོ་སྐྱོད་བྱེད་པའི་སྲུང་མཚམས་སྒྲིག"
-managedByCloud = "རྣམ་པ་འདིར Stirling Cloud གིས་དོ་དམ་བྱེད།"
-managedByCloudShort = "Stirling Cloud གིས་དོ་དམ་བྱས།"
+managedByCloud = "རྣམ་པ་འདིར Cloud གིས་དོ་དམ་བྱེད།"
+managedByCloudShort = "Cloud གིས་དོ་དམ་བྱས།"
 
 [admin.settings.ai.documents]
 description = "ཡིག་ཆའི་ཐོག་དྲི་བར་ལན་འདེབས་པར་སྤྱོད་པའི embedding model དང retrieval སྒྲིག་འགོད་སྒྲིག་སྦྱོར་བྱོས། ཉར་ཚགས་བྱས་རྗེས AI engine ལ་སྤྱོད་འཐུས།"
@@ -735,16 +735,16 @@ description = "AI ཁྱད་ནུས་རེ་རེ་སྒོ་ཕྱ�
 title = "ནུས་པ"
 
 [admin.settings.ai.general.cloud]
-note = "Models དང provider keys རྣམས Stirling Cloud གིས་དོ་དམ་བྱེད་པས། རྣམ་པ་འདིར་སྒྲིག་འགོད་དེ་དག་མི་འཇུག"
+note = "Models དང provider keys རྣམས Cloud གིས་དོ་དམ་བྱེད་པས། རྣམ་པ་འདིར་སྒྲིག་འགོད་དེ་དག་མི་འཇུག"
 
 [admin.settings.ai.general.cloud.indexing]
-description = "AI ལག་ཆ་རེ་རེས་ལན་འདེབས་ཆེད་དགོས་པའི་ཤོག་ངོས་ཡི་གེ་སྐུར། འདིས Stirling Cloud གིས་ཡི་གེ་དེ་སྟོན་བྱང་བཟོས་ནས་ཉར་ཆོག་མིན་ཐག་གཅོད་བྱེད། དེས་རྗེས་སུ་དྲི་བས་ཡིག་ཆ་ཁྱོན་ལ་འཚོལ་ཐུབ།"
+description = "AI ལག་ཆ་རེ་རེས་ལན་འདེབས་ཆེད་དགོས་པའི་ཤོག་ངོས་ཡི་གེ་སྐུར། འདིས Cloud གིས་ཡི་གེ་དེ་སྟོན་བྱང་བཟོས་ནས་ཉར་ཆོག་མིན་ཐག་གཅོད་བྱེད། དེས་རྗེས་སུ་དྲི་བས་ཡིག་ཆ་ཁྱོན་ལ་འཚོལ་ཐུབ།"
 help = "ཁ་བརྒྱབ་ན་ཡིག་ཆའི་དྲི་བ་སྤྱོད་མི་ཐུབ། དེས་ཡི་གེ་སྐུར་བ་འགོག་མི་བྱེད - ཉར་བ་ཁོ་ན་འགོག"
-label = "Stirling Cloud ལ་སྟོན་བྱང་བཟོས་པའི་ཡིག་ཆ་ཉར་དུ་ཆུག"
+label = "Cloud ལ་སྟོན་བྱང་བཟོས་པའི་ཡིག་ཆ་ཉར་དུ་ཆུག"
 
 [admin.settings.ai.general.cloudNote]
-body = "རྒྱུ་མཚན་དཔྱད་པ་ནི Scripta གི་རྨང་གཞི་སྟེང་འགྲོ་སྐྱོད་བྱེད་ཅིང་། ཞབས་ཞུ་ཆས་འདི་འབྲེལ་ཡོད་པའི་རྩིས་ཁྲ་ལ་རིན་རྩིས་བྱེད། འདིར་འགྲོ་སྐྱོད་བྱ་དགོས་པའི container མེད་ལ provider key ཉར་དགོས་པའང་མེད། AI གང་ཀློག་པ་ཚང་མ་རང་གི hardware སྟེང་མ་ཡིན་པར Stirling Cloud གིས་བཅོས་སྒྲིག་བྱེད།"
-title = "Stirling Cloud AI སྐོར།"
+body = "རྒྱུ་མཚན་དཔྱད་པ་ནི Scripta གི་རྨང་གཞི་སྟེང་འགྲོ་སྐྱོད་བྱེད་ཅིང་། ཞབས་ཞུ་ཆས་འདི་འབྲེལ་ཡོད་པའི་རྩིས་ཁྲ་ལ་རིན་རྩིས་བྱེད། འདིར་འགྲོ་སྐྱོད་བྱ་དགོས་པའི container མེད་ལ provider key ཉར་དགོས་པའང་མེད། AI གང་ཀློག་པ་ཚང་མ་རང་གི hardware སྟེང་མ་ཡིན་པར Cloud གིས་བཅོས་སྒྲིག་བྱེད།"
+title = "Cloud AI སྐོར།"
 
 [admin.settings.ai.general.enabled]
 description = "སྤྱིའི་སྒོ་འབྱེད། སྒོ་བརྒྱབ་སྐབས AI tools, agents, ཡང་ན engine calls གང་ཡང་མི་རུང་།"
@@ -782,11 +782,11 @@ label = "དུས་ཡུན་རིང་བའི timeout (སྐར་ཆ)
 label = "AI གང་དུ་འགྲོ་སྐྱོད།"
 
 [admin.settings.ai.general.mode.cloud]
-description = "container མེད། provider key མེད། model འདེམས་མེད - ལས་ཀ Stirling Cloud སྟེང་འགྲོ་སྐྱོད་བྱས་ནས་ཞབས་ཞུ་ཆས་འདི་འབྲེལ་ཡོད་པའི་རྩིས་ཁྲ་ལ་རིན་རྩིས་བྱེད།"
+description = "container མེད། provider key མེད། model འདེམས་མེད - ལས་ཀ Cloud སྟེང་འགྲོ་སྐྱོད་བྱས་ནས་ཞབས་ཞུ་ཆས་འདི་འབྲེལ་ཡོད་པའི་རྩིས་ཁྲ་ལ་རིན་རྩིས་བྱེད།"
 linkCta = "ཞབས་ཞུ་ཆས་འདི Scripta རྩིས་ཁྲ་ལ་མཐུད།"
 notLinked = "སྔོན་ལ་རྩིས་ཁྲ་ཞིག་མཐུད།"
 ownerOnly = "ཚོགས་པའི་བདག་པོ་ཁོ་ནས་ཞབས་ཞུ་ཆས་འདི Scripta རྩིས་ཁྲ་ལ་མཐུད་ཐུབ།"
-title = "Stirling Cloud AI སྤྱོད།"
+title = "Cloud AI སྤྱོད།"
 
 [admin.settings.ai.general.mode.off]
 description = "ཉེར་སྤྱོད་གང་དུའང AI ལག་ཆ་མེད། འདི་ནས་གང་ཡང་ཕྱིར་མི་འགྲོ"
@@ -818,7 +818,7 @@ description = "engine ལ་སྐྱེལ་བའི་ཚད་ལྡན AI 
 label = "Request timeout (སྐར་ཆ)"
 
 [admin.settings.ai.general.url]
-description = "Python AI engine གི་ནང་ཁུལ URL, དཔེར་ན http://stirling-pdf-engine:5001."
+description = "Python AI engine གི་ནང་ཁུལ URL, དཔེར་ན http://scripta-engine:5001."
 label = "AI འཕྲུལ་ཆས URL"
 
 [admin.settings.ai.limits]
@@ -900,24 +900,24 @@ url = "འཕྲུལ་ཆས URL"
 
 [admin.settings.ai.status.cloud]
 hostDown = "མར་ལྷུང་།"
-hostLabel = "Stirling.com"
+hostLabel = "Cloud"
 hostUp = "ཡར་ལངས།"
-name = "Stirling Cloud"
+name = "Cloud"
 sharingLabel = "AI མཉམ་སྤྱོད།"
 sharingOff = "སྤྱོད་མེད།"
 sharingOn = "སྤྱོད་བཞིན།"
 
 [admin.settings.ai.status.cloud.degraded]
-body = "Stirling Cloud གིས་ལན་བཏབ་ཀྱང་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་མ་བྱས། རྩིས་ཁྲའི་འབྲེལ་མཐུད་ཕྱིར་འཐེན་བྱས་ཡོད་སྲིད།"
-title = "Stirling Cloud གིས་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་མི་བྱེད།"
+body = "Cloud གིས་ལན་བཏབ་ཀྱང་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་མ་བྱས། རྩིས་ཁྲའི་འབྲེལ་མཐུད་ཕྱིར་འཐེན་བྱས་ཡོད་སྲིད།"
+title = "Cloud གིས་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་མི་བྱེད།"
 
 [admin.settings.ai.status.cloud.down]
-body = "ཞབས་ཞུ་ཆས་འདིས Stirling Cloud ལ་འབྲེལ་མ་ཐུབ། རྩིས་ཁྲའི་འབྲེལ་མཐུད་དང་ཞབས་ཞུ་ཆས་འདིས་དྲ་རྒྱ་ལ་འབྲེལ་ཐུབ་མིན་ཞིབ་བཤེར་བྱོས།"
-title = "Stirling Cloud ལ་འབྲེལ་མི་ཐུབ།"
+body = "ཞབས་ཞུ་ཆས་འདིས Cloud ལ་འབྲེལ་མ་ཐུབ། རྩིས་ཁྲའི་འབྲེལ་མཐུད་དང་ཞབས་ཞུ་ཆས་འདིས་དྲ་རྒྱ་ལ་འབྲེལ་ཐུབ་མིན་ཞིབ་བཤེར་བྱོས།"
+title = "Cloud ལ་འབྲེལ་མི་ཐུབ།"
 
 [admin.settings.ai.status.cloud.ok]
-body = "Stirling Cloud གིས་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་བྱས། འདིར་འགྲོ་སྐྱོད་ཡང་ན patch བྱ་དགོས་པ་མེད།"
-title = "Stirling Cloud སྟེང་འགྲོ་སྐྱོད་བྱེད་བཞིན།"
+body = "Cloud གིས་ཞབས་ཞུ་ཆས་འདི་དང་ལེན་བྱས། འདིར་འགྲོ་སྐྱོད་ཡང་ན patch བྱ་དགོས་པ་མེད།"
+title = "Cloud སྟེང་འགྲོ་སྐྱོད་བྱེད་བཞིན།"
 
 [admin.settings.ai.status.degraded]
 body = "དེས་བདེ་ཐང་ཞིབ་བཤེར་ལ་ལན་བཏབ་ཀྱང་དངོས་ཀྱི་རེ་ཞུ་ཞིག་དང་ལེན་མ་བྱས། ཕྱོགས་གཉིས་ཀྱིས་མཉམ་སྤྱོད་གསང་བ་མི་འདྲ་བ་སྤྱོད་བཞིན་ཡོད།"
@@ -1885,7 +1885,7 @@ wrapUp = "འདི་ནི admin སྐོར་སྐྱོད་ཡིན།
 title = "སྤྱོད་མཁན་ཚོད་འཛིན་སྒྲིག་སྟངས།"
 
 [agents]
-stirling_name = "Scripta"
+scripta_name = "Scripta"
 
 [alphabetOptions]
 arabic = "ཨ་རབ་ཡིག"
@@ -3295,8 +3295,8 @@ selectSourceFormatFirst = "སྔོན་ལ་ཁུངས་ཀྱི་ར�
 settings = "སྒྲིག་སྟངས།"
 single = "ཁེར་ཧྲེང"
 sourceFormatPlaceholder = "འབྱུང་ཁུངས་རྣམ་གྲངས།"
-stirlingOfficeConvert = "Stirling Office Convert (beta) སྤྱོད།"
-stirlingOfficeConvertDescription = "དྲན་གསོག་ཉུང་བས་སྒྱུར་སྤོར་ལེགས་པ་དང་མགྱོགས་པ། ཚད་ལྡན་སྒྱུར་ཆས་སྤྱོད་པར་ཁ་རྒྱགပါ།"
+scriptaOfficeConvert = "Office Convert (beta) སྤྱོད།"
+scriptaOfficeConvertDescription = "དྲན་གསོག་ཉུང་བས་སྒྱུར་སྤོར་ལེགས་པ་དང་མགྱོགས་པ། ཚད་ལྡན་སྒྱུར་ཆས་སྤྱོད་པར་ཁ་རྒྱགပါ།"
 strictMode = "ནན་མོའི་རྣམ་པ"
 strictModeDesc = "སྒྱུར་བ་འཐུས་ཚང་མིན་ན་ནོར་འཁྲུལ་སྟོན (VeraPDF verification སྤྱོད)"
 svgPdfOptions = "SVG to PDF གདམ་ག"
@@ -5349,7 +5349,7 @@ userTitle = "འཆར་གཞིའི་སྤྱི་བསྡོམས།"
 [onboarding.processorIntro]
 body = "Scripta ད་ལྟ <strong>སྲིད་ཇུས</strong> སྤེལ་བཞིན་ཡོད — ཡིག་ཆ་རེ་རེ་འབྱོར་སྐབས་དེ་དག་རིགས་དབྱེ། བདེ་འཇགས་སྲུང་སྐྱོབ། དང་ལས་སྣོན་བྱེད་པའི་རང་འགུལ་སྒྲིག་སྲོལ་ཡིན། དེ་དག་སྒྲིག་ནས <strong>ལས་སྣོན་ཆས</strong> ནང་སྤེལ་བ་ལྟ་ཞིབ་བྱེད།"
 cta = "ལས་སྣོན་ཆས་ལ་ལྟ"
-title = "Stirling Processor ལ་ལྟ"
+title = "Processor ལ་ལྟ"
 
 [onboarding.securityCheck]
 message = "ཉེ་ཆར་མཉེན་ཆས་དེ་ལ་འགྱུར་བ་ཆེན་པོ་བྱུང་ཡོད། ཁྱེད་ཀྱི་གསབ་ལེན་བདག་པོའི་དོ་སྣང་དགོས་སྲིད། ཁྱེད་རང་གི་ལས་འགན་མུ་མཐུད་དུ་གཏན་འཁེལ་གནང་རོགས།"
@@ -5359,9 +5359,9 @@ roleUser = "སྤྱོད་མཁན"
 title = "བདེ་འཇགས་ཞིབ་བཤེར"
 
 [onboarding.serverLicense]
-freeBody = "ང་ཚོའི <strong>Open-Core</strong> ཆོག་མཆན་ནང་ <strong>OAuth SSO</strong> དང་སྤྱོད་མཁན་<strong>{{freeTierLimit}}</strong> བར་རིན་མེད་དུ་ཚུད་ཡོད། བར་ཆད་མེད་པར་རྒྱ་སྐྱེད་བྱ་ཆེད། ང་ཚོས་ཟླ་རེར་ཨ་སྒོར་99 ཡིས་<strong>སྤྱོད་མཁན་100</strong> ལ་ཞབས་ཞུ་སྤྲོད་པའི་Stirling Team འཆར་གཞི་འོས་སྦྱོར་བྱེད།"
+freeBody = "ང་ཚོའི <strong>Open-Core</strong> ཆོག་མཆན་ནང་ <strong>OAuth SSO</strong> དང་སྤྱོད་མཁན་<strong>{{freeTierLimit}}</strong> བར་རིན་མེད་དུ་ཚུད་ཡོད། བར་ཆད་མེད་པར་རྒྱ་སྐྱེད་བྱ་ཆེད། ང་ཚོས་ཟླ་རེར་ཨ་སྒོར་99 ཡིས་<strong>སྤྱོད་མཁན་100</strong> ལ་ཞབས་ཞུ་སྤྲོད་པའི་Scripta Team འཆར་གཞི་འོས་སྦྱོར་བྱེད།"
 freeTitle = "ཚོགས་པའི་འཆར་གཞི"
-overLimitBody = "ང་ཚོའི་ཆོག་མཆན་གྱིས་སྤྱོད་མཁན <strong>{{freeTierLimit}}</strong> བར་རིན་མེད་ཆོག ཁྱེད་ལ <strong>{{overLimitUserCopy}}</strong> Scripta སྤྱོད་མཁན་ཡོད། བར་མ་ཆད་པར་མུ་མཐུད་པར Stirling Team plan ལ་སྤར། - <strong>སྤྱོད་མཁན 100</strong>, PDF ཡི་གེ་རྩོམ་སྒྲིག, དང $99/mo ལ་དོ་དམ་ཆ་ཚང་ཚད་འཛིན།"
+overLimitBody = "ང་ཚོའི་ཆོག་མཆན་གྱིས་སྤྱོད་མཁན <strong>{{freeTierLimit}}</strong> བར་རིན་མེད་ཆོག ཁྱེད་ལ <strong>{{overLimitUserCopy}}</strong> Scripta སྤྱོད་མཁན་ཡོད། བར་མ་ཆད་པར་མུ་མཐུད་པར Scripta Team plan ལ་སྤར། - <strong>སྤྱོད་མཁན 100</strong>, PDF ཡི་གེ་རྩོམ་སྒྲིག, དང $99/mo ལ་དོ་དམ་ཆ་ཚང་ཚད་འཛིན།"
 overLimitTitle = "Team plan དགོས"
 seePlans = "འཆར་གཞི་ལ་གཟིགས།"
 upgrade = "ད་ལྟ་རིམ་སྤོར་ →"
@@ -6918,7 +6918,7 @@ label = "མགོ་ཡིག"
 
 [portal.policies.operations.fields.index]
 label = "དཀར་ཆག"
-placeholder = "stirling-audit"
+placeholder = "scripta-audit"
 
 [portal.policies.operations.fields.issueKey]
 label = "Issue key"
@@ -6967,7 +6967,7 @@ placeholder = "records@acme.com"
 
 [portal.policies.operations.fields.username]
 label = "Nextcloud སྤྱོད་མཁན་མིང"
-placeholder = "svc-stirling"
+placeholder = "svc-scripta"
 
 [portal.policies.operations.googlechatNotify]
 description = "སྲིད་ཇུས་ཀྱིས་ཡིག་ཆ་ཞིག་ལས་སྣོན་བྱས་པ་སྟོང་ཆ་ཞིག་ལ་བརྡ་སྤྲོད།"
@@ -7192,7 +7192,7 @@ secretNote = "webhook བង្កើត་སྐབས་ signing secret ཐེ
 copy = "འདྲ་བཤུས"
 done = "ཚར"
 secret = "མིང་རྟགས་གསང་གནད"
-secretHelp = "ལྡེ་མིག་འདིས་སྐྱེལ་སྤྲོད་རེ་རེའི raw body ལ་མིང་རྟགས་རྒྱོབ (HMAC-SHA256) ཏེ X-Stirling-Signature header ལྟར་སྐུར།"
+secretHelp = "ལྡེ་མིག་འདིས་སྐྱེལ་སྤྲོད་རེ་རེའི raw body ལ་མིང་རྟགས་རྒྱོབ (HMAC-SHA256) ཏེ X-Scripta-Signature header ལྟར་སྐུར།"
 secretWarning = "ད་ལྟ་ signing secret འདྲ་བཤུས་བྱེད། ཁྱེད་ཀྱི་བདེ་འཇགས་ཆེད་དེ་ཐེངས་གཅིག་ཁོ་ན་སྟོན་པ་དང་རྗེས་སུ་ཕྱིར་ལེན་མི་ཐུབ།"
 title = "Webhook བង្កើត་ཟིན"
 url = "Delivery URL"
@@ -8047,7 +8047,7 @@ storageSharing = "ཡིག་ཆའི་གསོག་འཇོག་དང�
 systemSettings = "མ་ལག་སྒྲིག་བཀོད།"
 
 [settings.connectedInstances]
-confirmBody = "འདིས instance དེའི Stirling Cloud ནང་ཁྱེད་ཀྱི་ཚོགས་པར་འཛུལ་དབང་ཕྱིར་འཐེན་བྱེད། འདིས་རང་སའི་ཡིག་ཆ་སུབ་པའམ་ཟིན་ཐོ་བྱས་ཟིན་པའི་སྤྱོད་ཚད་ཕྱིར་འདོན་མི་བྱེད། ཡང་བསྐྱར་མཐུད་པར། instance ཐོག་གི་ཐོག་མའི་མཐུད་སྦྲེལ་གོམ་རིམ་ལྟར་བྱོས།"
+confirmBody = "འདིས instance དེའི Cloud ནང་ཁྱེད་ཀྱི་ཚོགས་པར་འཛུལ་དབང་ཕྱིར་འཐེན་བྱེད། འདིས་རང་སའི་ཡིག་ཆ་སུབ་པའམ་ཟིན་ཐོ་བྱས་ཟིན་པའི་སྤྱོད་ཚད་ཕྱིར་འདོན་མི་བྱེད། ཡང་བསྐྱར་མཐུད་པར། instance ཐོག་གི་ཐོག་མའི་མཐུད་སྦྲེལ་གོམ་རིམ་ལྟར་བྱོས།"
 confirmTitle = "{{name}} ཕྱིར་འདོན་ནམ?"
 connectedAt = "མཐུད་ཟིན: {{date}}"
 connectedDate = "མཐུད་ཟིན"
@@ -8267,7 +8267,7 @@ title = "ལྟ་ཞིབ"
 [settings.planBilling]
 currentPlan = "མིག་སྔའི་གྲལ་གཞི"
 loading = "ཐོ་རྩིས་སྤྲོད་ཆ་འཕྲིན་ཕབ་ལེན་བརྒྱབ་བཞིན..."
-notAvailable = "གྲལ་གཞི་དང་ཐོ་རྩིས་སྤྲོད་ནི་ Stirling Cloud (SaaS mode) ལ་མཐུད་ཡོད་དུས་ཙམ་སྤྱོད་ཆོག"
+notAvailable = "གྲལ་གཞི་དང་ཐོ་རྩིས་སྤྲོད་ནི་ Cloud (SaaS mode) ལ་མཐུད་ཡོད་དུས་ཙམ་སྤྱོད་ཆོག"
 title = "གྲལ་གཞི་དང་ཐོ་རྩིས་སྤྲོད"
 
 [settings.planBilling.billing]

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ConvertParameters } from "@app/hooks/tools/convert/useConvertParameters";
 import { usePdfSignatureDetection } from "@app/hooks/usePdfSignatureDetection";
 import { useEndpointEnabled } from "@app/hooks/useEndpointConfig";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 import { Z_INDEX_AUTOMATE_DROPDOWN } from "@app/styles/zIndex";
 
 interface ConvertToPdfaSettingsProps {
@@ -13,7 +13,7 @@ interface ConvertToPdfaSettingsProps {
     key: K,
     value: ConvertParameters[K],
   ) => void;
-  selectedFiles: StirlingFile[];
+  selectedFiles: ScriptaFile[];
   disabled?: boolean;
 }
 

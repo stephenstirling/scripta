@@ -45,7 +45,10 @@ const BatesNumbering = ({
     } catch (error) {
       onError?.(
         (error instanceof Error ? error.message : undefined) ||
-          t("batesNumbering.error.failed", "An error occurred while adding Bates numbers."),
+          t(
+            "batesNumbering.error.failed",
+            "An error occurred while adding Bates numbers.",
+          ),
       );
     }
   };
@@ -81,8 +84,7 @@ const BatesNumbering = ({
     {
       title: t("batesNumbering.steps.appearance", "Appearance"),
       isCollapsed: accordion.getCollapsedState(BatesStep.APPEARANCE),
-      onCollapsedClick: () =>
-        accordion.handleStepToggle(BatesStep.APPEARANCE),
+      onCollapsedClick: () => accordion.handleStepToggle(BatesStep.APPEARANCE),
       isVisible: hasFiles || hasResults,
       content: (
         <StampAppearanceFields

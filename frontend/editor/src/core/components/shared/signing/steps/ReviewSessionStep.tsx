@@ -135,10 +135,7 @@ export const ReviewSessionStep: React.FC<ReviewSessionStepProps> = ({
             <Text size="sm">
               <strong>{t("groupSigning.steps.review.logo", "Logo:")}</strong>{" "}
               {signatureSettings.showLogo
-                ? t(
-                    "groupSigning.steps.review.logoShown",
-                    "Scripta logo shown",
-                  )
+                ? t("groupSigning.steps.review.logoShown", "Scripta logo shown")
                 : t("groupSigning.steps.review.logoHidden", "No logo")}
             </Text>
           )}

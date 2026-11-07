@@ -23,22 +23,22 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 
-const SITE_NAME = "Stirling PDF";
+const SITE_NAME = "Scripta";
 // SITE_TITLE is the home page's own title/social headline; SITE_NAME is the
-// suffix every other page carries, so the download count appears once.
-const SITE_TITLE = "Stirling PDF - 30M+ Downloads";
+// suffix every other page carries.
+const SITE_TITLE = "Scripta";
 const SITE_DESC =
   "A free, private PDF editor you can run on any infrastructure.";
 const DEFAULT_IMAGE_BASENAME = "home";
 
 // Keyword-targeted landing copy for the convert tool's URL aliases. Every
 // /pdf-to-x and /x-to-pdf path routes to the single `convert` tool, so without
-// this they would all share the generic "Convert - Stirling PDF" title and
+// this they would all share the generic "Convert - Scripta" title and
 // description - duplicate content that ranks for nothing. Each entry gets its
 // own crawlable title/description (prerendered) and a client-side override so
 // the SPA keeps the same title after hydration in English (other locales keep
 // their translated copy). `name` is the keyword phrase; the app suffix
-// (" - Stirling PDF" / the instance name) is added per surface.
+// (" - Scripta" / the instance name) is added per surface.
 const CONVERT_SEO_PAGES = {
   "/pdf-to-word": {
     name: "PDF to Word Converter",
@@ -199,14 +199,14 @@ const TOOL_SEO_TITLES = {
   showJS: "Show JavaScript in PDF",
 };
 
-// SaaS (stirling.com) link-preview cards. Only the SaaS build (`--mode saas`)
+// SaaS link-preview cards. Only the SaaS build (`--mode saas`)
 // uses og-metadata.saas.json; every other flavour keeps the tool-registry copy
 // above. `ogTitle` is the punchy social headline; `title` is the SEO <title>.
 // `home` overrides the site default (served at `/app`); the rest are extra
 // marketing landing routes prerendered so their links unfurl with bespoke art.
 const SAAS_DEFAULT = {
   image: "/og_images/saas/app.png",
-  title: "Stirling - Edit any PDF. Govern every PDF.",
+  title: "Scripta - Edit any PDF. Govern every PDF.",
   ogTitle: "Edit any PDF. Govern every PDF.",
   description:
     "The free, open-source PDF Editor, plus a Processor that governs every PDF your organization touches. 1¢ per PDF.",
@@ -214,7 +214,7 @@ const SAAS_DEFAULT = {
 const SAAS_ROUTE_OVERRIDES = {
   "/processor": {
     image: "/og_images/saas/app-processor.png",
-    title: "Stirling Processor - Govern every PDF your organization touches",
+    title: "Processor - Govern every PDF your organization touches",
     ogTitle: "Govern every PDF your organization touches",
     description:
       "Redaction, retention, and encryption policies enforced everywhere PDFs enter your org. Distribute the free Editor anywhere. 1¢ per PDF.",
@@ -223,7 +223,7 @@ const SAAS_ROUTE_OVERRIDES = {
   },
   "/editor": {
     image: "/og_images/saas/app-editor.png",
-    title: "Stirling - The world's most secure PDF editor",
+    title: "Scripta - The world's most secure PDF editor",
     ogTitle: "The world's most secure PDF editor",
     description:
       "Edit, sign, redact, and convert PDFs in your browser. Free forever, open source, and self-hostable.",
@@ -501,7 +501,7 @@ const manifest = {
 };
 
 // SaaS manifest: same tool pages as above, but the home default and two extra
-// marketing routes carry the stirling.com cards. Keeps all per-tool OG intact.
+// marketing routes carry the SaaS cards. Keeps all per-tool OG intact.
 // SaaS is the deploy with a canonical origin, so it needs the link hub most.
 const saasManifest = {
   default: SAAS_DEFAULT,

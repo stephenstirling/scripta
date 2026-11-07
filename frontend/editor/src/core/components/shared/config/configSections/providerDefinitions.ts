@@ -40,8 +40,7 @@ const useGoogleProvider = (): Provider => {
     icon: "google",
     type: "oauth2",
     scope: t("provider.oauth2.google.scope", "Sign-in authentication"),
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/OAuth%20SSO%20Configuration",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "clientId",
@@ -98,8 +97,7 @@ const useGitHubProvider = (): Provider => {
     icon: "github",
     type: "oauth2",
     scope: t("provider.oauth2.github.scope", "Sign-in authentication"),
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/OAuth%20SSO%20Configuration",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "clientId",
@@ -156,8 +154,7 @@ const useKeycloakProvider = (): Provider => {
     type: "oauth2",
     scope: t("provider.oauth2.keycloak.scope", "SSO"),
     businessTier: false,
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/OAuth%20SSO%20Configuration",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "issuer",
@@ -227,8 +224,7 @@ const useGenericOAuth2Provider = (): Provider => {
     type: "oauth2",
     scope: t("provider.oauth2.generic.scope", "SSO"),
     businessTier: false,
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/OAuth%20SSO%20Configuration",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -344,8 +340,7 @@ const useSMTPProvider = (): Provider => {
     icon: "mail",
     type: "oauth2",
     scope: t("provider.smtp.scope", "Email Notifications"),
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/System%20and%20Security/#email-configuration",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -673,8 +668,7 @@ const useSAML2Provider = (): Provider => {
     type: "saml2",
     scope: t("provider.saml2.scope", "SSO (SAML)"),
     businessTier: true,
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/SAML%20SSO%20Configuration/",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",
@@ -703,7 +697,7 @@ const useSAML2Provider = (): Provider => {
           "provider.saml2.registrationId.description",
           "The name of your Service Provider (SP) app name",
         ),
-        defaultValue: "stirling",
+        defaultValue: "scripta",
       },
       {
         key: "idpMetadataUri",
@@ -728,7 +722,7 @@ const useSAML2Provider = (): Provider => {
           "The URL for initiating SSO",
         ),
         placeholder:
-          "https://dev-XXXXXXXX.okta.com/app/dev-XXXXXXXX_stirlingpdf_1/externalKey/sso/saml",
+          "https://dev-XXXXXXXX.okta.com/app/dev-XXXXXXXX_scripta_1/externalKey/sso/saml",
       },
       {
         key: "idpSingleLogoutUrl",
@@ -742,7 +736,7 @@ const useSAML2Provider = (): Provider => {
           "The URL for initiating SLO",
         ),
         placeholder:
-          "https://dev-XXXXXXXX.okta.com/app/dev-XXXXXXXX_stirlingpdf_1/externalKey/slo/saml",
+          "https://dev-XXXXXXXX.okta.com/app/dev-XXXXXXXX_scripta_1/externalKey/slo/saml",
       },
       {
         key: "idpIssuer",
@@ -820,8 +814,7 @@ const useGoogleDriveProvider = (): Provider => {
     icon: "googledrive",
     type: "googledrive",
     scope: t("provider.googledrive.scope", "File Import"),
-    documentationUrl:
-      "https://docs.stirlingpdf.com/Configuration/Google%20Drive%20File%20Picker/",
+    documentationUrl: "https://github.com/stephenstirling/scripta#readme",
     fields: [
       {
         key: "enabled",

@@ -67,14 +67,14 @@ code {
   text-decoration: underline;
 }
 
-.stirling-link {
+.scripta-link {
   color: var(--c-accent-text);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
-.stirling-link:hover {
+.scripta-link:hover {
   color: var(--mantine-color-blue-8);
   text-decoration: underline;
 }

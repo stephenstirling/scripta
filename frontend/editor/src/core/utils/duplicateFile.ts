@@ -1,4 +1,4 @@
-import type { StirlingFile, StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFile, ScriptaFileStub } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { fileStorage } from "@app/services/fileStorage";
 import { splitFileName } from "@app/utils/fileUtils";
@@ -12,7 +12,7 @@ type AddFilesFn = (
     autoUnzip?: boolean;
     skipUploadTracking?: boolean;
   },
-) => Promise<StirlingFile[]>;
+) => Promise<ScriptaFile[]>;
 
 /** "report.pdf" → "report (copy).pdf", counting up until the name is free. */
 export function copyNameFor(name: string, taken: Iterable<string>): string {
@@ -38,11 +38,11 @@ export function copyNameFor(name: string, taken: Iterable<string>): string {
  * @returns the new file's id, or null if the source has no readable bytes.
  */
 export async function duplicateStoredFile(
-  stub: StirlingFileStub,
+  stub: ScriptaFileStub,
   existingNames: Iterable<string>,
   addFiles: AddFilesFn,
 ): Promise<FileId | null> {
-  const source = await fileStorage.getStirlingFile(stub.id);
+  const source = await fileStorage.getScriptaFile(stub.id);
   if (!source) return null;
 
   const [copy] = await addFiles(

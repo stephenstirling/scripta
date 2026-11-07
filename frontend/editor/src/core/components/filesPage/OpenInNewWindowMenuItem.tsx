@@ -1,11 +1,11 @@
 import { Menu } from "@mantine/core";
 import { Icon } from "@app/ui/Icon";
 import { useTranslation } from "react-i18next";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { useOpenInNewWindow } from "@app/extensions/openInNewWindow";
 
 interface OpenInNewWindowMenuItemProps {
-  file: StirlingFileStub;
+  file: ScriptaFileStub;
   disabled?: boolean;
 }
 

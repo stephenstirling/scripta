@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ConvertParameters } from "@app/hooks/tools/convert/useConvertParameters";
-import { StirlingFile } from "@app/types/fileContext";
+import { ScriptaFile } from "@app/types/fileContext";
 
 interface ConvertToPdfxSettingsProps {
   parameters: ConvertParameters;
@@ -8,7 +8,7 @@ interface ConvertToPdfxSettingsProps {
     key: K,
     value: ConvertParameters[K],
   ) => void;
-  selectedFiles: StirlingFile[];
+  selectedFiles: ScriptaFile[];
   disabled?: boolean;
 }
 

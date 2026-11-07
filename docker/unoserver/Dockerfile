@@ -1,5 +1,5 @@
-# Standalone unoserver image for Stirling-PDF remote UNO mode.
-# Pinned to unoserver 3.7 to match Stirling-PDF's client (avoids wire mismatch).
+# Standalone unoserver image for Scripta remote UNO mode.
+# Pinned to unoserver 3.7 to match Scripta's client (avoids wire mismatch).
 
 FROM ubuntu:noble@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3 AS lo-sandbox-build
 RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev && \
@@ -17,7 +17,7 @@ ARG INSTALL_CJK_FONTS=false
 
 # UNOSERVER_IDLE_TIMEOUT_SECONDS=0 keeps idle shutdown off. A positive value only
 # works when something sharing /tmp/uno-last-used writes a fresh timestamp (the
-# embedded Stirling container does); a standalone unoserver has no wake source
+# embedded Scripta container does); a standalone unoserver has no wake source
 # and would stay stopped while still reporting healthy.
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -79,7 +79,7 @@ RUN set -eu; \
         > "/usr/share/myspell/infos/ooo/hyphen-${lang}-${country}"; \
     done
 
-COPY --chmod=0644 docker/unoserver/fonts.conf /etc/fonts/conf.d/100-stirling.conf
+COPY --chmod=0644 docker/unoserver/fonts.conf /etc/fonts/conf.d/100-scripta.conf
 RUN fc-cache -f
 
 # venv with --system-site-packages so it picks up distro python3-uno.
@@ -98,22 +98,22 @@ RUN rm -rf /usr/lib/libreoffice/share/gallery \
            /usr/lib/libreoffice/share/extensions/nlpsolver \
            /usr/share/doc/* /usr/share/man/* /usr/share/info/*
 
-COPY --from=lo-sandbox-build /usr/local/bin/lo-sandbox /usr/local/lib/stirling/lo-sandbox
-COPY --chmod=0644 docker/base/stirling-hardening.xcd /usr/lib/libreoffice/share/registry/stirling-hardening.xcd
-COPY docker/base/unoserver-pipe-transport.py /usr/local/lib/stirling/unoserver-pipe-transport.py
+COPY --from=lo-sandbox-build /usr/local/bin/lo-sandbox /usr/local/lib/scripta/lo-sandbox
+COPY --chmod=0644 docker/base/scripta-hardening.xcd /usr/lib/libreoffice/share/registry/scripta-hardening.xcd
+COPY docker/base/unoserver-pipe-transport.py /usr/local/lib/scripta/unoserver-pipe-transport.py
 
 RUN set -eux; \
-    chown root:root /usr/local/lib/stirling/lo-sandbox; \
-    chmod 0755 /usr/local/lib/stirling/lo-sandbox; \
+    chown root:root /usr/local/lib/scripta/lo-sandbox; \
+    chmod 0755 /usr/local/lib/scripta/lo-sandbox; \
     for name in /usr/bin/soffice /usr/bin/libreoffice /usr/bin/ooffice; do \
       if [ -e "$name" ] || [ -L "$name" ]; then rm -f "$name"; fi; \
-      cp /usr/local/lib/stirling/lo-sandbox "$name"; \
+      cp /usr/local/lib/scripta/lo-sandbox "$name"; \
       chown root:root "$name"; \
       chmod 0755 "$name"; \
     done; \
-    /opt/unoserver-venv/bin/python /usr/local/lib/stirling/unoserver-pipe-transport.py \
+    /opt/unoserver-venv/bin/python /usr/local/lib/scripta/unoserver-pipe-transport.py \
       "$(/opt/unoserver-venv/bin/python -c 'import unoserver, os; print(os.path.dirname(unoserver.__file__))')"; \
-    STIRLING_LO_SANDBOX=off /usr/bin/soffice --version
+    SCRIPTA_LO_SANDBOX=off /usr/bin/soffice --version
 
 ARG PUID=1001
 ARG PGID=1001
@@ -135,8 +135,8 @@ HEALTHCHECK --interval=15s --timeout=5s --retries=4 --start-period=45s \
 
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
 
-LABEL org.opencontainers.image.title="Stirling-PDF Unoserver" \
-      org.opencontainers.image.description="Pinned unoserver build for Stirling-PDF remote UNO mode" \
+LABEL org.opencontainers.image.title="Scripta Unoserver" \
+      org.opencontainers.image.description="Pinned unoserver build for Scripta remote UNO mode" \
       org.opencontainers.image.source="https://github.com/stephenstirling/scripta" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.vendor="Stephen Stirling"

@@ -57,7 +57,7 @@ function key(overrides: Partial<StubKey> = {}): StubKey {
 
 /** Log in as the default admin; returns the JWT, or null when no backend answers. */
 async function adminJwt(request: APIRequestContext): Promise<string | null> {
-  for (const password of ["adminadmin", "stirling"]) {
+  for (const password of ["adminadmin", "scripta"]) {
     const res = await request
       .post("/api/v1/auth/login", { data: { username: "admin", password } })
       .catch(() => null);
@@ -91,7 +91,7 @@ async function setUpApiKeys(
 
   await seedCookieConsent(page);
   await page.addInitScript((jwt) => {
-    localStorage.setItem("stirling_jwt", jwt);
+    localStorage.setItem("scripta_jwt", jwt);
   }, token);
 
   // Revoke: flip the addressed key to revoked, 204 like the real endpoint.

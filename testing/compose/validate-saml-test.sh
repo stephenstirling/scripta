@@ -12,7 +12,7 @@ echo ""
 # Check Keycloak health — Keycloak 24+ moved /health off the main listener,
 # so probe the realm directly which is the meaningful liveness check anyway.
 echo -n "Checking Keycloak health... "
-if curl -sf http://localhost:9080/realms/stirling-saml > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-saml > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ Keycloak is not ready${NC}"
@@ -21,7 +21,7 @@ fi
 
 # Check SAML realm
 echo -n "Checking SAML realm... "
-if curl -sf http://localhost:9080/realms/stirling-saml > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-saml > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ SAML realm not found${NC}"
@@ -30,28 +30,28 @@ fi
 
 # Check SAML metadata
 echo -n "Checking SAML metadata endpoint... "
-if curl -sf http://localhost:9080/realms/stirling-saml/protocol/saml/descriptor > /dev/null 2>&1; then
+if curl -sf http://localhost:9080/realms/scripta-saml/protocol/saml/descriptor > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
     echo -e "${RED}✗ SAML metadata not available${NC}"
     exit 1
 fi
 
-# Check Stirling PDF
-echo -n "Checking Stirling PDF status... "
+# Check Scripta
+echo -n "Checking Scripta status... "
 if curl -sf http://localhost:8080/api/v1/info/status 2>/dev/null | grep -q "UP"; then
     echo -e "${GREEN}✓${NC}"
 else
-    echo -e "${RED}✗ Stirling PDF is not ready${NC}"
+    echo -e "${RED}✗ Scripta is not ready${NC}"
     exit 1
 fi
 
-# Check Stirling PDF SAML metadata
-echo -n "Checking Stirling PDF SAML metadata... "
+# Check Scripta SAML metadata
+echo -n "Checking Scripta SAML metadata... "
 if curl -sf http://localhost:8080/saml2/service-provider-metadata/keycloak > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC}"
 else
-    echo -e "${RED}✗ Stirling PDF SAML metadata not available${NC}"
+    echo -e "${RED}✗ Scripta SAML metadata not available${NC}"
     exit 1
 fi
 

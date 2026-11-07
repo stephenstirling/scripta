@@ -102,7 +102,7 @@ else
         echo -e "    ${BLUE}scopes_supported:${NC} $SCOPES"
         case "$SCOPES" in
             *mcp.tools*) pass "IdP can issue mcp.tools.* scopes" ;;
-            *) warn "IdP does not advertise mcp.tools.* scopes - run Stirling with MCP_SCOPESENABLED=false or add the scopes to the IdP" ;;
+            *) warn "IdP does not advertise mcp.tools.* scopes - run Scripta with MCP_SCOPESENABLED=false or add the scopes to the IdP" ;;
         esac
     fi
 fi

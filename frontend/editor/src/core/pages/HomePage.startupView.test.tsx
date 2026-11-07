@@ -106,7 +106,7 @@ describe("default startup view: Reader", () => {
     allowConsole.error(/not wrapped in act/);
     localStorage.clear();
     localStorage.setItem(
-      "stirlingpdf_preferences",
+      "scripta_preferences",
       JSON.stringify({ defaultStartupView: "read" }),
     );
   });

@@ -13,7 +13,7 @@ import {
   useFileSelector,
   useFileSelectors,
 } from "@app/contexts/FileContext";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 import type { FileId } from "@app/types/file";
 import { enforceExportPolicies } from "@app/services/policyExport";
 import { useTranslation } from "react-i18next";
@@ -136,7 +136,7 @@ export const ViewerProvider: React.FC<ViewerProviderProps> = ({ children }) => {
   const setActiveFileIndex = useCallback((index: number) => {
     const files = selectorsRef.current.getFiles();
     const file = files[index];
-    if (file && isStirlingFile(file)) setActiveFileId(file.fileId);
+    if (file && isScriptaFile(file)) setActiveFileId(file.fileId);
   }, []);
   const [pdfRenderMode, setPdfRenderModeState] = useState<PdfRenderMode>(() =>
     preferencesService.getPreference("pdfRenderMode"),

@@ -11,7 +11,7 @@ import requests
 from behave import given, then, when
 
 LB_URL = "http://localhost:8080"
-NODES = ["multinode-stirling-1", "multinode-stirling-2"]
+NODES = ["multinode-scripta-1", "multinode-scripta-2"]
 # Must match CLUSTER_NODE_ID in testing/compose/docker-compose-multinode.yml.
 NODE_IDS = ["multinode-1", "multinode-2"]
 PG = "multinode-postgres"
@@ -23,9 +23,9 @@ BUCKET = "policy-data"
 SOURCE_PREFIX = "incoming/"
 OUTPUT_PREFIX = "processed/"
 ADMIN_USER = "admin"
-ADMIN_PASS = "stirling"
+ADMIN_PASS = "scripta"
 # Seeded with ROLE_EXTRA_LIMITED_API_USER; admin and the other seeded users are unlimited.
-RATELIMIT_USER = "ratelimit@stirling.test"
+RATELIMIT_USER = "ratelimit@scripta.test"
 RATELIMIT_PASS = "Password123!"
 RATELIMIT_QUOTA = 20  # Role.EXTRA_LIMITED_API_USER.webCallsPerDay
 
@@ -45,7 +45,7 @@ def _sh(args, stdin=None, timeout=60):
 def _psql(query):
     """Run a query against the shared Postgres, return the raw tab/newline output (trimmed)."""
     rc, out, err = _sh(
-        ["docker", "exec", PG, "psql", "-U", "stirling", "-d", "stirling", "-tAc", query]
+        ["docker", "exec", PG, "psql", "-U", "scripta", "-d", "scripta", "-tAc", query]
     )
     assert rc == 0, f"psql failed: {err.strip() or out.strip()}"
     return out.strip()
@@ -61,7 +61,7 @@ def _network():
         ["docker", "inspect", "-f",
          "{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{end}}", NODES[0]]
     )
-    return out.strip() or "compose_stirling-multinode"
+    return out.strip() or "compose_scripta-multinode"
 
 
 def _token(context):
@@ -363,7 +363,7 @@ def step_ledger_claim_atomic(context):
     insert = (f"insert into policy_processed_files (identity_hash, policy_id, status, attempts) "
               f"values ('{ihash}', '{pol}', 'PROCESSING', 1)")
     _psql(insert)  # first claim wins
-    rc, out, err = _sh(["docker", "exec", PG, "psql", "-U", "stirling", "-d", "stirling",
+    rc, out, err = _sh(["docker", "exec", PG, "psql", "-U", "scripta", "-d", "scripta",
                         "-tAc", insert])  # second claim must be rejected
     _psql(f"delete from policy_processed_files where identity_hash = '{ihash}'")
     assert rc != 0 and "duplicate key" in (out + err).lower(), (
@@ -409,7 +409,7 @@ def step_run_visible_every(context):
 
 
 # --------------------------------------------------------------------------- rate limiting
-# --cluster call prefixes each node's reply with 'host:port: '; a stirling: key never looks like that.
+# --cluster call prefixes each node's reply with 'host:port: '; a scripta: key never looks like that.
 _NODE_PREFIX = re.compile(r"^[A-Za-z0-9_.\-]+:\d+:\s?")
 
 
@@ -421,19 +421,19 @@ def _cluster_mode():
 
 
 def _backplane_keys():
-    """Every stirling:* key in the backplane, whatever the Valkey topology."""
+    """Every scripta:* key in the backplane, whatever the Valkey topology."""
     if _cluster_mode():
         # A fan-out failure must be loud: falling back to a single-shard KEYS would silently
         # report a fraction of the keyspace and every downstream count would be wrong.
         rc, out, err = _sh(["docker", "exec", VALKEY, "valkey-cli", "--cluster", "call",
-                            "--cluster-only-masters", "127.0.0.1:6379", "keys", "stirling:*"],
+                            "--cluster-only-masters", "127.0.0.1:6379", "keys", "scripta:*"],
                            timeout=60)
         assert rc == 0, f"valkey cluster fan-out failed: {err.strip() or out.strip()}"
     else:
-        rc, out, err = _sh(["docker", "exec", VALKEY, "valkey-cli", "keys", "stirling:*"], timeout=30)
+        rc, out, err = _sh(["docker", "exec", VALKEY, "valkey-cli", "keys", "scripta:*"], timeout=30)
         assert rc == 0, f"valkey probe failed: {err.strip() or out.strip()}"
     return [k for k in (_NODE_PREFIX.sub("", ln.strip()) for ln in out.splitlines())
-            if k.startswith("stirling:")]
+            if k.startswith("scripta:")]
 
 
 def _ratelimit_login():
@@ -471,9 +471,9 @@ def step_ratelimit_shared(context):
         f"{budget} POSTs through the LB never hit 429 although {RATELIMIT_USER} is capped at "
         f"{RATELIMIT_QUOTA}/day - each node is counting in its own process, so the effective "
         "limit multiplied by the node count")
-    buckets = [k for k in _backplane_keys() if k.startswith("stirling:rl:")]
+    buckets = [k for k in _backplane_keys() if k.startswith("scripta:rl:")]
     assert buckets, (
-        f"429 arrived after {made} requests but the backplane holds no stirling:rl: key - the "
+        f"429 arrived after {made} requests but the backplane holds no scripta:rl: key - the "
         "counters are not in Valkey")
 
 
@@ -482,10 +482,10 @@ def step_nodes_registered(context):
     # Assert the exact node ids: counting keys lets a stale heartbeat from an earlier run stand in
     # for a node that never registered.
     keys = set(_backplane_keys())
-    missing = [nid for nid in NODE_IDS if f"stirling:nodes:{nid}" not in keys]
+    missing = [nid for nid in NODE_IDS if f"scripta:nodes:{nid}" not in keys]
     assert not missing, (
-        f"no stirling:nodes: heartbeat for {missing}; the backplane holds "
-        f"{sorted(k for k in keys if k.startswith('stirling:nodes:'))}")
+        f"no scripta:nodes: heartbeat for {missing}; the backplane holds "
+        f"{sorted(k for k in keys if k.startswith('scripta:nodes:'))}")
 
 
 # --------------------------------------------------------------------------- failover

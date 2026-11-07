@@ -712,6 +712,11 @@ export const TOOL_IO: ToolIOTable = {
         produces: "ZIP",
         arity: "SISO",
       },
+      {
+        when: [{ param: "docx", matches: ["true"], default: "false" }],
+        produces: "ZIP",
+        arity: "SISO",
+      },
     ],
   },
   "/api/v1/misc/remove-blanks": {

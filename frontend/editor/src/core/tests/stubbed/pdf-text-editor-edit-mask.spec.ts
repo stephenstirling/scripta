@@ -66,7 +66,7 @@ test.describe("PDF text editor - editing surface", () => {
   });
 
   test("a coloured page is not banded while editing", async ({ page }) => {
-    const run = await openAndEdit(page, "stirling-marketing");
+    const run = await openAndEdit(page, "scripta-marketing");
     const bg = await run.evaluate((el) => getComputedStyle(el).backgroundColor);
     expect(alphaOf(bg)).toBeLessThan(0.5);
   });

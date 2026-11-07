@@ -1,9 +1,9 @@
 import type { DiskFileEntry } from "@app/services/localFolderContents";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 export type PickerItem =
-  | { kind: "stored"; stub: StirlingFileStub }
-  | { kind: "upload"; stub: StirlingFileStub; file: File }
+  | { kind: "stored"; stub: ScriptaFileStub }
+  | { kind: "upload"; stub: ScriptaFileStub; file: File }
   | { kind: "disk"; entry: DiskFileEntry };
 
 /** Disk paths and stored IDs occupy separate namespaces in a cross-folder selection. */

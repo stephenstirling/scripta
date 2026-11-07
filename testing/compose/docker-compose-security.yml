@@ -1,9 +1,9 @@
 services:
-  stirling-pdf:
+  scripta:
     build:
       context: ../..
       dockerfile: docker/embedded/Dockerfile
-    container_name: Stirling-PDF-Security
+    container_name: Scripta-Security
     restart: unless-stopped
     deploy:
       resources:
@@ -17,28 +17,28 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ../../stirling/latest/data:/usr/share/tessdata:rw
-      - ../../stirling/latest/config:/configs:rw
-      - ../../stirling/latest/logs:/logs:rw
+      - ../../scripta/latest/data:/usr/share/tessdata:rw
+      - ../../scripta/latest/config:/configs:rw
+      - ../../scripta/latest/logs:/logs:rw
     environment:
       DISABLE_ADDITIONAL_FEATURES: "false"
       SECURITY_ENABLELOGIN: "false"
       SYSTEM_DEFAULTLOCALE: en-US
-      UI_APPNAME: Stirling-PDF
-      UI_HOMEDESCRIPTION: Demo site for Stirling-PDF Latest with Security
-      UI_APPNAMENAVBAR: Stirling-PDF Latest
+      UI_APPNAME: Scripta
+      UI_HOMEDESCRIPTION: Demo site for Scripta Latest with Security
+      UI_APPNAMENAVBAR: Scripta Latest
       SYSTEM_MAXFILESIZE: "100"
       METRICS_ENABLED: "true"
       SYSTEM_GOOGLEVISIBILITY: "true"
       SHOW_SURVEY: "true"
     networks:
-      - stirling-network
+      - scripta-network
 
 networks:
-  stirling-network:
+  scripta-network:
     driver: bridge
 
 volumes:
-  stirling-data:
-  stirling-config:
-  stirling-logs:
+  scripta-data:
+  scripta-config:
+  scripta-logs:

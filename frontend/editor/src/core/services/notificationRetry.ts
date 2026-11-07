@@ -85,7 +85,7 @@ export function stashMatchesKind(
 
 /** Its own database: the files schema is at v9, and this hint is safe to lose. */
 const RETRY_DB_CONFIG: DatabaseConfig = {
-  name: "stirling-pdf-retry",
+  name: "scripta-retry",
   version: 1,
   stores: [{ name: "retryPayloads", keyPath: "fileId" }],
 };
@@ -184,7 +184,7 @@ export async function hasLocalFile(fileId: string | null): Promise<boolean> {
   if (!isUsableId(fileId)) return false;
 
   try {
-    const stub = await fileStorage.getStirlingFileStub(fileId as FileId);
+    const stub = await fileStorage.getScriptaFileStub(fileId as FileId);
     return stub !== null;
   } catch {
     return false;
@@ -325,12 +325,12 @@ async function postDocuments(
   const fileIds = requestedFileIds.filter(isUsableId);
   let files: File[] = [];
   try {
-    files = await fileStorage.getStirlingFiles(fileIds as FileId[]);
+    files = await fileStorage.getScriptaFiles(fileIds as FileId[]);
   } catch {
     files = [];
   }
 
-  // getStirlingFiles drops what it cannot find, so a short result means an input is gone.
+  // getScriptaFiles drops what it cannot find, so a short result means an input is gone.
   if (files.length === 0 || files.length !== fileIds.length) {
     return { ok: false, reason: "fileMissing", message: null };
   }

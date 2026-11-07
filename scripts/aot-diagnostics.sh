@@ -1,5 +1,5 @@
 #!/bin/bash
-# aot-diagnostics.sh - Project Leyden AOT cache diagnostic tool for Stirling-PDF
+# aot-diagnostics.sh - Project Leyden AOT cache diagnostic tool for Scripta
 #
 # Diagnoses AOT cache generation failures, especially on ARM64 (aarch64).
 # Reports JVM feature support, memory limits, cache state, and fingerprint validity.
@@ -9,13 +9,13 @@
 #
 #   --test         Run a quick AOT RECORD smoke test (~10-30s). Shows exactly
 #                  what error the JVM produces, useful for ARM debugging.
-#   --cache PATH   Override the AOT cache path (default: /configs/cache/stirling.aot)
+#   --cache PATH   Override the AOT cache path (default: /configs/cache/scripta.aot)
 #
 # Symlink aliases set up by init-without-ocr.sh: aot-diag, aot-diagnostics
 
 set -euo pipefail
 
-AOT_CACHE_DEFAULT="/configs/cache/stirling.aot"
+AOT_CACHE_DEFAULT="/configs/cache/scripta.aot"
 RUN_SMOKE_TEST=false
 AOT_CACHE_PATH=""
 
@@ -57,12 +57,12 @@ info "Date:         $(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date)"
 info "Hostname:     $(hostname 2>/dev/null || echo unknown)"
 info "Architecture: $(uname -m)"
 info "Kernel:       $(uname -r)"
-if [ -f /etc/stirling_version ]; then
-  info "Version:      $(tr -d '\r\n' < /etc/stirling_version)"
+if [ -f /etc/scripta_version ]; then
+  info "Version:      $(tr -d '\r\n' < /etc/scripta_version)"
 elif [ -n "${VERSION_TAG:-}" ]; then
   info "Version:      ${VERSION_TAG}"
 else
-  warn "VERSION_TAG not set and /etc/stirling_version not found"
+  warn "VERSION_TAG not set and /etc/scripta_version not found"
 fi
 
 if [ -f /etc/os-release ]; then
@@ -254,7 +254,7 @@ fi
 hdr "JAR Layout"
 if [ -f /app/app.jar ] && [ -d /app/lib ]; then
   pass "Spring Boot 4 layered layout: /app/app.jar + /app/lib/"
-  info "  Classpath: -cp /app/app.jar:/app/lib/* stirling.software.SPDF.SPDFApplication"
+  info "  Classpath: -cp /app/app.jar:/app/lib/* scripta.software.core.ScriptaApplication"
   JAR_LAYOUT="layered"
 elif [ -f /app.jar ]; then
   pass "Single JAR layout: /app.jar"
@@ -310,10 +310,10 @@ if [ "$RUN_SMOKE_TEST" = true ]; then
       -XX:AOTConfiguration="$SMOKE_CONF"
       -Dspring.main.banner-mode=off
       -Dspring.context.exit=onRefresh
-      -Dstirling.datasource.url="jdbc:h2:mem:aotsmoke;DB_CLOSE_DELAY=-1;MODE=PostgreSQL")
+      -Dscripta.datasource.url="jdbc:h2:mem:aotsmoke;DB_CLOSE_DELAY=-1;MODE=PostgreSQL")
 
     case "$JAR_LAYOUT" in
-      layered)  SMOKE_CMD+=(-cp "/app/app.jar:/app/lib/*" stirling.software.SPDF.SPDFApplication) ;;
+      layered)  SMOKE_CMD+=(-cp "/app/app.jar:/app/lib/*" scripta.software.core.ScriptaApplication) ;;
       single)   SMOKE_CMD+=(-jar /app.jar) ;;
       exploded) SMOKE_CMD+=(-cp /app org.springframework.boot.loader.launch.JarLauncher) ;;
     esac
@@ -369,7 +369,7 @@ printf "\n${C_BLD}=== Summary: PASS=%d WARN=%d FAIL=%d ===${C_RST}\n" \
 
 if [ "$FAIL" -gt 0 ]; then
   printf "${C_RED}AOT cache has issues. See FAIL items above.${C_RST}\n"
-  printf "To disable AOT: omit STIRLING_AOT_ENABLE (default is off) or set STIRLING_AOT_ENABLE=false\n"
+  printf "To disable AOT: omit SCRIPTA_AOT_ENABLE (default is off) or set SCRIPTA_AOT_ENABLE=false\n"
   exit 1
 elif [ "$WARN" -gt 0 ]; then
   printf "${C_YLW}AOT cache may not function optimally. See WARN items above.${C_RST}\n"

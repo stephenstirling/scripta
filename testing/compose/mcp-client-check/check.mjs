@@ -24,20 +24,20 @@ function fail(msg) {
 }
 
 const REQUIRED = [
-  "stirling_describe_operation",
-  "stirling_convert",
-  "stirling_pages",
-  "stirling_misc",
-  "stirling_security",
-  "stirling_upload",
-  "stirling_download",
+  "scripta_describe_operation",
+  "scripta_convert",
+  "scripta_pages",
+  "scripta_misc",
+  "scripta_security",
+  "scripta_upload",
+  "scripta_download",
 ];
 
 const transport = new StreamableHTTPClientTransport(new URL(url), {
   requestInit: { headers },
 });
 const client = new Client(
-  { name: "stirling-mcp-validator", version: "1.0.0" },
+  { name: "scripta-mcp-validator", version: "1.0.0" },
   { capabilities: {} },
 );
 
@@ -52,7 +52,7 @@ try {
   }
 
   const res = await client.callTool({
-    name: "stirling_describe_operation",
+    name: "scripta_describe_operation",
     arguments: { operation: "add-password" },
   });
   if (!JSON.stringify(res).includes("parametersSchema")) {
@@ -62,17 +62,17 @@ try {
   // File I/O round-trip: upload bytes, then download them back unchanged.
   const original = "hello mcp round-trip";
   const up = await client.callTool({
-    name: "stirling_upload",
+    name: "scripta_upload",
     arguments: { file: Buffer.from(original, "utf8").toString("base64"), fileName: "hello.txt" },
   });
   const upMatch = JSON.stringify(up).match(/fileId=([A-Za-z0-9_-]+)/);
-  if (!upMatch) fail(`stirling_upload returned no fileId: ${JSON.stringify(up).slice(0, 200)}`);
+  if (!upMatch) fail(`scripta_upload returned no fileId: ${JSON.stringify(up).slice(0, 200)}`);
   const fileId = upMatch[1];
 
-  const down = await client.callTool({ name: "stirling_download", arguments: { fileId } });
+  const down = await client.callTool({ name: "scripta_download", arguments: { fileId } });
   const resBlock = (down.content || []).find((b) => b.type === "resource");
   if (!resBlock?.resource?.blob) {
-    fail(`stirling_download returned no resource blob: ${JSON.stringify(down).slice(0, 200)}`);
+    fail(`scripta_download returned no resource blob: ${JSON.stringify(down).slice(0, 200)}`);
   }
   const roundTripped = Buffer.from(resBlock.resource.blob, "base64").toString("utf8");
   if (roundTripped !== original) {
@@ -81,11 +81,11 @@ try {
 
   // A category tool with no file must surface an honest error, not a fake success.
   const cat = await client.callTool({
-    name: "stirling_security",
+    name: "scripta_security",
     arguments: { operation: "add-password" },
   });
   if (cat.isError !== true) {
-    fail(`stirling_security with no file should report isError, got: ${JSON.stringify(cat).slice(0, 200)}`);
+    fail(`scripta_security with no file should report isError, got: ${JSON.stringify(cat).slice(0, 200)}`);
   }
 
   console.log(

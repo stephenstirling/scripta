@@ -86,6 +86,29 @@
   line-height: 1.4;
 }
 
+/* Resting list: taller rows and the label in the main text colour; the icon carries the hue. */
+.tool-button--roomy.sui-btn.mantine-Button-root {
+  height: 2.625rem;
+  /* The compact list already insets by 0.75rem; together that is the 24px side padding. */
+  padding-inline: 0.75rem;
+}
+
+.tool-button--roomy .mantine-Button-label {
+  font-size: 0.875rem;
+  color: var(--c-text);
+}
+
+.tool-button__new {
+  flex-shrink: 0;
+  padding: 1px 0.45rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--c-primary) 18%, transparent);
+  color: var(--c-accent-text);
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .tool-button-icon {
   font-size: 1rem;
   line-height: 1;
@@ -136,11 +159,16 @@
 .tool-picker__compact-list {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
 }
 
+/* A link beneath the list, aligned with the row labels' left edge. */
 .tool-picker__view-all {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.tool-picker__view-all .mantine-Button-label {
+  font-size: 0.875rem;
+  color: var(--c-accent-text);
 }
 
 /* The rule only appears once rows scroll beneath the header, so a list at
@@ -157,4 +185,45 @@
 
 .tool-picker__header[data-scrolled] {
   border-bottom-color: var(--c-border-subtle);
+}
+
+.tool-picker__recent {
+  padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.tool-picker__recent-label {
+  padding: 0.25rem 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-subtle);
+}
+
+.tool-picker__recent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.tool-picker__recent-chip {
+  padding: 0.3rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--c-hover);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.tool-picker__recent-chip[data-selected] {
+  background: var(--c-primary-subtle);
+  color: var(--c-accent-fg, var(--c-primary));
+  font-weight: 500;
+}
+
+.tool-picker__recent-chip:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 2px;
 }

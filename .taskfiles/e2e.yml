@@ -56,7 +56,7 @@ tasks:
     # the bootRun JVM and writes to BASE_DIR/jacoco.exec on shutdown.
     # Off by default to keep local dev runs uninstrumented; CI flips it.
     env:
-      STIRLING_BASE_PATH: '{{.BASE_DIR}}'
+      SCRIPTA_BASE_PATH: '{{.BASE_DIR}}'
       # Suppress the analytics opt-in modal that fires on first admin login.
       # It renders a Mantine overlay that intercepts pointer events and blocks
       # FirstLoginSlide from rendering, so the bootstrap spec times out waiting
@@ -64,7 +64,7 @@ tasks:
       SYSTEM_ENABLEANALYTICS: "false"
       # NOTE: SECURITY_INITIALLOGIN_USERNAME/PASSWORD are intentionally NOT set.
       # The live-setup project's bootstrap spec performs the real first-login
-      # flow against the backend's default admin/stirling user, exercising the
+      # flow against the backend's default admin/scripta user, exercising the
       # forced-password-change UI and leaving the DB at admin/adminadmin for
       # the rest of the live suite. This is both real coverage of the first-
       # login flow and a stronger seed than env-var-driven user creation.
@@ -79,7 +79,7 @@ tasks:
           set -e
           rm -rf "{{.BASE_DIR}}"
           mkdir -p "{{.BASE_DIR}}"
-          GRADLE_ARGS=":stirling-pdf:bootRun"
+          GRADLE_ARGS=":scripta:bootRun"
           if [ -n "${COVERAGE:-}" ]; then
             # copyJacocoAgent is wired as a dependency of bootRun when
             # -PjacocoAgent=true, so we do not need to invoke it separately.
@@ -232,9 +232,9 @@ tasks:
       - docker compose -f testing/compose/docker-compose-keycloak-saml.yml down -v
 
   mcp:up:
-    desc: "Start the MCP keycloak test environment (Stirling as OAuth resource server)"
+    desc: "Start the MCP keycloak test environment (Scripta as OAuth resource server)"
     summary: |
-      Brings up Keycloak (OAuth authorization server) + Stirling configured as an
+      Brings up Keycloak (OAuth authorization server) + Scripta configured as an
       MCP resource server, then you can exercise /mcp with real Keycloak tokens.
       Set LICENSE_KEY=<KEY> to skip the interactive license prompt:
         task e2e:mcp:up LICENSE_KEY=abc123
@@ -259,7 +259,7 @@ tasks:
   mcp:apikey:
     desc: "Start the MCP test env in API-KEY manual mode (no OAuth/IdP): mints a key + prints client settings"
     summary: |
-      Brings Stirling up in apikey auth mode and prints copy-paste client settings with a freshly
+      Brings Scripta up in apikey auth mode and prints copy-paste client settings with a freshly
       minted X-API-KEY - ideal for clients whose OAuth layer can't reach localhost.
         task e2e:mcp:apikey LICENSE_KEY=<your-license-key>
       Add --nobuild if images are already built:

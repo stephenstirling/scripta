@@ -674,7 +674,7 @@ export interface FormFormDetectionDetectRequest {
 }
 export type GeneralExtractBookmarksRequest = Record<string, never>;
 export interface GeneralFile {
-  useStirlingOfficeConvert?: boolean;
+  useScriptaOfficeConvert?: boolean;
 }
 export type GeneralPdfToSinglePageRequest = Record<string, never>;
 export type GeneralRemoveImagePdfRequest = Record<string, never>;
@@ -1117,21 +1117,21 @@ export interface PdfToPresentationRequest {
    * The output Presentation format
    */
   outputFormat: "ppt" | "pptx" | "odp";
-  useStirlingOfficeConvert?: boolean;
+  useScriptaOfficeConvert?: boolean;
 }
 export interface PdfToTextOrRTFRequest {
   /**
    * The output Text or RTF format
    */
   outputFormat: "rtf" | "txt";
-  useStirlingOfficeConvert?: boolean;
+  useScriptaOfficeConvert?: boolean;
 }
 export interface PdfToWordRequest {
   /**
    * The output Word document format
    */
   outputFormat: "doc" | "docx" | "odt";
-  useStirlingOfficeConvert?: boolean;
+  useScriptaOfficeConvert?: boolean;
 }
 export interface PdfVectorExportRequest {
   /**
@@ -1168,6 +1168,10 @@ export interface PosterPdfRequest {
 }
 export interface ProcessPdfWithOcrRequest {
   /**
+   * Recognition accuracy: 'standard' uses the bundled fast models, 'best' uses the slower, more accurate models
+   */
+  accuracy?: "standard" | "best";
+  /**
    * Clean the input file if set to true
    */
   clean?: boolean;
@@ -1179,6 +1183,10 @@ export interface ProcessPdfWithOcrRequest {
    * Deskew the input file if set to true
    */
   deskew?: boolean;
+  /**
+   * Also produce an editable Word (.docx) file built from the recognised text
+   */
+  docx?: boolean;
   /**
    * List of languages to use in OCR processing, e.g., 'eng', 'deu'
    */
@@ -1560,7 +1568,7 @@ export interface SignPDFWithCertRequest {
    */
   password?: string;
   /**
-   * Absolute path to the PKCS#11 driver library (required for PKCS11 type). Must be an allowed driver - a detected one or configured via STIRLING_PKCS11_LIBRARIES.
+   * Absolute path to the PKCS#11 driver library (required for PKCS11 type). Must be an allowed driver - a detected one or configured via SCRIPTA_PKCS11_LIBRARIES.
    */
   pkcs11LibraryPath?: string;
   /**

@@ -15,11 +15,11 @@ Columns:
 
 Bucketing rules:
   Backend (JaCoCo package -> area):
-    stirling/software/SPDF/**          -> core   (the main backend module)
-    stirling/software/common/**        -> core   (shared infra, attributed to core)
+    scripta/software/core/**          -> core   (the main backend module)
+    scripta/software/common/**        -> core   (shared infra, attributed to core)
     org/apache/pdfbox/**               -> core   (vendored helpers in common/core)
-    stirling/software/proprietary/**   -> proprietary   (unless saas-flavoured)
-    stirling/software/saas/**          -> saas
+    scripta/software/proprietary/**   -> proprietary   (unless saas-flavoured)
+    scripta/software/saas/**          -> saas
     *desktop*                          -> desktop (no real backend match today)
   Frontend (source path -> area):
     frontend/editor/src/core/**        -> core
@@ -108,17 +108,17 @@ def _classify_backend(package_name: str) -> str | None:
     p = package_name.replace("/", ".")
     if "desktop" in p:
         return "desktop"
-    if p.startswith("stirling.software.saas"):
+    if p.startswith("scripta.software.saas"):
         return "saas"
     # Proprietary saas-flavoured sub-package: rare, but kept for forward
     # compatibility if a future build moves saas under proprietary.
-    if p.startswith("stirling.software.proprietary") and ".saas" in p:
+    if p.startswith("scripta.software.proprietary") and ".saas" in p:
         return "saas"
-    if p.startswith("stirling.software.proprietary"):
+    if p.startswith("scripta.software.proprietary"):
         return "proprietary"
     if (
-        p.startswith("stirling.software.SPDF")
-        or p.startswith("stirling.software.common")
+        p.startswith("scripta.software.core")
+        or p.startswith("scripta.software.common")
         or p.startswith("org.apache.pdfbox")
     ):
         return "core"

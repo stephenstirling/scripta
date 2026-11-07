@@ -33,7 +33,7 @@ const SUMMARY =
   '{"total":11,"byType":{"text":8,"checkbox":3},"pagesWithFields":1}';
 
 function respond(
-  headers: Record<string, string> = { "x-stirling-detected-fields": SUMMARY },
+  headers: Record<string, string> = { "x-scripta-detected-fields": SUMMARY },
 ) {
   (apiClient.post as Mock).mockResolvedValue({
     data: new Blob(["%PDF-1.4 applied"]),
@@ -69,7 +69,7 @@ describe("processAutoFormDetection", () => {
   });
 
   it("publishes the summary the server reported", async () => {
-    respond({ "x-stirling-detected-fields": SUMMARY });
+    respond({ "x-scripta-detected-fields": SUMMARY });
     const seen: unknown[] = [];
     const stop = onSummary((s) => seen.push(s));
 
@@ -82,8 +82,8 @@ describe("processAutoFormDetection", () => {
   });
 
   it("still returns the PDF when the summary header is missing or malformed", async () => {
-    expectConsole.warn(/no X-Stirling-Detected-Fields header/);
-    respond({ "x-stirling-detected-fields": "not json" });
+    expectConsole.warn(/no X-Scripta-Detected-Fields header/);
+    respond({ "x-scripta-detected-fields": "not json" });
     const seen: unknown[] = [];
     const stop = onSummary((s) => seen.push(s));
 

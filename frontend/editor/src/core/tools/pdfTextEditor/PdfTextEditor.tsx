@@ -9,7 +9,7 @@ import { Icon } from "@app/ui/Icon";
 import { downloadFile } from "@app/services/downloadService";
 import { useFileContext, useFileSelection } from "@app/contexts/FileContext";
 import { useViewer } from "@app/contexts/ViewerContext";
-import { createStirlingFilesAndStubs } from "@app/services/fileStubHelpers";
+import { createScriptaFilesAndStubs } from "@app/services/fileStubHelpers";
 import type { FileId } from "@app/types/file";
 import type { ToolId } from "@app/types/toolId";
 import type { BaseToolProps } from "@app/types/tool";
@@ -163,7 +163,7 @@ export default function PdfTextEditor(_props: BaseToolProps) {
       const edited = new File([blob], filename, { type: "application/pdf" });
       const sourceId = sourceFileIdRef.current;
       const parentStub = sourceId
-        ? selectors.getStirlingFileStub(sourceId)
+        ? selectors.getScriptaFileStub(sourceId)
         : null;
       const policyIds = parentStub
         ? policySourceIds(parentStub)
@@ -172,22 +172,22 @@ export default function PdfTextEditor(_props: BaseToolProps) {
       setApplying(true);
       try {
         if (sourceId && parentStub) {
-          const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+          const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
             [edited],
             parentStub,
             toolId,
           );
           if (!isCurrent()) return null;
           assertFilesNotBlocked(policyIds);
-          await consumeFiles([sourceId], stirlingFiles, stubs);
+          await consumeFiles([sourceId], scriptaFiles, stubs);
           // Claim the replacement before releasing the hold, otherwise the
           // editor sees an unfamiliar selection and re-opens the file it just
           // wrote, throwing away undo history.
           if (isCurrent()) {
-            if (stirlingFiles[0]) adoptFile(stirlingFiles[0]);
+            if (scriptaFiles[0]) adoptFile(scriptaFiles[0]);
             setSourceFile(stubs[0]?.id ?? null);
           }
-          return stirlingFiles[0] ?? null;
+          return scriptaFiles[0] ?? null;
         }
         if (!isCurrent()) return null;
         const added = await addFiles([edited], {

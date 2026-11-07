@@ -26,7 +26,7 @@ import {
   useFileSelection,
   useFileActions,
 } from "@app/contexts/FileContext";
-import { isStirlingFile } from "@app/types/fileContext";
+import { isScriptaFile } from "@app/types/fileContext";
 import { useFileActionTerminology } from "@app/hooks/useFileActionTerminology";
 import { useFileActionIcons } from "@app/hooks/useFileActionIcons";
 import { useToolWorkflow } from "@app/contexts/ToolWorkflowContext";
@@ -59,9 +59,25 @@ import { renderWithTooltip } from "@app/components/shared/workbenchBar/workbench
 import { WorkbenchBarActionsProps } from "@app/components/shared/workbenchBar/types";
 import { useIsMobile, useIsPhone } from "@app/hooks/useIsMobile";
 import "@app/components/shared/WorkbenchBar.css";
+import { ViewerQuickTools } from "@app/components/viewer/ViewerQuickTools";
 import { NotificationBell } from "@app/components/notifications/NotificationBell";
 
 const SECTION_ORDER: WorkbenchBarSection[] = ["top", "middle", "bottom"];
+
+/**
+ * The viewer buttons that act on pages and side panes rather than on the
+ * cursor. Under the title-bar strip they leave the quick-tools bar for the
+ * page-tools column. Ids must match useViewerWorkbenchBarButtons.
+ */
+const VIEWER_PAGE_TOOL_IDS: ReadonlySet<string> = new Set([
+  "viewer-rotate-left",
+  "viewer-rotate-right",
+  "viewer-toggle-sidebar",
+  "viewer-toggle-bookmarks",
+  "viewer-toggle-attachments",
+  "viewer-toggle-layers",
+  "viewer-toggle-comments",
+]);
 
 interface ViewOption {
   value: WorkbenchType;
@@ -181,7 +197,7 @@ export default function WorkbenchBar({
         : []
       : selectedFileIds.length > 0
         ? selectedFileIds
-        : activeFiles.filter(isStirlingFile).map((f) => f.fileId);
+        : activeFiles.filter(isScriptaFile).map((f) => f.fileId);
   const enforcingFileId = exportTargetIds.find((id) =>
     (policyFileBadges.get(id) ?? []).some((p) => p.enforcing),
   );
@@ -219,14 +235,29 @@ export default function WorkbenchBar({
     [buttons],
   );
 
+  const floatingViewerTools = isViewer && strip.enabled;
+
   const sectionsWithButtons = useMemo(() => {
     return SECTION_ORDER.map((section) => {
       const sectionButtons = buttons.filter(
-        (btn) => (btn.section ?? "top") === section && (btn.visible ?? true),
+        (btn) =>
+          (btn.section ?? "top") === section &&
+          (btn.visible ?? true) &&
+          !(floatingViewerTools && VIEWER_PAGE_TOOL_IDS.has(btn.id)),
       );
       return { section, buttons: sectionButtons };
     }).filter((entry) => entry.buttons.length > 0);
-  }, [buttons]);
+  }, [buttons, floatingViewerTools]);
+
+  const pageToolButtons = useMemo(
+    () =>
+      floatingViewerTools
+        ? buttons.filter(
+            (btn) => VIEWER_PAGE_TOOL_IDS.has(btn.id) && (btn.visible ?? true),
+          )
+        : [],
+    [buttons, floatingViewerTools],
+  );
 
   const handleExportAll = useCallback(
     async (forceNewFile = false) => {
@@ -236,8 +267,8 @@ export default function WorkbenchBar({
         const fileToExport =
           selectedFiles.length > 0 ? selectedFiles[0] : activeFiles[0];
         if (!fileToExport) return;
-        const stub = isStirlingFile(fileToExport)
-          ? selectors.getStirlingFileStub(fileToExport.fileId)
+        const stub = isScriptaFile(fileToExport)
+          ? selectors.getScriptaFileStub(fileToExport.fileId)
           : undefined;
         try {
           const result = await downloadFile({
@@ -248,7 +279,7 @@ export default function WorkbenchBar({
             fileId: stub?.id,
           });
           if (!forceNewFile && !result.cancelled && stub && result.savedPath) {
-            fileActions.updateStirlingFileStub(stub.id, {
+            fileActions.updateScriptaFileStub(stub.id, {
               localFilePath: stub.localFilePath ?? result.savedPath,
               isDirty: false,
             });
@@ -269,12 +300,12 @@ export default function WorkbenchBar({
       const stubs = viewExport
         ? viewExport.map((entry) =>
             entry.fileId
-              ? selectors.getStirlingFileStub(entry.fileId)
+              ? selectors.getScriptaFileStub(entry.fileId)
               : undefined,
           )
         : filesToExport.map((file) =>
-            isStirlingFile(file)
-              ? selectors.getStirlingFileStub(file.fileId)
+            isScriptaFile(file)
+              ? selectors.getScriptaFileStub(file.fileId)
               : undefined,
           );
 
@@ -308,7 +339,7 @@ export default function WorkbenchBar({
           });
           if (result.cancelled) continue;
           if (!forceNewFile && stub && result.savedPath) {
-            fileActions.updateStirlingFileStub(stub.id, {
+            fileActions.updateScriptaFileStub(stub.id, {
               localFilePath: stub.localFilePath ?? result.savedPath,
               isDirty: false,
             });
@@ -346,16 +377,16 @@ export default function WorkbenchBar({
       const file =
         (activeFileId
           ? activeFiles.find(
-              (f) => isStirlingFile(f) && f.fileId === activeFileId,
+              (f) => isScriptaFile(f) && f.fileId === activeFileId,
             )
           : null) ?? activeFiles[0];
       const countBeforeRemove = activeFiles.length;
-      if (file && isStirlingFile(file)) {
+      if (file && isScriptaFile(file)) {
         // Pick the next file to show before removing, so the sidebar stays in sync.
         const remaining = activeFiles.filter(
-          (f) => isStirlingFile(f) && f.fileId !== file.fileId,
+          (f) => isScriptaFile(f) && f.fileId !== file.fileId,
         );
-        const nextFile = remaining.find(isStirlingFile) ?? null;
+        const nextFile = remaining.find(isScriptaFile) ?? null;
         await fileActions.removeFiles([file.fileId], false);
         if (countBeforeRemove <= 1) {
           setCurrentView("fileEditor");
@@ -628,6 +659,12 @@ export default function WorkbenchBar({
         }`}
       >
         <div className="workbench-bar-center-scroll">
+          {floatingViewerTools && (
+            <>
+              <ViewerQuickTools />
+              <div className="workbench-bar-divider" />
+            </>
+          )}
           {sectionsWithButtons.map(
             ({ section, buttons: sectionButtons }, idx) => (
               <React.Fragment key={section}>
@@ -711,8 +748,27 @@ export default function WorkbenchBar({
             className="workbench-bar"
             data-wrapped="false"
             data-portaled="true"
+            data-floating={floatingViewerTools || undefined}
           >
             {toolRow}
+          </div>
+        )}
+        {pageToolButtons.length > 0 && (
+          <div
+            className="workbench-page-tools"
+            role="toolbar"
+            aria-orientation="vertical"
+            aria-label={t("workbenchBar.pageTools", "Page tools")}
+          >
+            {pageToolButtons.map((btn) => {
+              const content = renderButton(btn);
+              if (!content) return null;
+              return (
+                <div key={btn.id} className="workbench-bar-action-wrapper">
+                  {content}
+                </div>
+              );
+            })}
           </div>
         )}
       </>

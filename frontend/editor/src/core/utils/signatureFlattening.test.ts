@@ -82,7 +82,7 @@ describe("signatureFlattening", () => {
       exportActions: { saveAsCopy: async () => null },
       selectors: {
         getAllFileIds: () => [],
-        getStirlingFileStub: () => undefined,
+        getScriptaFileStub: () => undefined,
         getFile: () => undefined,
       },
       getScrollState: () => ({ currentPage: 1, totalPages: 1 }),

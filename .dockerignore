@@ -83,7 +83,7 @@ README*
 commonforms-onnx/
 
 # Runtime mount points used by docker-compose volumes, not build input
-stirling/
+scripta/
 customFiles/
 configs/
 

@@ -82,7 +82,7 @@ export interface ConvertParameters extends BaseParameters {
     outputFormat: string;
   };
   /** Per-request engine pick; undefined follows the server setting. */
-  useStirlingOfficeConvert?: boolean;
+  useScriptaOfficeConvert?: boolean;
   isSmartDetection: boolean;
   smartDetectionType: "mixed" | "images" | "web" | "none";
 }

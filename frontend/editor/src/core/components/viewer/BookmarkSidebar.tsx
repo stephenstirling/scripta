@@ -13,8 +13,8 @@ import { ActionIcon } from "@app/ui/ActionIcon";
 import { useViewer } from "@app/contexts/ViewerContext";
 import { useToolWorkflow } from "@app/contexts/ToolWorkflowContext";
 import { useFileContext } from "@app/contexts/FileContext";
-import { isStirlingFile } from "@app/types/fileContext";
-import { createStirlingFilesAndStubs } from "@app/services/fileStubHelpers";
+import { isScriptaFile } from "@app/types/fileContext";
+import { createScriptaFilesAndStubs } from "@app/services/fileStubHelpers";
 import apiClient from "@app/services/apiClient";
 import { openExternalTab } from "@app/platform/openExternalTab";
 import { getExternalHref } from "@app/utils/externalUrl";
@@ -374,17 +374,17 @@ export const BookmarkSidebar = ({
     // upload.
     const allFiles = selectors.getFiles();
     const resolvedFile = activeFileId
-      ? allFiles.find((f) => isStirlingFile(f) && f.fileId === activeFileId)
+      ? allFiles.find((f) => isScriptaFile(f) && f.fileId === activeFileId)
       : (allFiles[activeFileIndex] ?? allFiles[0]);
     const resolvedFileId =
-      resolvedFile && isStirlingFile(resolvedFile) ? resolvedFile.fileId : null;
+      resolvedFile && isScriptaFile(resolvedFile) ? resolvedFile.fileId : null;
     if (!resolvedFileId) {
       handleFallbackToTool();
       return;
     }
     const fileId = resolvedFileId;
     const file = selectors.getFile(fileId);
-    const parentStub = selectors.getStirlingFileStub(fileId);
+    const parentStub = selectors.getScriptaFileStub(fileId);
     if (!file || !parentStub) {
       handleFallbackToTool();
       return;
@@ -420,14 +420,14 @@ export const BookmarkSidebar = ({
       const newFile = new File([response.data as Blob], file.name, {
         type: "application/pdf",
       });
-      const { stirlingFiles, stubs } = await createStirlingFilesAndStubs(
+      const { scriptaFiles, stubs } = await createScriptaFilesAndStubs(
         [newFile],
         parentStub,
         "editTableOfContents",
       );
       const outputFileIds = await fileActions.consumeFiles(
         [fileId],
-        stirlingFiles,
+        scriptaFiles,
         stubs,
       );
 

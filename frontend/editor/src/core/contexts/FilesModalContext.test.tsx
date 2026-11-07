@@ -6,8 +6,8 @@ import {
   useFilesModalContext,
 } from "@app/contexts/FilesModalContext";
 import {
-  createNewStirlingFileStub,
-  type StirlingFileStub,
+  createNewScriptaFileStub,
+  type ScriptaFileStub,
 } from "@app/types/fileContext";
 
 vi.mock("react-i18next", () => ({
@@ -22,11 +22,11 @@ vi.mock("react-i18next", () => ({
 
 const state = vi.hoisted(() => ({
   addFiles: vi.fn().mockResolvedValue(undefined),
-  addStirlingFileStubs: vi.fn().mockResolvedValue(undefined),
+  addScriptaFileStubs: vi.fn().mockResolvedValue(undefined),
   setSelectedFiles: vi.fn(),
   setWorkbench: vi.fn(),
   workbench: "fileEditor",
-  getStirlingFile: vi.fn(),
+  getScriptaFile: vi.fn(),
   apiGet: vi.fn(),
 }));
 vi.mock("@app/hooks/useFileHandler", () => ({
@@ -35,7 +35,7 @@ vi.mock("@app/hooks/useFileHandler", () => ({
 vi.mock("@app/contexts/FileContext", () => ({
   useFileActions: () => ({
     actions: {
-      addStirlingFileStubs: state.addStirlingFileStubs,
+      addScriptaFileStubs: state.addScriptaFileStubs,
       setSelectedFiles: state.setSelectedFiles,
     },
   }),
@@ -43,7 +43,7 @@ vi.mock("@app/contexts/FileContext", () => ({
 vi.mock("@app/contexts/file/fileHooks", () => ({
   useFileContext: () => ({
     findFileId: () => "uploaded",
-    selectors: { getSelectedStirlingFileStubs: () => [{ id: "already-open" }] },
+    selectors: { getSelectedScriptaFileStubs: () => [{ id: "already-open" }] },
   }),
 }));
 vi.mock("@app/contexts/NavigationContext", () => ({
@@ -53,7 +53,7 @@ vi.mock("@app/contexts/NavigationContext", () => ({
   useNavigationState: () => ({ workbench: state.workbench }),
 }));
 vi.mock("@app/services/fileStorage", () => ({
-  fileStorage: { getStirlingFile: state.getStirlingFile },
+  fileStorage: { getScriptaFile: state.getScriptaFile },
 }));
 vi.mock("@app/services/apiClient", () => ({ default: { get: state.apiGet } }));
 
@@ -86,14 +86,14 @@ describe("file picker caller contract", () => {
     const first = new File(["first"], "First.pdf");
     const last = new File(["last"], "Last.pdf");
     const stubs = [first, new File([], "Missing.pdf"), last].map((file) =>
-      createNewStirlingFileStub(file),
+      createNewScriptaFileStub(file),
     );
     const shared = {
-      ...createNewStirlingFileStub(new File([], "Revoked.pdf")),
+      ...createNewScriptaFileStub(new File([], "Revoked.pdf")),
       remoteShareToken: "revoked",
     };
     const upload = new File(["upload"], "Upload.pdf");
-    state.getStirlingFile.mockImplementation(async (id) =>
+    state.getScriptaFile.mockImplementation(async (id) =>
       id === stubs[0].id ? first : id === stubs[2].id ? last : null,
     );
     state.apiGet.mockRejectedValueOnce(new Error("Share revoked"));
@@ -126,10 +126,10 @@ describe("file picker caller contract", () => {
   it("still opens local selections after a remote download fails", async () => {
     allowConsole.error(/Could not import selected file/);
     const locals = ["First.pdf", "Last.pdf"].map((name) =>
-      createNewStirlingFileStub(new File([], name)),
+      createNewScriptaFileStub(new File([], name)),
     );
     const shared = {
-      ...createNewStirlingFileStub(new File([], "Revoked.pdf")),
+      ...createNewScriptaFileStub(new File([], "Revoked.pdf")),
       remoteShareToken: "revoked",
     };
     state.apiGet.mockRejectedValueOnce(new Error("Share revoked"));
@@ -143,7 +143,7 @@ describe("file picker caller contract", () => {
       ).rejects.toThrow("Revoked.pdf");
     });
 
-    expect(state.addStirlingFileStubs).toHaveBeenCalledWith(locals, {
+    expect(state.addScriptaFileStubs).toHaveBeenCalledWith(locals, {
       selectFiles: false,
     });
     expect(state.setSelectedFiles).toHaveBeenCalledWith([
@@ -155,7 +155,7 @@ describe("file picker caller contract", () => {
 
   it("preserves selection order when loading mixed sources", async () => {
     const local = new File(["local"], "Local.pdf");
-    state.getStirlingFile.mockResolvedValue(local);
+    state.getScriptaFile.mockResolvedValue(local);
     state.apiGet.mockImplementation(async (path: string) => ({
       data: new Blob(["PDF"], { type: "application/pdf" }),
       headers: {
@@ -164,12 +164,12 @@ describe("file picker caller contract", () => {
       },
     }));
     const server = {
-      ...createNewStirlingFileStub(new File([], "Server.pdf")),
-      id: "server-12" as StirlingFileStub["id"],
+      ...createNewScriptaFileStub(new File([], "Server.pdf")),
+      id: "server-12" as ScriptaFileStub["id"],
       remoteStorageId: 12,
     };
     const shared = {
-      ...createNewStirlingFileStub(new File([], "Shared.pdf")),
+      ...createNewScriptaFileStub(new File([], "Shared.pdf")),
       remoteShareToken: "share-token",
     };
     const { result } = renderHook(useFilesModalContext, {
@@ -177,7 +177,7 @@ describe("file picker caller contract", () => {
     });
     const files = await result.current.loadFiles([
       server,
-      createNewStirlingFileStub(local),
+      createNewScriptaFileStub(local),
       shared,
     ]);
     expect(files.map((file) => file.name)).toEqual([
@@ -193,8 +193,8 @@ describe("file picker caller contract", () => {
       headers: { "content-type": "application/pdf" },
     });
     const shared = {
-      ...createNewStirlingFileStub(new File([], "Shared.pdf")),
-      id: "server-12" as StirlingFileStub["id"],
+      ...createNewScriptaFileStub(new File([], "Shared.pdf")),
+      id: "server-12" as ScriptaFileStub["id"],
       remoteStorageId: 12,
       remoteShareToken: "share-token",
     };
@@ -207,7 +207,7 @@ describe("file picker caller contract", () => {
       "/api/v1/storage/share-links/share-token",
       expect.anything(),
     );
-    expect(state.getStirlingFile).not.toHaveBeenCalled();
+    expect(state.getScriptaFile).not.toHaveBeenCalled();
   });
 
   it("loads server and shared files through the existing download paths", async () => {
@@ -219,12 +219,12 @@ describe("file picker caller contract", () => {
       },
     });
     const server = {
-      ...createNewStirlingFileStub(new File([], "Remote.pdf")),
-      id: "server-12" as StirlingFileStub["id"],
+      ...createNewScriptaFileStub(new File([], "Remote.pdf")),
+      id: "server-12" as ScriptaFileStub["id"],
       remoteStorageId: 12,
     };
     const shared = {
-      ...createNewStirlingFileStub(new File([], "Shared.pdf")),
+      ...createNewScriptaFileStub(new File([], "Shared.pdf")),
       remoteShareToken: "share-token",
     };
     const handler = vi.fn();
@@ -247,7 +247,7 @@ describe("file picker caller contract", () => {
   it("delivers stored and new files together to a page-insertion handler without navigation", async () => {
     const stored = new File(["local"], "Stored.pdf");
     const upload = new File(["upload"], "Upload.pdf");
-    state.getStirlingFile.mockResolvedValue(stored);
+    state.getScriptaFile.mockResolvedValue(stored);
     const handler = vi.fn();
     const { result } = renderHook(useFilesModalContext, {
       wrapper: FilesModalProvider,
@@ -262,7 +262,7 @@ describe("file picker caller contract", () => {
     await act(async () => {
       result.current.closeFilesModal();
       await result.current.onRecentFileSelect(
-        [createNewStirlingFileStub(stored)],
+        [createNewScriptaFileStub(stored)],
         [upload],
       );
     });
@@ -273,7 +273,7 @@ describe("file picker caller contract", () => {
   });
 
   it("adds to the existing workspace selection", async () => {
-    const stored = createNewStirlingFileStub(new File(["local"], "Stored.pdf"));
+    const stored = createNewScriptaFileStub(new File(["local"], "Stored.pdf"));
     const upload = new File(["upload"], "Upload.pdf");
     const { result } = renderHook(useFilesModalContext, {
       wrapper: FilesModalProvider,
@@ -281,7 +281,7 @@ describe("file picker caller contract", () => {
     act(() => result.current.openFilesModal());
     await act(() => result.current.onRecentFileSelect([stored], [upload]));
     expect(state.addFiles).toHaveBeenCalledWith([upload]);
-    expect(state.addStirlingFileStubs).toHaveBeenCalledWith([stored], {
+    expect(state.addScriptaFileStubs).toHaveBeenCalledWith([stored], {
       selectFiles: false,
     });
     expect(state.setSelectedFiles).toHaveBeenCalledWith([
@@ -362,9 +362,9 @@ describe("file picker caller contract", () => {
 
   it("rejects without calling the insertion handler or reopening the picker if a selected file disappears", async () => {
     allowConsole.error(/Could not load selected file/);
-    state.getStirlingFile.mockResolvedValue(null);
+    state.getScriptaFile.mockResolvedValue(null);
     const handler = vi.fn();
-    const stub = createNewStirlingFileStub(new File(["local"], "Missing.pdf"));
+    const stub = createNewScriptaFileStub(new File(["local"], "Missing.pdf"));
     const { result } = renderHook(useFilesModalContext, {
       wrapper: FilesModalProvider,
     });

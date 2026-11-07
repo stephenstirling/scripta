@@ -3,7 +3,7 @@
 #
 # It does NOT modify the production image. The agent jar is bind-mounted in
 # from the host's `build/jacoco/jacocoagent.jar` (produced by `./gradlew
-# copyJacocoAgent`) so the published Stirling-PDF image stays untouched and
+# copyJacocoAgent`) so the published Scripta image stays untouched and
 # we cannot accidentally ship the agent to end users.
 #
 # Host paths go through PROJECT_ROOT (exported by testing/test.sh) because
@@ -17,10 +17,10 @@
 # `testing/cucumber-coverage/cucumber.exec`) which a follow-up
 # `jacocoReportFromExec` task converts into HTML+XML.
 services:
-  stirling-pdf:
+  scripta:
     # docker-compose-security-with-login.yml renames the service container,
     # so the volume mounts intentionally land on whichever service uses the
-    # key "stirling-pdf" in the base file.
+    # key "scripta" in the base file.
     volumes:
       - ${PROJECT_ROOT}/build/jacoco/jacocoagent.jar:/jacoco/jacocoagent.jar:ro
       - ${PROJECT_ROOT}/testing/cucumber-coverage:/jacoco-out:rw

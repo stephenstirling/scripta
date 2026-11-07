@@ -1,6 +1,6 @@
 /**
  * Read a file's classification labels from the PDF metadata the classify policy
- * writes (the `StirlingPDFClassification` Info-dict key). Loading PDF bytes is
+ * writes (the `ScriptaClassification` Info-dict key). Loading PDF bytes is
  * expensive, so callers read once and cache the result on the file's stub
  * (`classificationLabels`); the Files sidebar then groups by label without
  * re-reading. Returns null for non-PDF / oversized / unclassified files.
@@ -8,9 +8,9 @@
 
 import { fileStorage } from "@app/services/fileStorage";
 import { extractPDFMetadata } from "@app/services/pdfMetadataService";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
-export const CLASSIFICATION_METADATA_KEY = "StirlingPDFClassification";
+export const CLASSIFICATION_METADATA_KEY = "ScriptaClassification";
 
 /** Cap the auto-read by size — never pull a multi-GB file into memory for a label. */
 const MAX_READ_BYTES = 25 * 1024 * 1024;
@@ -56,11 +56,11 @@ export async function readClassificationLabelsFromFile(
  * non-PDF, or over the size cap.
  */
 export async function readStubClassificationLabels(
-  stub: StirlingFileStub,
+  stub: ScriptaFileStub,
 ): Promise<string[] | null> {
   if (stub.type && !stub.type.toLowerCase().includes("pdf")) return null;
   if (stub.size > MAX_READ_BYTES) return null;
-  const file = await fileStorage.getStirlingFile(stub.id).catch(() => null);
+  const file = await fileStorage.getScriptaFile(stub.id).catch(() => null);
   if (!file) return null;
   return readClassificationLabelsFromFile(file);
 }

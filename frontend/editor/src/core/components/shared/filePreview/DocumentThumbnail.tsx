@@ -3,12 +3,12 @@ import { Box, Center, Loader, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@app/ui/Icon";
 import { getFileTypeIcon } from "@app/components/shared/filePreview/getFileTypeIcon";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { PrivateContent } from "@app/components/shared/PrivateContent";
 import { detectFileExtension } from "@app/utils/fileUtils";
 
 export interface DocumentThumbnailProps {
-  file: File | StirlingFileStub | null;
+  file: File | ScriptaFileStub | null;
   thumbnail?: string | null;
   isEncrypted?: boolean;
   isLoading?: boolean;

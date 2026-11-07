@@ -474,3 +474,53 @@
     align-self: flex-start;
   }
 }
+
+/* ---- Viewer under the title-bar strip: floating quick tools and page tools ---- */
+.workbench-bar[data-floating="true"] {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 7rem);
+  min-height: 0;
+  padding: 0;
+  pointer-events: auto;
+  background-color: var(--c-surface);
+  border: 1px solid var(--c-border-subtle);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 14%);
+  overflow: hidden;
+}
+
+.workbench-bar[data-floating="true"] .workbench-bar-center {
+  flex: 0 1 auto;
+  max-width: 100%;
+  margin-inline: 0;
+  padding: 4px 8px;
+}
+
+.workbench-bar[data-floating="true"] .workbench-bar-toolbar-handle-retract {
+  position: static;
+  transform: none;
+  margin-inline-start: 4px;
+  width: 24px;
+  height: 24px;
+}
+
+.workbench-page-tools {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  pointer-events: auto;
+  background-color: var(--c-surface);
+  border: 1px solid var(--c-border-subtle);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 14%);
+}

@@ -1,10 +1,4 @@
-import {
-  NumberInput,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { NumberInput, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import type {
   HeaderFooterParameters,
@@ -64,7 +58,10 @@ const HeaderFooterSettings = ({
       </Text>
       <TextInput
         label={t("headerFooter.pages", "Pages")}
-        placeholder={t("headerFooter.pagesPlaceholder", "All pages, or e.g. 1,3-5")}
+        placeholder={t(
+          "headerFooter.pagesPlaceholder",
+          "All pages, or e.g. 1,3-5",
+        )}
         value={parameters.pagesToApply}
         onChange={(e) =>
           onParameterChange("pagesToApply", e.currentTarget.value)

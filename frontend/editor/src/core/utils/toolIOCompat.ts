@@ -15,7 +15,7 @@ import {
   type ToolIOTable,
 } from "@app/types/toolIO";
 import { detectFileExtension, getFileFormats } from "@app/utils/fileUtils";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 export type ToolDiagnosticSeverity = "ERROR" | "WARN" | "INFO";
 
@@ -267,7 +267,7 @@ export function toolAcceptsFormat(
  */
 export function toolAcceptsFile(
   operation: string | undefined,
-  file: Pick<StirlingFileStub, "name" | "type" | "processedFile">,
+  file: Pick<ScriptaFileStub, "name" | "type" | "processedFile">,
 ): boolean {
   const spec = operation ? toolIOFor(operation) : undefined;
   const formats = getFileFormats(file);

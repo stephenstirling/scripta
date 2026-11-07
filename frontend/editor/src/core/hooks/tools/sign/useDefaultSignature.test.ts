@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 import { useDefaultSignature } from "@app/hooks/tools/sign/useDefaultSignature";
 
-const KEY = "stirling:sign:default-signature-id";
+const KEY = "scripta:sign:default-signature-id";
 
 afterEach(() => {
   localStorage.clear();

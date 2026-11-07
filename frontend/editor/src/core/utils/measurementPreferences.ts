@@ -1,5 +1,5 @@
 // Persist calibration unit preference across sessions
-const STORAGE_KEY_LAST_CALIBRATION_UNIT = "stirling_calibration_last_unit";
+const STORAGE_KEY_LAST_CALIBRATION_UNIT = "scripta_calibration_last_unit";
 
 export function getLastCalibrationUnit(defaultUnit: string): string {
   try {

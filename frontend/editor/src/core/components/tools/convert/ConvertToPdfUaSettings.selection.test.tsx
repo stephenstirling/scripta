@@ -13,7 +13,7 @@ import { MantineProvider } from "@mantine/core";
 import ConvertToPdfUaSettings from "@app/components/tools/convert/ConvertToPdfUaSettings";
 import { defaultParameters } from "@app/hooks/tools/convert/useConvertParameters";
 import type { ConvertParameters } from "@app/hooks/tools/convert/useConvertParameters";
-import type { StirlingFile } from "@app/types/fileContext";
+import type { ScriptaFile } from "@app/types/fileContext";
 
 // Render the English fallbacks (the test i18n instance has no loaded locale).
 vi.mock("react-i18next", () => ({
@@ -39,7 +39,7 @@ vi.mock("@app/hooks/usePdfSignatureDetection", () => ({
 }));
 
 const file = (name: string, content = "%PDF-1.7") =>
-  new File([content], name, { type: "application/pdf" }) as StirlingFile;
+  new File([content], name, { type: "application/pdf" }) as ScriptaFile;
 
 const parametersWith = (altText: string): ConvertParameters => ({
   ...defaultParameters,
@@ -48,7 +48,7 @@ const parametersWith = (altText: string): ConvertParameters => ({
   pdfUaOptions: { ...defaultParameters.pdfUaOptions, altText },
 });
 
-function renderPanel(selectedFiles: StirlingFile[], altText = "") {
+function renderPanel(selectedFiles: ScriptaFile[], altText = "") {
   const onParameterChange = vi.fn();
   const view = render(
     <MantineProvider>
@@ -59,7 +59,7 @@ function renderPanel(selectedFiles: StirlingFile[], altText = "") {
       />
     </MantineProvider>,
   );
-  const rerenderWith = (files: StirlingFile[], text = altText) =>
+  const rerenderWith = (files: ScriptaFile[], text = altText) =>
     view.rerender(
       <MantineProvider>
         <ConvertToPdfUaSettings

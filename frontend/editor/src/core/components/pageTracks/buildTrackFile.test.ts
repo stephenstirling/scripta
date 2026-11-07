@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { FileId } from "@app/types/file";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { PDFDocument } from "@app/types/pageEditor";
 import {
   BlankTrackPage,
@@ -77,7 +77,7 @@ const workspace: TrackWorkspace = {
 
 const lookup = {
   getStub: (id: FileId) =>
-    ({ id, name: `${id}.pdf` }) as unknown as StirlingFileStub,
+    ({ id, name: `${id}.pdf` }) as unknown as ScriptaFileStub,
   getFile: (id: FileId) => new File([id], `${id}.pdf`),
 };
 
@@ -164,7 +164,7 @@ describe("policyIdsForPages", () => {
     const ids = policyIdsForPages(
       workspace,
       new Set(["a1", "blank-b"]),
-      (id) => ({ id }) as unknown as StirlingFileStub,
+      (id) => ({ id }) as unknown as ScriptaFileStub,
     );
     expect(ids).toContain(A);
     expect(ids).not.toContain(B);

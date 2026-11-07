@@ -2,7 +2,7 @@ import path from "path";
 import { test, expect } from "@app/tests/helpers/stub-test-base";
 import { uploadFiles } from "@app/tests/helpers/ui-helpers";
 
-// The sidebar groups files by the category in their `StirlingPDFClassification`
+// The sidebar groups files by the category in their `ScriptaClassification`
 // metadata; these specs exercise that seam with pre-labelled fixtures.
 
 const FIXTURES = path.join(
@@ -35,7 +35,7 @@ test("classified files group by category family in the sidebar", async ({
 test("an unclassified file is not placed in a category group", async ({
   page,
 }) => {
-  // sample.pdf carries no StirlingPDFClassification metadata, so it must not
+  // sample.pdf carries no ScriptaClassification metadata, so it must not
   // create or join any category family group - it falls into the catch-all.
   await uploadFiles(page, path.join(FIXTURES, "../sample.pdf"));
 

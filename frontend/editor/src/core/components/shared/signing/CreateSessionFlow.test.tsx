@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
-import { beforeEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { CreateSessionFlow } from "@app/components/shared/signing/CreateSessionFlow";
 import UserSelector from "@app/components/shared/UserSelector";
 import { qk } from "@app/query/keys";
@@ -15,6 +15,11 @@ vi.mock("@app/hooks/useIsMobile", () => ({
 }));
 beforeEach(() => {
   viewport.mobile = false;
+  // The calendar opens on the current month, and the tests click October 2026 days.
+  vi.useFakeTimers({ toFake: ["Date"], now: new Date("2026-10-01T12:00:00") });
+});
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 vi.mock("react-i18next", () => ({

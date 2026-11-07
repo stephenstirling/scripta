@@ -1,4 +1,4 @@
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 /** The wall is 13x3, so more thumbnails than that would never be seen. */
 export const MAX_THUMBNAILS = 39;
@@ -12,7 +12,7 @@ export interface ThumbnailRequest {
 }
 
 /** How many pages a stub is known to have, as far as the app has worked out. */
-function knownPageCount(stub: StirlingFileStub): number {
+function knownPageCount(stub: ScriptaFileStub): number {
   const pages = stub.processedFile?.pages;
   if (pages && pages.length > 0) return pages.length;
   const total = stub.processedFile?.totalPages;
@@ -32,7 +32,7 @@ function knownPageCount(stub: StirlingFileStub): number {
  * them, so a freshly opened file offers at most one image for the whole wall.
  */
 export function planThumbnails(
-  stubs: readonly StirlingFileStub[],
+  stubs: readonly ScriptaFileStub[],
   max: number = MAX_THUMBNAILS,
 ): ThumbnailRequest[] {
   // No per-file cap: the interleaving already keeps one document from crowding

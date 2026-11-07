@@ -16,7 +16,7 @@ Feature: Invite Link API
     (generate, full lifecycle, revoke-by-id) are omitted. Auth guard tests for
     those endpoints are still covered.
 
-    Admin credentials: username=admin, password=stirling
+    Admin credentials: username=admin, password=scripta
 
     # =========================================================================
     # GENERATE INVITE LINK – auth guard only (no SMTP in CI)

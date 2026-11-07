@@ -9,37 +9,37 @@ tasks:
   build:
     desc: "Build standard Docker image"
     cmds:
-      - docker build -t stirling-pdf -f {{.EMBEDDED_DIR}}/Dockerfile .
+      - docker build -t scripta -f {{.EMBEDDED_DIR}}/Dockerfile .
 
   build:fat:
     desc: "Build fat Docker image (all features)"
     cmds:
-      - docker build -t stirling-pdf-fat -f {{.EMBEDDED_DIR}}/Dockerfile.fat .
+      - docker build -t scripta-fat -f {{.EMBEDDED_DIR}}/Dockerfile.fat .
 
   build:ultra-lite:
     desc: "Build ultra-lite Docker image"
     cmds:
-      - docker build -t stirling-pdf-ultra-lite -f {{.EMBEDDED_DIR}}/Dockerfile.ultra-lite .
+      - docker build -t scripta-ultra-lite -f {{.EMBEDDED_DIR}}/Dockerfile.ultra-lite .
 
   build:backend:
     desc: "Build backend-only Docker image (no embedded frontend)"
     cmds:
-      - docker build -t stirling-pdf-backend -f docker/backend/Dockerfile .
+      - docker build -t scripta-backend -f docker/backend/Dockerfile .
 
   build:frontend:
     desc: "Build frontend-only Docker image"
     cmds:
-      - docker build -t stirling-pdf-frontend -f docker/frontend/Dockerfile .
+      - docker build -t scripta-frontend -f docker/frontend/Dockerfile .
 
   build:engine:
     desc: "Build engine Docker image"
     cmds:
-      - docker build -t stirling-pdf-engine -f {{.ENGINE_DIR}}/Dockerfile .
+      - docker build -t scripta-engine -f {{.ENGINE_DIR}}/Dockerfile .
 
   build:engine:dev:
     desc: "Build engine development Docker image"
     cmds:
-      - docker build -t stirling-pdf-engine-dev -f {{.ENGINE_DIR}}/Dockerfile.dev .
+      - docker build -t scripta-engine-dev -f {{.ENGINE_DIR}}/Dockerfile.dev .
 
   up:
     desc: "Start standard docker compose stack"

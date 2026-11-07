@@ -6,7 +6,7 @@ import { ActionIcon } from "@app/ui/ActionIcon";
 import { Icon } from "@app/ui/Icon";
 import { FileId } from "@app/types/file";
 import type { FolderId, FolderRecord } from "@app/types/folder";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 import { formatFileSize, getFileDate } from "@app/utils/fileUtils";
 import {
   downloadFileFromStorage,
@@ -28,16 +28,16 @@ import "@app/components/filesPage/FilesPage.css";
 
 interface FileDetailsPanelProps {
   /** Picker hosts choose a version without exposing workspace or library mutations. */
-  onPickVersion?: (file: StirlingFileStub) => void;
+  onPickVersion?: (file: ScriptaFileStub) => void;
   selectedFileIds: FileId[];
-  fileMap: Map<FileId, StirlingFileStub>;
+  fileMap: Map<FileId, ScriptaFileStub>;
   foldersById: ReadonlyMap<FolderId, FolderRecord>;
   onClose: () => void;
   onAddToWorkspace?: (fileIds: FileId[]) => void;
   onMove?: (fileIds: FileId[]) => void;
   onRemove?: (fileIds: FileId[]) => void;
   /** Receives selected files without a server copy; omitting it hides Add to library. */
-  onSaveToServer?: (files: StirlingFileStub[]) => void;
+  onSaveToServer?: (files: ScriptaFileStub[]) => void;
   /** Keeps Add to library visible but disabled, with this explanation as a tooltip. */
   saveToServerDisabledReason?: string | null;
   /** Replaces the inline version timeline with a button that invokes onOpenVersionHistory. */
@@ -65,7 +65,7 @@ export function FileDetailsPanel({
     () =>
       selectedFileIds
         .map((id) => fileMap.get(id))
-        .filter((f): f is StirlingFileStub => Boolean(f)),
+        .filter((f): f is ScriptaFileStub => Boolean(f)),
     [selectedFileIds, fileMap],
   );
 
@@ -79,7 +79,7 @@ export function FileDetailsPanel({
   const classificationEnabled = useClassificationEnabled();
   // Stored classification values are IDs; display names depend on the active locale.
   const labelName = useLabelName();
-  const [versionChain, setVersionChain] = useState<StirlingFileStub[]>([]);
+  const [versionChain, setVersionChain] = useState<ScriptaFileStub[]>([]);
   const singleFileForChain = files.length === 1 ? files[0] : null;
   useEffect(() => {
     if (!singleFileForChain) {

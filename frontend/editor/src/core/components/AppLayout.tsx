@@ -2,6 +2,10 @@ import { ReactNode } from "react";
 import { useBanner } from "@app/contexts/BannerContext";
 import NavigationWarningModal from "@app/components/shared/NavigationWarningModal";
 import { TitleBarSearch } from "@app/components/layout/TitleBarSearch";
+import { TitleBarDocumentTabs } from "@app/components/layout/TitleBarDocumentTabs";
+import { TitleBarToolTabs } from "@app/components/layout/TitleBarToolTabs";
+import { TitleBarThemeToggle } from "@app/components/layout/TitleBarThemeToggle";
+import { TitleBarMenu } from "@app/components/layout/TitleBarMenu";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -31,9 +35,13 @@ export function AppLayout({ children }: AppLayoutProps) {
         {banner}
         <div style={{ flex: 1, minHeight: 0, height: 0 }}>{children}</div>
       </div>
-      {/* Portals Super Search into the title-bar strip when a layer provides one;
-          otherwise renders nothing. Kept here so it stays mounted across views. */}
+      {/* Portal into the title-bar strip while it shows. Kept here so they stay
+          mounted across views. */}
+      <TitleBarMenu />
+      <TitleBarToolTabs />
+      <TitleBarThemeToggle />
       <TitleBarSearch />
+      <TitleBarDocumentTabs />
       <NavigationWarningModal />
     </>
   );

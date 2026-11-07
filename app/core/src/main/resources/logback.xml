@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<define name="LOG_PATH" class="stirling.software.SPDF.config.LogbackPropertyLoader" />
+	<define name="LOG_PATH" class="scripta.software.core.config.LogbackPropertyLoader" />
 
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -79,7 +79,7 @@
     </root>
 
     <!-- Specific Logger -->
-    <logger name="stirling.software.proprietary.security.CustomAuthenticationFailureHandler"
+    <logger name="scripta.software.proprietary.security.CustomAuthenticationFailureHandler"
             level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="AUTHLOG"/>

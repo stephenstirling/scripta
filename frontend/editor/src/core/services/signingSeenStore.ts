@@ -3,7 +3,7 @@ import {
   type SigningItem,
 } from "@app/utils/signingItems";
 
-const STORAGE_PREFIX = "stirling.signing.seenActivity.";
+const STORAGE_PREFIX = "scripta.signing.seenActivity.";
 
 interface SeenActivity {
   signedCount: number;

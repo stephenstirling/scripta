@@ -1104,7 +1104,7 @@ export function useTranslatedToolCatalog(): TranslatedToolCatalog {
         ),
         categoryId: ToolCategoryId.ADVANCED_TOOLS,
         subcategoryId: SubcategoryId.DEVELOPER_TOOLS,
-        link: "https://docs.stirlingpdf.com/Configuration/Folder%20Scanning/",
+        link: "https://github.com/stephenstirling/scripta#readme",
         endpoints: ["dev-folder-scanning-docs"],
         synonyms: getSynonyms(t, "devFolderScanning"),
         supportsAutomate: false,

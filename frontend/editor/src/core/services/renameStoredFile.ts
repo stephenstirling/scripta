@@ -1,6 +1,6 @@
 import { fileStorage } from "@app/services/fileStorage";
 import type { FileId } from "@app/types/file";
-import type { StirlingFileStub } from "@app/types/fileContext";
+import type { ScriptaFileStub } from "@app/types/fileContext";
 
 /**
  * Renames a stored file, then its open workspace copy. Storage is written
@@ -8,9 +8,9 @@ import type { StirlingFileStub } from "@app/types/fileContext";
  * storage has no record of the file.
  */
 export async function renameStoredFile(
-  stub: Pick<StirlingFileStub, "id" | "size" | "lastModified">,
+  stub: Pick<ScriptaFileStub, "id" | "size" | "lastModified">,
   name: string,
-  updateStub: (id: FileId, updates: Partial<StirlingFileStub>) => void,
+  updateStub: (id: FileId, updates: Partial<ScriptaFileStub>) => void,
 ): Promise<boolean> {
   // quickKey is name|size|lastModified; a stale one would make a re-upload of
   // the original look like a duplicate of the renamed file.

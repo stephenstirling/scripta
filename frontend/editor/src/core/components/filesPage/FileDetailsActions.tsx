@@ -5,22 +5,22 @@ import { ActionIcon } from "@app/ui/ActionIcon";
 import { Icon } from "@app/ui/Icon";
 import { isBrowserOnlyFile } from "@app/components/filesPage/fileOrigin";
 import { FileId } from "@app/types/file";
-import { StirlingFileStub } from "@app/types/fileContext";
+import { ScriptaFileStub } from "@app/types/fileContext";
 
 export interface FileDetailsActionsProps {
   selectedFileIds: FileId[];
   /** The only selected file, or null for a multi-selection. */
-  single: StirlingFileStub | null;
+  single: ScriptaFileStub | null;
   fileCount: number;
   /** Selected files with no server copy yet; empty hides Add to library. */
-  localOnlyFiles: StirlingFileStub[];
+  localOnlyFiles: ScriptaFileStub[];
   sharingEnabled: boolean;
   downloading: boolean;
   onDownload: () => void;
   onAddToWorkspace: (fileIds: FileId[]) => void;
   onMove: (fileIds: FileId[]) => void;
   onRemove: (fileIds: FileId[]) => void;
-  onSaveToServer?: (files: StirlingFileStub[]) => void;
+  onSaveToServer?: (files: ScriptaFileStub[]) => void;
   /** Keeps Add to library visible but disabled, with this explanation as a tooltip. */
   saveToServerDisabledReason?: string | null;
   onShare: () => void;
