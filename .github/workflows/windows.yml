@@ -6,13 +6,17 @@ name: Windows build
 # before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
 # release; the windows-exe branch and manual runs only produce downloadable artifacts.
 #
-# Tesseract (with English, OSD and a few common languages) is bundled under tools/ for OCR
-# and auto-rotate. Office conversion and Ghostscript tools still need LibreOffice and
-# Ghostscript installed on the machine.
+# Every outside program Scripta calls is bundled under tools/, so one download has every
+# feature: Tesseract (OCR, auto-rotate), LibreOffice (Office conversions), Ghostscript and
+# qpdf (compress, repair, vector), Poppler (PDF to HTML/Markdown), ImageMagick (compress),
+# Calibre (PDF to EPUB), WeasyPrint (HTML, Markdown, URL and email to PDF) and Python with
+# OpenCV and OCRmyPDF. BundledTools in app/common maps each command to its folder here; the
+# two must stay in sync. Only RAR (licence forbids it) and unoserver (LibreOffice is called
+# directly instead) are left out.
 on:
   workflow_dispatch:
   push:
-    branches: [windows-exe]
+    branches: [windows-exe, windows-full-bundle]
     tags: ["v*"]
 
 permissions:
@@ -29,7 +33,7 @@ env:
 jobs:
   build:
     runs-on: windows-2022
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - name: Allow long paths
         shell: pwsh
@@ -133,6 +137,151 @@ jobs:
           & "$dest/tesseract.exe" --list-langs
           Write-Host "Bundled Tesseract: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
+      # Installed with Chocolatey on the runner, then copied into the package, which runs them
+      # from there. Each copy is run once from its new place, so a broken copy fails the build.
+      - name: Bundle Ghostscript, qpdf, ImageMagick and Calibre
+        shell: pwsh
+        run: |
+          choco install ghostscript qpdf imagemagick.app calibre -y --no-progress
+          if ($LASTEXITCODE -ne 0) { throw "choco install failed" }
+          $tools = "packaged/Scripta/tools"
+
+          function Copy-Tool($pattern, $dest) {
+            $src = Get-ChildItem $pattern -Directory -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
+            if (-not $src) { throw "Nothing found at $pattern" }
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item "$($src.FullName)\*" $dest -Recurse -Force -Exclude "unins*","*.url"
+            Write-Host "$dest <- $($src.FullName): $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
+          }
+
+          Copy-Tool "C:\Program Files\gs\gs*" "$tools/ghostscript"
+          & "$tools/ghostscript/bin/gswin64c.exe" -v
+          if ($LASTEXITCODE -ne 0) { throw "bundled Ghostscript does not run" }
+
+          Copy-Tool "C:\Program Files\qpdf*" "$tools/qpdf"
+          & "$tools/qpdf/bin/qpdf.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled qpdf does not run" }
+
+          Copy-Tool "C:\Program Files\ImageMagick*" "$tools/imagemagick"
+          & "$tools/imagemagick/magick.exe" -version
+          if ($LASTEXITCODE -ne 0) { throw "bundled ImageMagick does not run" }
+
+          Copy-Tool "C:\Program Files\Calibre2*" "$tools/calibre"
+          & "$tools/calibre/ebook-convert.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled Calibre does not run" }
+
+      - name: Bundle LibreOffice
+        shell: pwsh
+        run: |
+          choco install libreoffice-fresh -y --no-progress
+          if ($LASTEXITCODE -ne 0) { throw "choco install libreoffice-fresh failed" }
+          $dest = "packaged/Scripta/tools/libreoffice"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          Copy-Item "C:\Program Files\LibreOffice\*" $dest -Recurse -Force
+          Write-Host "LibreOffice: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
+
+          # A real conversion from the bundled copy, with a throwaway profile as Scripta uses.
+          $work = Join-Path $env:RUNNER_TEMP "lo-check"
+          New-Item -ItemType Directory -Force -Path $work | Out-Null
+          Set-Content -Path "$work/check.rtf" -Value '{\rtf1\ansi Scripta LibreOffice check\par}' -Encoding ascii
+          $profile = ([Uri](Join-Path $env:RUNNER_TEMP "lo-profile")).AbsoluteUri
+          $p = Start-Process -FilePath "$dest/program/soffice.exe" -Wait -PassThru -NoNewWindow `
+            -ArgumentList "-env:UserInstallation=$profile","--headless","--nologo","--convert-to","pdf","--outdir","`"$work`"","`"$work/check.rtf`""
+          if (-not (Test-Path "$work/check.pdf")) { throw "bundled LibreOffice did not convert a file (exit $($p.ExitCode))" }
+          Write-Host "Bundled LibreOffice converted a file"
+
+      # Poppler and WeasyPrint publish Windows builds on GitHub; the latest release is used.
+      - name: Bundle Poppler and WeasyPrint
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tools = "packaged/Scripta/tools"
+          $dl = Join-Path $env:RUNNER_TEMP "downloads"
+          New-Item -ItemType Directory -Force -Path $dl | Out-Null
+
+          gh release download --repo oschwartz10612/poppler-windows --pattern "Release-*.zip" --dir "$dl/poppler" --clobber
+          if ($LASTEXITCODE -ne 0) { throw "Poppler download failed" }
+          Expand-Archive (Get-ChildItem "$dl/poppler/*.zip" | Select-Object -First 1).FullName -DestinationPath "$dl/poppler/x" -Force
+          $bin = (Get-ChildItem "$dl/poppler/x" -Recurse -Filter pdftohtml.exe | Select-Object -First 1).Directory
+          if (-not $bin) { throw "pdftohtml.exe not in the Poppler download" }
+          New-Item -ItemType Directory -Force -Path "$tools/poppler/bin" | Out-Null
+          Copy-Item "$($bin.FullName)\*" "$tools/poppler/bin" -Recurse -Force
+          $share = Join-Path $bin.Parent.FullName "share"
+          if (Test-Path $share) { Copy-Item $share "$tools/poppler/share" -Recurse -Force }
+          & "$tools/poppler/bin/pdftohtml.exe" -v
+          Write-Host "Bundled Poppler"
+
+          $assets = gh release view --repo Kozea/WeasyPrint --json assets --jq '.assets[].name'
+          Write-Host "WeasyPrint release files: $($assets -join ', ')"
+          $asset = $assets | Where-Object { $_ -match '(?i)win' -and $_ -match '(?i)\.(zip|exe)$' } | Select-Object -First 1
+          if (-not $asset) { throw "No Windows build in the latest WeasyPrint release" }
+          gh release download --repo Kozea/WeasyPrint --pattern $asset --dir "$dl/weasyprint" --clobber
+          if ($LASTEXITCODE -ne 0) { throw "WeasyPrint download failed" }
+          New-Item -ItemType Directory -Force -Path "$tools/weasyprint" | Out-Null
+          if ($asset -match '(?i)\.zip$') {
+            Expand-Archive "$dl/weasyprint/$asset" -DestinationPath "$dl/weasyprint/x" -Force
+            $exe = Get-ChildItem "$dl/weasyprint/x" -Recurse -Filter weasyprint.exe | Select-Object -First 1
+            if (-not $exe) { throw "weasyprint.exe not in $asset" }
+            Copy-Item "$($exe.Directory.FullName)\*" "$tools/weasyprint" -Recurse -Force
+          } else {
+            Copy-Item "$dl/weasyprint/$asset" "$tools/weasyprint/weasyprint.exe" -Force
+          }
+          & "$tools/weasyprint/weasyprint.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled WeasyPrint does not run" }
+
+      # The embeddable Python is relocatable; site-packages is switched on so pip can add the
+      # packages the scripts in app/core/src/main/resources/static/python and OCRmyPDF need.
+      - name: Bundle Python with OpenCV and OCRmyPDF
+        shell: pwsh
+        env:
+          PYTHON_VERSION: "3.12.10"
+        run: |
+          $dest = "packaged/Scripta/tools/python"
+          $zip = Join-Path $env:RUNNER_TEMP "python-embed.zip"
+          Invoke-WebRequest "https://www.python.org/ftp/python/$env:PYTHON_VERSION/python-$env:PYTHON_VERSION-embed-amd64.zip" -OutFile $zip
+          Expand-Archive $zip -DestinationPath $dest -Force
+          $pth = Get-ChildItem "$dest/python*._pth" | Select-Object -First 1
+          (Get-Content $pth.FullName) -replace '^#\s*import site', 'import site' | Set-Content $pth.FullName -Encoding ascii
+          Add-Content $pth.FullName "Lib\site-packages" -Encoding ascii
+          Invoke-WebRequest "https://bootstrap.pypa.io/get-pip.py" -OutFile "$env:RUNNER_TEMP/get-pip.py"
+          & "$dest/python.exe" "$env:RUNNER_TEMP/get-pip.py" --no-warn-script-location
+          if ($LASTEXITCODE -ne 0) { throw "pip could not be installed" }
+          & "$dest/python.exe" -m pip install --no-warn-script-location --disable-pip-version-check opencv-python-headless numpy pillow pdf2image ocrmypdf
+          if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
+
+          # pip's ocrmypdf.exe has this runner's path baked in, so Scripta calls this instead.
+          Set-Content -Path "$dest/ocrmypdf.cmd" -Value '@"%~dp0python.exe" -m ocrmypdf %*' -Encoding ascii
+
+          & "$dest/python.exe" -c "import cv2, numpy, PIL, pdf2image, ocrmypdf; print('Python packages OK')"
+          if ($LASTEXITCODE -ne 0) { throw "bundled Python packages do not import" }
+          & "$dest/ocrmypdf.cmd" --version
+          if ($LASTEXITCODE -ne 0) { throw "bundled OCRmyPDF does not run" }
+          Write-Host "Python: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
+
+      - name: Bundled tools and licences
+        shell: pwsh
+        run: |
+          $tools = "packaged/Scripta/tools"
+          @"
+          Programs bundled with Scripta for Windows. Each is a separate program that Scripta runs; each keeps
+          its own licence, found in its folder here. Their source code is available from their projects.
+
+            tesseract    Tesseract OCR          Apache-2.0      https://github.com/tesseract-ocr/tesseract
+            libreoffice  LibreOffice            MPL-2.0         https://www.libreoffice.org/download/source-code/
+            ghostscript  Ghostscript            AGPL-3.0        https://ghostscript.com/releases/gsdnld.html
+            qpdf         qpdf                   Apache-2.0      https://github.com/qpdf/qpdf
+            poppler      Poppler                GPL-2.0/3.0     https://poppler.freedesktop.org/
+            imagemagick  ImageMagick            ImageMagick     https://imagemagick.org/script/license.php
+            calibre      calibre                GPL-3.0         https://github.com/kovidgoyal/calibre
+            weasyprint   WeasyPrint             BSD-3-Clause    https://github.com/Kozea/WeasyPrint
+            python       Python, OpenCV, NumPy, Pillow, pdf2image, OCRmyPDF and their dependencies
+                         (PSF, Apache-2.0, BSD, HPND, MIT, MPL-2.0)  https://pypi.org/
+          "@ | Set-Content "$tools/README.txt" -Encoding utf8
+          Get-ChildItem $tools -Directory | ForEach-Object {
+            Write-Host ("{0,-12} {1,8} MB" -f $_.Name, [math]::Round((Get-ChildItem $_.FullName -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1))
+          }
+
       # The program must start and answer before it is worth uploading.
       - name: Smoke test the packaged program
         shell: pwsh
@@ -153,7 +302,9 @@ jobs:
           Write-Host "--- stderr (tail)"; if (Test-Path smoke.err.log) { Get-Content smoke.err.log -Tail 40 }
           Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
           $log = (Get-Content smoke.out.log, smoke.err.log -ErrorAction SilentlyContinue) -join "`n"
-          if ($log -match "Missing dependency: .*tesseract") { throw "The packaged program did not find its bundled Tesseract" }
+          # RAR can't be bundled (licence) and unoserver isn't needed (LibreOffice runs directly).
+          $missing = ($log -split "`n") | Where-Object { $_ -match "Missing dependency" -and $_ -notmatch "(?i)Missing dependency: (rar|unoconvert)\b" }
+          if ($missing) { $missing | ForEach-Object { Write-Host "::error::$_" }; throw "The packaged program did not find some bundled tools" }
           if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
           Write-Host "Packaged program is UP"
 
@@ -163,9 +314,15 @@ jobs:
           New-Item -ItemType Directory -Force -Path release | Out-Null
           # A fresh copy, so the smoke test's data folder is not shipped.
           Remove-Item -Recurse -Force packaged/Scripta/data -ErrorAction SilentlyContinue
-          Compress-Archive -Path packaged/Scripta -DestinationPath "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip"
+          # Compress-Archive is slow and unreliable past 2 GB of input; 7-Zip is on the runner.
+          7z a -tzip -mx=5 "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip" ./packaged/Scripta
+          if ($LASTEXITCODE -ne 0) { throw "7-Zip failed" }
+          Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
 
+      # Integra installs the portable zip; the installer is for people not using Integra. With
+      # every tool bundled it can hit WiX's size limits, which must not stop the zip shipping.
       - name: Make the installer
+        continue-on-error: true
         shell: pwsh
         run: |
           # jpackage needs the WiX 3 toolset; the runner image normally has it.

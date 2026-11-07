@@ -19,6 +19,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 import scripta.software.common.configuration.RuntimePathConfig;
+import scripta.software.common.util.BundledTools;
 import scripta.software.common.util.RegexPatternUtils;
 
 /**
@@ -259,6 +260,8 @@ public class ExternalAppDepConfig {
     }
 
     private boolean isCommandAvailable(String command) {
+        if (BundledTools.isBundled(command)) return true;
+
         // First try OS-native lookup
         List<String> lookup = isWindows ? List.of("where", command) : List.of("which", command);
         ProbeResult res = runAndWait(lookup, DEFAULT_TIMEOUT);
@@ -297,7 +300,8 @@ public class ExternalAppDepConfig {
     }
 
     private ProbeResult runAndWait(List<String> cmd, Duration timeout) {
-        ProcessBuilder pb = new ProcessBuilder(cmd);
+        ProcessBuilder pb = new ProcessBuilder(BundledTools.resolveCommand(cmd));
+        BundledTools.addToPath(pb.environment());
         try {
             Process p = pb.start();
             boolean finished = p.waitFor(timeout.toMillis(), TimeUnit.MILLISECONDS);

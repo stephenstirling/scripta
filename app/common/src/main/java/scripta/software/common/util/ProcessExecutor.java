@@ -317,9 +317,11 @@ public class ProcessExecutor {
         }
         try {
 
+            commandToRun = BundledTools.resolveCommand(commandToRun);
             validateCommand(commandToRun);
             log.info("Running command: {}", String.join(" ", commandToRun));
             ProcessBuilder processBuilder = new ProcessBuilder(commandToRun);
+            BundledTools.addToPath(processBuilder.environment());
             scrubEnvironment(processBuilder);
             if (processType == Processes.LIBRE_OFFICE && libreOfficeSandboxed) {
                 jobPolicy =
