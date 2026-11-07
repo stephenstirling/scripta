@@ -146,27 +146,33 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "choco install failed" }
           $tools = "packaged/Scripta/tools"
 
-          function Copy-Tool($pattern, $dest) {
-            $src = Get-ChildItem $pattern -Directory -ErrorAction SilentlyContinue | Sort-Object Name -Descending | Select-Object -First 1
-            if (-not $src) { throw "Nothing found at $pattern" }
+          # Finds $exe under $roots (newest first), skipping Chocolatey's shims, and copies the
+          # whole install: $levelsUp 1 when the exe sits in a bin folder, 0 when at the top.
+          function Copy-Tool($roots, $exe, $levelsUp, $dest) {
+            $found = Get-ChildItem $roots -Recurse -Filter $exe -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -notmatch '\\chocolatey\\bin\\' } |
+              Sort-Object FullName -Descending | Select-Object -First 1
+            if (-not $found) { throw "$exe not found after install" }
+            $src = $found.Directory
+            for ($i = 0; $i -lt $levelsUp; $i++) { $src = $src.Parent }
             New-Item -ItemType Directory -Force -Path $dest | Out-Null
             Copy-Item "$($src.FullName)\*" $dest -Recurse -Force -Exclude "unins*","*.url"
             Write-Host "$dest <- $($src.FullName): $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
           }
 
-          Copy-Tool "C:\Program Files\gs\gs*" "$tools/ghostscript"
+          Copy-Tool "C:\Program Files\gs" "gswin64c.exe" 1 "$tools/ghostscript"
           & "$tools/ghostscript/bin/gswin64c.exe" -v
           if ($LASTEXITCODE -ne 0) { throw "bundled Ghostscript does not run" }
 
-          Copy-Tool "C:\Program Files\qpdf*" "$tools/qpdf"
+          Copy-Tool "C:\ProgramData\chocolatey\lib\qpdf", "C:\Program Files\qpdf*" "qpdf.exe" 1 "$tools/qpdf"
           & "$tools/qpdf/bin/qpdf.exe" --version
           if ($LASTEXITCODE -ne 0) { throw "bundled qpdf does not run" }
 
-          Copy-Tool "C:\Program Files\ImageMagick*" "$tools/imagemagick"
+          Copy-Tool "C:\Program Files\ImageMagick*" "magick.exe" 0 "$tools/imagemagick"
           & "$tools/imagemagick/magick.exe" -version
           if ($LASTEXITCODE -ne 0) { throw "bundled ImageMagick does not run" }
 
-          Copy-Tool "C:\Program Files\Calibre2*" "$tools/calibre"
+          Copy-Tool "C:\Program Files\Calibre2" "ebook-convert.exe" 0 "$tools/calibre"
           & "$tools/calibre/ebook-convert.exe" --version
           if ($LASTEXITCODE -ne 0) { throw "bundled Calibre does not run" }
 
