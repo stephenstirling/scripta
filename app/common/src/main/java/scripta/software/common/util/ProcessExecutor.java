@@ -317,10 +317,11 @@ public class ProcessExecutor {
         }
         try {
 
+            commandToRun = BundledTools.resolveCommand(commandToRun);
             validateCommand(commandToRun);
-            commandToRun = withBundledProgram(commandToRun);
             log.info("Running command: {}", String.join(" ", commandToRun));
             ProcessBuilder processBuilder = new ProcessBuilder(commandToRun);
+            BundledTools.addToPath(processBuilder.environment());
             scrubEnvironment(processBuilder);
             if (processType == Processes.LIBRE_OFFICE && libreOfficeSandboxed) {
                 jobPolicy =
@@ -545,19 +546,6 @@ public class ProcessExecutor {
 
     private static final List<String> LIBRE_OFFICE_ENV_ALLOWED_PREFIXES =
             List.of("LC_", "SAL_", "OOO_", "UNO_", "URE_", "OFFICE_", "SCRIPTA_LO_");
-
-    private static List<String> withBundledProgram(List<String> command) {
-        if (command.isEmpty()) {
-            return command;
-        }
-        String resolved = BundledTools.resolve(command.getFirst());
-        if (resolved.equals(command.getFirst())) {
-            return command;
-        }
-        List<String> copy = new ArrayList<>(command);
-        copy.set(0, resolved);
-        return copy;
-    }
 
     private static boolean isLoopbackHost(String host) {
         if (host == null) {

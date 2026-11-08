@@ -21,7 +21,6 @@ import scripta.software.common.model.ApplicationProperties.CustomPaths;
 import scripta.software.common.model.ApplicationProperties.CustomPaths.Operations;
 import scripta.software.common.model.ApplicationProperties.CustomPaths.Pipeline;
 import scripta.software.common.model.ApplicationProperties.System;
-import scripta.software.common.util.BundledTools;
 import scripta.software.common.util.ProcessExecutor;
 import scripta.software.common.util.UnoServerPool;
 
@@ -100,12 +99,11 @@ public class RuntimePathConfig {
         boolean isDocker = isRunningInDocker();
 
         // Initialize Operation paths
-        String defaultWeasyPrintPath =
-                isDocker ? "/opt/venv/bin/weasyprint" : BundledTools.resolve("weasyprint");
+        String defaultWeasyPrintPath = isDocker ? "/opt/venv/bin/weasyprint" : "weasyprint";
         String defaultUnoConvertPath = isDocker ? "/usr/local/bin/unoconvert" : "unoconvert";
         String defaultCalibrePath = isDocker ? "/opt/calibre/ebook-convert" : "ebook-convert";
         String defaultOcrMyPdfPath = isDocker ? "/opt/venv/bin/ocrmypdf" : "ocrmypdf";
-        String defaultSOfficePath = isDocker ? "/usr/bin/soffice" : BundledTools.resolve("soffice");
+        String defaultSOfficePath = isDocker ? "/usr/bin/soffice" : "soffice";
 
         Operations operations = customPaths.getOperations();
         this.weasyPrintPath =
@@ -126,10 +124,13 @@ public class RuntimePathConfig {
                 resolvePath(
                         defaultSOfficePath, operations != null ? operations.getSoffice() : null);
 
-        this.tesseractPath = BundledTools.resolve("tesseract");
-        Path bundledTesseractDir = BundledTools.dir("tesseract");
+        Path bundledTesseractDir = bundledToolDir("tesseract");
+        Path bundledTesseractExe =
+                bundledTesseractDir == null ? null : bundledTesseractDir.resolve("tesseract.exe");
         boolean hasBundledTesseract =
-                bundledTesseractDir != null && !"tesseract".equals(this.tesseractPath);
+                bundledTesseractExe != null && Files.isRegularFile(bundledTesseractExe);
+        this.tesseractPath =
+                hasBundledTesseract ? bundledTesseractExe.toString() : "tesseract";
 
         // Initialize Tesseract data path
         // Priority: config setting > TESSDATA_PREFIX env var > bundled tessdata > default path
@@ -390,5 +391,23 @@ public class RuntimePathConfig {
             sanitized.add(endpoint);
         }
         return sanitized;
+    }
+
+    /**
+     * Folder of a tool shipped inside the Windows package, or null when the app is not running from
+     * one. The packaged launcher passes {@code -Dscripta.tools-path}; it cannot extend PATH, so
+     * bundled tools are called by absolute path instead.
+     */
+    private static Path bundledToolDir(String tool) {
+        String toolsPath = java.lang.System.getProperty("scripta.tools-path");
+        if (toolsPath == null || toolsPath.isBlank()) {
+            return null;
+        }
+        try {
+            Path dir = Path.of(toolsPath).resolve(tool).normalize();
+            return Files.isDirectory(dir) ? dir : null;
+        } catch (InvalidPathException e) {
+            return null;
+        }
     }
 }

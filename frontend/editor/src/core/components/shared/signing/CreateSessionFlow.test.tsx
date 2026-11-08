@@ -13,11 +13,10 @@ const viewport = vi.hoisted(() => ({ mobile: false }));
 vi.mock("@app/hooks/useIsMobile", () => ({
   useIsMobile: () => viewport.mobile,
 }));
-// The date picker opens on the current month, and the tests click a fixed day in October 2026.
 beforeEach(() => {
   viewport.mobile = false;
-  vi.useFakeTimers({ toFake: ["Date"] });
-  vi.setSystemTime(new Date(2026, 9, 1));
+  // The calendar opens on the current month, and the tests click October 2026 days.
+  vi.useFakeTimers({ toFake: ["Date"], now: new Date("2026-10-01T12:00:00") });
 });
 afterEach(() => {
   vi.useRealTimers();

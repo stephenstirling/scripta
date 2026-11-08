@@ -260,20 +260,21 @@ public class ExternalAppDepConfig {
     }
 
     private boolean isCommandAvailable(String command) {
-        String bundled = BundledTools.resolve(command);
+        if (BundledTools.isBundled(command)) return true;
+
         // First try OS-native lookup
-        List<String> lookup = isWindows ? List.of("where", bundled) : List.of("which", bundled);
+        List<String> lookup = isWindows ? List.of("where", command) : List.of("which", command);
         ProbeResult res = runAndWait(lookup, DEFAULT_TIMEOUT);
         if (res.exitCode() == 0) return true;
 
         // Fallback: try `--version` when helpful (covers py-launcher shims on Windows etc.)
-        ProbeResult ver = runAndWait(List.of(bundled, "--version"), DEFAULT_TIMEOUT);
+        ProbeResult ver = runAndWait(List.of(command, "--version"), DEFAULT_TIMEOUT);
         return ver.exitCode() == 0;
     }
 
     private Optional<String> getVersionSafe(String command, String arg) {
         try {
-            ProbeResult res = runAndWait(List.of(BundledTools.resolve(command), arg), DEFAULT_TIMEOUT);
+            ProbeResult res = runAndWait(List.of(command, arg), DEFAULT_TIMEOUT);
             if (res.exitCode() != 0) return Optional.empty();
             String text = res.combined();
             Matcher m = VERSION_PATTERN.matcher(text);
@@ -299,7 +300,8 @@ public class ExternalAppDepConfig {
     }
 
     private ProbeResult runAndWait(List<String> cmd, Duration timeout) {
-        ProcessBuilder pb = new ProcessBuilder(cmd);
+        ProcessBuilder pb = new ProcessBuilder(BundledTools.resolveCommand(cmd));
+        BundledTools.addToPath(pb.environment());
         try {
             Process p = pb.start();
             boolean finished = p.waitFor(timeout.toMillis(), TimeUnit.MILLISECONDS);
