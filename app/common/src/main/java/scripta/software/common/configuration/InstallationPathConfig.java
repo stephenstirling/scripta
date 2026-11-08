@@ -59,19 +59,42 @@ public class InstallationPathConfig {
     }
 
     private static String initializeBasePath() {
-        // Allow tests / harnesses to redirect the entire state tree (configs,
-        // backups, customFiles, pipeline, logs) to an isolated location via
-        // -Dscripta.base-path=... or SCRIPTA_BASE_PATH=... so a Playwright
-        // run never touches a developer's working state.
-        String override = System.getProperty("scripta.base-path");
+        return resolveBasePath(
+                System.getProperty("scripta.base-path"),
+                System.getenv("SCRIPTA_BASE_PATH"),
+                Boolean.getBoolean("scripta.user-data"),
+                System.getenv("LOCALAPPDATA"));
+    }
+
+    /**
+     * Where configs, logs, custom files and pipelines live, with a trailing separator.
+     *
+     * <p>Priority: {@code -Dscripta.base-path} / {@code SCRIPTA_BASE_PATH} (tests and harnesses
+     * redirect the whole state tree so a run never touches a developer's working state), then
+     * {@code %LOCALAPPDATA%\Scripta} when the Windows launcher sets {@code -Dscripta.user-data}, then
+     * the current directory. The user-profile location keeps settings and sign-in tokens across
+     * updates that unpack each version into its own folder.
+     */
+    static String resolveBasePath(
+            String propertyOverride,
+            String envOverride,
+            boolean userDataRequested,
+            String localAppData) {
+        String override = propertyOverride;
         if (override == null || override.isBlank()) {
-            override = System.getenv("SCRIPTA_BASE_PATH");
+            override = envOverride;
         }
         if (override != null && !override.isBlank()) {
-            boolean hasTrailingSeparator = override.endsWith("/") || override.endsWith("\\");
-            return hasTrailingSeparator ? override : override + File.separator;
+            return withTrailingSeparator(override);
+        }
+        if (userDataRequested && localAppData != null && !localAppData.isBlank()) {
+            return withTrailingSeparator(localAppData + File.separator + "Scripta");
         }
         return "." + File.separator;
+    }
+
+    private static String withTrailingSeparator(String path) {
+        return path.endsWith("/") || path.endsWith("\\") ? path : path + File.separator;
     }
 
     public static String getPath() {

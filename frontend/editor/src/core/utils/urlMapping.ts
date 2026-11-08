@@ -57,6 +57,7 @@ export const URL_TO_TOOL_MAP: Record<string, ToolId> = {
   "/add-page-numbers": "addPageNumbers",
   "/header-footer": "headerFooter",
   "/bates-numbering": "batesNumbering",
+  "/docusign": "docuSign",
   "/redact": "redact",
 
   // Page manipulation

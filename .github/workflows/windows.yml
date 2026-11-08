@@ -1,10 +1,12 @@
 name: Windows build
 
-# Builds Scripta for Windows on a Windows runner: the app jar, then a self-contained
-# program with its own Java runtime (jpackage) as a portable zip and a per-user
-# installer. The packaged program is launched and must answer on /api/v1/info/status
-# before anything is uploaded. Pushing a v* tag also attaches both files to a GitHub
-# release; the windows-exe branch and manual runs only produce downloadable artifacts.
+# Builds Scripta for Windows on a Windows runner as a portable zip that Integra (or a person)
+# unpacks and runs: Scripta.exe is a small window app (launcher/Scripta) that starts the Java
+# engine hidden and shows the UI in its own window, beside app/ (the engine jar), runtime/ (a
+# trimmed Java runtime) and tools/ (bundled programs). The engine is started the way the window
+# app starts it and must answer on /api/v1/info/status before anything is uploaded. Pushing a v*
+# tag also attaches the zip and its checksums to a GitHub release; the windows-exe branch and
+# manual runs only produce downloadable artifacts.
 #
 # Every outside program Scripta calls is bundled under tools/, so one download has every
 # feature: Tesseract (OCR, auto-rotate), LibreOffice (Office conversions), Ghostscript and
@@ -43,12 +45,17 @@ jobs:
 
       - uses: actions/setup-java@v5
         with:
-          distribution: temurin
+          # Zulu ships the jmods that jlink needs to build a trimmed runtime; Temurin 25 does not.
+          distribution: zulu
           java-version: "25"
 
       - uses: actions/setup-node@v5
         with:
           node-version: "24"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
 
       # The frontend build is driven through Task, which the Gradle build calls.
       - name: Install Task
@@ -81,43 +88,35 @@ jobs:
           if (-not $version) { throw "Could not read the version from build.gradle" }
           "APP_VERSION=$version" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
 
-          New-Item -ItemType Directory -Force -Path dist-input | Out-Null
-          Copy-Item $jar.FullName dist-input/scripta.jar
+          New-Item -ItemType Directory -Force -Path packaged/Scripta/app | Out-Null
+          Copy-Item $jar.FullName packaged/Scripta/app/scripta.jar
           # The restart helper must sit beside the main jar (JarPathUtil looks there).
-          Copy-Item build/libs/restart-helper.jar dist-input/restart-helper.jar
+          Copy-Item build/libs/restart-helper.jar packaged/Scripta/app/restart-helper.jar
 
-          # All platform modules: a Spring Boot fat jar hides its dependencies from jpackage's
-          # own module detection, and a missing module only shows up as a crash at runtime.
-          # Temurin 25 ships no jmods, so jlink links from the runtime image itself; if that
-          # is unsupported, the whole JDK is used as the runtime, which is larger but complete.
-          $modules = ((java --list-modules) | ForEach-Object { ($_ -split '@')[0] }) -join ","
-          jlink --add-modules $modules --strip-debug --no-header-files --no-man-pages --output runtime
+          # Every runtime module except the JDK's own developer tools. A Spring Boot fat jar
+          # hides its dependencies from module detection, and a missing module only shows up as a
+          # crash at runtime, so this trims by exclusion rather than by guessing.
+          # If jlink fails, the whole JDK is used as the runtime: larger but complete.
+          $devTools = "jdk.jshell","jdk.jdeps","jdk.javadoc","jdk.compiler","jdk.jcmd","jdk.jconsole","jdk.jlink","jdk.jpackage","jdk.hotspot.agent","jdk.jartool","jdk.jdi","jdk.editpad"
+          $modules = ((java --list-modules) | ForEach-Object { ($_ -split '@')[0] } | Where-Object { $devTools -notcontains $_ }) -join ","
+          jlink --module-path "$env:JAVA_HOME/jmods" --add-modules $modules --strip-debug --no-header-files --no-man-pages --compress=zip-6 --output runtime
           if ($LASTEXITCODE -ne 0) {
             Write-Host "jlink failed; using the full JDK as the runtime"
             Remove-Item -Recurse -Force runtime -ErrorAction SilentlyContinue
             Copy-Item $env:JAVA_HOME runtime -Recurse
           }
+          Write-Host "Runtime: $([math]::Round((Get-ChildItem runtime -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
+          Move-Item runtime packaged/Scripta/runtime
 
-          # Config, logs and pipelines default to the current folder, so point them at a
-          # data folder beside the app, which is writable for the portable zip and for a
-          # per-user install.
-          jpackage --type app-image `
-            --name Scripta `
-            --app-version $version `
-            --vendor "Stephen Stirling" `
-            --description "Self-hosted PDF tools" `
-            --input dist-input `
-            --main-jar scripta.jar `
-            --main-class org.springframework.boot.loader.launch.JarLauncher `
-            --runtime-image runtime `
-            --java-options "-DBROWSER_OPEN=true" `
-            --java-options '-Dscripta.base-path=$APPDIR/../data/' `
-            --java-options '-Dscripta.tools-path=$APPDIR/../tools' `
-            --win-console `
-            --dest packaged
-          if ($LASTEXITCODE -ne 0) { throw "jpackage app-image failed" }
+          # The window app. Self-contained, so the PC needs no .NET; WebView2 ships with Windows 11
+          # and current Windows 10.
+          dotnet publish launcher/Scripta/Scripta.csproj -c Release -r win-x64 --self-contained true `
+            -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:Version=$version -o launcher-out
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
+          Copy-Item launcher-out/Scripta.exe packaged/Scripta/Scripta.exe
+          Write-Host "Scripta.exe: $([math]::Round((Get-Item packaged/Scripta/Scripta.exe).Length / 1MB, 1)) MB"
 
-      # The launcher cannot extend PATH, so the app finds this copy through scripta.tools-path.
+      # The window app cannot extend PATH, so the engine finds this copy through scripta.tools-path.
       - name: Bundle Tesseract
         shell: pwsh
         run: |
@@ -288,65 +287,46 @@ jobs:
             Write-Host ("{0,-12} {1,8} MB" -f $_.Name, [math]::Round((Get-ChildItem $_.FullName -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1))
           }
 
-      # The program must start and answer before it is worth uploading.
+      # The engine must start, the way the window app starts it, and answer before it is worth
+      # uploading. The self-test runs the window app's own start-up code without opening a window.
       - name: Smoke test the packaged program
         shell: pwsh
         run: |
-          $exe = "packaged/Scripta/Scripta.exe"
-          if (-not (Test-Path $exe)) { throw "$exe was not produced" }
-          $proc = Start-Process -FilePath $exe -PassThru -RedirectStandardOutput smoke.out.log -RedirectStandardError smoke.err.log
-          $up = $false
-          for ($i = 0; $i -lt 90; $i++) {
-            Start-Sleep -Seconds 2
-            try {
-              $r = Invoke-WebRequest -Uri "http://localhost:8080/api/v1/info/status" -UseBasicParsing -TimeoutSec 3
-              if ($r.Content -match "UP") { $up = $true; break }
-            } catch { }
-            if ($proc.HasExited) { break }
-          }
-          Write-Host "--- stdout (tail)"; if (Test-Path smoke.out.log) { Get-Content smoke.out.log -Tail 40 }
-          Write-Host "--- stderr (tail)"; if (Test-Path smoke.err.log) { Get-Content smoke.err.log -Tail 40 }
-          Get-Process -Name Scripta -ErrorAction SilentlyContinue | Stop-Process -Force
-          $log = (Get-Content smoke.out.log, smoke.err.log -ErrorAction SilentlyContinue) -join "`n"
+          $exe = (Resolve-Path "packaged/Scripta/Scripta.exe").Path
+          $result = Join-Path $env:RUNNER_TEMP "selftest.txt"
+          $test = Start-Process -FilePath $exe -ArgumentList "--selftest", "`"$result`"" -PassThru
+          if (-not $test.WaitForExit(300000)) { $test.Kill($true); Write-Host "The self-test timed out" }
+          $outcome = if (Test-Path $result) { (Get-Content $result -Raw).Trim() } else { "no result written" }
+          Write-Host "Self-test: $outcome"
+          $engineLog = Join-Path $env:LOCALAPPDATA "Scripta\logs\engine.log"
+          $log = if (Test-Path $engineLog) { Get-Content $engineLog } else { @() }
+          Write-Host "--- engine log (tail)"; $log | Select-Object -Last 60
           # RAR can't be bundled (licence) and unoserver isn't needed (LibreOffice runs directly).
-          $missing = ($log -split "`n") | Where-Object { $_ -match "Missing dependency" -and $_ -notmatch "(?i)Missing dependency: (rar|unoconvert)\b" }
+          $missing = $log | Where-Object { $_ -match "Missing dependency" -and $_ -notmatch "(?i)Missing dependency: (rar|unoconvert)\b" }
           if ($missing) { $missing | ForEach-Object { Write-Host "::error::$_" }; throw "The packaged program did not find some bundled tools" }
-          if (-not $up) { throw "The packaged program did not report UP on /api/v1/info/status" }
-          Write-Host "Packaged program is UP"
+          if ($outcome -notmatch "^READY") { throw "The engine did not report UP: $outcome" }
+          # With nothing running, --quit must succeed at once (Integra calls it before an update).
+          $quit = Start-Process -FilePath $exe -ArgumentList "--quit" -PassThru -Wait
+          if ($quit.ExitCode -ne 0) { throw "Scripta.exe --quit failed with $($quit.ExitCode)" }
+          Write-Host "Packaged program starts and answers"
 
       - name: Make the portable zip
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path release | Out-Null
-          # A fresh copy, so the smoke test's data folder is not shipped.
-          Remove-Item -Recurse -Force packaged/Scripta/data -ErrorAction SilentlyContinue
           # Compress-Archive is slow and unreliable past 2 GB of input; 7-Zip is on the runner.
           7z a -tzip -mx=5 "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip" ./packaged/Scripta
           if ($LASTEXITCODE -ne 0) { throw "7-Zip failed" }
           Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
 
-      # Integra installs the portable zip; the installer is for people not using Integra. With
-      # every tool bundled it can hit WiX's size limits, which must not stop the zip shipping.
-      - name: Make the installer
-        continue-on-error: true
+      - name: Write checksums
         shell: pwsh
         run: |
-          # jpackage needs the WiX 3 toolset; the runner image normally has it.
-          if (-not (Get-Command candle.exe -ErrorAction SilentlyContinue)) {
-            $wix = Get-ChildItem "C:\Program Files (x86)\WiX Toolset*\bin" -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($wix) { $env:PATH = "$($wix.FullName);$env:PATH" } else { choco install wixtoolset -y --no-progress; $env:PATH = "C:\Program Files (x86)\WiX Toolset v3.14\bin;$env:PATH" }
-          }
-          jpackage --type exe `
-            --name Scripta `
-            --app-version $env:APP_VERSION `
-            --vendor "Stephen Stirling" `
-            --description "Self-hosted PDF tools" `
-            --app-image packaged/Scripta `
-            --win-per-user-install `
-            --win-menu `
-            --win-shortcut `
-            --dest release
-          if ($LASTEXITCODE -ne 0) { throw "jpackage installer failed" }
+          # "sha256  file" lines, the format Integra and sha256sum read.
+          Get-ChildItem release -File | Where-Object { $_.Name -ne "SHA256SUMS.txt" } | ForEach-Object {
+            "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $($_.Name)"
+          } | Out-File -Encoding ascii release/SHA256SUMS.txt
+          Get-Content release/SHA256SUMS.txt
           Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
 
       - uses: actions/upload-artifact@v4
@@ -370,8 +350,16 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          cat > notes.md <<'NOTES'
+          ## Windows
+          Scripta opens in its own window, like any other app. The easiest way to install and update it is [Integra](https://github.com/stephenstirling/integra). Or download the zip, unpack it anywhere and run `Scripta.exe`. It is self-contained: every program Scripta calls is bundled, so all tools work without installing anything else. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta`. `SHA256SUMS.txt` lists the checksums. The app is not code-signed, so Windows SmartScreen may warn before it first runs. `Scripta.exe --quit` closes a running copy.
+
+          ## Bundled programs
+          They run as separate programs and keep their own licences, listed with source links in `tools\README.txt` inside the package. Ghostscript is AGPL-licensed, and Poppler and Calibre are GPL-licensed. RAR (PDF to CBR) is not included because its licence forbids it.
+
+          NOTES
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" release/* --clobber --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$GITHUB_REF_NAME" release/* --generate-notes --title "Scripta $GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
+            gh release create "$GITHUB_REF_NAME" release/* --notes-file notes.md --generate-notes --title "Scripta $GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY"
           fi
