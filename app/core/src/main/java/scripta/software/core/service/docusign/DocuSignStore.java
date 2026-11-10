@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -88,7 +89,11 @@ public class DocuSignStore {
                     JSON.writerWithDefaultPrettyPrinter()
                             .writeValueAsString(state)
                             .getBytes(java.nio.charset.StandardCharsets.UTF_8);
-            Files.write(temporaryFile, json, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(
+                    temporaryFile,
+                    json,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
             try (FileChannel channel = FileChannel.open(temporaryFile, StandardOpenOption.WRITE)) {
                 channel.force(true);
             }
@@ -99,7 +104,7 @@ public class DocuSignStore {
                         file,
                         StandardCopyOption.ATOMIC_MOVE,
                         StandardCopyOption.REPLACE_EXISTING);
-            } catch (AtomicMoveNotSupportedException e) {
+            } catch (AtomicMoveNotSupportedException | FileAlreadyExistsException e) {
                 // Some filesystems do not support atomic replacement. Keep the same-directory
                 // staging file and fall back to a replacement move rather than writing in place.
                 Files.move(temporaryFile, file, StandardCopyOption.REPLACE_EXISTING);
