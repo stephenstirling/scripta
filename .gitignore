@@ -88,6 +88,7 @@ app/core/src/main/resources/static/images/google-drive.svg
 # Note: Keep backend-managed files like fonts/, css/, js/, pdfjs/, etc.
 
 # Gradle
+**/obj/
 .gradle
 .gradle-home
 .lock
