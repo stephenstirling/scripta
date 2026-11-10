@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -31,8 +32,10 @@ class DocuSignStoreTest {
         assertThat(reloaded.getIntegrationKey()).isEqualTo("integration-key");
         assertThat(reloaded.getRefreshToken()).isEqualTo("rotated-refresh-token");
         assertThat(reloaded.getAccountName()).isEqualTo("Analytical");
-        assertThat(Files.list(tempDir).map(path -> path.getFileName().toString()).toList())
-                .containsExactly("docusign.json");
+        try (Stream<Path> files = Files.list(tempDir)) {
+            assertThat(files.map(path -> path.getFileName().toString()).toList())
+                    .containsExactly("docusign.json");
+        }
     }
 
     @Test
