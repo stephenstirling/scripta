@@ -27,10 +27,12 @@ class DocuSignStoreTest {
                     state.setAccountName("Analytical");
                 });
 
+        store.update(state -> state.setAccountName("Updated account"));
+
         DocuSignState reloaded = new DocuSignStore(file).read();
         assertThat(reloaded.getIntegrationKey()).isEqualTo("integration-key");
         assertThat(reloaded.getRefreshToken()).isEqualTo("rotated-refresh-token");
-        assertThat(reloaded.getAccountName()).isEqualTo("Analytical");
+        assertThat(reloaded.getAccountName()).isEqualTo("Updated account");
         try (Stream<Path> files = Files.list(tempDir)) {
             assertThat(files.map(path -> path.getFileName().toString()).toList())
                     .containsExactly("docusign.json");
@@ -59,7 +61,7 @@ class DocuSignStoreTest {
 
         try {
             assertThat(Files.getPosixFilePermissions(file))
-                    .containsExactlyInAnyOrder(
+                    .containsOnly(
                             PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE);
         } catch (UnsupportedOperationException ignored) {
             // Windows filesystems use ACLs rather than POSIX permissions.
