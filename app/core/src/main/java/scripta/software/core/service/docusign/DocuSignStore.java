@@ -88,7 +88,7 @@ public class DocuSignStore {
                     JSON.writerWithDefaultPrettyPrinter()
                             .writeValueAsString(state)
                             .getBytes(java.nio.charset.StandardCharsets.UTF_8);
-            Files.write(temporaryFile, json, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(temporaryFile, json, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             try (FileChannel channel = FileChannel.open(temporaryFile, StandardOpenOption.WRITE)) {
                 channel.force(true);
             }
