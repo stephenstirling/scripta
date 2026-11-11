@@ -86,6 +86,10 @@ jobs:
           if (-not $jar) { throw "No application jar found in app/core/build/libs" }
           $version = (Select-String -Path build.gradle -Pattern "^\s*version = '([\d.]+)'" | Select-Object -First 1).Matches.Groups[1].Value
           if (-not $version) { throw "Could not read the version from build.gradle" }
+          # A release must carry the version its tag names, or Integra would see the wrong version installed.
+          if ($env:GITHUB_REF -like "refs/tags/v*" -and $env:GITHUB_REF_NAME -ne "v$version") {
+            throw "Tag $env:GITHUB_REF_NAME doesn't match version $version in build.gradle"
+          }
           "APP_VERSION=$version" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
 
           New-Item -ItemType Directory -Force -Path packaged/Scripta/app | Out-Null
