@@ -182,11 +182,34 @@ jobs:
       - name: Bundle LibreOffice
         shell: pwsh
         run: |
-          choco install libreoffice-fresh -y --no-progress
-          if ($LASTEXITCODE -ne 0) { throw "choco install libreoffice-fresh failed" }
+          # Straight from The Document Foundation's "stable" folder, newest version first. Chocolatey's package
+          # names one exact version, and the download site drops old versions, so it breaks without warning.
+          $base = "https://download.documentfoundation.org/libreoffice/stable"
+          $index = Invoke-WebRequest "$base/" -UseBasicParsing -MaximumRetryCount 5 -RetryIntervalSec 15
+          $versions = [regex]::Matches($index.Content, 'href="(\d+\.\d+\.\d+)/"') |
+            ForEach-Object { [version]$_.Groups[1].Value } | Sort-Object -Descending -Unique
+          if (-not $versions) { throw "No LibreOffice versions listed at $base" }
+          $msi = Join-Path $env:RUNNER_TEMP "libreoffice.msi"
+          $got = $null
+          foreach ($v in $versions) {
+            $url = "$base/$v/win/x86_64/LibreOffice_${v}_Win_x86-64.msi"
+            try {
+              Invoke-WebRequest $url -OutFile $msi -UseBasicParsing -MaximumRetryCount 5 -RetryIntervalSec 15
+              $got = $v; break
+            } catch { Write-Host "LibreOffice $v not downloadable: $($_.Exception.Message)" }
+          }
+          if (-not $got) { throw "Could not download any LibreOffice from $base" }
+          Write-Host "LibreOffice $got"
+
+          # An administrative install only unpacks the files, which is all a bundled copy needs.
+          $unpacked = Join-Path $env:RUNNER_TEMP "libreoffice-unpacked"
+          $x = Start-Process msiexec.exe -ArgumentList "/a", "`"$msi`"", "/qn", "TARGETDIR=`"$unpacked`"" -Wait -PassThru
+          if ($x.ExitCode -ne 0) { throw "Unpacking LibreOffice failed ($($x.ExitCode))" }
+          $soffice = Get-ChildItem $unpacked -Recurse -Filter soffice.exe | Where-Object { $_.Directory.Name -eq "program" } | Select-Object -First 1
+          if (-not $soffice) { throw "soffice.exe not in the unpacked LibreOffice" }
           $dest = "packaged/Scripta/tools/libreoffice"
           New-Item -ItemType Directory -Force -Path $dest | Out-Null
-          Copy-Item "C:\Program Files\LibreOffice\*" $dest -Recurse -Force
+          Copy-Item "$($soffice.Directory.Parent.FullName)\*" $dest -Recurse -Force
           Write-Host "LibreOffice: $([math]::Round((Get-ChildItem $dest -Recurse | Measure-Object Length -Sum).Sum / 1MB, 1)) MB"
 
           # A real conversion from the bundled copy, with a throwaway profile as Scripta uses.
