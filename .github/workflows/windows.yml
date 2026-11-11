@@ -1,12 +1,12 @@
 name: Windows build
 
-# Builds Scripta for Windows on a Windows runner as a portable zip that Integra (or a person)
-# unpacks and runs: Scripta.exe is a small window app (launcher/Scripta) that starts the Java
-# engine hidden and shows the UI in its own window, beside app/ (the engine jar), runtime/ (a
-# trimmed Java runtime) and tools/ (bundled programs). The engine is started the way the window
-# app starts it and must answer on /api/v1/info/status before anything is uploaded. Pushing a v*
-# tag also attaches the zip and its checksums to a GitHub release; the windows-exe branch and
-# manual runs only produce downloadable artifacts.
+# Builds Scripta for Windows on a Windows runner as an ordinary installer, Scripta-<version>-setup-x64.exe
+# (installer/Scripta.iss), that Integra (or a person) runs. It installs Scripta.exe, a small window app
+# (launcher/Scripta) that starts the Java engine hidden and shows the UI in its own window, beside app/
+# (the engine jar), runtime/ (a trimmed Java runtime) and tools/ (bundled programs). Before anything is
+# uploaded, the engine must answer on /api/v1/info/status twice: once from the assembled folder and
+# once from a silent install, which is then uninstalled. Pushing a v* tag also attaches the installer
+# and its checksums to a GitHub release; branch pushes and manual runs only produce artifacts.
 #
 # Every outside program Scripta calls is bundled under tools/, so one download has every
 # feature: Tesseract (OCR, auto-rotate), LibreOffice (Office conversions), Ghostscript and
@@ -310,14 +310,56 @@ jobs:
           if ($quit.ExitCode -ne 0) { throw "Scripta.exe --quit failed with $($quit.ExitCode)" }
           Write-Host "Packaged program starts and answers"
 
-      - name: Make the portable zip
+      - name: Make the installer
         shell: pwsh
         run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup -y --no-progress
+            if ($LASTEXITCODE -ne 0) { throw "Installing Inno Setup failed" }
+          }
           New-Item -ItemType Directory -Force -Path release | Out-Null
-          # Compress-Archive is slow and unreliable past 2 GB of input; 7-Zip is on the runner.
-          7z a -tzip -mx=5 "release/Scripta-$env:APP_VERSION-windows-x64-portable.zip" ./packaged/Scripta
-          if ($LASTEXITCODE -ne 0) { throw "7-Zip failed" }
+          $source = (Resolve-Path "packaged/Scripta").Path
+          & $iscc "/DAppVersion=$env:APP_VERSION" "/DSourceDir=$source" installer/Scripta.iss
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed" }
           Get-ChildItem release | ForEach-Object { Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB, 1)) MB" }
+
+      # Installs the way Integra does, starts the installed copy, then uninstalls and checks it's gone,
+      # with the Start menu entry and the Installed apps entry checked on the way.
+      - name: Test install and uninstall
+        shell: pwsh
+        run: |
+          $setup = (Get-ChildItem release -Filter "Scripta-*-setup-x64.exe").FullName
+          $dir = Join-Path $env:RUNNER_TEMP "Scripta install test"
+          $p = Start-Process -FilePath $setup -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CURRENTUSER", "/DIR=`"$dir`"", "/LOG=`"$env:RUNNER_TEMP\setup.log`"" -PassThru -Wait
+          if ($p.ExitCode -ne 0) { Get-Content "$env:RUNNER_TEMP\setup.log" -Tail 40; throw "Setup failed with $($p.ExitCode)" }
+          $exe = Join-Path $dir "Scripta.exe"
+          if (-not (Test-Path $exe)) { throw "Scripta.exe was not installed" }
+          $shortcut = Join-Path ([Environment]::GetFolderPath("Programs")) "Scripta.lnk"
+          if (-not (Test-Path $shortcut)) { throw "No Start menu entry at $shortcut" }
+          $entry = Get-ChildItem "HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall" |
+            ForEach-Object { Get-ItemProperty $_.PSPath } | Where-Object { $_.DisplayName -eq "Scripta" }
+          if (-not $entry) { throw "Scripta is not in Installed apps" }
+          if ($entry.DisplayVersion -ne $env:APP_VERSION) { throw "Installed apps shows version $($entry.DisplayVersion)" }
+          Write-Host "Installed apps: $($entry.DisplayName) $($entry.DisplayVersion) by $($entry.Publisher)"
+
+          $result = Join-Path $env:RUNNER_TEMP "selftest-installed.txt"
+          $test = Start-Process -FilePath $exe -ArgumentList "--selftest", "`"$result`"" -PassThru
+          if (-not $test.WaitForExit(300000)) { $test.Kill($true) }
+          $outcome = if (Test-Path $result) { (Get-Content $result -Raw).Trim() } else { "no result written" }
+          Write-Host "Installed self-test: $outcome"
+          if ($outcome -notmatch "^READY") { throw "The installed copy did not start: $outcome" }
+
+          # The uninstaller hands over to a copy of itself and returns, so wait for the folder to go.
+          $uninstall = $entry.QuietUninstallString
+          if (-not $uninstall) { throw "No QuietUninstallString for Integra to use" }
+          if ($uninstall -notmatch '^"([^"]+)"\s*(.*)$') { throw "Unexpected QuietUninstallString: $uninstall" }
+          Start-Process -FilePath $Matches[1] -ArgumentList $Matches[2], "/SUPPRESSMSGBOXES" -Wait
+          $deadline = (Get-Date).AddMinutes(3)
+          while ((Test-Path $exe) -and (Get-Date) -lt $deadline) { Start-Sleep -Seconds 2 }
+          if (Test-Path $exe) { throw "Uninstalling left Scripta.exe behind" }
+          if (Test-Path $shortcut) { throw "Uninstalling left the Start menu entry behind" }
+          Write-Host "Install, start and uninstall all work"
 
       - name: Write checksums
         shell: pwsh
@@ -352,7 +394,7 @@ jobs:
         run: |
           cat > notes.md <<'NOTES'
           ## Windows
-          Scripta opens in its own window, like any other app. The easiest way to install and update it is [Integra](https://github.com/stephenstirling/integra). Or download the zip, unpack it anywhere and run `Scripta.exe`. It is self-contained: every program Scripta calls is bundled, so all tools work without installing anything else. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta`. `SHA256SUMS.txt` lists the checksums. The app is not code-signed, so Windows SmartScreen may warn before it first runs. `Scripta.exe --quit` closes a running copy.
+          Scripta installs like any other Windows app: run `Scripta-<version>-setup-x64.exe`. It goes in the Start menu and in Settings > Apps > Installed apps, where it can be uninstalled. The easiest way to install and update it is [Integra](https://github.com/stephenstirling/integra), which runs the same installer quietly. It is self-contained: every program Scripta calls is bundled, so all tools work without installing anything else. Your settings and sign-ins are kept in `%LOCALAPPDATA%\Scripta` and survive updates and uninstalling. `SHA256SUMS.txt` lists the checksums. The installer is not code-signed, so Windows SmartScreen may warn when it's downloaded with a browser; installs through Integra don't get that warning.
 
           ## Bundled programs
           They run as separate programs and keep their own licences, listed with source links in `tools\README.txt` inside the package. Ghostscript is AGPL-licensed, and Poppler and Calibre are GPL-licensed. RAR (PDF to CBR) is not included because its licence forbids it.
