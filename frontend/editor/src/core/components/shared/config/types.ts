@@ -8,6 +8,8 @@ export const VALID_NAV_KEYS = [
   "connections",
   "account",
   "general",
+  "downloads",
+  "updates",
   "people",
   "teams",
   "security",

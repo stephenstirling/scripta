@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import { Icon } from "@app/ui/Icon";
 import { InfoTooltip } from "@app/ui/InfoTooltip";
-import { Badge, Group, Paper, Select, Stack, Text } from "@mantine/core";
+import { Badge, Group, Select, Stack, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { Button } from "@app/ui/Button";
 import { useAppConfig } from "@app/contexts/AppConfigContext";
@@ -90,7 +90,7 @@ export function SoftwareUpdatesCard({
 
   return (
     <>
-      <Paper withBorder p="md" radius="md">
+      <div className="settings-group settings-group--padded">
         <Stack gap="md">
           <Group justify="space-between" align="center">
             <Text size="xs" c="dimmed">
@@ -261,7 +261,7 @@ export function SoftwareUpdatesCard({
             </Stack>
           )}
         </Stack>
-      </Paper>
+      </div>
 
       {/* Update Modal */}
       {updateSummary && (

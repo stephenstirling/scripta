@@ -81,14 +81,14 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
     keywords: ["disabled", "convert", "conversions"],
   },
   {
-    section: "general",
+    section: "downloads",
     anchor: "setting-auto-unzip",
     labelKey: "settings.general.autoUnzip",
     labelFallback: "Auto-unzip API responses",
     keywords: ["zip", "extract", "unzip", "archive"],
   },
   {
-    section: "general",
+    section: "downloads",
     anchor: "setting-auto-unzip-file-limit",
     labelKey: "settings.general.autoUnzipFileLimit",
     labelFallback: "Auto-unzip file limit",
@@ -96,7 +96,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   },
   // --- Keyboard Shortcuts ---
   {
-    section: "general",
+    section: "hotkeys",
     anchor: "setting-hotkeys-search",
     labelKey: "settings.hotkeys.title",
     labelFallback: "Keyboard Shortcuts",
@@ -182,7 +182,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   },
   // --- Anchors for the rows the folds retired; each lands on its host card.
   {
-    section: "general",
+    section: "hotkeys",
     anchor: "hotkeys",
     labelKey: "settings.hotkeys.title",
     labelFallback: "Keyboard Shortcuts",

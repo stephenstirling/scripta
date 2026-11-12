@@ -11,7 +11,6 @@ import {
   Box,
   Divider,
   Group,
-  Paper,
   Stack,
   Text,
   TextInput,
@@ -200,7 +199,7 @@ export function HotkeysCard() {
         radius="md"
       />
 
-      <Paper withBorder p="md" radius="md">
+      <div className="settings-group settings-group--padded">
         <Stack gap="md">
           {filteredTools.length === 0 ? (
             <Text c="dimmed" ta="center" py="xl">
@@ -291,7 +290,7 @@ export function HotkeysCard() {
             })
           )}
         </Stack>
-      </Paper>
+      </div>
     </>
   );
 }

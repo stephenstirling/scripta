@@ -7,6 +7,7 @@ import { useTitleBarStrip } from "@app/contexts/TitleBarStripContext";
 import ScanModal from "@app/components/shared/ScanModal";
 import { useTitleBarNavigation } from "@app/components/layout/useTitleBarNavigation";
 import { DOCS_PATH, HAS_DOCS } from "@app/routes/docsRoute";
+import { openFileShortcutLabel } from "@app/components/layout/useOpenFileShortcut";
 
 /**
  * The strip's Menu button. It is portalled into the strip from inside the app
@@ -42,6 +43,11 @@ function MenuButton({ slot }: { slot: HTMLElement }) {
           {host?.hasOpenFromComputer && (
             <Menu.Item
               leftSection={<Icon name="file-up" size="1rem" />}
+              rightSection={
+                <span className="title-bar-menu-shortcut">
+                  {openFileShortcutLabel()}
+                </span>
+              }
               onClick={() => host.actions.current?.openFromComputer?.()}
             >
               {t("fileSidebar.openFromComputer", "Open from computer")}

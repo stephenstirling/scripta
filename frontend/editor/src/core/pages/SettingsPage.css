@@ -182,7 +182,7 @@
 /* Readable measure, but the 2rem side gutter stays so the sections' sticky
    footers (which cancel it with a -2rem margin) still span the pane. */
 .settings-page .modal-body {
-  max-width: 60rem;
+  max-width: 52rem;
   margin-inline: auto;
   padding-top: 2.75rem;
   padding-bottom: 4rem;
@@ -193,21 +193,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  margin-bottom: var(--space-8);
-}
-
-.settings-page__eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--c-accent-fg, var(--c-primary));
+  margin-bottom: var(--space-6);
 }
 
 .settings-page__title {
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.625rem;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.015em;
   color: var(--c-text);
@@ -265,64 +257,7 @@
     margin-bottom: var(--space-6);
   }
 
-  /* The bar above already names the group. */
-  .settings-page__eyebrow {
-    display: none;
-  }
-
   .settings-page__title {
     font-size: 1.5rem;
   }
-}
-
-/* ── Cards of the open section, listed under its nav row ───────────────── */
-
-.settings-page__subnav {
-  list-style: none;
-  margin: 0.125rem 0 0.375rem;
-  padding: 0 0 0 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.0625rem;
-  /* One rule down the group, so the children read as belonging to the row. */
-  border-inline-start: 1px solid var(--c-border-subtle);
-  margin-inline-start: 1rem;
-}
-
-.settings-page__subnav-item {
-  display: block;
-  width: 100%;
-  padding: 0.25rem 0.5rem;
-  border: 0;
-  border-radius: var(--radius-sm, 4px);
-  background: none;
-  color: var(--c-text-subtle);
-  font-size: 0.8125rem;
-  text-align: start;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.settings-page__subnav-item:hover {
-  background: var(--c-hover);
-  color: var(--c-text);
-}
-
-/* Follows the scroll, so the rail always says where you are. */
-.settings-page__subnav-item[aria-current="true"] {
-  color: var(--c-text);
-  font-weight: 600;
-  box-shadow: inset 2px 0 0 var(--c-accent-fg, var(--c-primary));
-}
-
-.settings-page__subnav-item:focus-visible {
-  outline: 0.125rem solid var(--c-primary);
-  outline-offset: -0.125rem;
-}
-
-/* The page's own (i) sits beside the title, not under it. */
-.settings-page__title-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }

@@ -10,7 +10,7 @@
     <RootNamespace>Scripta.Launcher</RootNamespace>
     <ApplicationIcon>Scripta.ico</ApplicationIcon>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
-    <Version>3.3.1</Version>
+    <Version>3.4.0</Version>
     <Product>Scripta</Product>
     <Company>Stephen Stirling</Company>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
