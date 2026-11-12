@@ -204,3 +204,9 @@
   border-radius: 50%;
   background: var(--c-success);
 }
+
+/* Portalled into Mantine's menu, so not scoped under the strip. */
+.title-bar-menu-shortcut {
+  font-size: 0.75rem;
+  color: var(--c-text-subtle);
+}

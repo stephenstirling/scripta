@@ -300,7 +300,6 @@ const ConvertSettings = ({
           options={enhancedFromOptions}
           onChange={handleFromExtensionChange}
           disabled={disabled}
-          minWidth="18rem"
         />
       </Stack>
 
@@ -346,7 +345,6 @@ const ConvertSettings = ({
             options={enhancedToOptions}
             onChange={handleToExtensionChange}
             disabled={disabled}
-            minWidth="18rem"
           />
         )}
       </Stack>

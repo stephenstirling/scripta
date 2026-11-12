@@ -7,6 +7,10 @@ import {
   type TitleBarStripSlots,
 } from "@app/contexts/TitleBarStripContext";
 import { useTitleBarNavigation } from "@app/components/layout/useTitleBarNavigation";
+import {
+  openFileShortcutLabel,
+  useOpenFileShortcut,
+} from "@app/components/layout/useOpenFileShortcut";
 import "@app/components/layout/TitleBarChrome.css";
 
 /**
@@ -23,6 +27,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
   const { t } = useTranslation();
   const { host, goHome } = useTitleBarNavigation();
   const isPhone = useIsPhone();
+  useOpenFileShortcut(host?.actions);
 
   const [menuSlot, setMenuSlot] = useState<HTMLElement | null>(null);
   const [tabsSlot, setTabsSlot] = useState<HTMLElement | null>(null);
@@ -82,6 +87,7 @@ export function TitleBarChrome({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 className="title-bar-button title-bar-button--outlined title-bar-add-files"
+                title={`${t("fileSidebar.addFiles", "Add files")} (${openFileShortcutLabel()})`}
                 onClick={() => openFromComputer()}
               >
                 <Icon name="plus" size="0.875rem" />
