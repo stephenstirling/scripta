@@ -25,11 +25,11 @@ export function useSectionHeadings(
       return;
     }
     const read = () => {
-      // SettingsCard carries the id on its toggle button; pages that still
-      // draw their own heading carry it on the h2.
+      // SettingsCard carries the id on its title, or on its toggle button when
+      // it folds; pages that still draw their own heading carry it on the h2.
       const found = [
         ...container.querySelectorAll<HTMLElement>(
-          ".settings-card__toggle[id], h2[id]",
+          ".settings-card__toggle[id], .settings-card__title[id], h2[id]",
         ),
       ].map((el) => ({
         id: el.id,

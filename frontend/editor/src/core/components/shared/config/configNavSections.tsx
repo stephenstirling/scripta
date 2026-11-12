@@ -24,12 +24,21 @@ export interface ConfigColors {
   headerBorder: string;
 }
 
-/** Nav key of the Preferences page every flavor shares. */
+/** Nav key of the first Preferences page; old links to "general" still land here. */
 export const PREFERENCES_ITEM_KEY = "general";
 
+/** Nav keys of every Preferences page, which share one set of page props. */
+export const PREFERENCES_PAGE_KEYS: ReadonlySet<string> = new Set([
+  PREFERENCES_ITEM_KEY,
+  "downloads",
+  "updates",
+  "hotkeys",
+]);
+
 /**
- * The Preferences group. A plain builder rather than a hook so the SaaS nav,
- * which is assembled outside a component, renders the same page.
+ * The Preferences group: one nav row per page. A plain builder rather than a
+ * hook so the SaaS nav, which is assembled outside a component, renders the
+ * same pages.
  */
 export function createPreferencesNavSection(
   t: TFunction<"translation", undefined>,
@@ -43,11 +52,41 @@ export function createPreferencesNavSection(
         key: PREFERENCES_ITEM_KEY,
         label: t("settings.general.title", "General"),
         description: t(
-          "settings.preferences.description",
-          "How the editor looks and behaves for you, and your account.",
+          "settings.general.pageDescription",
+          "How Scripta looks and what the editor opens with.",
         ),
         icon: "sliders-horizontal",
-        component: <PreferencesSection {...props} />,
+        component: <PreferencesSection {...props} page="general" />,
+      },
+      {
+        key: "downloads",
+        label: t("settings.preferences.downloads", "Downloads"),
+        description: t(
+          "settings.preferences.downloadsDescription",
+          "What happens to ZIP files that a tool gives back.",
+        ),
+        icon: "download",
+        component: <PreferencesSection {...props} page="downloads" />,
+      },
+      {
+        key: "updates",
+        label: t("settings.general.updates.title", "Software Updates"),
+        description: t(
+          "settings.general.updates.description",
+          "Check for updates and view version information",
+        ),
+        icon: "refresh-cw",
+        component: <PreferencesSection {...props} page="updates" />,
+      },
+      {
+        key: "hotkeys",
+        label: t("settings.hotkeys.title", "Keyboard Shortcuts"),
+        description: t(
+          "settings.hotkeys.description",
+          'Customize keyboard shortcuts for quick tool access. Click "Change shortcut" and press a new key combination. Press Esc to cancel.',
+        ),
+        icon: "keyboard",
+        component: <PreferencesSection {...props} page="hotkeys" />,
       },
     ],
   };
@@ -65,7 +104,7 @@ export function extendPreferences(
   return sections.map((section) => ({
     ...section,
     items: section.items.map((item) => {
-      if (item.key !== PREFERENCES_ITEM_KEY) return item;
+      if (!PREFERENCES_PAGE_KEYS.has(item.key)) return item;
       const current = isValidElement<PreferencesSectionProps>(item.component)
         ? item.component
         : null;

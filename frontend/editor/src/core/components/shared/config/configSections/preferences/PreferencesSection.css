@@ -3,3 +3,15 @@
   flex-direction: column;
   gap: var(--space-6, 2rem);
 }
+
+.preferences-section__empty {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--c-text-subtle);
+}
+
+.preferences-section__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

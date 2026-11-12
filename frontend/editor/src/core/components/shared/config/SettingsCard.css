@@ -1,40 +1,58 @@
 .settings-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 0.5rem);
+  gap: 0.625rem;
+}
+
+.settings-card__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
 }
 
 .settings-card__heading {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin: 0;
+  color: var(--c-text);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.settings-card__title {
+  /* Permanent, not just during the focus pulse: an anchored jump would land
+     the heading under the sticky search bar otherwise. */
+  scroll-margin-top: 1rem;
+  outline: none;
+}
+
+.settings-card__description {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--c-text-subtle);
 }
 
 .settings-card__toggle {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  /* Only as wide as its text, so the (i) and badge sit next to the title
-     rather than being pushed to the far edge. */
   width: auto;
   padding: 0.25rem 0;
   border: 0;
   background: none;
-  color: var(--c-text);
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold, 600);
+  color: inherit;
+  font: inherit;
   text-align: start;
   cursor: pointer;
-  /* Permanent, not just during the focus pulse: an anchored jump would land
-     the heading under the sticky search bar otherwise. */
   scroll-margin-top: 1rem;
 }
 
 .settings-card__toggle:focus-visible {
   outline: 0.125rem solid var(--c-primary);
   outline-offset: 0.125rem;
-  border-radius: var(--radius-sm, 4px);
+  border-radius: var(--radius-sm);
 }
 
 .settings-card__chevron {

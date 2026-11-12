@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { LoadingFallback } from "@app/components/shared/LoadingFallback";
 import { useSectionHeadings } from "@app/components/settings/useSectionHeadings";
 import { useActiveHeading } from "@app/components/settings/useActiveHeading";
-import { InfoTooltip } from "@app/ui/InfoTooltip";
 import LoginRequiredBanner from "@app/components/shared/config/LoginRequiredBanner";
 import { Badge, Tooltip } from "@mantine/core";
 import { SettingsMobileBackButton } from "@app/components/shared/config/SettingsMobileBackButton";
@@ -163,10 +162,7 @@ const SettingsPageInner: React.FC = () => {
   }, [switchSection]);
 
   const headings = useSectionHeadings(activeItem?.key, contentRef);
-  const { active: activeHeading, focus: focusHeading } = useActiveHeading(
-    contentRef,
-    headings,
-  );
+  const { focus: focusHeading } = useActiveHeading(contentRef, headings);
 
   const anchor = decodeURIComponent(location.hash.replace(/^#/, ""));
   const activeKey = activeItem?.key;
@@ -301,30 +297,7 @@ const SettingsPageInner: React.FC = () => {
                         {row}
                       </Tooltip>
                     ) : (
-                      <React.Fragment key={item.key}>
-                        {row}
-                        {isActive && headings.length > 1 && (
-                          <ul className="settings-page__subnav">
-                            {headings.map((h) => (
-                              <li key={h.id}>
-                                <a
-                                  href={`#${h.id}`}
-                                  className="settings-page__subnav-item"
-                                  aria-current={
-                                    activeHeading === h.id ? "true" : undefined
-                                  }
-                                  onClick={(event) => {
-                                    event.preventDefault();
-                                    focusHeading(h.id);
-                                  }}
-                                >
-                                  {h.label}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </React.Fragment>
+                      <React.Fragment key={item.key}>{row}</React.Fragment>
                     );
                   })}
                 </div>
@@ -365,18 +338,12 @@ const SettingsPageInner: React.FC = () => {
           <div className={`modal-body${fullBleed ? " is-full-bleed" : ""}`}>
             {activeItem && !fullBleed && (
               <header className="settings-page__header">
-                {activeGroup && (
-                  <span className="settings-page__eyebrow">{activeGroup}</span>
+                <h1 className="settings-page__title">{activeItem.label}</h1>
+                {activeItem.description && (
+                  <p className="settings-page__description">
+                    {activeItem.description}
+                  </p>
                 )}
-                <div className="settings-page__title-row">
-                  <h1 className="settings-page__title">{activeItem.label}</h1>
-                  {activeItem.description && (
-                    <InfoTooltip
-                      label={activeItem.description}
-                      position="right"
-                    />
-                  )}
-                </div>
               </header>
             )}
             {/* Once, here: every admin section used to draw this itself, so an
