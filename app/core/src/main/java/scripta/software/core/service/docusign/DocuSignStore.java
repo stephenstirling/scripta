@@ -2,8 +2,13 @@ package scripta.software.core.service.docusign;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -68,26 +73,61 @@ public class DocuSignStore {
         }
     }
 
+    /**
+     * Persist through a same-directory temporary file so a crash cannot leave a partially-written
+     * JSON document in place of the last known-good token and envelope state.
+     */
     private void save(DocuSignState state) {
+        Path parent = file.toAbsolutePath().getParent();
+        Path temporaryFile = null;
         try {
-            Files.createDirectories(file.getParent());
-            if (!Files.exists(file)) {
-                createOwnerOnly(file);
+            Files.createDirectories(parent);
+            temporaryFile = Files.createTempFile(parent, file.getFileName().toString(), ".tmp");
+            setOwnerOnly(temporaryFile);
+
+            byte[] json =
+                    JSON.writerWithDefaultPrettyPrinter()
+                            .writeValueAsString(state)
+                            .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            Files.write(
+                    temporaryFile,
+                    json,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+            try (FileChannel channel = FileChannel.open(temporaryFile, StandardOpenOption.WRITE)) {
+                channel.force(true);
             }
-            Files.writeString(file, JSON.writerWithDefaultPrettyPrinter().writeValueAsString(state));
+
+            try {
+                Files.move(
+                        temporaryFile,
+                        file,
+                        StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException | FileAlreadyExistsException e) {
+                // Some filesystems do not support atomic replacement. Keep the same-directory
+                // staging file and fall back to a replacement move rather than writing in place.
+                Files.move(temporaryFile, file, StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        } finally {
+            if (temporaryFile != null) {
+                try {
+                    Files.deleteIfExists(temporaryFile);
+                } catch (IOException ignored) {
+                    // The original file remains intact; a leftover temp file is safe to retry.
+                }
+            }
         }
     }
 
-    private static void createOwnerOnly(Path path) throws IOException {
+    private static void setOwnerOnly(Path path) throws IOException {
         try {
-            Files.createFile(
-                    path,
-                    PosixFilePermissions.asFileAttribute(
-                            PosixFilePermissions.fromString("rw-------")));
+            Files.setPosixFilePermissions(
+                    path, PosixFilePermissions.fromString("rw-------"));
         } catch (UnsupportedOperationException e) {
-            Files.createFile(path);
+            // Windows uses inherited ACLs instead of POSIX mode bits.
         }
     }
 }
